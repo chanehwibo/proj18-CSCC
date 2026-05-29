@@ -126,6 +126,42 @@ python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rc
 - `data/reports/describe/*.md`：项目描述报告
 - `data/reports/compare/*.md`：比较报告
 
+### LLM 配置
+
+默认命令不会调用 LLM API，也不会产生费用。需要使用 DeepSeek 等在线模型时，先复制 `.env.example` 为 `.env`，再填入自己的新 API Key：
+
+```powershell
+copy .env.example .env
+```
+
+`.env` 示例：
+
+```env
+LLM_PROVIDER=deepseek
+LLM_BASE_URL=https://api.deepseek.com/v1
+LLM_MODEL=deepseek-chat
+LLM_API_KEY=replace_with_your_new_api_key
+```
+
+安全约定：
+
+- `.env` 已被 `.gitignore` 忽略，禁止提交真实 API Key。
+- 开发调试优先使用 `--llm-dry-run`，只生成 prompt，不调用 API。
+- 真正需要调用 API 时才使用 `--use-llm`。
+- LLM 响应会缓存到 `data/llm_cache/`，相同 prompt 后续不会重复扣费。
+
+生成 LLM prompt 但不调用 API：
+
+```powershell
+python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --llm-dry-run
+```
+
+确认 prompt 后调用 LLM 生成报告：
+
+```powershell
+python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --use-llm
+```
+
 ## 8 分工协作
 
 | 成员 | 职责 |

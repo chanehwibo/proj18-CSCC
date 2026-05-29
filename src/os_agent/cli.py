@@ -10,6 +10,7 @@ from pathlib import Path
 from .agent import CompareAgent
 from .analyzer import KernelAnalyzer
 from .collector import RepoCollector
+from .llm import LLMReportGenerator
 from .models import KernelProfile, to_dict
 from .parser import SymbolParser
 from .reporter import Reporter
@@ -45,7 +46,16 @@ def cmd_describe(args: argparse.Namespace) -> int:
     profile = build_profile(Path(args.repo), repo_id=args.repo_id)
     profile_path = PROFILES_DIR / f"{profile.meta.repo_id}.json"
     write_json(profile_path, profile)
-    report = Reporter().render_profile(profile)
+    if args.use_llm or args.llm_dry_run:
+        dry_run_path = None
+        if args.llm_dry_run:
+            dry_run_path = REPORTS_DIR / "prompts" / f"{profile.meta.repo_id}.describe.prompt.md"
+        report = LLMReportGenerator().render_profile(profile, dry_run_path=dry_run_path)
+        if args.llm_dry_run:
+            print(report)
+            report = Reporter().render_profile(profile)
+    else:
+        report = Reporter().render_profile(profile)
     out = Path(args.out) if args.out else REPORTS_DIR / "describe" / f"{profile.meta.repo_id}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(report, encoding="utf-8")
@@ -97,6 +107,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("repo")
     p.add_argument("--repo-id")
     p.add_argument("--out")
+    p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate the report")
+    p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
     p.set_defaults(func=cmd_describe)
 
     p = sub.add_parser("describe-all", help="describe all sample repositories")
@@ -124,4 +136,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

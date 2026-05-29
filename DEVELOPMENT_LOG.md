@@ -62,3 +62,41 @@ python -m compileall src scripts\kernelsage.py
 | P1 | 增加 1 个端到端 demo 示例和固定演示命令 |
 | P2 | 视样本规模决定是否加入 BM25 检索 |
 
+## 阶段 2：LLM 客户端安全接入
+
+- 日期：2026-05-29
+- 目标：建立 DeepSeek/OpenAI 兼容 LLM 调用基础设施，同时避免开发调试阶段误扣费或泄露 API Key。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 环境模板 | 新增 `.env.example`，提供 DeepSeek API 配置模板 |
+| 安全策略 | 确认 `.env` 被 `.gitignore` 忽略，真实 API Key 不进入仓库 |
+| 缓存策略 | 新增 `data/llm_cache/` 忽略规则，LLM 响应按 prompt hash 缓存 |
+| LLM 客户端 | 新增 `src/os_agent/llm.py`，使用标准库接入 OpenAI-compatible chat completions API |
+| Dry-run | 新增 `--llm-dry-run`，只生成 prompt 文件，不调用 API |
+| 显式调用 | 新增 `--use-llm`，只有显式传参才调用 LLM API |
+| 文档 | 更新 `README.md`，说明 DeepSeek 配置、dry-run、缓存和安全约定 |
+
+### 已验证命令
+
+```powershell
+python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --llm-dry-run
+python -m compileall src scripts\kernelsage.py
+```
+
+### 当前能力边界
+
+- 当前只完成描述报告的 LLM 接入，比较报告的 LLM 接入尚未完成。
+- 当前没有在仓库中写入真实 API Key。
+- 当前 dry-run 已可生成 `data/reports/prompts/*.prompt.md`，用于人工检查 prompt 后再决定是否调用 API。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P0 | 使用新 API Key 本地配置 `.env` 后，试跑一次 `--use-llm` |
+| P0 | 将 LLM 接入比较报告生成流程 |
+| P0 | 增加 LLM self-check prompt，核验证据支撑 |
+| P1 | 优化 prompt 长度，降低 token 成本 |
