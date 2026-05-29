@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "description": "KernelSage 历史作品清单。每个条目对应一个待采集的源码仓库。",
+  "repos": [
+    {
+      "repo_id": "rcore-tutorial-v3",
+      "name": "rCore-Tutorial-v3",
+      "url": "https://github.com/rcore-os/rCore-Tutorial-v3.git",
+      "category": "teaching-baseline",
+      "style": "rcore-variant",
+      "arch": ["riscv64"],
+      "language_primary": "rust",
+      "year": null,
+      "team": "rcore-os (Tsinghua)",
+      "school": "清华大学",
+      "license": "GPL-3.0",
+      "note": "比赛 Rust 系作品的主要教学基线，几乎所有 RCore 变体的源头。"
+    },
+    {
+      "repo_id": "ucore-os-lab",
+      "name": "uCore OS Lab",
+      "url": "https://github.com/chyyuu/ucore_os_lab.git",
+      "category": "teaching-baseline",
+      "style": "ucore-variant",
+      "arch": ["i386"],
+      "language_primary": "c",
+      "year": null,
+      "team": "chyyuu (Tsinghua)",
+      "school": "清华大学",
+      "license": "GPL-2.0",
+      "note": "C 系作品的主要教学基线，UCore 变体的源头。"
+    },
+    {
+      "repo_id": "xv6-riscv",
+      "name": "xv6-riscv",
+      "url": "https://github.com/mit-pdos/xv6-riscv.git",
+      "category": "teaching-baseline",
+      "style": "independent",
+      "arch": ["riscv64"],
+      "language_primary": "c",
+      "year": null,
+      "team": "MIT PDOS",
+      "school": "MIT",
+      "license": "MIT",
+      "note": "极简 Unix 风格教学内核，许多 OS 课程使用，作为对照基线。"
+    },
+    {
+      "repo_id": "zCore",
+      "name": "zCore",
+      "url": "https://github.com/rcore-os/zCore.git",
+      "category": "teaching-baseline",
+      "style": "rcore-variant",
+      "arch": ["riscv64", "x86_64"],
+      "language_primary": "rust",
+      "year": null,
+      "team": "rcore-os (Tsinghua)",
+      "school": "清华大学",
+      "license": "MIT",
+      "note": "Zircon-like 微内核风格的 Rust 内核，做异构对照样本。"
+    },
+    {
+      "repo_id": "arceos",
+      "name": "ArceOS",
+      "url": "https://github.com/arceos-org/arceos.git",
+      "category": "teaching-baseline",
+      "style": "independent",
+      "arch": ["riscv64", "x86_64", "aarch64"],
+      "language_primary": "rust",
+      "year": null,
+      "team": "arceos-org",
+      "school": "清华大学",
+      "license": "GPL-3.0 / Mulan-PSL-2.0 / Apache-2.0",
+      "note": "模块化 Unikernel/Monolithic 双模运行的 Rust 内核，比赛中常见的现代基线。"
+    },
+    {
+      "repo_id": "rcore-tutorial-v3-ch9",
+      "name": "rCore-Tutorial-Book-v3 (sample app/doc-aligned code)",
+      "url": "https://github.com/rcore-os/rCore-Tutorial-Book-v3.git",
+      "category": "teaching-baseline",
+      "style": "rcore-variant",
+      "arch": ["riscv64"],
+      "language_primary": "rust",
+      "year": null,
+      "team": "rcore-os (Tsinghua)",
+      "school": "清华大学",
+      "license": "GPL-3.0",
+      "note": "rCore-Tutorial-v3 配套讲义，含 OS 概念叙述文本，可作为描述参考语料。"
+    }
+  ]
+}

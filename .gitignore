@@ -11,6 +11,11 @@ build/
 
 data/indexes/*
 !data/indexes/.gitkeep
+data/profiles/
+data/reports/
+data/samples/*
+!data/samples/.gitkeep
+!data/samples/manifest.json
 data/raw/
 data/repos/
 

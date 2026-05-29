@@ -27,14 +27,14 @@ KernelSage 旨在构建一个面向小型操作系统源码仓库的智能体系
 
 赛题要求设计智能体对历史操作系统比赛内核赛道作品进行描述，并将新提交作品与历史作品进行比较。描述和比较结果都必须对人类友好，同时尽量避免大模型幻觉，比较文档应做到精准无误。
 
-本项目将采用“静态分析 + RAG 检索 + 智能体工作流 + 人类可审计报告”的方案：
+本项目采用“MVP 优先”的实现路线：先用静态扫描、符号抽取、关键词证据检索和规则化 Agent 工作流形成可演示闭环，再逐步接入 LLM、BM25/向量检索和更复杂的语义分析。
 
 | 能力 | 实现思路 | 输出 |
 | --- | --- | --- |
 | 仓库结构分析 | 解析目录、构建语言分布和模块清单 | 项目结构摘要 |
-| 代码语义抽取 | 提取函数、类型、调用关系、关键注释和配置 | 内核能力画像 |
-| 历史作品索引 | 对历史仓库的结构化描述、代码片段和文档建立索引 | 可检索知识库 |
-| 相似性比对 | 结合文本、AST、调用图和模块设计进行多维度比较 | 相似点与差异点 |
+| 代码语义抽取 | V1 抽取函数、类型、配置和关键注释；V2 扩展调用图 | 内核能力画像 |
+| 历史作品索引 | V1 使用全量比较；V2 扩展 BM25/向量索引 | 可检索知识库 |
+| 相似性比对 | 结合 KernelProfile、证据片段和模块设计进行多维度比较 | 相似点与差异点 |
 | 创新点归纳 | 从新增模块、实现路径、性能策略和设计差异中提炼 | 创新点分析文档 |
 | 证据链输出 | 为每个判断关联源码路径、提交记录或文档片段 | 可复核报告 |
 
@@ -46,8 +46,8 @@ flowchart TD
     C[新提交仓库] --> B
     B --> D[静态分析器]
     D --> E[结构化项目画像]
-    D --> F[代码片段与调用关系]
-    E --> G[向量索引/关键词索引]
+    D --> F[符号定义与证据片段]
+    E --> G[全量比较/关键词索引]
     F --> G
     G --> H[RAG 检索层]
     H --> I[分析比对智能体]
@@ -64,8 +64,8 @@ flowchart TD
 | `collector` | 采集历史仓库、新提交仓库及 README、文档、提交历史等元数据 |
 | `parser` | 识别源码语言、目录结构、配置文件和构建入口 |
 | `analyzer` | 抽取函数、类型、模块、调用关系、系统调用实现和内核机制 |
-| `indexer` | 建立结构化索引、关键词索引和向量索引 |
-| `retriever` | 根据比较任务召回相关历史项目、代码片段和证据 |
+| `indexer` | V2 建立 BM25/向量索引 |
+| `retriever` | V2 根据比较任务召回相关历史项目、代码片段和证据 |
 | `agent` | 编排分析、检索、验证、比对和报告生成流程 |
 | `reporter` | 输出项目描述文档、比较文档和可复核证据链 |
 
@@ -98,14 +98,42 @@ flowchart TD
 | 泛化能力 | 是否能处理 RCore、UCore、微内核等不同风格作品 |
 | 工程可复现性 | 是否提供清晰的依赖、脚本和示例数据 |
 
-## 7 分工协作
+## 7 快速运行
+
+当前 MVP 版本不依赖第三方 Python 包，直接使用 Python 3.11 运行。
+
+生成单个仓库的项目画像和描述报告：
+
+```powershell
+python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3
+```
+
+批量生成 `data/samples` 下全部样本仓库的描述报告：
+
+```powershell
+python scripts\kernelsage.py describe-all
+```
+
+将一个新仓库与历史样本进行比较：
+
+```powershell
+python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3
+```
+
+默认输出：
+
+- `data/profiles/*.json`：结构化 KernelProfile
+- `data/reports/describe/*.md`：项目描述报告
+- `data/reports/compare/*.md`：比较报告
+
+## 8 分工协作
 
 | 成员 | 职责 |
 | --- | --- |
 | 鲍灿辉 | 智能体流程设计、代码分析模块、检索与比对实现 |
 | 石雅禛 | 数据整理、报告模板、测试用例、文档撰写 |
 
-## 8 仓库目录
+## 9 仓库目录
 
 ```text
 proj18-os-agent-compare/
@@ -124,13 +152,19 @@ proj18-os-agent-compare/
 |       |-- analyzer.py
 |       |-- indexer.py
 |       |-- retriever.py
+|       |-- cli.py
+|       |-- models.py
 |       |-- agent.py
 |       `-- reporter.py
 |-- scripts/
-|   `-- .gitkeep
+|   |-- fetch_repos.py
+|   `-- kernelsage.py
 |-- data/
 |   |-- samples/
-|   |   `-- .gitkeep
+|   |   |-- manifest.json
+|   |   `-- <repo_id>/
+|   |-- profiles/
+|   |-- reports/
 |   `-- indexes/
 |       `-- .gitkeep
 |-- examples/
@@ -141,6 +175,6 @@ proj18-os-agent-compare/
     `-- .gitkeep
 ```
 
-## 9 当前状态
+## 10 当前状态
 
-本仓库目前处于项目初始化阶段，已完成赛题信息整理、总体方案设计和目录规划。后续将逐步补充仓库采集、静态分析、索引检索、智能体编排和报告生成等功能。
+本仓库已完成第一版 MVP 闭环：仓库采集、文件扫描、符号抽取、7 个 OS 维度的关键词证据分析、项目描述报告生成和基础比较报告生成。后续重点是接入 LLM 生成更自然的描述/比较文本，并完善 self-check 与报告证据链。
