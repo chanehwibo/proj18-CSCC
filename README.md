@@ -162,6 +162,14 @@ python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id r
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --use-llm
 ```
 
+如果 API 余额不足或请求失败，命令会自动回退到规则版报告，保证报告文件仍然生成。
+
+比较报告同样支持 LLM dry-run：
+
+```powershell
+python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2 --llm-dry-run
+```
+
 ## 8 分工协作
 
 | 成员 | 职责 |

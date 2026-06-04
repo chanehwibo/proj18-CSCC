@@ -50,9 +50,13 @@ def cmd_describe(args: argparse.Namespace) -> int:
         dry_run_path = None
         if args.llm_dry_run:
             dry_run_path = REPORTS_DIR / "prompts" / f"{profile.meta.repo_id}.describe.prompt.md"
-        report = LLMReportGenerator().render_profile(profile, dry_run_path=dry_run_path)
-        if args.llm_dry_run:
-            print(report)
+        try:
+            report = LLMReportGenerator().render_profile(profile, dry_run_path=dry_run_path)
+            if args.llm_dry_run:
+                print(report)
+                report = Reporter().render_profile(profile)
+        except RuntimeError as exc:
+            print(f"LLM failed, falling back to rule-based report: {exc}", file=sys.stderr)
             report = Reporter().render_profile(profile)
     else:
         report = Reporter().render_profile(profile)
@@ -87,7 +91,21 @@ def cmd_compare(args: argparse.Namespace) -> int:
     result = CompareAgent().compare(new_profile, history_profiles, limit=args.limit)
     out = Path(args.out) if args.out else REPORTS_DIR / "compare" / f"{new_profile.meta.repo_id}_vs_history.md"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(Reporter().render_compare(result), encoding="utf-8")
+    if args.use_llm or args.llm_dry_run:
+        dry_run_path = None
+        if args.llm_dry_run:
+            dry_run_path = REPORTS_DIR / "prompts" / f"{new_profile.meta.repo_id}.compare.prompt.md"
+        try:
+            report = LLMReportGenerator().render_compare(result, dry_run_path=dry_run_path)
+            if args.llm_dry_run:
+                print(report)
+                report = Reporter().render_compare(result)
+        except RuntimeError as exc:
+            print(f"LLM failed, falling back to rule-based compare report: {exc}", file=sys.stderr)
+            report = Reporter().render_compare(result)
+    else:
+        report = Reporter().render_compare(result)
+    out.write_text(report, encoding="utf-8")
     write_json(PROFILES_DIR / f"{new_profile.meta.repo_id}.json", new_profile)
     print(f"compare report written: {out}")
     return 0
@@ -121,6 +139,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--repo-id")
     p.add_argument("--limit", type=int, default=3)
     p.add_argument("--out")
+    p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate the report")
+    p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
     p.set_defaults(func=cmd_compare)
     return parser
 

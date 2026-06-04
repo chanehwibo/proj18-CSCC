@@ -92,11 +92,31 @@ python -m compileall src scripts\kernelsage.py
 - 当前没有在仓库中写入真实 API Key。
 - 当前 dry-run 已可生成 `data/reports/prompts/*.prompt.md`，用于人工检查 prompt 后再决定是否调用 API。
 
+### 追加记录：失败回退与比较报告 dry-run
+
+- 日期：2026-06-04
+- 背景：本地 `.env` 已配置 DeepSeek API Key，但真实请求返回 `402 Insufficient Balance`，说明账户余额不足。
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 安全修正 | 发现 `.env.example` 曾被写入真实 Key，已转移到本地 `.env` 并恢复 `.env.example` 占位符 |
+| 失败回退 | `describe --use-llm` 在 LLM API 失败时自动回退到规则版报告，不中断输出 |
+| 比较 LLM | 新增比较报告 LLM prompt 生成逻辑 |
+| CLI | `compare` 新增 `--use-llm` 与 `--llm-dry-run` 参数 |
+| 文档 | README 补充 API 失败回退和比较报告 dry-run 用法 |
+
+已验证命令：
+
+```powershell
+python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3-ch9 --repo-id rcore-tutorial-v3-ch9 --use-llm
+python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2 --llm-dry-run
+python -m compileall src scripts\kernelsage.py
+```
+
 ### 下一步计划
 
 | 优先级 | 任务 |
 | --- | --- |
-| P0 | 使用新 API Key 本地配置 `.env` 后，试跑一次 `--use-llm` |
-| P0 | 将 LLM 接入比较报告生成流程 |
+| P0 | 充值或更换可用模型后，试跑一次真实 `--use-llm` |
 | P0 | 增加 LLM self-check prompt，核验证据支撑 |
 | P1 | 优化 prompt 长度，降低 token 成本 |

@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from .analyzer import DIMENSIONS
-from .models import KernelProfile, to_dict
+from .models import CompareResult, KernelProfile, to_dict
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -143,6 +143,10 @@ class LLMReportGenerator:
         prompt = self._profile_prompt(profile)
         return self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
 
+    def render_compare(self, result: CompareResult, *, dry_run_path: Path | None = None) -> str:
+        prompt = self._compare_prompt(result)
+        return self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
+
     def _profile_prompt(self, profile: KernelProfile) -> str:
         compact: dict[str, Any] = {
             "meta": to_dict(profile.meta),
@@ -165,3 +169,20 @@ class LLMReportGenerator:
             f"KernelProfile JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )
 
+    def _compare_prompt(self, result: CompareResult) -> str:
+        compact = {
+            "new_repo": result.new_repo,
+            "history_repos": result.history_repos,
+            "similarities": [to_dict(item) for item in result.similarities],
+            "differences": [to_dict(item) for item in result.differences],
+            "unique_points": [to_dict(item) for item in result.unique_points],
+        }
+        return (
+            "请基于下面的规则比较结果生成一份人类友好的项目比较报告。\n"
+            "要求：\n"
+            "1. 分为相似点、差异点、可能创新点、待人工复核项。\n"
+            "2. 所有关键判断都必须保留 evidence 中的 file 和行号。\n"
+            "3. 不要把“相似”直接表述为抄袭，只能说需要人工复核。\n"
+            "4. 不要引入输入 JSON 之外的信息。\n\n"
+            f"CompareResult JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
+        )
