@@ -120,3 +120,45 @@ python -m compileall src scripts\kernelsage.py
 | P0 | 充值或更换可用模型后，试跑一次真实 `--use-llm` |
 | P0 | 增加 LLM self-check prompt，核验证据支撑 |
 | P1 | 优化 prompt 长度，降低 token 成本 |
+
+## 阶段 3：端到端 Demo 与轻量 Self-check
+
+- 日期：2026-06-05
+- 目标：修复 MVP 命令链路中的稳定性问题，补齐答辩可用的一键演示命令，并让报告具备明确的证据核验摘要。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| CLI 稳定性 | 修复 `describe-all` 在新增 LLM 参数后缺少 `use_llm`/`llm_dry_run` 字段导致的运行错误 |
+| Demo 命令 | 新增 `demo` 子命令，一次生成结构化画像、描述报告和比较报告 |
+| Self-check | 新增 `src/os_agent/selfcheck.py`，核验证据文件与行号是否存在 |
+| 报告输出 | 描述报告和比较报告末尾新增轻量核验摘要 |
+| 统计口径 | 明确证据率只统计需要源码证据支撑的设计判断，语言构成、风格标签和汇总性描述不计入证据率 |
+| 文档 | 更新 README，补充 `demo` 命令、self-check 说明和当前状态 |
+
+### 已验证命令
+
+```powershell
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py describe-all
+python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+```
+
+### 当前产出
+
+| 类型 | 路径 |
+| --- | --- |
+| Demo 画像 | `data/profiles/rcore-tutorial-v3.json` |
+| Demo 描述报告 | `data/reports/describe/rcore-tutorial-v3.md` |
+| Demo 比较报告 | `data/reports/compare/rcore-tutorial-v3_vs_history.md` |
+
+说明：上述报告与画像仍属于生成物，继续被 `.gitignore` 忽略，不作为源码提交。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P0 | 把 self-check 结果接入 LLM prompt，让模型生成报告前看到证据核验口径 |
+| P0 | 优化比较报告的历史样本选择，避免只按目录顺序取样 |
+| P1 | 继续改进维度关键词和文件优先级，减少文档文件对“代码实现”判断的干扰 |

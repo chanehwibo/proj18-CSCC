@@ -72,8 +72,51 @@ def cmd_describe_all(args: argparse.Namespace) -> int:
     samples = Path(args.samples)
     repo_dirs = [path for path in samples.iterdir() if path.is_dir() and not path.name.startswith(".")]
     for repo_dir in repo_dirs:
-        cmd_describe(argparse.Namespace(repo=str(repo_dir), repo_id=repo_dir.name, out=None))
+        cmd_describe(
+            argparse.Namespace(
+                repo=str(repo_dir),
+                repo_id=repo_dir.name,
+                out=None,
+                use_llm=args.use_llm,
+                llm_dry_run=args.llm_dry_run,
+            )
+        )
     print(f"generated {len(repo_dirs)} describe reports")
+    return 0
+
+
+def cmd_demo(args: argparse.Namespace) -> int:
+    repo_path = Path(args.repo)
+    repo_id = args.repo_id or repo_path.name
+    print(f"demo repo: {repo_path}")
+    describe_code = cmd_describe(
+        argparse.Namespace(
+            repo=str(repo_path),
+            repo_id=repo_id,
+            out=None,
+            use_llm=args.use_llm,
+            llm_dry_run=args.llm_dry_run,
+        )
+    )
+    if describe_code != 0:
+        return describe_code
+    compare_code = cmd_compare(
+        argparse.Namespace(
+            new=str(repo_path),
+            history=args.history,
+            repo_id=repo_id,
+            limit=args.limit,
+            out=None,
+            use_llm=args.use_llm,
+            llm_dry_run=args.llm_dry_run,
+        )
+    )
+    if compare_code != 0:
+        return compare_code
+    print("demo outputs:")
+    print(f"- profile: {PROFILES_DIR / f'{repo_id}.json'}")
+    print(f"- describe report: {REPORTS_DIR / 'describe' / f'{repo_id}.md'}")
+    print(f"- compare report: {REPORTS_DIR / 'compare' / f'{repo_id}_vs_history.md'}")
     return 0
 
 
@@ -131,7 +174,18 @@ def build_parser() -> argparse.ArgumentParser:
 
     p = sub.add_parser("describe-all", help="describe all sample repositories")
     p.add_argument("--samples", default=str(SAMPLES_DIR))
+    p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate reports")
+    p.add_argument("--llm-dry-run", action="store_true", help="write LLM prompts without calling the API")
     p.set_defaults(func=cmd_describe_all)
+
+    p = sub.add_parser("demo", help="run the end-to-end MVP demo for one repository")
+    p.add_argument("repo")
+    p.add_argument("--history", default=str(SAMPLES_DIR))
+    p.add_argument("--repo-id")
+    p.add_argument("--limit", type=int, default=3)
+    p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate reports")
+    p.add_argument("--llm-dry-run", action="store_true", help="write LLM prompts without calling the API")
+    p.set_defaults(func=cmd_demo)
 
     p = sub.add_parser("compare", help="compare one repository with history samples")
     p.add_argument("new")

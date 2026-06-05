@@ -4,9 +4,13 @@ from __future__ import annotations
 
 from .analyzer import DIMENSIONS
 from .models import CompareResult, Finding, KernelProfile
+from .selfcheck import EvidenceChecker
 
 
 class Reporter:
+    def __init__(self):
+        self.checker = EvidenceChecker()
+
     def render_profile(self, profile: KernelProfile) -> str:
         lines = [
             f"# {profile.meta.name} 项目描述报告",
@@ -52,6 +56,9 @@ class Reporter:
         lines.extend(self._render_findings_or_empty(result.differences))
         lines.extend(["", "## 可能创新点", ""])
         lines.extend(self._render_findings_or_empty(result.unique_points))
+        lines.extend(["", "## 附录：核验摘要", ""])
+        summary = self.checker.compare_summary(result)
+        lines.extend(self._summary_lines(summary))
         return "\n".join(lines).rstrip() + "\n"
 
     def _render_findings_or_empty(self, findings: list[Finding]) -> list[str]:
@@ -80,18 +87,18 @@ class Reporter:
         return ", ".join(f"{k} {v} LOC" for k, v in items) if items else "未识别"
 
     def _check_summary(self, profile: KernelProfile) -> list[str]:
-        findings: list[Finding] = []
-        if profile.build_system:
-            findings.append(profile.build_system)
-        for dim_findings in profile.dimensions.values():
-            findings.extend(dim_findings)
-        key_findings = [f for f in findings if f.confidence != "unconfirmed"]
-        covered = [f for f in key_findings if f.evidence]
-        rate = (len(covered) / len(key_findings) * 100) if key_findings else 0.0
+        summary = self.checker.profile_summary(profile)
         return [
             "## 附录：核验摘要",
             "",
-            f"- 关键结论数：{len(key_findings)}",
-            f"- 含证据关键结论数：{len(covered)}（{rate:.1f}%）",
-            f"- 未确认结论数：{sum(1 for f in findings if f.confidence == 'unconfirmed')}",
+            *self._summary_lines(summary),
+        ]
+
+    def _summary_lines(self, summary: dict[str, int | float]) -> list[str]:
+        return [
+            f"- 关键结论数：{summary['key_findings']}",
+            f"- 含证据关键结论数：{summary['with_evidence']}（{summary['coverage']:.1f}%）",
+            f"- 无效证据引用数：{summary['invalid_evidence']}",
+            f"- 未确认结论数：{summary['unconfirmed']}",
+            "- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。",
         ]

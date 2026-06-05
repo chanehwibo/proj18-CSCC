@@ -68,6 +68,7 @@ flowchart TD
 | `retriever` | V2 根据比较任务召回相关历史项目、代码片段和证据 |
 | `agent` | 编排分析、检索、验证、比对和报告生成流程 |
 | `reporter` | 输出项目描述文档、比较文档和可复核证据链 |
+| `selfcheck` | 核验证据文件和行号是否存在，输出轻量 self-check 摘要 |
 
 ## 4 开发计划
 
@@ -120,11 +121,19 @@ python scripts\kernelsage.py describe-all
 python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3
 ```
 
+运行端到端演示命令，一次生成结构化画像、描述报告和比较报告：
+
+```powershell
+python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+```
+
 默认输出：
 
 - `data/profiles/*.json`：结构化 KernelProfile
 - `data/reports/describe/*.md`：项目描述报告
 - `data/reports/compare/*.md`：比较报告
+
+报告末尾会自动生成轻量 self-check 核验摘要，统计关键结论数、含证据关键结论数、无效证据引用数和未确认结论数。关键结论只统计需要源码证据支撑的设计判断，语言构成、风格标签和汇总性描述不计入证据率。
 
 ### LLM 配置
 
@@ -199,7 +208,8 @@ proj18-os-agent-compare/
 |       |-- cli.py
 |       |-- models.py
 |       |-- agent.py
-|       `-- reporter.py
+|       |-- reporter.py
+|       `-- selfcheck.py
 |-- scripts/
 |   |-- fetch_repos.py
 |   `-- kernelsage.py
@@ -221,4 +231,4 @@ proj18-os-agent-compare/
 
 ## 10 当前状态
 
-本仓库已完成第一版 MVP 闭环：仓库采集、文件扫描、符号抽取、7 个 OS 维度的关键词证据分析、项目描述报告生成和基础比较报告生成。后续重点是接入 LLM 生成更自然的描述/比较文本，并完善 self-check 与报告证据链。
+本仓库已完成第一版 MVP 闭环：仓库采集、文件扫描、符号抽取、7 个 OS 维度的关键词证据分析、项目描述报告生成、基础比较报告生成、LLM dry-run/失败回退和轻量 self-check。当前已经可以通过 `demo` 命令完成端到端演示。后续重点是用可用的 LLM API 试跑真实报告，并继续打磨维度分析规则和展示材料。
