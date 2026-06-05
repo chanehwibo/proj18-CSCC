@@ -1,6 +1,6 @@
 # KernelSage
 
-面向小型操作系统的分析比对智能体系统设计
+面向小型操作系统的分析比对智能体系统设计。
 
 | 项目 | 内容 |
 | --- | --- |
@@ -10,118 +10,99 @@
 | 学校 | 天津师范大学 |
 | 学院 | 电子与通信工程学院 |
 | 赛题 | proj18-面向小型操作系统的分析比对智能体系统设计 |
-| 赛道 | 2026年全国大学生计算机系统能力大赛-操作系统设计赛(全国)-OS功能挑战赛道 |
+| 赛道 | 2026 年全国大学生计算机系统能力大赛-操作系统设计赛 OS 功能挑战赛道 |
 | 赛题类型 | 学术型 |
 
-## 1 目标描述
+## 项目目标
 
-KernelSage 旨在构建一个面向小型操作系统源码仓库的智能体系统。系统围绕历届操作系统比赛 OS Kernel 赛道作品建立结构化知识库，对历史作品生成可读、可核验的描述文档，并将新提交作品与历史作品进行深度比对，输出面向评审和参赛者的比较文档。
+KernelSage 旨在构建一个面向小型操作系统源码仓库的分析比对智能体。系统对历史 OS Kernel 作品建立结构化画像，为每个仓库生成可读、可核验的描述报告，并将新提交作品与历史样本进行多维度比较，辅助评审或参赛团队识别相似设计、差异点和可能创新点。
 
-系统重点解决三个问题：
+当前实现采用 MVP-first 路线：先保证“仓库扫描 -> 结构化画像 -> 证据检索 -> 描述报告 -> 比较报告 -> self-check”的闭环稳定可演示，再逐步增强 LLM 生成质量、历史样本规模和检索策略。
 
-1. 自动理解小型操作系统仓库的内核结构、模块划分、关键函数、系统调用、调度、内存管理、文件系统、驱动和同步机制等设计内容。
-2. 对历史比赛作品进行统一格式的结构化描述，形成可追溯、可复核的项目画像。
-3. 将新作品与历史作品进行语义级比对，识别相似设计、增量工作和创新点，降低简单文本匹配导致的误判。
+## 当前能力
 
-## 2 赛题分析
+已实现的 V1 能力：
 
-赛题要求设计智能体对历史操作系统比赛内核赛道作品进行描述，并将新提交作品与历史作品进行比较。描述和比较结果都必须对人类友好，同时尽量避免大模型幻觉，比较文档应做到精准无误。
+- 本地仓库扫描：统计文件、语言、README/docs、构建入口等基础信息。
+- 轻量符号抽取：对 Rust、C、汇编文件抽取函数、类型、impl 等符号定义。
+- OS 维度分析：围绕调度、内存、系统调用、文件系统、同步、中断、驱动 7 个维度抽取证据片段。
+- 结构化画像：生成 `KernelProfile` JSON，作为后续报告和比较的中间表示。
+- 描述报告：生成带源码路径和行号证据的 Markdown 项目描述。
+- 比较报告：将新仓库与历史样本进行多维度比较，输出相似点、差异点和可能创新点。
+- 轻量 self-check：检查关键结论是否有证据、证据文件和行号是否有效。
+- LLM 接入：支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退。
+- 端到端 demo：一条命令生成画像、描述报告和比较报告。
 
-本项目采用“MVP 优先”的实现路线：先用静态扫描、符号抽取、关键词证据检索和规则化 Agent 工作流形成可演示闭环，再逐步接入 LLM、BM25/向量检索和更复杂的语义分析。
+暂不作为 V1 必交付的能力：
 
-| 能力 | 实现思路 | 输出 |
-| --- | --- | --- |
-| 仓库结构分析 | 解析目录、构建语言分布和模块清单 | 项目结构摘要 |
-| 代码语义抽取 | V1 抽取函数、类型、配置和关键注释；V2 扩展调用图 | 内核能力画像 |
-| 历史作品索引 | V1 使用全量比较；V2 扩展 BM25/向量索引 | 可检索知识库 |
-| 相似性比对 | 结合 KernelProfile、证据片段和模块设计进行多维度比较 | 相似点与差异点 |
-| 创新点归纳 | 从新增模块、实现路径、性能策略和设计差异中提炼 | 创新点分析文档 |
-| 证据链输出 | 为每个判断关联源码路径、提交记录或文档片段 | 可复核报告 |
+- 完整调用图分析。
+- 向量数据库和大规模 RAG。
+- 自动化 golden benchmark。
+- Web/HTML 可视化演示。
 
-## 3 系统框架
+## 系统架构
 
 ```mermaid
 flowchart TD
-    A[历史 OS Kernel 仓库] --> B[仓库采集器]
+    A[历史 OS Kernel 仓库] --> B[collector 仓库采集]
     C[新提交仓库] --> B
-    B --> D[静态分析器]
-    D --> E[结构化项目画像]
-    D --> F[符号定义与证据片段]
-    E --> G[全量比较/关键词索引]
-    F --> G
-    G --> H[RAG 检索层]
-    H --> I[分析比对智能体]
-    I --> J[描述文档生成器]
-    I --> K[比较文档生成器]
-    J --> L[人类友好报告]
-    K --> L
+    B --> D[parser 符号抽取]
+    D --> E[analyzer 七维度画像]
+    E --> F[KernelProfile JSON]
+    F --> G[reporter 描述报告]
+    F --> H[agent 比较流程]
+    H --> I[比较报告]
+    G --> J[selfcheck 证据核验]
+    I --> J
+    F --> K[LLM 可选生成]
 ```
 
-核心模块规划：
+核心模块：
 
 | 模块 | 职责 |
 | --- | --- |
-| `collector` | 采集历史仓库、新提交仓库及 README、文档、提交历史等元数据 |
-| `parser` | 识别源码语言、目录结构、配置文件和构建入口 |
-| `analyzer` | 抽取函数、类型、模块、调用关系、系统调用实现和内核机制 |
-| `indexer` | V2 建立 BM25/向量索引 |
-| `retriever` | V2 根据比较任务召回相关历史项目、代码片段和证据 |
-| `agent` | 编排分析、检索、验证、比对和报告生成流程 |
-| `reporter` | 输出项目描述文档、比较文档和可复核证据链 |
-| `selfcheck` | 核验证据文件和行号是否存在，输出轻量 self-check 摘要 |
+| `collector` | 扫描仓库、读取文档、统计语言和构建入口 |
+| `parser` | 抽取 Rust/C/Asm 符号定义 |
+| `analyzer` | 基于关键词和路径优先级生成 OS 七维度画像 |
+| `agent` | 编排新仓库与历史样本的比较逻辑 |
+| `reporter` | 输出描述报告、比较报告和证据链 |
+| `selfcheck` | 核验证据文件、行号和关键结论覆盖率 |
+| `llm` | 接入 DeepSeek/OpenAI-compatible LLM、dry-run 和缓存 |
+| `indexer` / `retriever` | V2 预留的检索扩展模块 |
 
-## 4 开发计划
+## 快速运行
 
-| 阶段 | 时间 | 目标 | 关键产出 |
-| --- | --- | --- | --- |
-| 阶段一 | 第1周 | 完成仓库骨架和需求细化 | README、设计文档、目录规范 |
-| 阶段二 | 第2-3周 | 实现仓库采集与静态结构分析 | 仓库元数据、目录树、语言统计 |
-| 阶段三 | 第4-5周 | 实现代码语义抽取与索引 | 函数表、模块表、调用关系索引 |
-| 阶段四 | 第6-7周 | 构建 RAG 与智能体比对工作流 | 初版描述/比较报告 |
-| 阶段五 | 第8周 | 完善证据链、测试和演示材料 | 测试报告、Demo、最终文档 |
+环境要求：
 
-## 5 预期创新点
+- Python 3.11+
+- Git，用于拉取历史样本仓库
+- V1 默认不依赖第三方 Python 包
 
-1. **面向 OS Kernel 的专用项目画像**：不只生成通用代码摘要，而是围绕进程管理、内存管理、系统调用、文件系统、同步原语、设备驱动等内核维度建立结构化描述。
-2. **多维度比对机制**：结合目录结构、核心模块、函数调用、设计文档和提交历史，降低仅靠关键词或向量相似度造成的误判。
-3. **证据链驱动的报告生成**：比较结论必须关联源码路径、函数名、文档段落或提交信息，便于评审复核。
-4. **可插拔模型与检索后端**：优先适配国产、开源、免费模型，同时支持本地向量数据库或轻量级文件索引。
+拉取样本仓库：
 
-## 6 测试与评估
+```powershell
+python scripts\fetch_repos.py
+```
 
-计划从以下维度评估系统：
-
-| 指标 | 说明 |
-| --- | --- |
-| 描述准确性 | 生成的项目描述是否覆盖核心模块且没有明显幻觉 |
-| 比较准确性 | 相似点、差异点和创新点是否能被源码证据支撑 |
-| 可解释性 | 报告是否提供明确证据链，方便人工复核 |
-| 泛化能力 | 是否能处理 RCore、UCore、微内核等不同风格作品 |
-| 工程可复现性 | 是否提供清晰的依赖、脚本和示例数据 |
-
-## 7 快速运行
-
-当前 MVP 版本不依赖第三方 Python 包，直接使用 Python 3.11 运行。
-
-生成单个仓库的项目画像和描述报告：
+生成单个仓库画像和描述报告：
 
 ```powershell
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3
 ```
 
-批量生成 `data/samples` 下全部样本仓库的描述报告：
+批量生成样本描述报告：
 
 ```powershell
 python scripts\kernelsage.py describe-all
 ```
 
-将一个新仓库与历史样本进行比较：
+生成比较报告：
 
 ```powershell
 python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3
 ```
 
-运行端到端演示命令，一次生成结构化画像、描述报告和比较报告：
+运行端到端 demo：
 
 ```powershell
 python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
@@ -129,15 +110,19 @@ python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore
 
 默认输出：
 
-- `data/profiles/*.json`：结构化 KernelProfile
-- `data/reports/describe/*.md`：项目描述报告
-- `data/reports/compare/*.md`：比较报告
+- `data/profiles/*.json`：结构化 KernelProfile。
+- `data/reports/describe/*.md`：项目描述报告。
+- `data/reports/compare/*.md`：比较报告。
+- `data/reports/prompts/*.prompt.md`：LLM dry-run 生成的 prompt。
+- `data/llm_cache/`：LLM 响应缓存。
 
-报告末尾会自动生成轻量 self-check 核验摘要，统计关键结论数、含证据关键结论数、无效证据引用数和未确认结论数。关键结论只统计需要源码证据支撑的设计判断，语言构成、风格标签和汇总性描述不计入证据率。
+这些输出都是运行生成物，默认不提交到仓库。
 
-### LLM 配置
+## LLM 配置
 
-默认命令不会调用 LLM API，也不会产生费用。需要使用 DeepSeek 等在线模型时，先复制 `.env.example` 为 `.env`，再填入自己的新 API Key：
+默认命令不会调用 LLM API，也不会产生费用。只有显式传入 `--use-llm` 才会请求在线模型。
+
+配置方式：
 
 ```powershell
 copy .env.example .env
@@ -155,61 +140,63 @@ LLM_API_KEY=replace_with_your_new_api_key
 安全约定：
 
 - `.env` 已被 `.gitignore` 忽略，禁止提交真实 API Key。
-- 开发调试优先使用 `--llm-dry-run`，只生成 prompt，不调用 API。
-- 真正需要调用 API 时才使用 `--use-llm`。
-- LLM 响应会缓存到 `data/llm_cache/`，相同 prompt 后续不会重复扣费。
+- 优先使用 `--llm-dry-run` 检查 prompt，不调用 API。
+- `--use-llm` 失败时会自动回退到规则版报告，保证流程可继续。
+- LLM 响应会缓存到 `data/llm_cache/`，相同 prompt 不重复请求。
 
-生成 LLM prompt 但不调用 API：
+生成 prompt 但不调用 API：
 
 ```powershell
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --llm-dry-run
+python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2 --llm-dry-run
 ```
 
-确认 prompt 后调用 LLM 生成报告：
+真实调用 LLM：
 
 ```powershell
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --use-llm
 ```
 
-如果 API 余额不足或请求失败，命令会自动回退到规则版报告，保证报告文件仍然生成。
+## 证据与核验口径
 
-比较报告同样支持 LLM dry-run：
+报告末尾会输出 self-check 摘要：
 
-```powershell
-python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2 --llm-dry-run
-```
+- 关键结论数。
+- 含证据关键结论数和覆盖率。
+- 无效证据引用数。
+- 未确认结论数。
 
-## 8 分工协作
+统计口径：关键结论指需要源码证据支撑的设计判断，例如“包含系统调用分发逻辑”“实现页表/物理页管理”。语言构成、风格标签和汇总性描述不计入证据率，避免为了追求数字而给非判断性句子强行加引用。
 
-| 成员 | 职责 |
-| --- | --- |
-| 鲍灿辉 | 智能体流程设计、代码分析模块、检索与比对实现 |
-| 石雅禛 | 数据整理、报告模板、测试用例、文档撰写 |
-
-## 9 仓库目录
+## 仓库目录
 
 ```text
 proj18-os-agent-compare/
 |-- README.md
+|-- DEVELOPMENT_LOG.md
 |-- LICENSE
+|-- pyproject.toml
+|-- .env.example
 |-- .gitignore
 |-- docs/
+|   |-- PLAN.md
 |   |-- design.md
-|   |-- report-template.md
-|   `-- evaluation.md
+|   |-- evaluation.md
+|   `-- report-template.md
 |-- src/
 |   `-- os_agent/
 |       |-- __init__.py
+|       |-- models.py
 |       |-- collector.py
 |       |-- parser.py
 |       |-- analyzer.py
-|       |-- indexer.py
-|       |-- retriever.py
-|       |-- cli.py
-|       |-- models.py
 |       |-- agent.py
 |       |-- reporter.py
-|       `-- selfcheck.py
+|       |-- selfcheck.py
+|       |-- llm.py
+|       |-- indexer.py
+|       |-- retriever.py
+|       `-- cli.py
 |-- scripts/
 |   |-- fetch_repos.py
 |   `-- kernelsage.py
@@ -217,18 +204,47 @@ proj18-os-agent-compare/
 |   |-- samples/
 |   |   |-- manifest.json
 |   |   `-- <repo_id>/
-|   |-- profiles/
-|   |-- reports/
 |   `-- indexes/
 |       `-- .gitkeep
+|-- assets/
+|   `-- .gitkeep
 |-- examples/
 |   `-- .gitkeep
-|-- tests/
-|   `-- .gitkeep
-`-- assets/
+`-- tests/
     `-- .gitkeep
 ```
 
-## 10 当前状态
+说明：
 
-本仓库已完成第一版 MVP 闭环：仓库采集、文件扫描、符号抽取、7 个 OS 维度的关键词证据分析、项目描述报告生成、基础比较报告生成、LLM dry-run/失败回退和轻量 self-check。当前已经可以通过 `demo` 命令完成端到端演示。后续重点是用可用的 LLM API 试跑真实报告，并继续打磨维度分析规则和展示材料。
+- `data/samples/<repo_id>/` 是本地拉取的历史样本仓库，默认不提交。
+- `data/profiles/`、`data/reports/`、`data/llm_cache/` 是运行生成物，默认不提交。
+- `.env` 是本地密钥配置文件，禁止提交。
+
+## 研发计划
+
+当前阶段重点围绕三周半赛程压缩交付：
+
+| 优先级 | 任务 | 状态 |
+| --- | --- | --- |
+| P0 | MVP 静态分析闭环 | 已完成 |
+| P0 | LLM dry-run、失败回退与缓存 | 已完成 |
+| P0 | 端到端 demo 命令 | 已完成 |
+| P0 | 轻量 self-check | 已完成 |
+| P0 | 优化历史样本选择策略 | 进行中 |
+| P0 | 接入可用 LLM API 试跑真实报告 | 待执行 |
+| P1 | 改进关键词和文件优先级 | 待执行 |
+| P1 | 整理答辩演示材料 | 待执行 |
+| P2 | BM25/向量检索、调用图、HTML 展示 | 延后 |
+
+研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
+
+## 分工
+
+| 成员 | 职责 |
+| --- | --- |
+| 鲍灿辉 | 智能体流程设计、代码分析模块、检索与比对实现 |
+| 石雅禛 | 数据整理、报告模板、测试用例、文档撰写 |
+
+## 当前状态
+
+仓库已具备可演示的 V1 MVP：可以拉取历史样本，分析一个小型 OS 仓库，生成结构化画像、描述报告和比较报告，并给出证据核验摘要。下一步重点是优化历史样本选择和真实 LLM 报告效果。

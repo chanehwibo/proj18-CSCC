@@ -162,3 +162,25 @@ python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore
 | P0 | 把 self-check 结果接入 LLM prompt，让模型生成报告前看到证据核验口径 |
 | P0 | 优化比较报告的历史样本选择，避免只按目录顺序取样 |
 | P1 | 继续改进维度关键词和文件优先级，减少文档文件对“代码实现”判断的干扰 |
+
+## 阶段 4：仓库整理与 README 更新
+
+- 日期：2026-06-05
+- 目标：清理本地运行生成物，明确仓库保留边界，并把 README 更新为当前可用的开源项目首页。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 本地清理 | 删除 `__pycache__`、`data/profiles/`、`data/reports/`、`data/llm_cache/` 和抓取报告等运行生成物 |
+| 保留边界 | 保留 `.env` 本地配置和 `data/samples/` 本地样本仓库；二者均不提交 |
+| README | 重写 README，补充目标、当前能力、架构、快速运行、LLM 配置、证据核验口径、仓库目录和研发计划 |
+| 安全说明 | README 明确 `.env` 禁止提交，默认命令不调用 LLM API |
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P0 | 优化比较报告的历史样本选择策略 |
+| P0 | 在可用 LLM API 下试跑真实描述报告 |
+| P1 | 增加最小测试用例，覆盖 demo/self-check/CLI 参数 |
