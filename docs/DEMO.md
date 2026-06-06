@@ -49,13 +49,14 @@ python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore
 ```text
 selected history repositories:
 - zCore: score=...
-- rcore-tutorial-v3-ch9: score=...
+- xv6-riscv: score=...
 ```
 
 讲解重点：
 
 - 系统没有按目录顺序取样，而是按画像相似度选择历史仓库。
 - 选择依据包括 OS 风格、架构、语言构成、OS 维度重合度和代码规模。
+- Markdown 文档不会被当作 OS 机制实现证据，避免文档型仓库误入比较结果。
 - 生成物都在 `data/reports/` 和 `data/profiles/` 下，默认不提交仓库。
 
 ### 2. 查看描述报告

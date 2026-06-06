@@ -284,3 +284,38 @@ python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore
 | --- | --- |
 | P1 | 改进关键词和文件优先级，减少文档或用户态代码干扰 |
 | P1 | 增加 CLI demo 端到端轻量测试 |
+
+## 阶段 8：证据优先级与文档干扰修正
+
+- 日期：2026-06-06
+- 目标：减少比较报告中 Markdown 文档、工具脚本和用户态路径对“内核机制实现”判断的干扰。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 路径优先级 | `KernelAnalyzer` 新增内核路径、支撑路径、低优先级路径分层评分 |
+| 文档证据 | OS 维度关键词检索不再使用 Markdown 作为实现证据 |
+| 样本选择 | 文档型样本不再仅凭 Markdown 命中获得 OS 维度确认 |
+| 测试 | 新增 analyzer 路径优先级测试和 doc-only 仓库测试 |
+| 文档 | 更新 README 和 DEMO，说明 Markdown 不作为 OS 实现证据 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+python scripts\kernelsage.py compare data\samples\xv6-riscv --repo-id xv6-riscv --limit 3
+```
+
+### 观察结果
+
+- `outline.md`、`xtask/`、`ulib/`、`apps/` 等路径不再出现在新生成的比较报告证据中。
+- `rcore-tutorial-v3` 的 Top 2 历史样本变为 `zCore`、`xv6-riscv`，不再把文档型 `rcore-tutorial-v3-ch9` 作为主要比较对象。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 增加 CLI demo 端到端轻量测试 |
+| P1 | 整理可提交的阶段性样例报告或报告截图 |

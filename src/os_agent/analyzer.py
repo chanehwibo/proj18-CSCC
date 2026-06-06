@@ -8,6 +8,54 @@ from pathlib import Path
 from .models import Evidence, Finding, KernelProfile, ParsedRepo, RepoSnapshot
 
 
+KERNEL_PATH_HINTS = (
+    "os/src/",
+    "kernel/",
+    "kern/",
+    "src/mm",
+    "src/task",
+    "src/trap",
+    "src/syscall",
+    "src/fs",
+    "src/sync",
+    "src/drivers",
+    "drivers/",
+    "modules/axhal",
+    "modules/axmm",
+    "modules/axtask",
+    "modules/axfs",
+    "modules/axdriver",
+    "zcore/src/",
+)
+
+SUPPORT_PATH_HINTS = (
+    "easy-fs/",
+    "crates/",
+    "components/",
+    "modules/",
+)
+
+LOW_PRIORITY_PATH_HINTS = (
+    "user/",
+    "users/",
+    "ulib/",
+    "apps/",
+    "app/",
+    "examples/",
+    "example/",
+    "tests/",
+    "test/",
+    "docs/",
+    "doc/",
+    "book/",
+    "outline.md",
+    "readme",
+    "xtask/",
+    "scripts/",
+    "tools/",
+)
+
+
 DIMENSIONS = {
     "scheduler": {
         "title": "调度与任务管理",
@@ -123,7 +171,7 @@ class KernelAnalyzer:
         evidences: list[Evidence] = []
         hint_words = [hint.lower() for hint in hints]
         code_files = [entry for entry in snap.files if entry.lang in {"rust", "c", "asm"}]
-        support_files = [entry for entry in snap.files if entry.lang in {"build", "toml", "markdown"}]
+        support_files = [entry for entry in snap.files if entry.lang in {"build", "toml"}]
         ordered = sorted(code_files, key=lambda item: self._path_score(item.path, hint_words)) + support_files
         for entry in ordered:
             path = root / entry.path
@@ -141,9 +189,18 @@ class KernelAnalyzer:
 
     def _path_score(self, path: str, hints: list[str]) -> tuple[int, int, str]:
         lowered = path.lower()
-        hint_miss = 0 if any(hint in lowered for hint in hints) else 1
-        user_penalty = 1 if lowered.startswith(("user/", "examples/", "tests/")) else 0
-        return (hint_miss + user_penalty, len(path), path)
+        hint_penalty = 0 if any(hint in lowered for hint in hints) else 2
+        role_penalty = self._path_role_penalty(lowered)
+        return (role_penalty + hint_penalty, len(path), path)
+
+    def _path_role_penalty(self, lowered_path: str) -> int:
+        if any(hint in lowered_path for hint in LOW_PRIORITY_PATH_HINTS):
+            return 8
+        if any(hint in lowered_path for hint in KERNEL_PATH_HINTS):
+            return 0
+        if any(hint in lowered_path for hint in SUPPORT_PATH_HINTS):
+            return 2
+        return 4
 
     def _evidence_at(self, root: Path, rel: str, line_no: int, kind: str, note: str) -> Evidence:
         path = root / rel
