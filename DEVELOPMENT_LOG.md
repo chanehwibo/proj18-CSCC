@@ -257,3 +257,30 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | --- | --- |
 | P1 | 重新用 dry-run 检查收紧后的 LLM prompt |
 | P1 | 整理答辩演示材料和固定演示流程 |
+
+## 阶段 7：答辩演示流程整理
+
+- 日期：2026-06-06
+- 目标：把当前 MVP 能力整理成固定演示流程，便于阶段检查、和导师沟通以及后续答辩准备。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 演示文档 | 新增 `docs/DEMO.md`，固定端到端演示命令、报告查看命令和讲解重点 |
+| 答辩讲解 | 整理“赛题不是写 OS，而是分析 OS 仓库智能体”的讲解主线 |
+| LLM 说明 | 在演示流程中区分 dry-run 和真实 API 调用，强调费用与安全边界 |
+| README | 更新仓库目录、研发计划状态和演示文档入口 |
+
+### 推荐演示命令
+
+```powershell
+python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+```
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 改进关键词和文件优先级，减少文档或用户态代码干扰 |
+| P1 | 增加 CLI demo 端到端轻量测试 |

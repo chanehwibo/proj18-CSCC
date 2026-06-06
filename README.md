@@ -189,6 +189,7 @@ proj18-os-agent-compare/
 |-- .gitignore
 |-- docs/
 |   |-- PLAN.md
+|   |-- DEMO.md
 |   |-- design.md
 |   |-- evaluation.md
 |   `-- report-template.md
@@ -246,10 +247,10 @@ proj18-os-agent-compare/
 | P0 | 接入可用 LLM API 试跑真实报告 | 已完成 |
 | P1 | 改进关键词和文件优先级 | 待执行 |
 | P1 | 增加最小测试用例 | 进行中 |
-| P1 | 整理答辩演示材料 | 待执行 |
+| P1 | 整理答辩演示材料 | 已完成 |
 | P2 | BM25/向量检索、调用图、HTML 展示 | 延后 |
 
-研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
+演示流程见 [docs/DEMO.md](docs/DEMO.md)。研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
 
 ## 分工
 
@@ -260,4 +261,4 @@ proj18-os-agent-compare/
 
 ## 当前状态
 
-仓库已具备可演示的 V1 MVP：可以拉取历史样本，分析一个小型 OS 仓库，基于画像相似度选择对比样本，生成结构化画像、描述报告和比较报告，并给出证据核验摘要。当前已完成一次真实 LLM 描述报告试跑，下一步重点是扩展最小测试覆盖和整理答辩演示材料。
+仓库已具备可演示的 V1 MVP：可以拉取历史样本，分析一个小型 OS 仓库，基于画像相似度选择对比样本，生成结构化画像、描述报告和比较报告，并给出证据核验摘要。当前已完成一次真实 LLM 描述报告试跑，并整理了固定演示流程。下一步重点是改进关键词规则和扩展测试覆盖。
