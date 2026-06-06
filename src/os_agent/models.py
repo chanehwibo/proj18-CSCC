@@ -90,6 +90,7 @@ class KernelProfile:
 class CompareResult:
     new_repo: str
     history_repos: list[str]
+    selection_notes: list[str] = field(default_factory=list)
     similarities: list[Finding] = field(default_factory=list)
     differences: list[Finding] = field(default_factory=list)
     unique_points: list[Finding] = field(default_factory=list)
@@ -102,4 +103,3 @@ def to_dict(value: Any) -> Any:
     if isinstance(value, Path):
         return str(value)
     return value
-

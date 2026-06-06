@@ -48,9 +48,13 @@ class Reporter:
             f"- 对比历史仓库：{', '.join(result.history_repos)}",
             f"- 生成时间：{result.generated_at}",
             "",
-            "## 相似点",
-            "",
         ]
+        if result.selection_notes:
+            lines.extend(["## 历史样本选择", ""])
+            for note in result.selection_notes:
+                lines.append(f"- {note}")
+            lines.append("")
+        lines.extend(["## 相似点", ""])
         lines.extend(self._render_findings_or_empty(result.similarities))
         lines.extend(["", "## 差异点", ""])
         lines.extend(self._render_findings_or_empty(result.differences))

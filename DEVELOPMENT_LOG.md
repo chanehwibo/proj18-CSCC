@@ -184,3 +184,76 @@ python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore
 | P0 | 优化比较报告的历史样本选择策略 |
 | P0 | 在可用 LLM API 下试跑真实描述报告 |
 | P1 | 增加最小测试用例，覆盖 demo/self-check/CLI 参数 |
+
+## 阶段 5：历史样本选择策略优化
+
+- 日期：2026-06-06
+- 目标：避免比较流程按目录顺序截取历史仓库，改为根据结构化画像选择更合适的对比样本。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 样本选择 | 新增 `src/os_agent/selector.py`，按风格、架构、语言构成、OS 维度和代码规模对历史样本打分 |
+| CLI | `compare` 构建全部候选画像后再排序选取 Top N，不再按目录顺序提前截断 |
+| 报告 | 比较报告新增“历史样本选择”小节，展示分数和选择理由 |
+| LLM | 比较报告 LLM prompt 增加 `selection_notes`，保留样本选择依据 |
+| 测试 | 新增 `tests/test_selector.py`，验证选择器不会受输入顺序影响 |
+| 文档 | README 更新历史样本选择策略和研发计划状态 |
+
+### 已验证命令
+
+```powershell
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+python scripts\kernelsage.py compare data\samples\xv6-riscv --repo-id xv6-riscv --limit 3
+```
+
+### 观察结果
+
+- `rcore-tutorial-v3` 的 Top 2 历史样本从目录顺序候选变为 `zCore`、`rcore-tutorial-v3-ch9`。
+- `xv6-riscv` 的 Top 3 历史样本按画像相似度排序为 `arceos`、`rcore-tutorial-v3`、`rcore-tutorial-v3-ch9`。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P0 | 在可用 LLM API 下试跑真实描述报告 |
+| P1 | 扩展最小测试用例，覆盖 CLI demo 与 self-check |
+
+## 阶段 6：真实 LLM 试跑与最小测试补强
+
+- 日期：2026-06-06
+- 目标：按计划验证真实 LLM 调用链路，并补充最小测试用例，降低后续迭代回归风险。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| LLM 试跑 | 使用 `.env` 中的模型配置运行 `describe --use-llm`，成功生成真实 LLM 描述报告并写入缓存 |
+| Prompt 收紧 | 强化 LLM system/user prompt，要求只引用输入 evidence 中已有的文件和行号，不扩写未确认算法细节 |
+| Self-check 输入 | LLM 描述 prompt 增加 `self_check` 摘要，提示模型保留证据核验口径 |
+| CLI 测试 | 新增 `tests/test_cli.py`，覆盖 `demo` 参数解析和 LLM dry-run 参数 |
+| Selector 测试 | 新增 `tests/test_selector.py`，覆盖历史样本选择不受输入顺序影响 |
+| Self-check 测试 | 新增 `tests/test_selfcheck.py`，覆盖有效证据、无效证据和未确认结论统计 |
+
+### 已验证命令
+
+```powershell
+python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --use-llm
+python -m compileall src scripts\kernelsage.py
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+```
+
+### 观察结果
+
+- 真实 LLM 调用成功，生成了 `data/reports/describe/rcore-tutorial-v3.md` 和一条 `data/llm_cache/` 缓存。
+- 首次真实输出可读性较好，但存在根据上下文扩写实现细节的倾向，因此已收紧 prompt。
+- LLM 相关生成物和缓存继续作为本地运行产物，不提交到仓库。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 重新用 dry-run 检查收紧后的 LLM prompt |
+| P1 | 整理答辩演示材料和固定演示流程 |

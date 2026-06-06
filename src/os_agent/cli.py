@@ -14,6 +14,7 @@ from .llm import LLMReportGenerator
 from .models import KernelProfile, to_dict
 from .parser import SymbolParser
 from .reporter import Reporter
+from .selector import HistorySelector
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -129,9 +130,13 @@ def cmd_compare(args: argparse.Namespace) -> int:
         if not repo_dir.is_dir() or repo_dir.name.startswith(".") or repo_dir.resolve() == new_path:
             continue
         history_profiles.append(build_profile(repo_dir, repo_id=repo_dir.name))
-        if len(history_profiles) >= args.limit:
-            break
-    result = CompareAgent().compare(new_profile, history_profiles, limit=args.limit)
+    ranked = HistorySelector().select(new_profile, history_profiles, limit=args.limit)
+    selected_profiles = [item.profile for item in ranked]
+    result = CompareAgent().compare(new_profile, selected_profiles, limit=args.limit)
+    result.selection_notes = [
+        f"{item.profile.meta.name}：score={item.score:.2f}；{'; '.join(item.reasons)}"
+        for item in ranked
+    ]
     out = Path(args.out) if args.out else REPORTS_DIR / "compare" / f"{new_profile.meta.repo_id}_vs_history.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     if args.use_llm or args.llm_dry_run:
@@ -150,6 +155,11 @@ def cmd_compare(args: argparse.Namespace) -> int:
         report = Reporter().render_compare(result)
     out.write_text(report, encoding="utf-8")
     write_json(PROFILES_DIR / f"{new_profile.meta.repo_id}.json", new_profile)
+    if ranked:
+        print("selected history repositories:")
+        for item in ranked:
+            reason_text = "; ".join(item.reasons[:3])
+            print(f"- {item.profile.meta.repo_id}: score={item.score:.2f}; {reason_text}")
     print(f"compare report written: {out}")
     return 0
 

@@ -28,7 +28,7 @@ KernelSage 旨在构建一个面向小型操作系统源码仓库的分析比对
 - OS 维度分析：围绕调度、内存、系统调用、文件系统、同步、中断、驱动 7 个维度抽取证据片段。
 - 结构化画像：生成 `KernelProfile` JSON，作为后续报告和比较的中间表示。
 - 描述报告：生成带源码路径和行号证据的 Markdown 项目描述。
-- 比较报告：将新仓库与历史样本进行多维度比较，输出相似点、差异点和可能创新点。
+- 比较报告：基于画像相似度选择历史样本，再输出相似点、差异点和可能创新点。
 - 轻量 self-check：检查关键结论是否有证据、证据文件和行号是否有效。
 - LLM 接入：支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退。
 - 端到端 demo：一条命令生成画像、描述报告和比较报告。
@@ -65,6 +65,7 @@ flowchart TD
 | `parser` | 抽取 Rust/C/Asm 符号定义 |
 | `analyzer` | 基于关键词和路径优先级生成 OS 七维度画像 |
 | `agent` | 编排新仓库与历史样本的比较逻辑 |
+| `selector` | 按风格、架构、语言、OS 维度和规模相似度选择历史样本 |
 | `reporter` | 输出描述报告、比较报告和证据链 |
 | `selfcheck` | 核验证据文件、行号和关键结论覆盖率 |
 | `llm` | 接入 DeepSeek/OpenAI-compatible LLM、dry-run 和缓存 |
@@ -157,6 +158,14 @@ python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rc
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --use-llm
 ```
 
+## 测试
+
+当前最小测试覆盖 CLI 参数解析、历史样本选择和 self-check 统计：
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+```
+
 ## 证据与核验口径
 
 报告末尾会输出 self-check 摘要：
@@ -190,6 +199,7 @@ proj18-os-agent-compare/
 |       |-- collector.py
 |       |-- parser.py
 |       |-- analyzer.py
+|       |-- selector.py
 |       |-- agent.py
 |       |-- reporter.py
 |       |-- selfcheck.py
@@ -211,7 +221,9 @@ proj18-os-agent-compare/
 |-- examples/
 |   `-- .gitkeep
 `-- tests/
-    `-- .gitkeep
+    |-- test_cli.py
+    |-- test_selector.py
+    `-- test_selfcheck.py
 ```
 
 说明：
@@ -230,9 +242,10 @@ proj18-os-agent-compare/
 | P0 | LLM dry-run、失败回退与缓存 | 已完成 |
 | P0 | 端到端 demo 命令 | 已完成 |
 | P0 | 轻量 self-check | 已完成 |
-| P0 | 优化历史样本选择策略 | 进行中 |
-| P0 | 接入可用 LLM API 试跑真实报告 | 待执行 |
+| P0 | 优化历史样本选择策略 | 已完成 |
+| P0 | 接入可用 LLM API 试跑真实报告 | 已完成 |
 | P1 | 改进关键词和文件优先级 | 待执行 |
+| P1 | 增加最小测试用例 | 进行中 |
 | P1 | 整理答辩演示材料 | 待执行 |
 | P2 | BM25/向量检索、调用图、HTML 展示 | 延后 |
 
@@ -247,4 +260,4 @@ proj18-os-agent-compare/
 
 ## 当前状态
 
-仓库已具备可演示的 V1 MVP：可以拉取历史样本，分析一个小型 OS 仓库，生成结构化画像、描述报告和比较报告，并给出证据核验摘要。下一步重点是优化历史样本选择和真实 LLM 报告效果。
+仓库已具备可演示的 V1 MVP：可以拉取历史样本，分析一个小型 OS 仓库，基于画像相似度选择对比样本，生成结构化画像、描述报告和比较报告，并给出证据核验摘要。当前已完成一次真实 LLM 描述报告试跑，下一步重点是扩展最小测试覆盖和整理答辩演示材料。

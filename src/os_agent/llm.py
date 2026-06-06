@@ -17,6 +17,7 @@ from typing import Any
 
 from .analyzer import DIMENSIONS
 from .models import CompareResult, KernelProfile, to_dict
+from .selfcheck import EvidenceChecker
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -132,8 +133,9 @@ class LLMClient:
 class LLMReportGenerator:
     SYSTEM = (
         "你是一个谨慎的操作系统代码分析助手。你必须严格基于提供的 KernelProfile 和证据回答。"
-        "不要编造文件名、函数名或行号；无法确认的信息必须标注“未确认”。"
-        "输出 Markdown，面向评审专家阅读，语言清晰、克制。"
+        "不要编造文件名、函数名、行号、算法名称或实现细节；无法确认的信息必须标注“未确认”。"
+        "所有关键结论必须使用输入 evidence 中已有的 file 和行号，引用格式使用 `path:Lx-Ly`。"
+        "输出 Markdown，面向评审专家阅读，语言清晰、克制，不要使用寒暄开头。"
     )
 
     def __init__(self, client: LLMClient | None = None):
@@ -153,6 +155,7 @@ class LLMReportGenerator:
             "overview": profile.overview,
             "build_system": to_dict(profile.build_system),
             "dimensions": {},
+            "self_check": EvidenceChecker().profile_summary(profile),
         }
         for dim, findings in profile.dimensions.items():
             compact["dimensions"][dim] = {
@@ -163,9 +166,10 @@ class LLMReportGenerator:
             "请基于下面的 KernelProfile 生成一份项目描述报告。\n"
             "要求：\n"
             "1. 必须按操作系统维度组织，包括调度、内存、系统调用、文件系统、同步、中断、驱动。\n"
-            "2. 每个关键判断都要引用已有 evidence 的 file 和行号。\n"
+            "2. 每个关键判断都要引用已有 evidence 的 file 和行号，不能引用 JSON 中不存在的文件或行号。\n"
             "3. 不要引入 profile 之外的信息。\n"
-            "4. 最后给出“核验摘要”，说明哪些信息仍未确认。\n\n"
+            "4. 不要根据文件名或常识扩写具体算法；如果 evidence 没有说明算法，只能写“未确认”。\n"
+            "5. 最后给出“核验摘要”，说明 self_check 统计值和仍未确认的信息。\n\n"
             f"KernelProfile JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )
 
@@ -173,6 +177,7 @@ class LLMReportGenerator:
         compact = {
             "new_repo": result.new_repo,
             "history_repos": result.history_repos,
+            "selection_notes": result.selection_notes,
             "similarities": [to_dict(item) for item in result.similarities],
             "differences": [to_dict(item) for item in result.differences],
             "unique_points": [to_dict(item) for item in result.unique_points],
@@ -181,8 +186,9 @@ class LLMReportGenerator:
             "请基于下面的规则比较结果生成一份人类友好的项目比较报告。\n"
             "要求：\n"
             "1. 分为相似点、差异点、可能创新点、待人工复核项。\n"
-            "2. 所有关键判断都必须保留 evidence 中的 file 和行号。\n"
+            "2. 所有关键判断都必须保留 evidence 中已有的 file 和行号，不能引用 JSON 中不存在的文件或行号。\n"
             "3. 不要把“相似”直接表述为抄袭，只能说需要人工复核。\n"
-            "4. 不要引入输入 JSON 之外的信息。\n\n"
+            "4. 不要引入输入 JSON 之外的信息。\n"
+            "5. 必须保留 selection_notes 中的历史样本选择依据。\n\n"
             f"CompareResult JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )
