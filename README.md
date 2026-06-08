@@ -191,6 +191,7 @@ proj18-os-agent-compare/
 |-- docs/
 |   |-- PLAN.md
 |   |-- DEMO.md
+|   |-- STAGE_REVIEW.md
 |   |-- design.md
 |   |-- evaluation.md
 |   `-- report-template.md
@@ -251,7 +252,7 @@ proj18-os-agent-compare/
 | P1 | 整理答辩演示材料 | 已完成 |
 | P2 | BM25/向量检索、调用图、HTML 展示 | 延后 |
 
-演示流程见 [docs/DEMO.md](docs/DEMO.md)。研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
+演示流程见 [docs/DEMO.md](docs/DEMO.md)，阶段性评审材料见 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)。研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
 
 ## 分工
 

@@ -319,3 +319,37 @@ python scripts\kernelsage.py compare data\samples\xv6-riscv --repo-id xv6-riscv 
 | --- | --- |
 | P1 | 增加 CLI demo 端到端轻量测试 |
 | P1 | 整理可提交的阶段性样例报告或报告截图 |
+
+## 阶段 9：阶段性评审材料整理
+
+- 日期：2026-06-08
+- 目标：在不提交 `data/reports/` 运行生成物的前提下，整理一份可提交、可复现、便于导师和队友查看的阶段性评审材料。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| Demo 复现 | 重新运行 `demo`，生成最新描述报告和比较报告 |
+| 测试验证 | 运行最小测试集，确认 CLI、selector、self-check、analyzer 测试通过 |
+| 评审材料 | 新增 `docs/STAGE_REVIEW.md`，记录复现命令、报告摘要、历史样本选择结果、self-check 指标和人工复核结论 |
+| README | 增加阶段性评审材料入口 |
+
+### 已验证命令
+
+```powershell
+python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+```
+
+### 观察结果
+
+- 描述报告关键结论证据覆盖率为 100.0%，无效证据引用数为 0。
+- 比较报告关键结论证据覆盖率为 100.0%，无效证据引用数为 0。
+- 当前 Top 2 历史样本为 `zCore` 和 `xv6-riscv`。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 让 LLM 在 evidence/self-check 约束下生成更自然的比较报告 |
+| P1 | 增加 CLI demo 端到端测试 |

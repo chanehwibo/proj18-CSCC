@@ -1,0 +1,121 @@
+# KernelSage 阶段性评审材料
+
+本文档整理当前 V1 MVP 的阶段性产出，用于和导师、队友或评审沟通项目进度。运行生成物仍保存在 `data/reports/` 下，默认不提交；本文档只记录可复现命令、关键输出和人工复核结论。
+
+## 当前版本
+
+- 日期：2026-06-08
+- 阶段：V1 MVP 可演示阶段
+- 演示样本：`data/samples/rcore-tutorial-v3`
+- 对比数量：Top 2 历史样本
+
+## 复现命令
+
+```powershell
+python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+```
+
+验证命令：
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+```
+
+## 生成物
+
+| 类型 | 路径 | 说明 |
+| --- | --- | --- |
+| 结构化画像 | `data/profiles/rcore-tutorial-v3.json` | KernelProfile 中间表示 |
+| 描述报告 | `data/reports/describe/rcore-tutorial-v3.md` | 按 OS 维度组织的项目描述 |
+| 比较报告 | `data/reports/compare/rcore-tutorial-v3_vs_history.md` | 与历史样本的相似点、差异点和可能创新点 |
+
+上述文件属于运行生成物，不提交到仓库。
+
+## 描述报告摘要
+
+样本仓库 `rCore-Tutorial-v3` 的自动画像结果：
+
+| 项目 | 结果 |
+| --- | --- |
+| 风格 | `rcore-variant` |
+| 架构 | `riscv64` |
+| 文件数 | 153 |
+| 可分析行数 | 11873 |
+| 主要语言 | Rust 11081 LOC、Markdown 314 LOC、Build 269 LOC、Asm 150 LOC |
+| 抽取符号数 | 1002 |
+
+已确认的 OS 维度：
+
+| 维度 | 代表证据 |
+| --- | --- |
+| 调度与任务管理 | `os/src/task/id.rs:L1-L3`、`os/src/task/mod.rs:L2-L6`、`os/src/task/task.rs:L1-L3` |
+| 内存管理 | `os/src/mm/mod.rs:L1-L4`、`os/src/mm/address.rs:L1-L3`、`os/src/mm/memory_set.rs:L1-L3` |
+| 系统调用 | `os/src/trap/mod.rs:L2-L6`、`os/src/trap/trap.S:L7-L11`、`os/src/syscall/fs.rs:L4-L8` |
+| 文件系统 | `os/src/fs/mod.rs:L1-L3`、`os/src/fs/pipe.rs:L1-L3`、`os/src/fs/inode.rs:L1-L3` |
+| 同步机制 | `os/src/sync/mod.rs:L1-L3`、`os/src/sync/mutex.rs:L1-L4`、`os/src/sync/condvar.rs:L1-L3` |
+| 中断与异常 | `os/src/timer.rs:L2-L6`、`os/src/trap/mod.rs:L4-L8`、`os/src/trap/trap.S:L7-L11` |
+| 设备驱动 | `os/src/drivers/mod.rs:L1-L3`、`os/src/drivers/bus/mod.rs:L1-L1`、`os/src/drivers/gpu/mod.rs:L1-L3` |
+
+描述报告 self-check：
+
+| 指标 | 结果 |
+| --- | --- |
+| 关键结论数 | 16 |
+| 含证据关键结论数 | 16 |
+| 证据覆盖率 | 100.0% |
+| 无效证据引用数 | 0 |
+| 未确认结论数 | 0 |
+
+## 比较报告摘要
+
+历史样本选择结果：
+
+| 历史样本 | 分数 | 选择依据 |
+| --- | --- | --- |
+| `zCore` | 10.34 | 同属 `rcore-variant` 风格，语言构成相似度 0.97，OS 维度重合度 1.00 |
+| `xv6-riscv` | 7.03 | 同为 `riscv64` 架构，代码规模接近度 0.97，OS 维度重合度 1.00 |
+
+比较结论：
+
+- 与 `zCore` 在设备驱动、文件系统、中断与异常、内存管理、调度与任务管理、同步机制、系统调用等维度均有可确认实现。
+- 与 `xv6-riscv` 在上述 7 个 OS 维度也均有可确认实现。
+- 与 `zCore` 的主要差异是语言构成和规模不同：新项目 Rust 代码约 11081 LOC，历史项目 Rust 代码约 50074 LOC。
+- 与 `xv6-riscv` 的主要差异是语言生态不同：新项目以 Rust 为主，`xv6-riscv` 以 C/Asm 为主。
+- 当前规则报告未自动给出“可能创新点”，标记为“未确认”，保留给人工复核或 LLM 二阶段归纳。
+
+比较报告 self-check：
+
+| 指标 | 结果 |
+| --- | --- |
+| 关键结论数 | 14 |
+| 含证据关键结论数 | 14 |
+| 证据覆盖率 | 100.0% |
+| 无效证据引用数 | 0 |
+| 未确认结论数 | 0 |
+
+## 人工复核结论
+
+当前阶段输出符合 V1 MVP 目标：
+
+- 能自动生成 OS 专用 7 维度画像。
+- 能避免把 Markdown 文档当成 OS 机制实现证据。
+- 能按画像相似度选择历史样本，而不是按目录顺序截断。
+- 能输出可追溯源码证据和 self-check 摘要。
+- 能保留不确定项，不强行编造创新点。
+
+当前仍需改进：
+
+- 规则报告的自然语言表达偏模板化。
+- “可能创新点”仍需要 LLM 或人工二阶段归纳。
+- 部分关键词命中仍偏粗粒度，例如只确认模块存在，不能完整说明算法细节。
+- 后续需要增加更多历史比赛仓库，提高比较代表性。
+
+## 后续建议
+
+| 优先级 | 建议 |
+| --- | --- |
+| P1 | 让 LLM 在 evidence/self-check 约束下生成更自然的比较报告 |
+| P1 | 固定一份人工审阅后的高质量样例报告用于答辩 |
+| P1 | 增加 CLI demo 端到端测试 |
+| P2 | 扩展历史样本到更多比赛作品 |
+| P2 | 做轻量 HTML 展示页或报告索引页 |
