@@ -85,6 +85,62 @@
       "school": "清华大学",
       "license": "GPL-3.0",
       "note": "rCore-Tutorial-v3 配套讲义，含 OS 概念叙述文本，可作为描述参考语料。"
+    },
+    {
+      "repo_id": "oskernel2024-hfut666",
+      "name": "OSKernel2024-HFUT666",
+      "url": "https://gitlab.eduxiji.net/educg-group-28668-2608132/T202419359994630-1182.git",
+      "category": "contest-case",
+      "style": "independent",
+      "arch": ["riscv64"],
+      "language_primary": "rust",
+      "year": 2024,
+      "team": "HFUT666",
+      "school": null,
+      "license": null,
+      "note": "2024 OS contest public repository; added as a real contest-case comparison sample."
+    },
+    {
+      "repo_id": "oskernel2024-aabcb",
+      "name": "OSKernel2024-aabcb",
+      "url": "https://gitlab.eduxiji.net/T202410269994328/project2608132-273971.git",
+      "category": "contest-case",
+      "style": "independent",
+      "arch": ["riscv64"],
+      "language_primary": "rust",
+      "year": 2024,
+      "team": "aabcb",
+      "school": null,
+      "license": null,
+      "note": "2024 OS contest public repository; added as a real contest-case comparison sample."
+    },
+    {
+      "repo_id": "oskernel2024-nqos",
+      "name": "OSKernel2024-NQOS",
+      "url": "https://gitlab.eduxiji.net/T202410336994286/project2608132-273224.git",
+      "category": "contest-case",
+      "style": "independent",
+      "arch": ["riscv64"],
+      "language_primary": "rust",
+      "year": 2024,
+      "team": "NQOS",
+      "school": null,
+      "license": null,
+      "note": "2024 OS contest public repository; added as a real contest-case comparison sample."
+    },
+    {
+      "repo_id": "oskernel2024-ouye",
+      "name": "OSKernel2024-ouye",
+      "url": "https://gitlab.eduxiji.net/educg-group-28668-2608132/T202410336994333-1858.git",
+      "category": "contest-case",
+      "style": "independent",
+      "arch": ["riscv64"],
+      "language_primary": "rust",
+      "year": 2024,
+      "team": "ouye",
+      "school": null,
+      "license": null,
+      "note": "2024 OS contest public repository; added as a real contest-case comparison sample."
     }
   ]
 }

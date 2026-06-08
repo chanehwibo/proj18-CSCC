@@ -35,6 +35,13 @@ KernelSage 旨在构建一个面向小型操作系统源码仓库的分析比对
 - LLM 约束：描述/比较 prompt 都携带 evidence 和 self-check，要求模型保留证据引用并显式标注未确认项。
 - 端到端 demo：一条命令生成画像、描述报告和比较报告。
 
+当前对比库范围：
+
+- `data/samples/manifest.json` 已登记 10 个样本仓库。
+- 其中 6 个为教学/经典基线：rCore、uCore、xv6、zCore、ArceOS、rCore Book。
+- 其中 4 个为 2024 操作系统比赛公开作品：`oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye`。
+- 本地拉取的样本源码位于 `data/samples/<repo_id>/`，默认不提交；生成报告位于 `data/reports/`，当前保留供人工查看。
+
 暂不作为 V1 必交付的能力：
 
 - 完整调用图分析。
@@ -226,6 +233,9 @@ proj18-os-agent-compare/
 |   `-- .gitkeep
 `-- tests/
     |-- test_cli.py
+    |-- test_analyzer.py
+    |-- test_analyzer_evidence.py
+    |-- test_llm_prompt.py
     |-- test_selector.py
     `-- test_selfcheck.py
 ```

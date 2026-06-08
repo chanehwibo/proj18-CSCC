@@ -388,3 +388,56 @@ python -m compileall src scripts\kernelsage.py
 | --- | --- |
 | P1 | 增加 CLI demo 端到端测试 |
 | P1 | 整理答辩材料初稿 |
+
+## 阶段 11：公开比赛作品对比库扩展
+
+- 日期：2026-06-08
+- 目标：补充真实比赛作品样本，避免对比库只由教学基线组成，并保留本轮生成报告供人工审阅。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 样本清单 | `data/samples/manifest.json` 从 6 个样本扩展到 10 个样本，新增 4 个 2024 操作系统比赛公开仓库 |
+| 样本分类 | 新增样本统一标记为 `contest-case`，与 `teaching-baseline` 教学基线区分 |
+| 仓库采集 | 成功拉取 `oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye` |
+| 报告生成 | 为 4 个新增样本生成描述报告，并生成 `oskernel2024-hfut666` 的 Top 4 历史对比报告 |
+| 评审材料 | 更新 `docs/STAGE_REVIEW.md`，记录新增样本、复现命令、报告路径和对比观察 |
+| README | 补充当前对比库范围，并同步实际测试文件列表 |
+
+### 已验证命令
+
+```powershell
+python scripts\fetch_repos.py --only oskernel2024-hfut666 --only oskernel2024-aabcb --only oskernel2024-nqos --only oskernel2024-ouye
+python scripts\kernelsage.py describe data\samples\oskernel2024-hfut666 --repo-id oskernel2024-hfut666
+python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb
+python scripts\kernelsage.py describe data\samples\oskernel2024-nqos --repo-id oskernel2024-nqos
+python scripts\kernelsage.py describe data\samples\oskernel2024-ouye --repo-id oskernel2024-ouye
+python scripts\kernelsage.py compare data\samples\oskernel2024-hfut666 --repo-id oskernel2024-hfut666 --limit 4
+```
+
+### 当前产出
+
+| 类型 | 路径 |
+| --- | --- |
+| 描述报告 | `data/reports/describe/oskernel2024-hfut666.md` |
+| 描述报告 | `data/reports/describe/oskernel2024-aabcb.md` |
+| 描述报告 | `data/reports/describe/oskernel2024-nqos.md` |
+| 描述报告 | `data/reports/describe/oskernel2024-ouye.md` |
+| 对比报告 | `data/reports/compare/oskernel2024-hfut666_vs_history.md` |
+
+说明：上述报告为运行生成物，按当前需求暂时保留在本地供查看，但仍不提交到仓库。
+
+### 观察结果
+
+- `oskernel2024-hfut666` 的 Top 4 对比对象为 `oskernel2024-nqos`、`xv6-riscv`、`oskernel2024-aabcb`、`arceos`。
+- 新增比赛作品已经进入相似样本排序结果，对比库代表性优于仅使用教学基线的版本。
+- 王杰优秀获奖案例的公开仓库 URL 本轮尚未明确定位，后续拿到地址后应优先补入。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 对新增比赛样本报告进行人工审阅，修正明显误判的关键词或路径优先级 |
+| P1 | 增加 CLI demo 端到端测试 |
+| P1 | 继续补充明确来源的优秀获奖案例仓库 |

@@ -119,3 +119,46 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | P1 | 增加 CLI demo 端到端测试 |
 | P2 | 扩展历史样本到更多比赛作品 |
 | P2 | 做轻量 HTML 展示页或报告索引页 |
+
+## 对比库扩展记录
+
+- 日期：2026-06-08
+- 目标：补充真实比赛作品样本，避免对比库只包含教学基线项目。
+- 样本规模：从 6 个基线仓库扩展到 10 个样本仓库。
+- 新增样本类型：2024 操作系统比赛公开参赛仓库，统一标记为 `contest-case`。
+
+新增样本：
+
+| repo_id | 名称 | 本地状态 |
+| --- | --- | --- |
+| `oskernel2024-hfut666` | OSKernel2024-HFUT666 | 已拉取，HEAD `6f91d984` |
+| `oskernel2024-aabcb` | OSKernel2024-aabcb | 已拉取，HEAD `d457fa2c` |
+| `oskernel2024-nqos` | OSKernel2024-NQOS | 已拉取，HEAD `90724b9d` |
+| `oskernel2024-ouye` | OSKernel2024-ouye | 已拉取，HEAD `be84a237` |
+
+复现命令：
+
+```powershell
+python scripts\fetch_repos.py --only oskernel2024-hfut666 --only oskernel2024-aabcb --only oskernel2024-nqos --only oskernel2024-ouye
+python scripts\kernelsage.py describe data\samples\oskernel2024-hfut666 --repo-id oskernel2024-hfut666
+python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb
+python scripts\kernelsage.py describe data\samples\oskernel2024-nqos --repo-id oskernel2024-nqos
+python scripts\kernelsage.py describe data\samples\oskernel2024-ouye --repo-id oskernel2024-ouye
+python scripts\kernelsage.py compare data\samples\oskernel2024-hfut666 --repo-id oskernel2024-hfut666 --limit 4
+```
+
+本轮保留的报告：
+
+| 类型 | 路径 |
+| --- | --- |
+| 描述报告 | `data/reports/describe/oskernel2024-hfut666.md` |
+| 描述报告 | `data/reports/describe/oskernel2024-aabcb.md` |
+| 描述报告 | `data/reports/describe/oskernel2024-nqos.md` |
+| 描述报告 | `data/reports/describe/oskernel2024-ouye.md` |
+| 对比报告 | `data/reports/compare/oskernel2024-hfut666_vs_history.md` |
+
+对比观察：
+
+- `oskernel2024-hfut666` 的 Top 4 对比对象为 `oskernel2024-nqos`、`xv6-riscv`、`oskernel2024-aabcb`、`arceos`。
+- 新增比赛作品已经能进入相似样本排序结果，说明对比库不再只依赖教学基线。
+- 王杰优秀获奖案例的公开仓库地址本轮尚未定位到；拿到明确 URL 后应优先加入 `manifest.json` 并生成同类报告。
