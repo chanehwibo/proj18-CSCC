@@ -1,96 +1,100 @@
 # KernelSage
 
-面向小型操作系统的分析比对智能体系统设计。
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB)
+![Stage](https://img.shields.io/badge/Stage-V1%20MVP-brightgreen)
+![Samples](https://img.shields.io/badge/Reference%20Library-18%20repos-blue)
+![LLM](https://img.shields.io/badge/LLM-DeepSeek%20compatible-6A5ACD)
+![Evidence](https://img.shields.io/badge/Evidence-self--check-important)
+
+面向小型操作系统仓库的分析比对智能体系统。KernelSage 接收一个 OS 源码仓库，生成结构化画像、证据链描述报告，并与历史参考库进行多维度比较，辅助评审或参赛团队识别相似设计、差异点和可能创新点。
+
+## 项目卡片
 
 | 项目 | 内容 |
 | --- | --- |
 | 队名 | 一定要以人类的身份赢啊 |
 | 成员 | 鲍灿辉、石雅禛 |
-| 指导教师 | 王毅 |
+| 指导老师 | 王毅 |
 | 学校 | 天津师范大学 |
 | 学院 | 电子与通信工程学院 |
 | 赛题 | proj18-面向小型操作系统的分析比对智能体系统设计 |
-| 赛道 | 2026 年全国大学生计算机系统能力大赛-操作系统设计赛 OS 功能挑战赛道 |
+| 赛道 | 2026 年全国大学生计算机系统能力大赛操作系统设计赛 OS 功能挑战赛道 |
 | 赛题类型 | 学术型 |
 
-## 项目目标
+## 当前状态
 
-KernelSage 旨在构建一个面向小型操作系统源码仓库的分析比对智能体。系统对历史 OS Kernel 作品建立结构化画像，为每个仓库生成可读、可核验的描述报告，并将新提交作品与历史样本进行多维度比较，辅助评审或参赛团队识别相似设计、差异点和可能创新点。
+| 维度 | 状态 | 说明 |
+| --- | --- | --- |
+| MVP 闭环 | 已完成 | 仓库扫描、画像生成、报告生成、历史比较、self-check 已跑通 |
+| 参考库 | 已扩展 | 18 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 等 |
+| LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
+| 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
+| 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md) 和 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md) |
+| 下一重点 | 进行中 | 画像缓存复用、报告质量抽查、答辩材料整理 |
 
-当前实现采用 MVP-first 路线：先保证“仓库扫描 -> 结构化画像 -> 证据检索 -> 描述报告 -> 比较报告 -> self-check”的闭环稳定可演示，再逐步增强 LLM 生成质量、历史样本规模和检索策略。
+## 系统做什么
 
-## 当前能力
-
-已实现的 V1 能力：
-
-- 本地仓库扫描：统计文件、语言、README/docs、构建入口等基础信息。
-- 轻量符号抽取：对 Rust、C、汇编文件抽取函数、类型、impl 等符号定义。
-- OS 维度分析：围绕调度、内存、系统调用、文件系统、同步、中断、驱动 7 个维度抽取证据片段。
-- 证据优先级：优先选择内核源码路径，降低文档、工具脚本和用户态目录干扰。
-- 结构化画像：生成 `KernelProfile` JSON，作为后续报告和比较的中间表示。
-- 描述报告：生成带源码路径和行号证据的 Markdown 项目描述。
-- 比较报告：基于画像相似度选择历史样本，再输出相似点、差异点和可能创新点。
-- 轻量 self-check：检查关键结论是否有证据、证据文件和行号是否有效。
-- LLM 接入：支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退。
-- LLM 约束：描述/比较 prompt 都携带 evidence 和 self-check，要求模型保留证据引用并显式标注未确认项。
-- 端到端 demo：一条命令生成画像、描述报告和比较报告。
-
-当前对比库范围：
-
-- `data/samples/manifest.json` 已登记 18 个样本仓库。
-- 其中 6 个为教学/经典基线：rCore、uCore、xv6-riscv、zCore、ArceOS、rCore Book。
-- 其中 4 个为 2024 操作系统比赛公开作品：`oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye`。
-- 其中 8 个用于补充技术路线覆盖：`xv6-public`、`os-tutorial`、`littlekernel`、`freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel`。
-- 当前覆盖 Rust/C/C++、RISC-V/x86/x86_64/ARM，以及教学内核、比赛作品、RTOS、微内核、嵌入式内核和 unikernel。
-- 本地拉取的样本源码位于 `data/samples/<repo_id>/`，默认不提交；生成报告位于 `data/reports/`，当前保留供人工查看。
-
-暂不作为 V1 必交付的能力：
-
-- 完整调用图分析。
-- 向量数据库和大规模 RAG。
-- 自动化 golden benchmark。
-- Web/HTML 可视化演示。
-
-## 系统架构
-
-```mermaid
-flowchart TD
-    A[历史 OS Kernel 仓库] --> B[collector 仓库采集]
-    C[新提交仓库] --> B
-    B --> D[parser 符号抽取]
-    D --> E[analyzer 七维度画像]
-    E --> F[KernelProfile JSON]
-    F --> G[reporter 描述报告]
-    F --> H[agent 比较流程]
-    H --> I[比较报告]
-    G --> J[selfcheck 证据核验]
-    I --> J
-    F --> K[LLM 可选生成]
+```text
+输入一个 OS 仓库
+      |
+      v
+仓库扫描 + 符号抽取 + 七维 OS 机制分析
+      |
+      v
+KernelProfile 结构化画像
+      |
+      +--> 描述报告：这个仓库实现了什么，有哪些源码证据
+      |
+      +--> 比较报告：它和历史样本像在哪里、差在哪里、哪些结论需要人工复核
+      |
+      v
+self-check：证据是否存在，关键结论是否被支撑
 ```
 
-核心模块：
+## 核心能力
 
-| 模块 | 职责 |
+| 能力 | 当前实现 | 产出 |
+| --- | --- | --- |
+| 仓库采集 | 按 manifest 浅克隆历史样本仓库 | `data/samples/<repo_id>/` |
+| 文件扫描 | 统计语言、目录、README/docs、构建入口 | `RepoSnapshot` |
+| 符号抽取 | 轻量识别 Rust/C/Asm 函数、结构体、impl 等 | `Symbol` 列表 |
+| OS 机制分析 | 调度、内存、系统调用、文件系统、同步、中断、驱动 7 维度 | `KernelProfile` |
+| 样本选择 | 按风格、架构、语言、OS 维度和规模相似度排序 | Top N 历史样本 |
+| 描述报告 | 生成带源码证据的 Markdown 报告 | `data/reports/describe/*.md` |
+| 比较报告 | 输出相似点、差异点、可能创新点和复核项 | `data/reports/compare/*.md` |
+| LLM 增强 | 可选生成更自然文本，默认不调用 API | `--use-llm` / `--llm-dry-run` |
+| 证据核验 | 检查证据文件、行号和关键结论覆盖率 | self-check 摘要 |
+
+## 参考库覆盖
+
+当前 `data/samples/manifest.json` 登记 18 个样本仓库。样本库不是追求“大而全”，而是优先覆盖主要技术路线，降低未知输入仓库比较时的偏置。
+
+| 类别 | 样本 | 覆盖价值 |
+| --- | --- | --- |
+| 教学/经典基线 | rCore、uCore、xv6-riscv、zCore、ArceOS、rCore Book | 覆盖常见课程内核和现代 Rust OS 基线 |
+| 公开比赛作品 | `oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye` | 贴近真实学生参赛作品形态 |
+| 架构补充 | `xv6-public`、`os-tutorial`、`littlekernel` | 补充 x86、ARM、嵌入式内核路线 |
+| RTOS/微内核/unikernel | `freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel` | 减少只和 rCore/xv6 比较的样本偏置 |
+
+覆盖范围：
+
+| 维度 | 已覆盖 |
 | --- | --- |
-| `collector` | 扫描仓库、读取文档、统计语言和构建入口 |
-| `parser` | 抽取 Rust/C/Asm 符号定义 |
-| `analyzer` | 基于关键词和路径优先级生成 OS 七维度画像 |
-| `agent` | 编排新仓库与历史样本的比较逻辑 |
-| `selector` | 按风格、架构、语言、OS 维度和规模相似度选择历史样本 |
-| `reporter` | 输出描述报告、比较报告和证据链 |
-| `selfcheck` | 核验证据文件、行号和关键结论覆盖率 |
-| `llm` | 接入 DeepSeek/OpenAI-compatible LLM、dry-run 和缓存 |
-| `indexer` / `retriever` | V2 预留的检索扩展模块 |
+| 语言 | Rust、C、C++、Assembly |
+| 架构 | RISC-V、x86、x86_64、ARM |
+| 内核形态 | 教学内核、比赛作品、RTOS、微内核、嵌入式内核、unikernel |
 
-## 快速运行
+## 快速开始
 
 环境要求：
 
-- Python 3.11+
-- Git，用于拉取历史样本仓库
-- V1 默认不依赖第三方 Python 包
+| 工具 | 要求 |
+| --- | --- |
+| Python | 3.11+ |
+| Git | 用于拉取历史样本 |
+| 第三方 Python 包 | V1 默认不依赖 |
 
-拉取样本仓库：
+拉取参考样本：
 
 ```powershell
 python scripts\fetch_repos.py
@@ -102,39 +106,40 @@ python scripts\fetch_repos.py
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3
 ```
 
-批量生成样本描述报告：
-
-```powershell
-python scripts\kernelsage.py describe-all
-```
-
 生成比较报告：
 
 ```powershell
 python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3
 ```
 
-运行端到端 demo：
+运行端到端演示：
 
 ```powershell
 python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
 ```
 
-默认输出：
+运行测试：
 
-- `data/profiles/*.json`：结构化 KernelProfile。
-- `data/reports/describe/*.md`：项目描述报告。
-- `data/reports/compare/*.md`：比较报告。
-- `data/reports/prompts/*.prompt.md`：LLM dry-run 生成的 prompt。
-- `data/llm_cache/`：LLM 响应缓存。
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+```
 
-这些输出都是运行生成物，默认不提交到仓库。
+## 输出文件
+
+| 路径 | 说明 | 是否提交 |
+| --- | --- | --- |
+| `data/profiles/*.json` | 结构化 KernelProfile | 否 |
+| `data/reports/describe/*.md` | 描述报告 | 否 |
+| `data/reports/compare/*.md` | 比较报告 | 否 |
+| `data/reports/prompts/*.prompt.md` | LLM dry-run prompt | 否 |
+| `data/llm_cache/` | LLM 响应缓存 | 否 |
+| `data/samples/<repo_id>/` | 本地拉取的历史仓库源码 | 否 |
+
+说明：报告和样本源码是运行生成物，当前会在本地保留供人工查看，但默认不提交到仓库。
 
 ## LLM 配置
 
 默认命令不会调用 LLM API，也不会产生费用。只有显式传入 `--use-llm` 才会请求在线模型。
-
-配置方式：
 
 ```powershell
 copy .env.example .env
@@ -151,10 +156,12 @@ LLM_API_KEY=replace_with_your_new_api_key
 
 安全约定：
 
-- `.env` 已被 `.gitignore` 忽略，禁止提交真实 API Key。
-- 优先使用 `--llm-dry-run` 检查 prompt，不调用 API。
-- `--use-llm` 失败时会自动回退到规则版报告，保证流程可继续。
-- LLM 响应会缓存到 `data/llm_cache/`，相同 prompt 不重复请求。
+| 规则 | 说明 |
+| --- | --- |
+| `.env` 不提交 | 真实 API Key 只保存在本地 |
+| 优先 dry-run | `--llm-dry-run` 只生成 prompt，不调用 API |
+| 失败回退 | `--use-llm` 失败时自动回退到规则版报告 |
+| 缓存响应 | 相同 prompt 命中 `data/llm_cache/`，减少重复请求 |
 
 生成 prompt 但不调用 API：
 
@@ -169,24 +176,56 @@ python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rc
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --use-llm
 ```
 
-## 测试
+## 证据与边界
 
-当前最小测试覆盖 CLI 参数解析、历史样本选择和 self-check 统计：
+KernelSage 不把“看起来像”当作结论。报告末尾会输出 self-check 摘要：
 
-```powershell
-$env:PYTHONPATH='src'; python -m unittest discover -s tests
+| 指标 | 含义 |
+| --- | --- |
+| 关键结论数 | 需要源码证据支撑的判断性结论 |
+| 证据覆盖率 | 带有效证据的关键结论占比 |
+| 无效证据引用数 | 文件或行号不存在的证据引用 |
+| 未确认结论数 | 系统主动保留给人工复核的结论 |
+
+比较报告会区分“相似性”和“创新性”：
+
+| 类型 | 处理方式 |
+| --- | --- |
+| 相似性 | 基于已有样本和源码证据给出较明确结论 |
+| 创新性 | 只在当前参考库范围内说明可能差异，不强行断言创新 |
+| 覆盖不足 | 当样本库缺少同类项目时，降低结论置信度并提示人工复核 |
+
+## 系统架构
+
+```mermaid
+flowchart TD
+    A[历史 OS 仓库] --> B[collector 仓库扫描]
+    C[待分析 OS 仓库] --> B
+    B --> D[parser 符号抽取]
+    D --> E[analyzer 七维机制画像]
+    E --> F[KernelProfile JSON]
+    F --> G[reporter 描述报告]
+    F --> H[selector 历史样本选择]
+    H --> I[agent 比较流程]
+    I --> J[比较报告]
+    G --> K[selfcheck 证据核验]
+    J --> K
+    F --> L[llm 可选文本增强]
 ```
 
-## 证据与核验口径
+核心模块：
 
-报告末尾会输出 self-check 摘要：
-
-- 关键结论数。
-- 含证据关键结论数和覆盖率。
-- 无效证据引用数。
-- 未确认结论数。
-
-统计口径：关键结论指需要源码证据支撑的设计判断，例如“包含系统调用分发逻辑”“实现页表/物理页管理”。语言构成、风格标签和汇总性描述不计入证据率，避免为了追求数字而给非判断性句子强行加引用。
+| 模块 | 职责 |
+| --- | --- |
+| `collector` | 扫描仓库、读取文档、统计语言和构建入口 |
+| `parser` | 抽取 Rust/C/Asm 符号定义 |
+| `analyzer` | 生成 OS 七维度画像和证据片段 |
+| `selector` | 按画像相似度选择历史样本 |
+| `agent` | 编排新仓库与历史样本比较流程 |
+| `reporter` | 输出描述报告、比较报告和证据链 |
+| `selfcheck` | 核验证据文件、行号和关键结论覆盖率 |
+| `llm` | 接入 DeepSeek/OpenAI-compatible API、dry-run 和缓存 |
+| `indexer` / `retriever` | V2 预留的检索扩展模块 |
 
 ## 仓库目录
 
@@ -197,7 +236,6 @@ proj18-os-agent-compare/
 |-- LICENSE
 |-- pyproject.toml
 |-- .env.example
-|-- .gitignore
 |-- docs/
 |   |-- PLAN.md
 |   |-- DEMO.md
@@ -207,8 +245,6 @@ proj18-os-agent-compare/
 |   `-- report-template.md
 |-- src/
 |   `-- os_agent/
-|       |-- __init__.py
-|       |-- models.py
 |       |-- collector.py
 |       |-- parser.py
 |       |-- analyzer.py
@@ -217,8 +253,6 @@ proj18-os-agent-compare/
 |       |-- reporter.py
 |       |-- selfcheck.py
 |       |-- llm.py
-|       |-- indexer.py
-|       |-- retriever.py
 |       `-- cli.py
 |-- scripts/
 |   |-- fetch_repos.py
@@ -229,10 +263,6 @@ proj18-os-agent-compare/
 |   |   `-- <repo_id>/
 |   `-- indexes/
 |       `-- .gitkeep
-|-- assets/
-|   `-- .gitkeep
-|-- examples/
-|   `-- .gitkeep
 `-- tests/
     |-- test_cli.py
     |-- test_analyzer.py
@@ -242,31 +272,22 @@ proj18-os-agent-compare/
     `-- test_selfcheck.py
 ```
 
-说明：
-
-- `data/samples/<repo_id>/` 是本地拉取的历史样本仓库，默认不提交。
-- `data/profiles/`、`data/reports/`、`data/llm_cache/` 是运行生成物，默认不提交。
-- `.env` 是本地密钥配置文件，禁止提交。
-
-## 研发计划
-
-当前阶段重点围绕三周半赛程压缩交付：
+## 研发路线
 
 | 优先级 | 任务 | 状态 |
 | --- | --- | --- |
 | P0 | MVP 静态分析闭环 | 已完成 |
-| P0 | LLM dry-run、失败回退与缓存 | 已完成 |
+| P0 | LLM dry-run、失败回退和缓存 | 已完成 |
 | P0 | 端到端 demo 命令 | 已完成 |
 | P0 | 轻量 self-check | 已完成 |
-| P0 | 优化历史样本选择策略 | 已完成 |
-| P0 | 接入可用 LLM API 试跑真实报告 | 已完成 |
-| P1 | 改进关键词和文件优先级 | 已完成 |
-| P1 | 增加最小测试用例 | 进行中 |
-| P1 | 约束 LLM 比较报告生成 | 已完成 |
-| P1 | 整理答辩演示材料 | 已完成 |
+| P0 | 历史样本选择策略 | 已完成 |
+| P0 | 18 个代表性参考样本库 | 已完成 |
+| P1 | 画像缓存复用，降低 compare 首次运行成本 | 进行中 |
+| P1 | 新增样本报告人工抽查和关键词修正 | 进行中 |
+| P1 | 答辩材料整理 | 进行中 |
 | P2 | BM25/向量检索、调用图、HTML 展示 | 延后 |
 
-演示流程见 [docs/DEMO.md](docs/DEMO.md)，阶段性评审材料见 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)。研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
+演示流程见 [docs/DEMO.md](docs/DEMO.md)，阶段性评审材料见 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)，研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
 
 ## 分工
 
@@ -275,6 +296,6 @@ proj18-os-agent-compare/
 | 鲍灿辉 | 智能体流程设计、代码分析模块、检索与比对实现 |
 | 石雅禛 | 数据整理、报告模板、测试用例、文档撰写 |
 
-## 当前状态
+## 当前结论
 
-仓库已具备可演示的 V1 MVP：可以拉取历史样本，分析一个小型 OS 仓库，基于画像相似度选择对比样本，生成结构化画像、描述报告和比较报告，并给出证据核验摘要。当前已完成一次真实 LLM 描述报告试跑、固定演示流程整理、内核源码证据优先级优化，以及 LLM 比较报告 prompt 约束。下一步重点是扩展测试覆盖和准备答辩材料。
+KernelSage 已具备可演示的 V1 MVP：能够拉取代表性历史样本，分析一个小型 OS 仓库，基于画像相似度选择对比样本，生成结构化画像、描述报告和比较报告，并给出证据核验摘要。当前版本重点强调“证据优先、边界清晰、可解释比较”，后续继续优化画像缓存、报告质量和答辩材料。
