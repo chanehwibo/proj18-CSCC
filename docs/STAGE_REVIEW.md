@@ -162,3 +162,38 @@ python scripts\kernelsage.py compare data\samples\oskernel2024-hfut666 --repo-id
 - `oskernel2024-hfut666` 的 Top 4 对比对象为 `oskernel2024-nqos`、`xv6-riscv`、`oskernel2024-aabcb`、`arceos`。
 - 新增比赛作品已经能进入相似样本排序结果，说明对比库不再只依赖教学基线。
 - 王杰优秀获奖案例的公开仓库地址本轮尚未定位到；拿到明确 URL 后应优先加入 `manifest.json` 并生成同类报告。
+
+## 对比库代表性扩展记录
+
+- 日期：2026-06-08
+- 目标：在不大规模拉取仓库的前提下，将参考库扩展到 18 个代表性样本，提高未知输入仓库的比较全面性。
+- 扩展原则：优先补齐语言、架构和内核形态，而不是按数量堆仓库。
+
+新增技术路线样本：
+
+| repo_id | 路线 | 覆盖价值 |
+| --- | --- | --- |
+| `xv6-public` | C / x86 / teaching-monolithic | 与 xv6-riscv 形成架构对照 |
+| `os-tutorial` | C+ASM / x86 / teaching-monolithic | 覆盖最小启动、中断、驱动教程内核 |
+| `littlekernel` | C / ARM+x86+RISC-V / embedded-kernel | 补充嵌入式内核与多架构样本 |
+| `freertos-kernel` | C / ARM+RISC-V+x86 / RTOS | 补充实时调度和同步机制样本 |
+| `tock` | Rust / ARM+RISC-V / embedded-microkernel | 补充 Rust 嵌入式微内核路线 |
+| `sel4` | C / ARM+x86+RISC-V / microkernel | 补充经典微内核参照 |
+| `includeos` | C++ / x86_64 / unikernel | 补充 unikernel 和 C++ 路线 |
+| `redox-kernel` | Rust / x86_64 / microkernel | 补充 Rust 桌面微内核路线 |
+
+本轮保留的报告：
+
+| 类型 | 路径 |
+| --- | --- |
+| 描述报告 | `data/reports/describe/xv6-public.md` |
+| 描述报告 | `data/reports/describe/freertos-kernel.md` |
+| 描述报告 | `data/reports/describe/sel4.md` |
+| 描述报告 | `data/reports/describe/includeos.md` |
+| 对比报告 | `data/reports/compare/xv6-public_vs_history.md` |
+
+对比观察：
+
+- `xv6-public` 的 Top 5 对比对象为 `os-tutorial`、`sel4`、`xv6-riscv`、`littlekernel`、`oskernel2024-aabcb`。
+- 扩容后，x86/C 输入项目能优先匹配到同架构、同风格样本，不再只能依赖 RISC-V/Rust 或单一教学基线。
+- 18 个样本仍不是“全覆盖”，因此创新性判断仍应保留置信度和人工复核提示。

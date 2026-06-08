@@ -37,9 +37,11 @@ KernelSage 旨在构建一个面向小型操作系统源码仓库的分析比对
 
 当前对比库范围：
 
-- `data/samples/manifest.json` 已登记 10 个样本仓库。
-- 其中 6 个为教学/经典基线：rCore、uCore、xv6、zCore、ArceOS、rCore Book。
+- `data/samples/manifest.json` 已登记 18 个样本仓库。
+- 其中 6 个为教学/经典基线：rCore、uCore、xv6-riscv、zCore、ArceOS、rCore Book。
 - 其中 4 个为 2024 操作系统比赛公开作品：`oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye`。
+- 其中 8 个用于补充技术路线覆盖：`xv6-public`、`os-tutorial`、`littlekernel`、`freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel`。
+- 当前覆盖 Rust/C/C++、RISC-V/x86/x86_64/ARM，以及教学内核、比赛作品、RTOS、微内核、嵌入式内核和 unikernel。
 - 本地拉取的样本源码位于 `data/samples/<repo_id>/`，默认不提交；生成报告位于 `data/reports/`，当前保留供人工查看。
 
 暂不作为 V1 必交付的能力：

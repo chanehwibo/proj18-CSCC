@@ -441,3 +441,56 @@ python scripts\kernelsage.py compare data\samples\oskernel2024-hfut666 --repo-id
 | P1 | 对新增比赛样本报告进行人工审阅，修正明显误判的关键词或路径优先级 |
 | P1 | 增加 CLI demo 端到端测试 |
 | P1 | 继续补充明确来源的优秀获奖案例仓库 |
+
+## 阶段 12：18 个代表性样本库扩展
+
+- 日期：2026-06-08
+- 目标：在不大规模拉取仓库的前提下，将参考库扩展到 18 个代表性样本，增强对未知 OS 仓库的比较全面性。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 样本清单 | `data/samples/manifest.json` 从 10 个样本扩展到 18 个样本 |
+| 技术路线覆盖 | 新增 x86、x86_64、ARM、RTOS、微内核、嵌入式内核、unikernel、C++ 等代表样本 |
+| 仓库采集 | 成功浅克隆 `xv6-public`、`os-tutorial`、`littlekernel`、`freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel` |
+| 报告生成 | 生成 `xv6-public`、`freertos-kernel`、`sel4`、`includeos` 的描述报告 |
+| 对比验证 | 生成 `xv6-public` 的 Top 5 对比报告，验证同架构/同风格样本能进入优先比较结果 |
+| 评审材料 | 更新 `README.md` 和 `docs/STAGE_REVIEW.md`，说明 18 个样本的覆盖范围和边界 |
+
+### 已验证命令
+
+```powershell
+python scripts\fetch_repos.py --only xv6-public --only os-tutorial --only littlekernel --only freertos-kernel --only tock --only sel4 --only includeos --only redox-kernel
+python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public
+python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel
+python scripts\kernelsage.py describe data\samples\sel4 --repo-id sel4
+python scripts\kernelsage.py describe data\samples\includeos --repo-id includeos
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+```
+
+### 当前产出
+
+| 类型 | 路径 |
+| --- | --- |
+| 描述报告 | `data/reports/describe/xv6-public.md` |
+| 描述报告 | `data/reports/describe/freertos-kernel.md` |
+| 描述报告 | `data/reports/describe/sel4.md` |
+| 描述报告 | `data/reports/describe/includeos.md` |
+| 对比报告 | `data/reports/compare/xv6-public_vs_history.md` |
+
+说明：上述报告继续作为本地运行生成物保留，供人工查看，不提交到仓库。
+
+### 观察结果
+
+- `xv6-public` 的 Top 5 对比对象为 `os-tutorial`、`sel4`、`xv6-riscv`、`littlekernel`、`oskernel2024-aabcb`。
+- 新增样本后，x86/C 输入仓库能够优先匹配同架构、同风格项目，说明参考库代表性优于 10 样本版本。
+- 首次对 18 个样本做全候选比较时出现过 120 秒超时，后续在缓存/已生成画像存在时可正常完成；这提示下一阶段应加入画像缓存复用或预计算流程。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P0 | 优化比较流程的画像缓存复用，避免每次 compare 重新分析全部历史样本 |
+| P1 | 对新增样本报告做人工抽查，校正 RTOS、微内核、unikernel 的关键词和维度判断 |
+| P1 | 继续补充明确来源的优秀获奖案例仓库 |
