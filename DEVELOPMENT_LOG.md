@@ -529,3 +529,33 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | P0 | 优化比较流程的画像缓存复用，避免 18 样本首次 compare 成本过高 |
 | P1 | 对新增样本报告做人工抽查，校正 RTOS、微内核、unikernel 的关键词和维度判断 |
 | P1 | 整理答辩讲稿和截图材料 |
+
+## 阶段 14：托管仓库目标收敛
+
+- 日期：2026-06-08
+- 目标：将后续开发推送目标收敛到官网自动生成的新 GitLab 仓库，避免继续向临时仓库或 GitHub 推送。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 默认远程 | 将 `origin` 调整为官网自动生成仓库 `https://gitlab.eduxiji.net/T2026100659911488/project3136859-389327` |
+| 临时仓库 | 将旧 `proj18_tjnu/proj18` remote 改名为 `proj18_temp`，仅保留 fetch，禁用 push |
+| GitHub | 保留 `github` fetch 信息，禁用 push，后续不再推送 GitHub |
+| 推送规则 | 后续默认只执行 `git push origin main`，目标为官网自动生成的新仓库 |
+
+### 当前远程约定
+
+| remote | 用途 |
+| --- | --- |
+| `origin` | 正式提交目标，官网自动生成仓库 |
+| `proj18_temp` | 旧临时仓库，只作历史参考，不推送 |
+| `github` | 旧 GitHub 镜像，不推送 |
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P0 | 在 GitLab 网页端将正式项目显示名称改为 `proj18-tjnu-一定要以人类的身份赢啊` |
+| P0 | 在 GitLab 网页端将旧临时项目显示名称改为 `2026-proj18临时版` |
+| P0 | 优化比较流程的画像缓存复用，避免 18 样本首次 compare 成本过高 |
