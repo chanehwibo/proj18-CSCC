@@ -26,6 +26,21 @@ class CliParserTest(unittest.TestCase):
         self.assertTrue(args.llm_dry_run)
         self.assertFalse(args.use_llm)
 
+    def test_compare_parser_includes_profile_cache_options(self):
+        args = build_parser().parse_args(
+            [
+                "compare",
+                "data/samples/xv6-public",
+                "--repo-id",
+                "xv6-public",
+                "--no-profile-cache",
+                "--rebuild-profile-cache",
+            ]
+        )
+
+        self.assertTrue(args.no_profile_cache)
+        self.assertTrue(args.rebuild_profile_cache)
+
 
 if __name__ == "__main__":
     unittest.main()

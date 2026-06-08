@@ -197,3 +197,31 @@ python scripts\kernelsage.py compare data\samples\oskernel2024-hfut666 --repo-id
 - `xv6-public` 的 Top 5 对比对象为 `os-tutorial`、`sel4`、`xv6-riscv`、`littlekernel`、`oskernel2024-aabcb`。
 - 扩容后，x86/C 输入项目能优先匹配到同架构、同风格样本，不再只能依赖 RISC-V/Rust 或单一教学基线。
 - 18 个样本仍不是“全覆盖”，因此创新性判断仍应保留置信度和人工复核提示。
+
+## 画像缓存复用记录
+
+- 日期：2026-06-08
+- 目标：降低 18 个历史样本下 `compare` 的重复分析成本，避免每次比较都重新扫描、解析和画像全部历史仓库。
+
+实现策略：
+
+| 机制 | 说明 |
+| --- | --- |
+| 缓存内容 | `KernelProfile` JSON，仍写入 `data/profiles/*.json` |
+| 缓存元数据 | 写入 `data/profiles/.cache_meta/*.json`，记录路径、HEAD、文件数量、总大小和最新修改时间 |
+| 自动命中 | 默认 compare/describe/profile 会优先复用有效缓存 |
+| 自动失效 | 仓库 HEAD、文件数量、总大小或修改时间变化时自动重建 |
+| 手动控制 | `--rebuild-profile-cache` 强制重建，`--no-profile-cache` 禁用缓存读取 |
+
+推荐命令：
+
+```powershell
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5 --rebuild-profile-cache
+```
+
+成本边界：
+
+- 画像缓存只复用本地静态分析结果，不调用 LLM，不增加 DeepSeek token 消耗。
+- token 成本只来自显式传入 `--use-llm` 的在线模型请求。
+- 若为了更详细报告而增加历史样本数量、evidence 数量或 prompt 内容，才会增加 LLM token。

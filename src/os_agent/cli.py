@@ -13,6 +13,7 @@ from .collector import RepoCollector
 from .llm import LLMReportGenerator
 from .models import KernelProfile, to_dict
 from .parser import SymbolParser
+from .profile_cache import ProfileCache
 from .reporter import Reporter
 from .selector import HistorySelector
 
@@ -30,13 +31,42 @@ def build_profile(repo_path: Path, repo_id: str | None = None) -> KernelProfile:
     return KernelAnalyzer().analyze(snapshot, parsed)
 
 
+def build_profile_cached(
+    repo_path: Path,
+    repo_id: str | None = None,
+    *,
+    use_cache: bool = True,
+    force_rebuild: bool = False,
+    quiet: bool = False,
+) -> KernelProfile:
+    repo_path = Path(repo_path)
+    effective_repo_id = repo_id or repo_path.name
+    cache = ProfileCache(PROFILES_DIR)
+    result = cache.get_or_build(
+        repo_path,
+        effective_repo_id,
+        lambda: build_profile(repo_path, repo_id=effective_repo_id),
+        use_cache=use_cache,
+        force_rebuild=force_rebuild,
+    )
+    if not quiet:
+        status = "hit" if result.hit else "rebuilt"
+        print(f"profile cache {status}: {effective_repo_id} -> {result.profile_path}")
+    return result.profile
+
+
 def write_json(path: Path, value) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(to_dict(value), ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def cmd_profile(args: argparse.Namespace) -> int:
-    profile = build_profile(Path(args.repo), repo_id=args.repo_id)
+    profile = build_profile_cached(
+        Path(args.repo),
+        repo_id=args.repo_id,
+        use_cache=not args.no_profile_cache,
+        force_rebuild=args.rebuild_profile_cache,
+    )
     out = Path(args.out) if args.out else PROFILES_DIR / f"{profile.meta.repo_id}.json"
     write_json(out, profile)
     print(f"profile written: {out}")
@@ -44,7 +74,12 @@ def cmd_profile(args: argparse.Namespace) -> int:
 
 
 def cmd_describe(args: argparse.Namespace) -> int:
-    profile = build_profile(Path(args.repo), repo_id=args.repo_id)
+    profile = build_profile_cached(
+        Path(args.repo),
+        repo_id=args.repo_id,
+        use_cache=not args.no_profile_cache,
+        force_rebuild=args.rebuild_profile_cache,
+    )
     profile_path = PROFILES_DIR / f"{profile.meta.repo_id}.json"
     write_json(profile_path, profile)
     if args.use_llm or args.llm_dry_run:
@@ -80,6 +115,8 @@ def cmd_describe_all(args: argparse.Namespace) -> int:
                 out=None,
                 use_llm=args.use_llm,
                 llm_dry_run=args.llm_dry_run,
+                no_profile_cache=args.no_profile_cache,
+                rebuild_profile_cache=args.rebuild_profile_cache,
             )
         )
     print(f"generated {len(repo_dirs)} describe reports")
@@ -97,6 +134,8 @@ def cmd_demo(args: argparse.Namespace) -> int:
             out=None,
             use_llm=args.use_llm,
             llm_dry_run=args.llm_dry_run,
+            no_profile_cache=args.no_profile_cache,
+            rebuild_profile_cache=args.rebuild_profile_cache,
         )
     )
     if describe_code != 0:
@@ -110,6 +149,8 @@ def cmd_demo(args: argparse.Namespace) -> int:
             out=None,
             use_llm=args.use_llm,
             llm_dry_run=args.llm_dry_run,
+            no_profile_cache=args.no_profile_cache,
+            rebuild_profile_cache=args.rebuild_profile_cache,
         )
     )
     if compare_code != 0:
@@ -123,13 +164,32 @@ def cmd_demo(args: argparse.Namespace) -> int:
 
 def cmd_compare(args: argparse.Namespace) -> int:
     new_path = Path(args.new).resolve()
-    new_profile = build_profile(new_path, repo_id=args.repo_id)
+    new_profile = build_profile_cached(
+        new_path,
+        repo_id=args.repo_id,
+        use_cache=not args.no_profile_cache,
+        force_rebuild=args.rebuild_profile_cache,
+    )
     history_root = Path(args.history)
     history_profiles: list[KernelProfile] = []
+    cache_hits = 0
+    cache_rebuilt = 0
+    cache = ProfileCache(PROFILES_DIR)
     for repo_dir in history_root.iterdir():
         if not repo_dir.is_dir() or repo_dir.name.startswith(".") or repo_dir.resolve() == new_path:
             continue
-        history_profiles.append(build_profile(repo_dir, repo_id=repo_dir.name))
+        result = cache.get_or_build(
+            repo_dir,
+            repo_dir.name,
+            lambda repo_dir=repo_dir: build_profile(repo_dir, repo_id=repo_dir.name),
+            use_cache=not args.no_profile_cache,
+            force_rebuild=args.rebuild_profile_cache,
+        )
+        history_profiles.append(result.profile)
+        if result.hit:
+            cache_hits += 1
+        else:
+            cache_rebuilt += 1
     ranked = HistorySelector().select(new_profile, history_profiles, limit=args.limit)
     selected_profiles = [item.profile for item in ranked]
     result = CompareAgent().compare(new_profile, selected_profiles, limit=args.limit)
@@ -160,8 +220,14 @@ def cmd_compare(args: argparse.Namespace) -> int:
         for item in ranked:
             reason_text = "; ".join(item.reasons[:3])
             print(f"- {item.profile.meta.repo_id}: score={item.score:.2f}; {reason_text}")
+    print(f"profile cache summary: hits={cache_hits} rebuilt={cache_rebuilt} history_total={len(history_profiles)}")
     print(f"compare report written: {out}")
     return 0
+
+
+def add_profile_cache_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--no-profile-cache", action="store_true", help="disable KernelProfile cache reads")
+    parser.add_argument("--rebuild-profile-cache", action="store_true", help="force rebuilding cached KernelProfile files")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -172,6 +238,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("repo")
     p.add_argument("--repo-id")
     p.add_argument("--out")
+    add_profile_cache_args(p)
     p.set_defaults(func=cmd_profile)
 
     p = sub.add_parser("describe", help="generate profile and markdown report")
@@ -180,12 +247,14 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--out")
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate the report")
     p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
+    add_profile_cache_args(p)
     p.set_defaults(func=cmd_describe)
 
     p = sub.add_parser("describe-all", help="describe all sample repositories")
     p.add_argument("--samples", default=str(SAMPLES_DIR))
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate reports")
     p.add_argument("--llm-dry-run", action="store_true", help="write LLM prompts without calling the API")
+    add_profile_cache_args(p)
     p.set_defaults(func=cmd_describe_all)
 
     p = sub.add_parser("demo", help="run the end-to-end MVP demo for one repository")
@@ -195,6 +264,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--limit", type=int, default=3)
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate reports")
     p.add_argument("--llm-dry-run", action="store_true", help="write LLM prompts without calling the API")
+    add_profile_cache_args(p)
     p.set_defaults(func=cmd_demo)
 
     p = sub.add_parser("compare", help="compare one repository with history samples")
@@ -205,6 +275,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--out")
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate the report")
     p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
+    add_profile_cache_args(p)
     p.set_defaults(func=cmd_compare)
     return parser
 

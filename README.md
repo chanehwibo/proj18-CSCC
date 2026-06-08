@@ -30,7 +30,7 @@
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
 | 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md) 和 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md) |
-| 下一重点 | 进行中 | 画像缓存复用、报告质量抽查、答辩材料整理 |
+| 下一重点 | 进行中 | 报告质量抽查、答辩材料整理、优秀案例来源确认 |
 
 ## 系统做什么
 
@@ -64,6 +64,7 @@ self-check：证据是否存在，关键结论是否被支撑
 | 比较报告 | 输出相似点、差异点、可能创新点和复核项 | `data/reports/compare/*.md` |
 | LLM 增强 | 可选生成更自然文本，默认不调用 API | `--use-llm` / `--llm-dry-run` |
 | 证据核验 | 检查证据文件、行号和关键结论覆盖率 | self-check 摘要 |
+| 画像缓存 | 复用历史样本 `KernelProfile`，降低 compare 重复分析成本 | `data/profiles/*.json` |
 
 ## 参考库覆盖
 
@@ -112,6 +113,13 @@ python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id r
 python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3
 ```
 
+默认会复用 `data/profiles/` 下的 `KernelProfile` 缓存，避免每次比较都重新分析 18 个历史样本。源码仓库 HEAD、文件数量、总大小或修改时间变化时，缓存会自动失效。
+
+```powershell
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5 --rebuild-profile-cache
+```
+
 运行端到端演示：
 
 ```powershell
@@ -140,6 +148,8 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 ## LLM 配置
 
 默认命令不会调用 LLM API，也不会产生费用。只有显式传入 `--use-llm` 才会请求在线模型。
+
+画像缓存不会调用 LLM，也不会增加 token 消耗。它只缓存本地静态分析结果，用来减少重复扫描、符号抽取和七维画像分析时间。token 成本只来自显式 `--use-llm` 的在线模型请求。
 
 ```powershell
 copy .env.example .env
@@ -282,7 +292,7 @@ proj18-os-agent-compare/
 | P0 | 轻量 self-check | 已完成 |
 | P0 | 历史样本选择策略 | 已完成 |
 | P0 | 18 个代表性参考样本库 | 已完成 |
-| P1 | 画像缓存复用，降低 compare 首次运行成本 | 进行中 |
+| P0 | 画像缓存复用，降低 compare 重复分析成本 | 已完成 |
 | P1 | 新增样本报告人工抽查和关键词修正 | 进行中 |
 | P1 | 答辩材料整理 | 进行中 |
 | P2 | BM25/向量检索、调用图、HTML 展示 | 延后 |

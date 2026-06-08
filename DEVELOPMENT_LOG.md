@@ -559,3 +559,50 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | P0 | 在 GitLab 网页端将正式项目显示名称改为 `proj18-tjnu-一定要以人类的身份赢啊` |
 | P0 | 在 GitLab 网页端将旧临时项目显示名称改为 `2026-proj18临时版` |
 | P0 | 优化比较流程的画像缓存复用，避免 18 样本首次 compare 成本过高 |
+
+## 阶段 15：KernelProfile 画像缓存复用
+
+- 日期：2026-06-08
+- 目标：解决 18 个参考样本下 `compare` 重复扫描、解析和画像全部历史仓库导致的性能问题。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 模型恢复 | 为 `KernelProfile`、`Finding`、`Evidence`、`RepoMeta`、`SymbolDef` 增加 JSON 反序列化能力 |
+| 缓存模块 | 新增 `src/os_agent/profile_cache.py`，统一管理画像缓存读取、写入和失效判断 |
+| 缓存指纹 | 使用仓库路径、HEAD、文件数量、总大小、最新修改时间判断缓存是否仍有效 |
+| CLI 接入 | `profile`、`describe`、`describe-all`、`demo`、`compare` 默认启用缓存 |
+| 手动控制 | 新增 `--rebuild-profile-cache` 和 `--no-profile-cache` 参数 |
+| 对比输出 | `compare` 输出历史样本缓存命中和重建数量，方便观察性能收益 |
+| 测试 | 新增缓存命中、源码变化失效、强制重建和 CLI 参数测试 |
+| 文档 | README 和阶段评审文档补充缓存机制、推荐命令和 token 成本边界 |
+
+### 成本边界说明
+
+- 画像缓存只缓存本地静态分析结果，不调用 DeepSeek，不增加 API token。
+- 默认规则版报告不产生 LLM 费用。
+- 只有显式使用 `--use-llm` 时才会请求在线模型并消耗 token。
+- 更详细的报告如果意味着更长 prompt、更多 evidence 或更多历史样本进入 LLM，上线调用时才会增加 token；本阶段缓存优化不会增加该成本。
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+```
+
+### 观察结果
+
+- 第一轮 `compare` 重建 17 个历史样本画像，用时约 75 秒，输出 `hits=0 rebuilt=17 history_total=17`。
+- 第二轮相同命令命中 17 个历史样本画像，用时约 3.4 秒，输出 `hits=17 rebuilt=0 history_total=17`。
+- 对比结论保持一致，说明缓存只改变性能，不改变样本选择逻辑。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 对新增样本报告做人工抽查，校正 RTOS、微内核、unikernel 的关键词和维度判断 |
+| P1 | 整理答辩讲稿和截图材料 |
+| P2 | 若样本继续扩到 30+，再考虑 BM25/向量召回减少进入 LLM 的历史样本数量 |
