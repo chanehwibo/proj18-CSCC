@@ -353,3 +353,38 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | --- | --- |
 | P1 | 让 LLM 在 evidence/self-check 约束下生成更自然的比较报告 |
 | P1 | 增加 CLI demo 端到端测试 |
+
+## 阶段 10：LLM 比较报告约束增强
+
+- 日期：2026-06-08
+- 目标：让 LLM 生成比较报告时保留历史样本选择依据、证据链和 self-check 统计，避免强行总结创新点。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| Compare Prompt | `_compare_prompt` 增加 `self_check` 摘要，要求输出比较对象选择、相似点、差异点、可能创新点、待人工复核项和核验摘要 |
+| 创新点约束 | 当 `unique_points` 为空或只有“未确认”时，要求明确写“当前证据不足，未自动确认创新点”，禁止强行归纳 |
+| 样本选择依据 | 要求 LLM 必须保留 `selection_notes` 中的历史样本选择依据 |
+| 测试 | 新增 `tests/test_llm_prompt.py`，检查 compare prompt 包含 selection、self_check 和不强行生成创新点的约束 |
+| 文档 | README 更新 LLM 约束说明和研发计划状态 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2 --llm-dry-run
+python -m compileall src scripts\kernelsage.py
+```
+
+### 观察结果
+
+- compare dry-run prompt 已包含 `selection_notes`、`self_check`、核验摘要要求和创新点不足时的显式处理规则。
+- 本阶段没有真实调用 LLM API，不产生费用。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 增加 CLI demo 端到端测试 |
+| P1 | 整理答辩材料初稿 |

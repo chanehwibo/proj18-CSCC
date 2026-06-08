@@ -181,14 +181,17 @@ class LLMReportGenerator:
             "similarities": [to_dict(item) for item in result.similarities],
             "differences": [to_dict(item) for item in result.differences],
             "unique_points": [to_dict(item) for item in result.unique_points],
+            "self_check": EvidenceChecker().compare_summary(result),
         }
         return (
             "请基于下面的规则比较结果生成一份人类友好的项目比较报告。\n"
             "要求：\n"
-            "1. 分为相似点、差异点、可能创新点、待人工复核项。\n"
+            "1. 分为比较对象选择、相似点、差异点、可能创新点、待人工复核项、核验摘要。\n"
             "2. 所有关键判断都必须保留 evidence 中已有的 file 和行号，不能引用 JSON 中不存在的文件或行号。\n"
             "3. 不要把“相似”直接表述为抄袭，只能说需要人工复核。\n"
             "4. 不要引入输入 JSON 之外的信息。\n"
-            "5. 必须保留 selection_notes 中的历史样本选择依据。\n\n"
+            "5. 必须保留 selection_notes 中的历史样本选择依据。\n"
+            "6. 如果 unique_points 为空或只有“未确认”，必须明确写“当前证据不足，未自动确认创新点”，不能强行总结创新点。\n"
+            "7. 核验摘要必须引用 self_check 的统计值，并说明证据率只统计关键设计判断。\n\n"
             f"CompareResult JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )
