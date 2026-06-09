@@ -60,7 +60,7 @@ self-check：证据是否存在，关键结论是否被支撑
 | 符号抽取 | 轻量识别 Rust/C/Asm 函数、结构体、impl 等 | `Symbol` 列表 |
 | OS 机制分析 | 调度、内存、系统调用、文件系统、同步、中断、驱动 7 维度 | `KernelProfile` |
 | 样本选择 | 按风格、架构、语言、OS 维度和规模相似度排序 | Top N 历史样本 |
-| 描述报告 | 生成带源码证据的 Markdown 报告 | `data/reports/describe/*.md` |
+| 描述报告 | 按 OS 维度生成审阅卡片，包含结论、证据表、代码片段、相关符号和复核建议 | `data/reports/describe/*.md` |
 | 比较报告 | 输出相似点、差异点、可能创新点和复核项 | `data/reports/compare/*.md` |
 | 重合证据 | 单列“功能重合与疑似重复证据”，展示双方源码路径、行号和代码片段 | compare report |
 | LLM 增强 | 可选生成更自然文本，默认不调用 API | `--use-llm` / `--llm-dry-run` |

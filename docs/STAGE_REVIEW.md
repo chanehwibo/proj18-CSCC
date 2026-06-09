@@ -259,3 +259,36 @@ python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-publi
 ```text
 data/reports/compare/xv6-public_vs_history.md
 ```
+
+## 描述报告细化记录
+
+- 日期：2026-06-09
+- 背景：旧版描述报告偏“维度命中清单”，虽然有源码行号，但对导师审阅来说仍不够像一份代码分析报告。
+- 目标：让描述报告按 OS 维度展开，包含结论、证据表、关键代码片段、相关符号和复核建议。
+
+已完成增强：
+
+| 模块 | 调整 |
+| --- | --- |
+| Reporter | 每个 OS 维度改为“维度审阅卡片” |
+| 证据表 | 汇总该维度命中的文件、行号和说明 |
+| 代码片段 | 展示关键 evidence 的短代码片段 |
+| 相关符号 | 汇总符号抽取得到的函数、结构体、impl 等线索 |
+| 复核建议 | 对已确认和未确认维度分别给出人工复核建议 |
+
+成本边界：
+
+- 该增强属于本地规则报告生成，不调用 LLM，不增加 DeepSeek token。
+- 若后续使用 `--use-llm` 并把更多详细证据放入 prompt，才会增加 token 消耗。
+
+验证样例：
+
+```powershell
+python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public
+```
+
+新报告路径：
+
+```text
+data/reports/describe/xv6-public.md
+```

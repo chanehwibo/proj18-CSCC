@@ -35,8 +35,7 @@ class Reporter:
         ]
         for dim, spec in DIMENSIONS.items():
             lines.extend([f"## {spec['title']}", ""])
-            for finding in profile.dimensions.get(dim, []):
-                lines.extend(self._render_finding(finding))
+            lines.extend(self._render_dimension_review(dim, spec, profile.dimensions.get(dim, [])))
             lines.append("")
         lines.extend(self._check_summary(profile))
         return "\n".join(lines).rstrip() + "\n"
@@ -80,6 +79,74 @@ class Reporter:
         for finding in findings:
             lines.extend(self._render_finding(finding))
         return lines
+
+    def _render_dimension_review(self, dim: str, spec: dict, findings: list[Finding]) -> list[str]:
+        confirmed = [finding for finding in findings if finding.confidence != "unconfirmed"]
+        evidence_items = [ev for finding in confirmed for ev in finding.evidence]
+        status = "已确认" if confirmed else "未确认"
+        confidence = self._dimension_confidence(confirmed)
+        lines = [
+            f"- 结论：{status}该维度存在可追溯实现线索。（综合置信度：{confidence}）",
+            f"- 分析口径：本维度主要关注 `{dim}` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。",
+        ]
+        if confirmed:
+            lines.append("- 设计判断：")
+            for finding in confirmed:
+                lines.append(f"  - {finding.statement}（置信度：{finding.confidence}）")
+        else:
+            lines.append(f"- 设计判断：当前未在核心源码路径中确认 {spec['title']} 的实现证据。")
+
+        if evidence_items:
+            lines.extend(["", "### 证据表", ""])
+            lines.extend(self._evidence_table(evidence_items[:6]))
+            lines.extend(["", "### 关键代码片段", ""])
+            for ev in evidence_items[:4]:
+                lines.extend(self._render_evidence(ev))
+        else:
+            lines.extend([
+                "",
+                "### 证据表",
+                "",
+                "| 证据 | 说明 |",
+                "| --- | --- |",
+                "| 未确认 | 当前未找到可引用的源码证据 |",
+            ])
+
+        symbols = self._symbol_summary(findings)
+        if symbols:
+            lines.extend(["", "### 相关符号", "", symbols])
+
+        lines.extend(["", "### 复核建议", ""])
+        if confirmed:
+            lines.append("- 建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。")
+        else:
+            lines.append("- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。")
+        return lines
+
+    def _dimension_confidence(self, findings: list[Finding]) -> str:
+        if any(finding.confidence == "high" for finding in findings):
+            return "high"
+        if any(finding.confidence == "medium" for finding in findings):
+            return "medium"
+        if findings:
+            return findings[0].confidence
+        return "unconfirmed"
+
+    def _evidence_table(self, evidences: list[Evidence]) -> list[str]:
+        lines = ["| 文件 | 行号 | 说明 |", "| --- | --- | --- |"]
+        for ev in evidences:
+            lines.append(f"| `{ev.file}` | L{ev.line_start}-L{ev.line_end} | {ev.note or ev.kind} |")
+        return lines
+
+    def _symbol_summary(self, findings: list[Finding]) -> str:
+        symbols: list[str] = []
+        for finding in findings:
+            if "符号" not in finding.statement and "symbol" not in finding.statement.lower():
+                continue
+            for ev in finding.evidence:
+                if ev.note:
+                    symbols.append(f"`{ev.note}` at `{ev.file}:L{ev.line_start}`")
+        return "、".join(symbols[:8])
 
     def _render_finding(self, finding: Finding) -> list[str]:
         lines = [f"- {finding.statement}（置信度：{finding.confidence}）"]

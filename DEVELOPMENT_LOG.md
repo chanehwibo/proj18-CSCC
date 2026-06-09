@@ -646,3 +646,47 @@ python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-publi
 | P1 | 人工抽查新版报告，继续修正关键词误命中和弱证据 |
 | P1 | 为疑似重复线索增加更细的证据类型，例如函数名重合、文件路径重合、结构体/宏重合 |
 | P1 | 整理一份人工审阅后的高质量样例报告用于答辩 |
+
+## 阶段 17：描述报告维度审阅细化
+
+- 日期：2026-06-09
+- 目标：让描述报告不再只是维度命中清单，而是更接近导师可读的代码审阅报告。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 报告结构 | 每个 OS 维度改为“结论、分析口径、设计判断、证据表、关键代码片段、相关符号、复核建议” |
+| 证据展示 | 对每个维度汇总文件、行号、说明，并展示短代码片段 |
+| 未确认维度 | 对未确认维度输出明确说明和补查建议 |
+| 符号线索 | 从符号抽取 evidence 中汇总相关函数、结构体等实现线索 |
+| 测试 | 增加描述报告测试，确认输出证据表、代码片段和复核建议 |
+| 文档 | README 和阶段评审材料同步说明描述报告增强 |
+
+### 成本边界说明
+
+- 本阶段增强的是本地规则版 Markdown 报告，不调用 LLM。
+- 默认 `describe` 不消耗 DeepSeek API token。
+- 只有显式使用 `--use-llm` 时才会请求在线模型；若后续把更详细 evidence 放入 LLM prompt，才会增加 token。
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public
+```
+
+### 观察结果
+
+- 新生成的 `data/reports/describe/xv6-public.md` 已包含证据表、关键代码片段、相关符号和复核建议。
+- 对系统调用、文件系统、同步、中断等维度，报告能直接展示源码路径和短代码片段。
+- 未确认的内存管理维度会明确标注未确认，并给出补查建议。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 人工抽查新版描述报告，修正弱证据和误命中 |
+| P1 | 为报告增加“摘要评分/成熟度等级”但保持证据约束 |
+| P1 | 整理一份人工审阅后的高质量样例报告用于答辩 |
