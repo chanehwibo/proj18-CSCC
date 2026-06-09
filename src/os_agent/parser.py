@@ -23,6 +23,16 @@ C_TYPE_PATTERNS = [
     ("struct", re.compile(r"^\s*(?:typedef\s+)?struct\s+([A-Za-z_][A-Za-z0-9_]*)?\b")),
     ("enum", re.compile(r"^\s*(?:typedef\s+)?enum\s+([A-Za-z_][A-Za-z0-9_]*)?\b")),
 ]
+C_CONTROL_PREFIXES = (
+    "if",
+    "else",
+    "for",
+    "while",
+    "switch",
+    "do",
+    "return",
+)
+C_CONTROL_NAMES = {"if", "else", "for", "while", "switch", "do", "return", "sizeof"}
 
 
 class SymbolParser:
@@ -59,9 +69,16 @@ class SymbolParser:
     def _parse_c(self, rel: str, text: str) -> list[SymbolDef]:
         symbols: list[SymbolDef] = []
         for line_no, line in enumerate(text.splitlines(), start=1):
+            stripped = line.strip()
+            leading = stripped.split(maxsplit=1)[0] if stripped else ""
+            if leading in C_CONTROL_PREFIXES:
+                continue
             func = C_FUNC_PATTERN.search(line)
             if func:
-                symbols.append(SymbolDef(name=func.group(1), kind="fn", file=rel, line_start=line_no, line_end=line_no, signature=line.strip()))
+                name = func.group(1)
+                if name in C_CONTROL_NAMES:
+                    continue
+                symbols.append(SymbolDef(name=name, kind="fn", file=rel, line_start=line_no, line_end=line_no, signature=line.strip()))
                 continue
             for kind, pattern in C_TYPE_PATTERNS:
                 match = pattern.search(line)

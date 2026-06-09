@@ -59,47 +59,69 @@ LOW_PRIORITY_PATH_HINTS = (
 DIMENSIONS = {
     "scheduler": {
         "title": "调度与任务管理",
-        "keywords": ["schedule", "scheduler", "switch_to", "context_switch", "yield", "task", "thread", "proc", "stride", "run_queue", "ready_queue"],
-        "hints": ["task", "sched", "proc", "thread"],
+        "keywords": [
+            "schedule", "scheduler", "switch_to", "context_switch", "swtch", "yield",
+            "task", "thread", "proc", "stride", "run_queue", "ready_queue",
+            "vTaskSwitchContext", "xTaskCreate",
+        ],
+        "hints": ["task", "tasks", "sched", "proc", "thread"],
         "statement": "项目包含任务/线程管理与调度相关实现。",
     },
     "memory": {
         "title": "内存管理",
-        "keywords": ["page_table", "pagetable", "sv39", "satp", "frame_allocator", "frame_alloc", "heap_allocator", "memoryset", "pmm", "vmm", "copy_on_write", "cow"],
-        "hints": ["mm", "memory", "page", "frame", "heap", "vm", "pmm", "vmm"],
-        "statement": "项目包含页表、物理页或堆分配等内存管理实现。",
+        "keywords": [
+            "page_table", "pagetable", "page table", "pgdir", "pgtab", "pte", "pde",
+            "pte_", "pde_", "pgd_",
+            "walkpgdir", "mappages", "setupkvm", "switchuvm", "allocuvm", "deallocuvm",
+            "copyuvm", "kalloc", "kfree", "PGSIZE", "sv39", "satp", "frame_allocator",
+            "frame_alloc", "heap_allocator", "pvPortMalloc", "vPortFree", "heap_",
+            "memoryset", "pmm", "vmm", "copy_on_write", "cow",
+        ],
+        "hints": ["mm", "memory", "page", "frame", "heap", "vm", "pmm", "vmm", "kalloc", "alloc"],
+        "statement": "项目包含页表、物理页、虚拟内存或堆分配等内存管理实现。",
     },
     "syscall": {
         "title": "系统调用",
-        "keywords": ["syscall", "sys_", "ecall", "SYS_", "a7", "trap"],
-        "hints": ["syscall", "trap"],
+        "keywords": ["syscall", "sys_", "ecall", "c_handle_syscall", "handle_syscall", "do_syscall"],
+        "hints": ["syscall", "trap", "sys"],
         "statement": "项目包含系统调用入口、编号或分发逻辑。",
     },
     "filesystem": {
         "title": "文件系统",
-        "keywords": ["inode", "vfs", "file", "fs", "fat", "easy_fs", "block", "dentry"],
-        "hints": ["fs", "file", "inode", "vfs", "block"],
-        "statement": "项目包含文件系统、VFS、inode 或块设备相关实现。",
+        "keywords": [
+            "inode", "vfs", "fat", "easy_fs", "dentry", "superblock",
+            "bmap", "dirlookup", "readi", "writei", "fileread", "filewrite", "namei",
+        ],
+        "hints": ["fs", "file", "inode", "vfs", "fat", "dentry", "superblock"],
+        "statement": "项目包含文件系统、VFS、inode、目录项或文件读写相关实现。",
     },
     "sync": {
         "title": "同步机制",
-        "keywords": ["mutex", "spinlock", "semaphore", "condvar", "rwlock", "lock", "atomic"],
+        "keywords": ["mutex", "spinlock", "spin_lock", "semaphore", "condvar", "rwlock", "lock", "clh_lock", "atomic"],
         "hints": ["sync", "lock", "mutex", "semaphore"],
         "statement": "项目包含锁、信号量或原子操作等同步机制。",
     },
     "interrupt": {
         "title": "中断与异常",
-        "keywords": ["trap", "interrupt", "irq", "plic", "clint", "timer", "mtimecmp", "exception"],
-        "hints": ["trap", "interrupt", "irq", "timer", "plic", "clint"],
+        "keywords": ["trap", "interrupt", "irq", "isr", "plic", "clint", "timer", "mtimecmp", "exception"],
+        "hints": ["trap", "interrupt", "irq", "isr", "timer", "plic", "clint"],
         "statement": "项目包含 trap、中断、异常或定时器处理逻辑。",
     },
     "driver": {
         "title": "设备驱动",
-        "keywords": ["virtio", "uart", "driver", "blk", "block", "console", "ns16550", "device"],
-        "hints": ["driver", "drivers", "virtio", "uart", "block", "device"],
-        "statement": "项目包含串口、块设备或 virtio 等设备驱动相关实现。",
+        "keywords": [
+            "virtio", "virtio_", "uart", "uartinit", "uartgetc", "driver", "blk", "blk_",
+            "console", "consoleintr", "ns16550", "device", "ide", "ideinit", "iderw",
+            "ideintr", "kbd", "kbdgetc", "lapic", "lapicinit", "ioapic", "ioapicinit",
+            "serial",
+        ],
+        "hints": ["driver", "drivers", "virtio", "uart", "blk", "device", "ide", "kbd", "console", "lapic", "ioapic"],
+        "statement": "项目包含串口、块设备、控制台、中断控制器或 virtio 等设备驱动相关实现。",
     },
 }
+
+
+IDENTIFIER_RE = re.compile(r"^[A-Za-z0-9_]+$")
 
 
 class KernelAnalyzer:
@@ -129,7 +151,12 @@ class KernelAnalyzer:
 
     def _find_dimension(self, snap: RepoSnapshot, parsed: ParsedRepo, dim: str, spec: dict) -> list[Finding]:
         root = Path(snap.meta.root_path)
-        evidences = self._search_keywords(root, snap, spec["keywords"], spec.get("hints", []), limit=6)
+        search_limit = 20 if dim in {"syscall", "sync", "driver"} else 6
+        search_keywords = spec["keywords"]
+        if dim == "syscall":
+            search_keywords = [keyword for keyword in search_keywords if keyword != "sys_"]
+        evidences = self._search_keywords(root, snap, search_keywords, spec.get("hints", []), limit=search_limit)
+        evidences = self._filter_dimension_evidence(dim, evidences)[:6]
         symbol_hits = self._symbol_hits(parsed, spec["keywords"], spec.get("hints", []), limit=5)
         findings: list[Finding] = []
         if evidences:
@@ -154,20 +181,74 @@ class KernelAnalyzer:
                 findings.append(Finding(f"静态识别到 {len(syscall_symbols)} 个系统调用相关符号。", confidence="medium", evidence=evidence))
         return findings
 
+    def _filter_dimension_evidence(self, dim: str, evidences: list[Evidence]) -> list[Evidence]:
+        if dim == "syscall":
+            return [ev for ev in evidences if self._is_syscall_evidence(ev)]
+        if dim == "sync":
+            return [ev for ev in evidences if self._is_sync_evidence(ev)]
+        if dim == "driver":
+            return [ev for ev in evidences if self._is_driver_evidence(ev)]
+        return evidences
+
+    def _is_syscall_evidence(self, ev: Evidence) -> bool:
+        path = ev.file.lower()
+        if "syscall" in path:
+            return True
+        if path.startswith("portable/"):
+            return False
+        if "portyield" in ev.snippet.lower():
+            return False
+        lowercase_sys_prefix = re.compile(r"(?<![A-Za-z0-9_])sys_[a-z0-9_]*(?![A-Za-z0-9_])")
+        explicit_entry = re.compile(
+            r"(?<![A-Za-z0-9_])(ecall|c_handle_syscall|handle_syscall|do_syscall)(?![A-Za-z0-9_])",
+            re.IGNORECASE,
+        )
+        return bool(lowercase_sys_prefix.search(ev.snippet) or explicit_entry.search(ev.snippet))
+
+    def _is_sync_evidence(self, ev: Evidence) -> bool:
+        path = ev.file.lower()
+        if any(part in path for part in ("lock", "sync", "mutex", "semaphore", "atomic", "smp")):
+            return True
+        strong = re.compile(
+            r"(?<![A-Za-z0-9_])("
+            r"mutex|spinlock|spin_lock|semaphore|condvar|rwlock|clh_lock|atomic|lock_[A-Za-z0-9_]*"
+            r")(?![A-Za-z0-9_])",
+            re.IGNORECASE,
+        )
+        return bool(strong.search(ev.snippet))
+
+    def _is_driver_evidence(self, ev: Evidence) -> bool:
+        path = ev.file.lower()
+        if any(part in path for part in ("driver", "drivers", "uart", "virtio", "ide", "kbd", "console", "lapic", "ioapic", "serial", "ns16550", "blk")):
+            return True
+        strong = re.compile(
+            r"(?<![A-Za-z0-9_])("
+            r"virtio_[A-Za-z0-9_]*|uartinit|uartgetc|consoleintr|ideinit|iderw|ideintr|"
+            r"kbdgetc|lapicinit|ioapicinit|ns16550"
+            r")(?![A-Za-z0-9_])",
+            re.IGNORECASE,
+        )
+        return bool(strong.search(ev.snippet))
+
     def _symbol_hits(self, parsed: ParsedRepo, keywords: list[str], hints: list[str], limit: int) -> list:
-        lowered = [kw.lower() for kw in keywords]
+        pattern = self._compile_keyword_pattern(keywords)
         hint_words = [hint.lower() for hint in hints]
         hits = []
+        seen: set[tuple[str, str, str]] = set()
         for sym in sorted(parsed.symbols, key=lambda item: self._path_score(item.file, hint_words)):
-            hay = f"{sym.name} {sym.file} {sym.signature}".lower()
-            if any(kw.lower() in hay for kw in lowered):
+            hay = f"{sym.name} {sym.file} {sym.signature}"
+            if pattern.search(hay):
+                key = (sym.kind, sym.name, sym.file)
+                if key in seen:
+                    continue
+                seen.add(key)
                 hits.append(sym)
                 if len(hits) >= limit:
                     break
         return hits
 
     def _search_keywords(self, root: Path, snap: RepoSnapshot, keywords: list[str], hints: list[str], limit: int) -> list[Evidence]:
-        pattern = re.compile("|".join(re.escape(kw) for kw in keywords), re.IGNORECASE)
+        pattern = self._compile_keyword_pattern(keywords)
         evidences: list[Evidence] = []
         hint_words = [hint.lower() for hint in hints]
         code_files = [entry for entry in snap.files if entry.lang in {"rust", "c", "asm"}]
@@ -186,6 +267,18 @@ class KernelAnalyzer:
             if len(evidences) >= limit:
                 break
         return evidences
+
+    def _compile_keyword_pattern(self, keywords: list[str]) -> re.Pattern[str]:
+        pieces: list[str] = []
+        for keyword in sorted(keywords, key=len, reverse=True):
+            escaped = re.escape(keyword)
+            if keyword.endswith("_") and IDENTIFIER_RE.fullmatch(keyword):
+                pieces.append(rf"(?<![A-Za-z0-9_]){escaped}[A-Za-z0-9_]*")
+            elif IDENTIFIER_RE.fullmatch(keyword):
+                pieces.append(rf"(?<![A-Za-z0-9_]){escaped}(?![A-Za-z0-9_])")
+            else:
+                pieces.append(escaped)
+        return re.compile("|".join(pieces), re.IGNORECASE)
 
     def _path_score(self, path: str, hints: list[str]) -> tuple[int, int, str]:
         lowered = path.lower()

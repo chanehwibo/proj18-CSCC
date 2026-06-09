@@ -292,3 +292,49 @@ python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-publ
 ```text
 data/reports/describe/xv6-public.md
 ```
+
+## 报告准确率人工抽查记录
+
+- 日期：2026-06-09
+- 抽查目标：检查描述报告中的关键判断是否由真实源码证据支撑，优先处理误判、漏判和弱证据。
+
+抽查样本：
+
+| 样本 | 抽查重点 |
+| --- | --- |
+| `xv6-public` | 经典宏内核机制是否能被完整识别，特别是内存管理和驱动 |
+| `freertos-kernel` | RTOS 是否被误判为有系统调用、文件系统或设备驱动 |
+| `sel4` | 微内核是否被误判为有文件系统，驱动/同步证据是否落在真实实现路径 |
+
+主要修正：
+
+| 类别 | 修正结果 |
+| --- | --- |
+| 关键词边界 | 将普通子串匹配改为标识符边界匹配，避免 `fatal -> fat`、`reading -> readi`、`clock -> lock`、`provided -> ide` |
+| 系统调用 | 排除 FreeRTOS portable 层 `SYSCALL priority`、`SYS_CLK_IRQ`、`portYIELD ecall` 这类非 syscall 子系统证据 |
+| 驱动 | 排除头文件示例注释中的 `Driver/UART/device`，要求出现具体驱动路径或实现级符号 |
+| C 符号抽取 | 修正 `else if` 被抽为 `fn if` 的伪符号问题 |
+
+抽查结论：
+
+- `xv6-public`：仍确认调度、内存、系统调用、文件系统、同步、中断、驱动，证据集中在真实源码文件。
+- `freertos-kernel`：不再误确认系统调用、文件系统、设备驱动；保留调度、堆内存、同步、中断/定时器判断。
+- `sel4`：不再误确认文件系统；保留微内核相关的调度、内存、系统调用、同步、中断、驱动判断。
+
+验证命令：
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\sel4 --repo-id sel4 --rebuild-profile-cache
+```
+
+新报告路径：
+
+```text
+data/reports/describe/xv6-public.md
+data/reports/describe/freertos-kernel.md
+data/reports/describe/sel4.md
+```

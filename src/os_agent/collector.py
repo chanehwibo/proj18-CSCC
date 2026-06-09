@@ -35,7 +35,7 @@ LANG_BY_SUFFIX = {
     ".mk": "make",
 }
 
-BUILD_FILES = {"Makefile", "Kbuild", "Cargo.toml", "linker.ld", "build.rs"}
+BUILD_FILES = {"Makefile", "Kbuild", "Cargo.toml", "CMakeLists.txt", "linker.ld", "build.rs"}
 
 
 def load_manifest(samples_dir: Path) -> dict[str, dict]:

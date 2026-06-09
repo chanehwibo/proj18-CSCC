@@ -690,3 +690,52 @@ python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-publ
 | P1 | 人工抽查新版描述报告，修正弱证据和误命中 |
 | P1 | 为报告增加“摘要评分/成熟度等级”但保持证据约束 |
 | P1 | 整理一份人工审阅后的高质量样例报告用于答辩 |
+
+## 阶段 18：报告准确率人工抽查与误判修正
+- 日期：2026-06-09
+- 目标：由系统侧承担第一轮人工抽查，验证描述报告中的关键结论是否真正由源码证据支撑，优先修正误判、漏判和弱证据。
+
+### 抽查样本
+
+| 样本 | 选择原因 |
+| --- | --- |
+| `xv6-public` | 教学型宏内核，覆盖系统调用、文件系统、页表、驱动等经典机制 |
+| `freertos-kernel` | RTOS 内核，容易暴露“系统调用/文件系统/驱动”误判 |
+| `sel4` | 微内核，容易暴露文件系统、同步、驱动等维度边界问题 |
+
+### 发现并修正的问题
+
+| 问题类型 | 具体表现 | 修正方式 |
+| --- | --- | --- |
+| 内存管理漏判 | `xv6-public` 之前未稳定确认 `vm.c`、`kalloc.c` 中的页表和物理页分配实现 | 补充 `walkpgdir`、`mappages`、`kalloc`、`kfree`、`pte_`、`pde_` 等 OS 常见关键词 |
+| 文件系统误判 | `fatal` 被 `fat` 命中，`reading/readied/smmu_read_reg32` 被 `readi` 命中 | 关键词匹配改为标识符边界匹配，避免普通英文子串误命中 |
+| 系统调用误判 | FreeRTOS 的 `SYSCALL priority`、`SYS_CLK_IRQ`、RISC-V `portYIELD ecall` 被误认为系统调用接口 | 系统调用维度只接受 `syscall` 路径、明确 `sys_` 函数、`ecall` 入口或 `handle_syscall` 类强证据，排除 portable 层 yield/trap 术语 |
+| 驱动误判 | 头文件示例注释中的 `Driver/UART/device` 被误判为驱动实现 | 驱动维度要求路径或片段包含具体驱动文件、设备路径或 `ideinit`、`uartinit`、`kbdgetc` 等实现级符号 |
+| 同步弱证据 | `clock` 中的 `lock` 子串会污染同步维度证据 | 同步维度改为边界匹配并优先保留 `lock/sync/smp/mutex/semaphore/atomic` 路径或强符号 |
+| C 符号伪抽取 | `else if (...) {` 可能被抽成 `fn if` | C 解析器跳过控制流语句，新增回归测试 |
+
+### 已完成验证
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\sel4 --repo-id sel4 --rebuild-profile-cache
+```
+
+### 抽查结论
+
+- 单元测试增加到 20 个并全部通过。
+- `xv6-public` 仍能确认调度、内存、系统调用、文件系统、同步、中断、驱动等机制，证据路径集中在 `proc.c`、`vm.c`、`syscall.c`、`fs.c`、`spinlock.c`、`trap.c`、`ide.c` 等真实源码文件。
+- `freertos-kernel` 不再误确认系统调用、文件系统和设备驱动；仍确认调度、堆内存、同步和中断/定时器相关机制。
+- `sel4` 不再误确认文件系统；仍确认调度、内存、系统调用、同步、中断和驱动相关机制。
+- 重新生成的报告保留在 `data/reports/describe/` 下，供人工查看；这些生成物仍不提交仓库。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 继续抽查 compare 报告中的相似性/重复线索，检查是否存在弱证据或过度判断 |
+| P1 | 为描述报告增加摘要评分/成熟度等级，但评分必须链接到已确认维度和证据 |
+| P2 | 扩展一小组“反例测试仓库”，专门覆盖注释误命中、宏名误命中和路径误导 |
