@@ -178,6 +178,7 @@ class LLMReportGenerator:
             "new_repo": result.new_repo,
             "history_repos": result.history_repos,
             "selection_notes": result.selection_notes,
+            "overlap_points": [to_dict(item) for item in result.overlap_points],
             "similarities": [to_dict(item) for item in result.similarities],
             "differences": [to_dict(item) for item in result.differences],
             "unique_points": [to_dict(item) for item in result.unique_points],
@@ -186,9 +187,9 @@ class LLMReportGenerator:
         return (
             "请基于下面的规则比较结果生成一份人类友好的项目比较报告。\n"
             "要求：\n"
-            "1. 分为比较对象选择、相似点、差异点、可能创新点、待人工复核项、核验摘要。\n"
+            "1. 分为比较对象选择、功能重合与疑似重复证据、相似点、差异点、可能创新点、待人工复核项、核验摘要。\n"
             "2. 所有关键判断都必须保留 evidence 中已有的 file 和行号，不能引用 JSON 中不存在的文件或行号。\n"
-            "3. 不要把“相似”直接表述为抄袭，只能说需要人工复核。\n"
+            "3. overlap_points 只能表述为功能维度和实现线索重合，不能直接判定代码抄袭；必须说明需要人工复核。\n"
             "4. 不要引入输入 JSON 之外的信息。\n"
             "5. 必须保留 selection_notes 中的历史样本选择依据。\n"
             "6. 如果 unique_points 为空或只有“未确认”，必须明确写“当前证据不足，未自动确认创新点”，不能强行总结创新点。\n"

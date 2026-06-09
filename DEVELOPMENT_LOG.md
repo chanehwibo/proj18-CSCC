@@ -606,3 +606,43 @@ python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-publi
 | P1 | 对新增样本报告做人工抽查，校正 RTOS、微内核、unikernel 的关键词和维度判断 |
 | P1 | 整理答辩讲稿和截图材料 |
 | P2 | 若样本继续扩到 30+，再考虑 BM25/向量召回减少进入 LLM 的历史样本数量 |
+
+## 阶段 16：对比报告重合证据增强
+
+- 日期：2026-06-09
+- 目标：修正对比报告“只说可能相似、不充分展示代码证据”的问题，让功能重合和疑似重复线索可追溯、可复核。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 比较模型 | `CompareResult` 新增 `overlap_points` 字段，专门记录功能重合和疑似重复线索 |
+| 比较逻辑 | `CompareAgent` 在共享 OS 维度上生成双方证据，包含新仓库和历史仓库的源码 evidence |
+| 报告模板 | `Reporter` 新增“功能重合与疑似重复证据”小节 |
+| 代码论证 | 证据渲染从只显示 `path:Lx-Ly`，增强为同时显示短代码片段 |
+| 边界声明 | 报告明确说明“不直接判定代码抄袭”，只标注需要人工复核的功能重合线索 |
+| Self-check | compare 核验纳入 `overlap_points`，证据覆盖统计同步更新 |
+| LLM Prompt | LLM 比较 prompt 纳入 `overlap_points`，要求模型不得直接把相似表述为抄袭 |
+| 测试 | 新增 reporter 测试，覆盖重合证据小节和代码片段输出；更新 LLM prompt 测试 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+```
+
+### 观察结果
+
+- 新生成的 `data/reports/compare/xv6-public_vs_history.md` 已包含“功能重合与疑似重复证据”小节。
+- 每条重合线索会展示双方源码路径、行号和短代码片段。
+- 报告仍保持谨慎边界：只说明功能维度和实现线索重合，不自动判定代码级重复或抄袭。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 人工抽查新版报告，继续修正关键词误命中和弱证据 |
+| P1 | 为疑似重复线索增加更细的证据类型，例如函数名重合、文件路径重合、结构体/宏重合 |
+| P1 | 整理一份人工审阅后的高质量样例报告用于答辩 |

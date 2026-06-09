@@ -15,7 +15,7 @@ class EvidenceChecker:
         return self._summary(findings, Path(profile.meta.root_path))
 
     def compare_summary(self, result: CompareResult, evidence_root: Path | None = None) -> dict[str, int | float]:
-        findings = result.similarities + result.differences + result.unique_points
+        findings = result.overlap_points + result.similarities + result.differences + result.unique_points
         return self._summary(findings, evidence_root)
 
     def invalid_evidence(self, findings: list[Finding], root: Path | None = None) -> list[Evidence]:
@@ -69,5 +69,8 @@ class EvidenceChecker:
             "同属",
             "语言构成不同",
             "等维度均有可确认实现",
+            "鍚屽睘",
+            "璇█鏋勬垚涓嶅悓",
+            "绛夌淮搴﹀潎鏈夊彲纭瀹炵幇",
         )
         return not any(marker in statement for marker in meta_markers)

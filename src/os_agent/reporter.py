@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from .analyzer import DIMENSIONS
-from .models import CompareResult, Finding, KernelProfile
+from .models import CompareResult, Evidence, Finding, KernelProfile
 from .selfcheck import EvidenceChecker
 
 
@@ -54,7 +54,15 @@ class Reporter:
             for note in result.selection_notes:
                 lines.append(f"- {note}")
             lines.append("")
-        lines.extend(["## 相似点", ""])
+
+        lines.extend([
+            "## 功能重合与疑似重复证据",
+            "",
+            "本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。",
+            "",
+        ])
+        lines.extend(self._render_findings_or_empty(result.overlap_points))
+        lines.extend(["", "## 相似点", ""])
         lines.extend(self._render_findings_or_empty(result.similarities))
         lines.extend(["", "## 差异点", ""])
         lines.extend(self._render_findings_or_empty(result.differences))
@@ -78,8 +86,22 @@ class Reporter:
         if finding.evidence:
             lines.append("  证据：")
             for ev in finding.evidence:
-                lines.append(f"  - `{ev.file}:L{ev.line_start}-L{ev.line_end}`：{ev.note}")
+                lines.extend(self._render_evidence(ev))
         return lines
+
+    def _render_evidence(self, ev: Evidence) -> list[str]:
+        lines = [f"  - `{ev.file}:L{ev.line_start}-L{ev.line_end}`：{ev.note or ev.kind}"]
+        snippet = self._compact_snippet(ev.snippet)
+        if snippet:
+            lines.append(f"    代码片段：`{snippet}`")
+        return lines
+
+    def _compact_snippet(self, snippet: str, limit: int = 180) -> str:
+        text = " ".join(line.strip() for line in snippet.splitlines() if line.strip())
+        text = text.replace("`", "'")
+        if len(text) > limit:
+            return text[: limit - 3].rstrip() + "..."
+        return text
 
     def _finding_text(self, finding: Finding | None) -> str:
         if not finding:

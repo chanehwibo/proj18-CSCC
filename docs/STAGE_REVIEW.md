@@ -225,3 +225,37 @@ python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-publi
 - 画像缓存只复用本地静态分析结果，不调用 LLM，不增加 DeepSeek token 消耗。
 - token 成本只来自显式传入 `--use-llm` 的在线模型请求。
 - 若为了更详细报告而增加历史样本数量、evidence 数量或 prompt 内容，才会增加 LLM token。
+
+## 对比报告重合证据增强记录
+
+- 日期：2026-06-09
+- 背景：人工检查发现旧版对比报告虽然有源码行号，但证据说明偏薄，没有展开代码片段；同时“重复/重合”没有独立小节，容易变成泛泛的“可能相似”。
+- 目标：让对比报告明确说明哪些功能维度存在重合，并用双方源码路径、行号和短代码片段支撑。
+
+已完成增强：
+
+| 模块 | 调整 |
+| --- | --- |
+| CompareResult | 新增 `overlap_points` 字段，专门承载功能重合和疑似重复线索 |
+| CompareAgent | 对共享 OS 维度生成重合证据，包含新仓库与历史仓库双方 evidence |
+| Reporter | 新增“功能重合与疑似重复证据”小节，并展示代码片段 |
+| Self-check | 将 `overlap_points` 纳入 compare 证据核验 |
+| LLM Prompt | 将 `overlap_points` 传入 LLM，并要求不得直接判定代码抄袭 |
+
+当前边界：
+
+- 系统自动报告只判断“功能维度和实现线索重合”。
+- 不直接判定“抄袭”或“代码级重复”。
+- 是否构成代码级重复，需要结合完整代码、提交历史、变量/函数结构和人工复核进一步判断。
+
+验证样例：
+
+```powershell
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+```
+
+新报告路径：
+
+```text
+data/reports/compare/xv6-public_vs_history.md
+```
