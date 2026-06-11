@@ -1062,3 +1062,47 @@ python scripts\kernelsage.py audit-llm-report --prompt data\reports\prompts\oske
 | P1 | 人工抽查两份真实 LLM 报告，检查语义是否弱化证据或过度总结 |
 | P1 | 将一份通过审计的 LLM compare 报告纳入演示材料，但明确其是“受约束润色”而不是裁判 |
 | P2 | 后续如继续接入更多模型，复用同一套 dry-run + audit 闸门 |
+
+## 阶段 27：报告人工抽查与 C++ 样本修正
+
+- 日期：2026-06-11
+- 目标：回应“报告还需要人工抽查”的问题，由 Codex 代替人工初审，检查生成报告中的源码证据、维度判断和相似性表述是否可靠。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 报告抽查 | 抽查 `freertos-kernel`、`sel4`、`includeos`、`oskernel2024-aabcb` 描述报告，以及 `oskernel2024-aabcb_vs_history` 对比报告 |
+| C++ 覆盖 | `collector.py` 支持 `.cc/.cpp/.cxx/.hh/.hpp/.hxx`，`parser.py` 与 `analyzer.py` 纳入 `cpp` |
+| 符号降噪 | `_symbol_hits` 不再因为路径命中就输出无关宏，避免 include guard、版本宏等进入相关符号列表 |
+| 缓存失效 | `profile_cache.py` schema 升级到 `1.7`，防止复用缺少 C++ 覆盖和新过滤规则的旧画像 |
+| 回归测试 | 增加 C++ 文件采集、C++ class 抽取、C struct 前置声明过滤和无关宏过滤测试 |
+| 审计文档 | 新增 `docs/REPORT_AUDIT.md`，记录抽查范围、发现问题、修正结果和剩余风险 |
+| 本地报告 | 重新生成 FreeRTOS、IncludeOS、seL4、aabcb 的描述报告，保留在本地 ignored 目录供查看 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+$env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
+python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\includeos --repo-id includeos --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\sel4 --repo-id sel4 --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --rebuild-profile-cache
+```
+
+### 观察结果
+
+- `includeos` 修正后能识别 `cpp 118006 LOC`，并引用 `src/fs/*`、`src/drivers/*` 的真实文件系统和驱动证据。
+- `freertos-kernel` 的文件系统未确认是合理结果；系统调用和驱动维度应保守解释为 RTOS port layer 和硬件适配线索。
+- `sel4` 的文件系统未确认是合理结果，符合微内核样本边界。
+- `oskernel2024-aabcb` 对比报告能给出功能重合和代码级相似线索，但仍明确不裁定抄袭。
+- 完整测试增加到 48 个并全部通过。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 固定 1 份描述报告和 1 份对比报告作为人工标注 golden 样例 |
+| P1 | 根据 `docs/REPORT_AUDIT.md` 压缩出答辩用“报告可信度如何保证”口播材料 |
+| P2 | 后续为 syscall 增加 `entry/wrapper/stub/full_dispatch` 等子类型，降低兼容层误读风险 |

@@ -21,6 +21,7 @@ C_FUNC_PATTERN = re.compile(
 )
 C_TYPE_PATTERNS = [
     ("struct", re.compile(r"^\s*(?:typedef\s+)?struct\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{")),
+    ("class", re.compile(r"^\s*(?:template\s*<[^>]+>\s*)?class\s+([A-Za-z_][A-Za-z0-9_]*)\b")),
     ("enum", re.compile(r"^\s*(?:typedef\s+)?enum\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{")),
 ]
 C_MACRO_PATTERN = re.compile(r"^\s*#\s*define\s+([A-Za-z_][A-Za-z0-9_]*)\b")
@@ -41,13 +42,13 @@ class SymbolParser:
         root = Path(snap.meta.root_path)
         symbols: list[SymbolDef] = []
         for entry in snap.files:
-            if entry.lang not in {"rust", "c", "asm"}:
+            if entry.lang not in {"rust", "c", "cpp", "asm"}:
                 continue
             path = root / entry.path
             text = path.read_text(encoding="utf-8", errors="ignore")
             if entry.lang == "rust":
                 symbols.extend(self._parse_rust(entry.path, text))
-            elif entry.lang == "c":
+            elif entry.lang in {"c", "cpp"}:
                 symbols.extend(self._parse_c(entry.path, text))
             elif entry.lang == "asm":
                 symbols.extend(self._parse_asm(entry.path, text))

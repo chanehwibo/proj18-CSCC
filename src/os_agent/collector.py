@@ -23,6 +23,12 @@ LANG_BY_SUFFIX = {
     ".rs": "rust",
     ".c": "c",
     ".h": "c",
+    ".cc": "cpp",
+    ".cpp": "cpp",
+    ".cxx": "cpp",
+    ".hh": "cpp",
+    ".hpp": "cpp",
+    ".hxx": "cpp",
     ".S": "asm",
     ".s": "asm",
     ".asm": "asm",
@@ -112,7 +118,7 @@ class RepoCollector:
     def _detect_lang(self, path: Path) -> str:
         if path.name in BUILD_FILES:
             return "build"
-        return LANG_BY_SUFFIX.get(path.suffix, "unknown")
+        return LANG_BY_SUFFIX.get(path.suffix, LANG_BY_SUFFIX.get(path.suffix.lower(), "unknown"))
 
     def _count_lines(self, path: Path) -> int:
         try:

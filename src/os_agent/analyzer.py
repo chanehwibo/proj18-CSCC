@@ -122,6 +122,8 @@ DIMENSIONS = {
 
 
 IDENTIFIER_RE = re.compile(r"^[A-Za-z0-9_]+$")
+PATH_TOKEN_RE = re.compile(r"[^a-z0-9]+")
+INLINE_COMMENT_RE = re.compile(r"/\*.*?\*/|//.*$")
 
 
 class KernelAnalyzer:
@@ -157,10 +159,23 @@ class KernelAnalyzer:
             search_keywords = [keyword for keyword in search_keywords if keyword != "sys_"]
         evidences = self._search_keywords(root, snap, search_keywords, spec.get("hints", []), limit=search_limit)
         evidences = self._filter_dimension_evidence(dim, evidences)[:6]
-        symbol_hits = self._symbol_hits(parsed, spec["keywords"], spec.get("hints", []), limit=5)
+        symbol_hits = self._symbol_hits(
+            parsed,
+            self._symbol_keywords(dim, spec["keywords"]),
+            self._symbol_hints(dim, spec.get("hints", [])),
+            limit=5,
+        )
         findings: list[Finding] = []
         if evidences:
-            findings.append(Finding(spec["statement"], confidence="high", evidence=evidences[:3]))
+            statement = spec["statement"]
+            confidence = "high"
+            if dim == "syscall" and self._has_syscall_stub_marker(evidences):
+                statement = (
+                    "项目包含系统调用入口或兼容层线索，但源码片段显示部分调用仍是 stub/未实现，"
+                    "应按接口线索而非完整系统调用实现解读。"
+                )
+                confidence = "medium"
+            findings.append(Finding(statement, confidence=confidence, evidence=evidences[:3]))
         else:
             findings.append(Finding(f"未确认{spec['title']}相关实现。", confidence="unconfirmed"))
         if symbol_hits:
@@ -236,8 +251,13 @@ class KernelAnalyzer:
         hits = []
         seen: set[tuple[str, str, str]] = set()
         for sym in sorted(parsed.symbols, key=lambda item: self._path_score(item.file, hint_words)):
-            hay = f"{sym.name} {sym.file} {sym.signature}"
-            if pattern.search(hay):
+            if self._path_role_penalty(sym.file.lower()) >= 8:
+                continue
+            symbol_hay = self._symbol_search_text(sym)
+            path_hit = self._path_has_hint(sym.file, hint_words)
+            direct_hit = bool(pattern.search(symbol_hay))
+            path_context_hit = path_hit and sym.kind in {"fn", "struct", "class", "enum", "trait"}
+            if direct_hit or path_context_hit:
                 key = (sym.kind, sym.name, sym.file)
                 if key in seen:
                     continue
@@ -247,11 +267,33 @@ class KernelAnalyzer:
                     break
         return hits
 
+    def _symbol_hints(self, dim: str, hints: list[str]) -> list[str]:
+        if dim == "syscall":
+            return [hint for hint in hints if hint != "sys"]
+        return hints
+
+    def _symbol_keywords(self, dim: str, keywords: list[str]) -> list[str]:
+        if dim == "interrupt":
+            return [keyword for keyword in keywords if keyword != "exception"]
+        return keywords
+
+    def _has_syscall_stub_marker(self, evidences: list[Evidence]) -> bool:
+        stub_markers = ("enosys", "not implemented", "stub", "stubtrace")
+        return any(marker in ev.snippet.lower() for ev in evidences for marker in stub_markers)
+
+    def _symbol_search_text(self, sym) -> str:
+        if sym.kind == "macro":
+            return sym.name
+        return f"{sym.name} {self._strip_inline_comment(sym.signature)}"
+
+    def _strip_inline_comment(self, text: str) -> str:
+        return INLINE_COMMENT_RE.sub("", text)
+
     def _search_keywords(self, root: Path, snap: RepoSnapshot, keywords: list[str], hints: list[str], limit: int) -> list[Evidence]:
         pattern = self._compile_keyword_pattern(keywords)
         evidences: list[Evidence] = []
         hint_words = [hint.lower() for hint in hints]
-        code_files = [entry for entry in snap.files if entry.lang in {"rust", "c", "asm"}]
+        code_files = [entry for entry in snap.files if entry.lang in {"rust", "c", "cpp", "asm"}]
         support_files = [entry for entry in snap.files if entry.lang in {"build", "toml"}]
         ordered = sorted(code_files, key=lambda item: self._path_score(item.path, hint_words)) + support_files
         for entry in ordered:
@@ -282,9 +324,22 @@ class KernelAnalyzer:
 
     def _path_score(self, path: str, hints: list[str]) -> tuple[int, int, str]:
         lowered = path.lower()
-        hint_penalty = 0 if any(hint in lowered for hint in hints) else 2
+        hint_penalty = 0 if self._path_has_hint(lowered, hints) else 2
         role_penalty = self._path_role_penalty(lowered)
         return (role_penalty + hint_penalty, len(path), path)
+
+    def _path_has_hint(self, path: str, hints: list[str]) -> bool:
+        lowered = path.lower()
+        tokens = {token for token in PATH_TOKEN_RE.split(lowered) if token}
+        for hint in hints:
+            lowered_hint = hint.lower()
+            if not lowered_hint:
+                continue
+            if lowered_hint in tokens:
+                return True
+            if "_" in lowered_hint and lowered_hint in lowered:
+                return True
+        return False
 
     def _path_role_penalty(self, lowered_path: str) -> int:
         if any(hint in lowered_path for hint in LOW_PRIORITY_PATH_HINTS):

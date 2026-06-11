@@ -33,6 +33,17 @@ class RepoCollectorSourceTierTest(unittest.TestCase):
         self.assertIsNone(snapshot.meta.award_level)
         self.assertIsNone(snapshot.meta.award_source_url)
 
+    def test_cpp_sources_are_collected_as_cpp_language(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "kernel.cpp").write_text("void schedule() {}\n", encoding="utf-8")
+            (root / "vfs.hpp").write_text("class VFS {};\n", encoding="utf-8")
+
+            snapshot = RepoCollector().from_local(root, repo_id="cpp-os")
+
+        self.assertEqual(snapshot.meta.languages.get("cpp"), 2)
+        self.assertEqual({entry.lang for entry in snapshot.files}, {"cpp"})
+
 
 if __name__ == "__main__":
     unittest.main()
