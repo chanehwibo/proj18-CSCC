@@ -161,7 +161,7 @@ python scripts\kernelsage.py compare data\samples\oskernel2024-hfut666 --repo-id
 
 - `oskernel2024-hfut666` 的 Top 4 对比对象为 `oskernel2024-nqos`、`xv6-riscv`、`oskernel2024-aabcb`、`arceos`。
 - 新增比赛作品已经能进入相似样本排序结果，说明对比库不再只依赖教学基线。
-- 王杰优秀获奖案例的公开仓库地址本轮尚未定位到；拿到明确 URL 后应优先加入 `manifest.json` 并生成同类报告。
+- 已建立样本来源分级口径：当前公开比赛样本只标为 `competition_sample`，不硬标为特奖/一等奖案例；拿到官方获奖页面和可靠仓库 URL 后，才加入 `verified_award` 样本池。
 
 ## 对比库代表性扩展记录
 
@@ -197,6 +197,7 @@ python scripts\kernelsage.py compare data\samples\oskernel2024-hfut666 --repo-id
 - `xv6-public` 的 Top 5 对比对象为 `os-tutorial`、`sel4`、`xv6-riscv`、`littlekernel`、`oskernel2024-aabcb`。
 - 扩容后，x86/C 输入项目能优先匹配到同架构、同风格样本，不再只能依赖 RISC-V/Rust 或单一教学基线。
 - 18 个样本仍不是“全覆盖”，因此创新性判断仍应保留置信度和人工复核提示。
+- 当前 `verified_award` 已核验获奖案例池为空，报告不得把未核验比赛样本称为优秀获奖案例。
 
 ## 画像缓存复用记录
 

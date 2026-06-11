@@ -37,6 +37,12 @@ LANG_BY_SUFFIX = {
 
 BUILD_FILES = {"Makefile", "Kbuild", "Cargo.toml", "CMakeLists.txt", "linker.ld", "build.rs"}
 
+SOURCE_TIER_BY_CATEGORY = {
+    "teaching-baseline": "teaching_baseline",
+    "architecture-baseline": "architecture_reference",
+    "contest-case": "competition_sample",
+}
+
 
 def load_manifest(samples_dir: Path) -> dict[str, dict]:
     manifest = samples_dir / "manifest.json"
@@ -68,6 +74,9 @@ class RepoCollector:
             year=manifest_meta.get("year"),
             team=manifest_meta.get("team") or local_meta.get("team"),
             school=manifest_meta.get("school") or local_meta.get("school"),
+            source_tier=self._source_tier(manifest_meta, local_meta),
+            award_level=manifest_meta.get("award_level") or local_meta.get("award_level"),
+            award_source_url=manifest_meta.get("award_source_url") or local_meta.get("award_source_url"),
             style=manifest_meta.get("style") or local_meta.get("style") or self._classify_style(path),
             arch=manifest_meta.get("arch") or local_meta.get("arch", []),
             languages=languages,
@@ -136,6 +145,13 @@ class RepoCollector:
         if path.exists():
             return json.loads(path.read_text(encoding="utf-8"))
         return {}
+
+    def _source_tier(self, manifest_meta: dict, local_meta: dict) -> str:
+        explicit = manifest_meta.get("source_tier") or local_meta.get("source_tier")
+        if explicit:
+            return explicit
+        category = manifest_meta.get("category") or local_meta.get("category")
+        return SOURCE_TIER_BY_CATEGORY.get(category, "unknown")
 
     def _classify_style(self, root: Path) -> str:
         names = " ".join(part.name.lower() for part in root.iterdir())

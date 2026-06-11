@@ -30,7 +30,7 @@
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
 | 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md) 和 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md) |
-| 下一重点 | 进行中 | 报告质量抽查、答辩材料整理、优秀案例来源确认 |
+| 下一重点 | 进行中 | 报告质量抽查、答辩材料整理、获奖案例来源核验 |
 
 ## 系统做什么
 
@@ -73,12 +73,16 @@ self-check：证据是否存在，关键结论是否被支撑
 
 当前 `data/samples/manifest.json` 登记 18 个样本仓库。样本库不是追求“大而全”，而是优先覆盖主要技术路线，降低未知输入仓库比较时的偏置。
 
-| 类别 | 样本 | 覆盖价值 |
+样本来源采用分级管理：没有官方获奖页面或可靠仓库来源时，不把任何样本硬标为“特奖/一等奖优秀案例”。
+
+| 来源等级 | 样本 | 覆盖价值 |
 | --- | --- | --- |
-| 教学/经典基线 | rCore、uCore、xv6-riscv、zCore、ArceOS、rCore Book | 覆盖常见课程内核和现代 Rust OS 基线 |
-| 公开比赛作品 | `oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye` | 贴近真实学生参赛作品形态 |
-| 架构补充 | `xv6-public`、`os-tutorial`、`littlekernel` | 补充 x86、ARM、嵌入式内核路线 |
-| RTOS/微内核/unikernel | `freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel` | 减少只和 rCore/xv6 比较的样本偏置 |
+| `teaching_baseline` 教学基线 | rCore、uCore、xv6-riscv、zCore、ArceOS、rCore Book | 覆盖常见课程内核和现代 Rust OS 基线 |
+| `competition_sample` 比赛作品样本 | `oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye` | 贴近真实学生参赛作品形态，但获奖等级未核验 |
+| `architecture_reference` 架构参考样本 | `xv6-public`、`os-tutorial`、`littlekernel`、`freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel` | 补充 x86、ARM、RTOS、微内核、嵌入式内核、unikernel 等路线 |
+| `verified_award` 已核验获奖案例 | 当前暂无 | 只有拿到官方获奖来源和可靠仓库链接后才加入 |
+
+报告和 LLM prompt 都遵守该边界：未标注为 `verified_award` 的样本不能被称为特奖、一等奖或优秀获奖案例。
 
 覆盖范围：
 
@@ -220,6 +224,7 @@ KernelSage 不把“看起来像”当作结论。报告末尾会输出 self-che
 | 创新性 | 只在当前参考库范围内说明可能差异，不强行断言创新 |
 | 代码级重复 | 不自动判定抄袭，只标注为需要结合完整代码和提交历史人工复核 |
 | 覆盖不足 | 当样本库缺少同类项目时，降低结论置信度并提示人工复核 |
+| 获奖标签 | 只有 `verified_award` 且带官方来源的样本才可称为获奖案例 |
 
 ## 系统架构
 

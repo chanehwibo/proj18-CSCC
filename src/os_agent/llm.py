@@ -169,7 +169,8 @@ class LLMReportGenerator:
             "2. 每个关键判断都要引用已有 evidence 的 file 和行号，不能引用 JSON 中不存在的文件或行号。\n"
             "3. 不要引入 profile 之外的信息。\n"
             "4. 不要根据文件名或常识扩写具体算法；如果 evidence 没有说明算法，只能写“未确认”。\n"
-            "5. 最后给出“核验摘要”，说明 self_check 统计值和仍未确认的信息。\n\n"
+            "5. 只有 source_tier 为 verified_award 且带 award_source_url 的样本，才能称为获奖案例；其他样本只能称为教学基线、架构参考或比赛作品样本。\n"
+            "6. 最后给出“核验摘要”，说明 self_check 统计值和仍未确认的信息。\n\n"
             f"KernelProfile JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )
 
@@ -195,6 +196,7 @@ class LLMReportGenerator:
             "5. 不要引入输入 JSON 之外的信息。\n"
             "6. 必须保留 selection_notes 中的历史样本选择依据。\n"
             "7. 如果 unique_points 为空或只有“未确认”，必须明确写“当前证据不足，未自动确认创新点”，不能强行总结创新点。\n"
-            "8. 核验摘要必须引用 self_check 的统计值，并说明证据率只统计关键设计判断。\n\n"
+            "8. 不得把未标注为 verified_award 的历史样本称为特奖、一等奖或优秀获奖案例；未核验比赛样本只能称为比赛作品样本。\n"
+            "9. 核验摘要必须引用 self_check 的统计值，并说明证据率只统计关键设计判断。\n\n"
             f"CompareResult JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )

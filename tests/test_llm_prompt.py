@@ -26,6 +26,7 @@ class LLMComparePromptTest(unittest.TestCase):
         self.assertIn("self_check", prompt)
         self.assertIn("当前证据不足，未自动确认创新点", prompt)
         self.assertIn("不能强行总结创新点", prompt)
+        self.assertIn("不得把未标注为 verified_award 的历史样本称为特奖、一等奖或优秀获奖案例", prompt)
 
 
 if __name__ == "__main__":

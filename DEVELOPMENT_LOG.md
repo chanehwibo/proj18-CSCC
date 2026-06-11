@@ -908,3 +908,36 @@ python scripts\kernelsage.py audit-llm-report --prompt data\reports\prompts\xv6-
 | P0 | API 可用后执行一次 `--use-llm --limit 3` 真实比较报告试跑 |
 | P0 | 使用 `audit-llm-report` 审查真实 LLM 输出，再人工核查是否存在语义弱化或过度总结 |
 | P1 | 若 LLM 输出弱化证据，继续收紧 compare prompt 或增加输出后自检 |
+
+## 阶段 23：参考样本来源分级与获奖案例边界
+
+- 日期：2026-06-11
+- 目标：解决“优秀获奖案例还没确认，不能硬标特奖/一等奖样本”的问题，建立可信来源机制，避免报告和 LLM 误用未核验标签。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 数据模型 | `RepoMeta` 新增 `source_tier`、`award_level`、`award_source_url` 字段 |
+| Collector | 从 manifest/local meta 读取来源等级，并将旧 `category` 自动映射到新分级 |
+| 来源分级 | `contest-case` 映射为 `competition_sample`，`teaching-baseline` 映射为 `teaching_baseline`，`architecture-baseline` 映射为 `architecture_reference` |
+| Reporter | 描述报告显示样本来源等级；比较报告声明未核验比赛样本不作为特奖/一等奖背书 |
+| Selector 输出 | `selection_notes` 增加历史样本来源等级，便于 LLM 和人工审查识别样本边界 |
+| LLM Prompt | 明确禁止把未标注为 `verified_award` 的历史样本称为特奖、一等奖或优秀获奖案例 |
+| 缓存 | 画像缓存 schema 升级到 1.2，避免旧画像缺少来源等级字段 |
+| 文档 | 更新 README、`docs/STAGE_REVIEW.md` 和外层 `痛点与解决方案.md` |
+| 测试 | 新增 collector 来源等级映射测试，更新 reporter 和 LLM prompt 测试 |
+
+### 当前口径
+
+- 当前 18 个参考样本中没有 `verified_award` 已核验获奖案例。
+- 公开比赛仓库只能称为 `competition_sample` 比赛作品样本，不能称为特奖/一等奖案例。
+- 后续只有拿到官方获奖页面和可靠仓库链接后，才加入 `verified_award` 样本池。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 若拿到官方获奖链接，补充 2-3 个 `verified_award` 样本，并记录 award source |
+| P1 | 在答辩材料中强调“样本来源分级，宁缺毋滥”的可信边界 |
+| P2 | 后续可为 manifest 增加来源校验脚本，检查 `verified_award` 是否同时填写 `award_level` 和 `award_source_url` |

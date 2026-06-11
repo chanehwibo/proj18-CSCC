@@ -35,6 +35,7 @@ class ReporterTest(unittest.TestCase):
 
         report = Reporter().render_compare(result)
 
+        self.assertIn("未核验比赛样本不作为特奖/一等奖背书", report)
         self.assertIn("功能重合与疑似重复证据", report)
         self.assertIn("代码级相似线索检测", report)
         self.assertIn("片段级代码相似度 0.82", report)
@@ -44,7 +45,14 @@ class ReporterTest(unittest.TestCase):
 
     def test_profile_report_renders_dimension_review_with_evidence_table(self):
         profile = KernelProfile(
-            meta=RepoMeta(repo_id="new-os", name="new-os", languages={"c": 10}, file_count=1, loc_total=10),
+            meta=RepoMeta(
+                repo_id="new-os",
+                name="new-os",
+                source_tier="competition_sample",
+                languages={"c": 10},
+                file_count=1,
+                loc_total=10,
+            ),
             overview="overview",
             dimensions={
                 "syscall": [
@@ -60,6 +68,7 @@ class ReporterTest(unittest.TestCase):
         report = Reporter().render_profile(profile)
 
         self.assertIn("证据表", report)
+        self.assertIn("样本来源等级：比赛作品样本（获奖等级未核验）", report)
         self.assertIn("关键代码片段", report)
         self.assertIn("复核建议", report)
         self.assertIn("kernel/syscall.c", report)

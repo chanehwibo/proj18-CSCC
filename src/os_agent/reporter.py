@@ -6,6 +6,14 @@ from .analyzer import DIMENSIONS
 from .models import CompareResult, Evidence, Finding, KernelProfile
 from .selfcheck import EvidenceChecker
 
+SOURCE_TIER_LABELS = {
+    "verified_award": "已核验获奖案例",
+    "competition_sample": "比赛作品样本（获奖等级未核验）",
+    "teaching_baseline": "教学基线",
+    "architecture_reference": "架构参考样本",
+    "unknown": "未标注",
+}
+
 
 class Reporter:
     def __init__(self):
@@ -20,6 +28,7 @@ class Reporter:
             f"- 仓库 ID：`{profile.meta.repo_id}`",
             f"- 风格：{profile.meta.style}",
             f"- 架构：{', '.join(profile.meta.arch) if profile.meta.arch else '未确认'}",
+            f"- 样本来源等级：{self._source_tier_text(profile)}",
             f"- 文件数：{profile.meta.file_count}",
             f"- 代码/文本行数：{profile.meta.loc_total}",
             f"- 主要语言：{self._lang_summary(profile)}",
@@ -50,6 +59,7 @@ class Reporter:
             "",
             f"- 对比历史仓库：{', '.join(result.history_repos)}",
             f"- 生成时间：{result.generated_at}",
+            "- 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。",
             "",
         ]
         if result.selection_notes:
@@ -193,6 +203,14 @@ class Reporter:
     def _lang_summary(self, profile: KernelProfile) -> str:
         items = sorted(profile.meta.languages.items(), key=lambda item: -item[1])[:5]
         return ", ".join(f"{k} {v} LOC" for k, v in items) if items else "未识别"
+
+    def _source_tier_text(self, profile: KernelProfile) -> str:
+        label = SOURCE_TIER_LABELS.get(profile.meta.source_tier, profile.meta.source_tier or "未标注")
+        if profile.meta.source_tier == "verified_award":
+            award = profile.meta.award_level or "获奖等级未填写"
+            source = f"，来源：{profile.meta.award_source_url}" if profile.meta.award_source_url else "，来源未填写"
+            return f"{label}（{award}{source}）"
+        return label
 
     def _maturity_summary(self, profile: KernelProfile) -> list[str]:
         score, details = self._maturity_score(profile)

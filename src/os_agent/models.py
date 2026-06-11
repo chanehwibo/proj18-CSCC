@@ -34,6 +34,9 @@ class RepoMeta:
     year: int | None = None
     team: str | None = None
     school: str | None = None
+    source_tier: str = "unknown"
+    award_level: str | None = None
+    award_source_url: str | None = None
     style: str = "unknown"
     arch: list[str] = field(default_factory=list)
     languages: dict[str, int] = field(default_factory=dict)
@@ -83,7 +86,7 @@ class KernelProfile:
     dimensions: dict[str, list[Finding]] = field(default_factory=dict)
     symbols: list[SymbolDef] = field(default_factory=list)
     generated_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    profile_version: str = "0.2"
+    profile_version: str = "0.3"
 
 
 @dataclass
@@ -135,6 +138,9 @@ def repo_meta_from_dict(data: dict[str, Any]) -> RepoMeta:
         year=data.get("year"),
         team=data.get("team"),
         school=data.get("school"),
+        source_tier=data.get("source_tier", "unknown"),
+        award_level=data.get("award_level"),
+        award_source_url=data.get("award_source_url"),
         style=data.get("style", "unknown"),
         arch=list(data.get("arch", [])),
         languages=dict(data.get("languages", {})),
@@ -168,5 +174,5 @@ def kernel_profile_from_dict(data: dict[str, Any]) -> KernelProfile:
         },
         symbols=[symbol_from_dict(item) for item in data.get("symbols", [])],
         generated_at=data.get("generated_at", ""),
-        profile_version=data.get("profile_version", "0.2"),
+        profile_version=data.get("profile_version", "0.3"),
     )

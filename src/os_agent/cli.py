@@ -24,6 +24,14 @@ SAMPLES_DIR = PROJECT_ROOT / "data" / "samples"
 PROFILES_DIR = PROJECT_ROOT / "data" / "profiles"
 REPORTS_DIR = PROJECT_ROOT / "data" / "reports"
 
+SOURCE_TIER_LABELS = {
+    "verified_award": "已核验获奖案例",
+    "competition_sample": "比赛作品样本（获奖等级未核验）",
+    "teaching_baseline": "教学基线",
+    "architecture_reference": "架构参考样本",
+    "unknown": "未标注",
+}
+
 
 def build_profile(repo_path: Path, repo_id: str | None = None) -> KernelProfile:
     collector = RepoCollector(SAMPLES_DIR)
@@ -59,6 +67,13 @@ def build_profile_cached(
 def write_json(path: Path, value) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(to_dict(value), ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def source_tier_label(profile: KernelProfile) -> str:
+    label = SOURCE_TIER_LABELS.get(profile.meta.source_tier, profile.meta.source_tier or "未标注")
+    if profile.meta.source_tier == "verified_award" and profile.meta.award_level:
+        return f"{label}/{profile.meta.award_level}"
+    return label
 
 
 def cmd_profile(args: argparse.Namespace) -> int:
@@ -195,7 +210,7 @@ def cmd_compare(args: argparse.Namespace) -> int:
     selected_profiles = [item.profile for item in ranked]
     result = CompareAgent().compare(new_profile, selected_profiles, limit=args.limit)
     result.selection_notes = [
-        f"{item.profile.meta.name}：score={item.score:.2f}；{'; '.join(item.reasons)}"
+        f"{item.profile.meta.name}（来源：{source_tier_label(item.profile)}）：score={item.score:.2f}；{'; '.join(item.reasons)}"
         for item in ranked
     ]
     out = Path(args.out) if args.out else REPORTS_DIR / "compare" / f"{new_profile.meta.repo_id}_vs_history.md"
