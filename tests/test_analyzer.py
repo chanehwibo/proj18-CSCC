@@ -96,7 +96,7 @@ class KernelAnalyzerPathPriorityTest(unittest.TestCase):
             repo_id="case",
             symbols=[
                 SymbolDef("irq", "fn", "test/integration/virtio.hpp", 307, 307, "int irq() { return 0; }"),
-                SymbolDef("irq_handler", "fn", "src/drivers/ide.cpp", 152, 152, "void irq_handler() {}"),
+                SymbolDef("irq", "fn", "src/drivers/ide.cpp", 152, 152, "int irq() { return 1; }"),
             ],
         )
 
@@ -107,9 +107,9 @@ class KernelAnalyzerPathPriorityTest(unittest.TestCase):
             limit=5,
         )
 
-        names = [symbol.name for symbol in hits]
-        self.assertIn("irq_handler", names)
-        self.assertNotIn("irq", names)
+        files = [symbol.file for symbol in hits]
+        self.assertIn("src/drivers/ide.cpp", files)
+        self.assertNotIn("test/integration/virtio.hpp", files)
 
     def test_syscall_symbol_hints_skip_generic_sys_path(self):
         analyzer = KernelAnalyzer()

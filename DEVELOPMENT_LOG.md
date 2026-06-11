@@ -2,6 +2,43 @@
 
 本文档用于记录项目每个阶段的研发进展、完成任务、验证情况和后续计划。后续新增功能、修复问题或调整方案时，在本文档基础上继续追加或修改。
 
+## 阶段 28：报告人工抽查规则收口
+
+- 日期：2026-06-11
+- 目标：继续完成“报告需要人工抽查”的工作，把抽查发现的误判源固化为低成本规则，并重新生成关键样本报告。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 符号噪声收敛 | 宏符号只用宏名参与直接关键词匹配，避免宏注释里的 `Lock/thread/device` 触发误判 |
+| 路径匹配收敛 | 路径 hint 改为按 token 匹配，避免 `profile.cpp` 被 `file` 子串误判为文件系统证据 |
+| 低优先级目录过滤 | `test/`、`docs/`、`examples/` 等目录中的符号不再支撑机制符号列表 |
+| syscall 边界 | 检测 `ENOSYS`、`not implemented`、`stubtrace` 等标记，将 IncludeOS 这类 syscall 兼容层/stub 线索降为 medium |
+| 中断符号降噪 | 中断维度的符号匹配不再使用过泛的 `exception`，减少异常类名误入 |
+| 缓存版本 | `profile_cache.py` schema 升级到 `1.8` |
+| 审查文档 | 重写 `docs/REPORT_AUDIT.md`，记录抽查口径、修正项、样本结论和剩余风险 |
+| 本地报告 | 重新生成 FreeRTOS、IncludeOS、seL4、oskernel2024-aabcb 描述报告，以及 `oskernel2024-aabcb_vs_history` 对比报告 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+$env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
+python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\includeos --repo-id includeos --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\sel4 --repo-id sel4 --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --rebuild-profile-cache
+python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --limit 3
+```
+
+### 观察结果
+
+- 49 个 unittest 全部通过，`compileall` 通过。
+- IncludeOS 的系统调用维度已从“完整实现”语义收敛为“入口/兼容层/stub 线索”，避免过度解读。
+- FreeRTOS 的文件系统和设备驱动维度保持未确认，符合 RTOS kernel 边界，避免把 errno 或平台宏误当驱动实现。
+- 对比报告保留“功能重合/代码级相似线索不是抄袭裁定”的边界，可作为人工复核入口。
+
 ## 阶段 1：MVP 仓库分析闭环
 
 - 日期：2026-05-29

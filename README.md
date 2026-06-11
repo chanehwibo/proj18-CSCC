@@ -29,9 +29,9 @@
 | 参考库 | 已扩展 | 18 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 等 |
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
-| 测试回归 | 已补强 | 48 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、证据格式约束和报告抽查回归 |
+| 测试回归 | 已补强 | 49 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、证据格式约束和报告抽查回归 |
 | 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
-| 下一重点 | 进行中 | 报告质量抽查、答辩材料整理、获奖案例来源核验 |
+| 下一重点 | 进行中 | golden 样例固定、答辩材料整理、获奖案例来源核验 |
 
 ## 系统做什么
 
