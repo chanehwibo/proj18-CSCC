@@ -15,7 +15,13 @@ class EvidenceChecker:
         return self._summary(findings, Path(profile.meta.root_path))
 
     def compare_summary(self, result: CompareResult, evidence_root: Path | None = None) -> dict[str, int | float]:
-        findings = result.overlap_points + result.similarities + result.differences + result.unique_points
+        findings = (
+            result.overlap_points
+            + result.code_similarity_points
+            + result.similarities
+            + result.differences
+            + result.unique_points
+        )
         return self._summary(findings, evidence_root)
 
     def invalid_evidence(self, findings: list[Finding], root: Path | None = None) -> list[Evidence]:

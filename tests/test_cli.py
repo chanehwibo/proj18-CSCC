@@ -1,6 +1,6 @@
 import unittest
 
-from os_agent.cli import build_parser, cmd_demo
+from os_agent.cli import build_parser, cmd_audit_llm_report, cmd_demo
 
 
 class CliParserTest(unittest.TestCase):
@@ -40,6 +40,21 @@ class CliParserTest(unittest.TestCase):
 
         self.assertTrue(args.no_profile_cache)
         self.assertTrue(args.rebuild_profile_cache)
+
+    def test_audit_llm_report_parser(self):
+        args = build_parser().parse_args(
+            [
+                "audit-llm-report",
+                "--prompt",
+                "data/reports/prompts/xv6-public.compare.prompt.md",
+                "--report",
+                "data/reports/compare/xv6-public_vs_history.md",
+            ]
+        )
+
+        self.assertIs(args.func, cmd_audit_llm_report)
+        self.assertEqual(args.prompt, "data/reports/prompts/xv6-public.compare.prompt.md")
+        self.assertEqual(args.report, "data/reports/compare/xv6-public_vs_history.md")
 
 
 if __name__ == "__main__":

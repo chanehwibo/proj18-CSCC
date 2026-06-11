@@ -83,7 +83,7 @@ class KernelProfile:
     dimensions: dict[str, list[Finding]] = field(default_factory=dict)
     symbols: list[SymbolDef] = field(default_factory=list)
     generated_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    profile_version: str = "0.1"
+    profile_version: str = "0.2"
 
 
 @dataclass
@@ -92,6 +92,7 @@ class CompareResult:
     history_repos: list[str]
     selection_notes: list[str] = field(default_factory=list)
     overlap_points: list[Finding] = field(default_factory=list)
+    code_similarity_points: list[Finding] = field(default_factory=list)
     similarities: list[Finding] = field(default_factory=list)
     differences: list[Finding] = field(default_factory=list)
     unique_points: list[Finding] = field(default_factory=list)
@@ -167,5 +168,5 @@ def kernel_profile_from_dict(data: dict[str, Any]) -> KernelProfile:
         },
         symbols=[symbol_from_dict(item) for item in data.get("symbols", [])],
         generated_at=data.get("generated_at", ""),
-        profile_version=data.get("profile_version", "0.1"),
+        profile_version=data.get("profile_version", "0.2"),
     )

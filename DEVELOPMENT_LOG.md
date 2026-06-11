@@ -739,3 +739,172 @@ python scripts\kernelsage.py describe data\samples\sel4 --repo-id sel4 --rebuild
 | P1 | 继续抽查 compare 报告中的相似性/重复线索，检查是否存在弱证据或过度判断 |
 | P1 | 为描述报告增加摘要评分/成熟度等级，但评分必须链接到已确认维度和证据 |
 | P2 | 扩展一小组“反例测试仓库”，专门覆盖注释误命中、宏名误命中和路径误导 |
+
+## 阶段 19：描述报告摘要评分与成熟度等级
+- 日期：2026-06-10
+- 目标：在描述报告中增加可解释的摘要评分，帮助导师和评审快速判断仓库整体成熟度，同时保证评分来自源码证据和 self-check，不引入 LLM 主观打分。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| Reporter | 在描述报告总览后新增“摘要评分”小节 |
+| 评分规则 | 采用 100 分本地规则：OS 机制覆盖 80 分、构建入口 10 分、证据健康度 10 分 |
+| 维度权重 | 调度、内存、系统调用、文件系统、同步、中断、驱动按重要性加权 |
+| 成熟度等级 | 新增 A/B/C/D 四档解释，避免裸分数难以理解 |
+| 证据绑定 | 报告列出已确认维度、高置信维度、证据数、证据覆盖率和无效证据数 |
+| 成本边界 | 明确评分由本地静态分析派生，不调用 DeepSeek API，不增加 token 成本 |
+| 文档 | 新增 `docs/REPORT_SCORE_SOLUTION.md` 记录问题与解决方案 |
+| README | 更新核心能力表，补充摘要评分能力 |
+| 测试 | 增加 reporter 测试，验证成熟度评分、评分项和维度表输出 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public --rebuild-profile-cache
+python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel --rebuild-profile-cache
+```
+
+### 观察结果
+
+- 单元测试增加到 21 个并全部通过。
+- `xv6-public` 描述报告输出 A 级，100/100；7 个 OS 维度全部确认，构建入口确认，证据覆盖率 100%。
+- `freertos-kernel` 描述报告输出 B 级，70/100；调度、内存、同步、中断确认，系统调用、文件系统、设备驱动保持未确认。
+- 评分会显式说明“不是比赛官方评分，也不调用 LLM”，避免黑盒评分和 token 成本误解。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 继续抽查 compare 报告中的相似性/重复线索，检查是否存在弱证据或过度判断 |
+| P1 | 整理一份人工审阅后的高质量样例报告用于答辩 |
+| P2 | 扩展一小组“反例测试仓库”，专门覆盖注释误命中、宏名误命中和路径误导 |
+
+## 阶段 20：片段级代码相似度检测
+- 日期：2026-06-10
+- 目标：修正“代码级重复还只是功能重合线索，不是真正相似度检测”的问题，在 compare 报告中增加轻量、可解释的代码片段相似度检测。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 数据模型 | `CompareResult` 新增 `code_similarity_points`，与功能重合线索分开存储 |
+| 相似度模块 | 新增 `similarity.py`，实现 evidence 片段 token/结构相似度检测 |
+| 弱信号过滤 | 去除注释、字符串、include/define 等预处理行，过滤 include-only、comment-only 和极少共同 token 的弱线索 |
+| CompareAgent | 在同一 OS 维度双方都有 evidence 时计算片段级相似度 |
+| Reporter | 比较报告新增“代码片段相似度检测”小节 |
+| Self-check | 将 `code_similarity_points` 纳入比较报告证据核验 |
+| LLM Prompt | LLM 比较 prompt 新增 `code_similarity_points`，要求区分片段相似线索和抄袭裁定 |
+| 文档 | 新增 `docs/CODE_SIMILARITY_SOLUTION.md` 记录问题、解决方案和答辩表述 |
+| 测试 | 新增相似度检测测试，覆盖正例和弱信号过滤 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python -m compileall src scripts\kernelsage.py
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+```
+
+### 观察结果
+
+- 单元测试增加到 26 个并全部通过。
+- `xv6-public_vs_history.md` 已新增“代码片段相似度检测”小节。
+- 当前样例没有发现达到阈值的片段级代码相似线索，报告保守输出“未发现达到阈值”，避免把 include 或结构体前置声明误报为高相似。
+- 报告仍明确说明片段级相似度不是抄袭裁定，需要人工结合完整文件和提交历史复核。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 整理一份人工审阅后的高质量样例报告用于答辩 |
+| P1 | 继续抽查 compare 报告，调整相似度阈值和 evidence 选取策略 |
+| P2 | 若需要更强代码重复检测，接入函数级归一化、MinHash 或 SimHash |
+
+## 阶段 21：低成本代码级相似线索完善
+
+- 日期：2026-06-10
+- 目标：补齐“文件路径重合、函数名重合、结构体/宏重合、代码片段相似度”四类线索，让疑似重复判断更有依据，同时不增加 DeepSeek API 成本。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| Parser | C 解析新增 `#define` 宏定义抽取；收紧结构体识别，只把真实 `struct name {` 定义纳入符号表 |
+| CompareAgent | 新增文件路径重合、函数/符号名重合、结构体/类型重合、宏名重合四类本地检测 |
+| 片段相似度 | 保留 token/结构 Jaccard 片段相似度，继续过滤注释、include-only 和弱 token 信号 |
+| 报告限量 | 代码级相似线索最多保留 30 条，每类最多 6 条，优先展示高价值代表项 |
+| Reporter | 比较报告小节改为“代码级相似线索检测”，明确这些只是复核线索，不是抄袭裁定 |
+| LLM Prompt | compare prompt 同步说明 code_similarity_points 可能包含路径、符号、结构体/宏和片段线索 |
+| 缓存 | 画像缓存 schema 升级到 1.1，避免旧结构体误判缓存继续污染报告 |
+| 文档 | 更新 README 与 `docs/CODE_SIMILARITY_SOLUTION.md` |
+| 测试 | 新增 parser 和 compare 测试，覆盖结构体使用误判过滤、路径/函数/类型/宏重合输出 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+python -m compileall src scripts\kernelsage.py
+$env:PYTHONPATH='src'; python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5 --rebuild-profile-cache
+$env:PYTHONPATH='src'; python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
+```
+
+### 观察结果
+
+- 单元测试增加到 29 个并全部通过。
+- `xv6-public_vs_history.md` 已输出“代码级相似线索检测”小节，包含片段相似度、宏名重合、结构体/类型重合、函数/符号名重合和文件路径重合。
+- C 结构体误判已修正，`struct proc *p` 这类使用不会再作为结构体定义进入符号重合统计。
+- 本阶段全程未调用 LLM，不增加 DeepSeek API token 成本；后续只有显式 `--use-llm` 才会产生在线模型费用。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 人工抽查新 compare 报告中的前 30 条代码级线索，继续降低宏名或通用结构体带来的噪声 |
+| P1 | 整理一份高质量样例报告，用于答辩展示系统如何区分功能重合、代码级线索和人工裁定 |
+| P2 | 如时间允许，再考虑函数体归一化、MinHash/SimHash 或 AST 级相似度作为增强项 |
+
+## 阶段 22：LLM 比较报告 dry-run 审查
+
+- 日期：2026-06-11
+- 目标：解决“LLM 版报告还需要正式试跑”的问题，先用 dry-run 检查 compare prompt 是否具备证据约束、成本控制和防幻觉边界。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| Dry-run | 对 `xv6-public` 执行 compare LLM dry-run，只生成 prompt，不调用 API |
+| Prompt 审查 | 检查 prompt 是否包含 `selection_notes`、`overlap_points`、`code_similarity_points`、`self_check` |
+| 防幻觉约束 | 确认 prompt 要求不得编造文件名、函数名、行号、算法名称或实现细节 |
+| 抄袭边界 | 确认 prompt 要求功能重合和代码级线索只能作为人工复核依据，不能直接裁定抄袭 |
+| 创新点边界 | 确认 prompt 要求证据不足时必须写“当前证据不足，未自动确认创新点” |
+| 输出审查 | 新增 `audit-llm-report` 命令，本地检查 LLM 报告是否引用越界、缺关键章节或出现越权抄袭措辞 |
+| 成本控制 | 本阶段只做 dry-run，不产生 DeepSeek API token 消耗 |
+| 文档 | 更新外层 `痛点与解决方案.md`，补充 LLM 试跑三道闸门和答辩表述 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 3 --llm-dry-run
+rg -n "不要编造|必须保留|不能直接裁定|当前证据不足|self_check|selection_notes|code_similarity_points|overlap_points" data\reports\prompts\xv6-public.compare.prompt.md
+python scripts\kernelsage.py audit-llm-report --prompt data\reports\prompts\xv6-public.compare.prompt.md --report data\reports\compare\xv6-public_vs_history.md
+```
+
+### 观察结果
+
+- dry-run prompt 已生成到 `data/reports/prompts/xv6-public.compare.prompt.md`。
+- prompt 约 1769 行、约 6 万字符，真实调用时应控制 `--limit`，优先使用 `limit=2` 或 `limit=3`。
+- prompt 已包含证据约束、样本选择依据、代码级相似线索、self-check 统计和创新点不足时的保守表达规则。
+- 本地审查命令已跑通，对当前规则版 compare 报告输出 `ok=true`；提示缺少 LLM 建议章节属于 warning，不影响 evidence 边界检查。
+- 真实 API 试跑尚未执行，需在确认 DeepSeek 余额/API 可用后只做一次小样本调用。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P0 | API 可用后执行一次 `--use-llm --limit 3` 真实比较报告试跑 |
+| P0 | 使用 `audit-llm-report` 审查真实 LLM 输出，再人工核查是否存在语义弱化或过度总结 |
+| P1 | 若 LLM 输出弱化证据，继续收紧 compare prompt 或增加输出后自检 |

@@ -12,7 +12,7 @@ from .collector import SKIP_DIRS
 from .models import KernelProfile, kernel_profile_from_dict, to_dict
 
 
-CACHE_SCHEMA_VERSION = "1.0"
+CACHE_SCHEMA_VERSION = "1.1"
 
 
 @dataclass

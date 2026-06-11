@@ -60,10 +60,12 @@ self-check：证据是否存在，关键结论是否被支撑
 | 符号抽取 | 轻量识别 Rust/C/Asm 函数、结构体、impl 等 | `Symbol` 列表 |
 | OS 机制分析 | 调度、内存、系统调用、文件系统、同步、中断、驱动 7 维度 | `KernelProfile` |
 | 样本选择 | 按风格、架构、语言、OS 维度和规模相似度排序 | Top N 历史样本 |
-| 描述报告 | 按 OS 维度生成审阅卡片，包含结论、证据表、代码片段、相关符号和复核建议 | `data/reports/describe/*.md` |
+| 描述报告 | 按 OS 维度生成审阅卡片，包含摘要评分、结论、证据表、代码片段、相关符号和复核建议 | `data/reports/describe/*.md` |
 | 比较报告 | 输出相似点、差异点、可能创新点和复核项 | `data/reports/compare/*.md` |
 | 重合证据 | 单列“功能重合与疑似重复证据”，展示双方源码路径、行号和代码片段 | compare report |
+| 代码级相似线索 | 检测文件路径、函数/符号名、结构体/宏名和片段 token/结构相似度，输出可复核线索但不裁定抄袭 | compare report |
 | LLM 增强 | 可选生成更自然文本，默认不调用 API | `--use-llm` / `--llm-dry-run` |
+| 摘要评分 | 基于已确认 OS 维度、构建入口和 self-check 生成成熟度等级，不调用 LLM | describe report |
 | 证据核验 | 检查证据文件、行号和关键结论覆盖率 | self-check 摘要 |
 | 画像缓存 | 复用历史样本 `KernelProfile`，降低 compare 重复分析成本 | `data/profiles/*.json` |
 
@@ -173,6 +175,7 @@ LLM_API_KEY=replace_with_your_new_api_key
 | 优先 dry-run | `--llm-dry-run` 只生成 prompt，不调用 API |
 | 失败回退 | `--use-llm` 失败时自动回退到规则版报告 |
 | 缓存响应 | 相同 prompt 命中 `data/llm_cache/`，减少重复请求 |
+| 输出审查 | `audit-llm-report` 本地检查 LLM 报告是否引用越界或越权判断 |
 
 生成 prompt 但不调用 API：
 
@@ -185,6 +188,15 @@ python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rc
 
 ```powershell
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --use-llm
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 3 --use-llm
+```
+
+审查 LLM 输出是否仍在 prompt evidence 边界内：
+
+```powershell
+python scripts\kernelsage.py audit-llm-report `
+  --prompt data\reports\prompts\xv6-public.compare.prompt.md `
+  --report data\reports\compare\xv6-public_vs_history.md
 ```
 
 ## 证据与边界
@@ -203,6 +215,7 @@ KernelSage 不把“看起来像”当作结论。报告末尾会输出 self-che
 | 类型 | 处理方式 |
 | --- | --- |
 | 功能重合 | 单独列出双方命中的 OS 维度、证据路径、行号和代码片段 |
+| 代码级相似线索 | 对文件路径、函数/符号名、结构体/宏名和 evidence 片段做轻量检测，只输出限量代表线索 |
 | 相似性 | 基于已有样本和源码证据给出较明确结论 |
 | 创新性 | 只在当前参考库范围内说明可能差异，不强行断言创新 |
 | 代码级重复 | 不自动判定抄袭，只标注为需要结合完整代码和提交历史人工复核 |

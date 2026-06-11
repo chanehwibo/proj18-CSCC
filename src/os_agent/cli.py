@@ -11,6 +11,7 @@ from .agent import CompareAgent
 from .analyzer import KernelAnalyzer
 from .collector import RepoCollector
 from .llm import LLMReportGenerator
+from .llm_audit import LLMReportAuditor
 from .models import KernelProfile, to_dict
 from .parser import SymbolParser
 from .profile_cache import ProfileCache
@@ -225,6 +226,12 @@ def cmd_compare(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_audit_llm_report(args: argparse.Namespace) -> int:
+    result = LLMReportAuditor().audit_paths(Path(args.prompt), Path(args.report))
+    print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
+    return 0 if result.ok else 1
+
+
 def add_profile_cache_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--no-profile-cache", action="store_true", help="disable KernelProfile cache reads")
     parser.add_argument("--rebuild-profile-cache", action="store_true", help="force rebuilding cached KernelProfile files")
@@ -277,6 +284,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
     add_profile_cache_args(p)
     p.set_defaults(func=cmd_compare)
+
+    p = sub.add_parser("audit-llm-report", help="audit an LLM report against its dry-run prompt")
+    p.add_argument("--prompt", required=True, help="path to the dry-run prompt markdown")
+    p.add_argument("--report", required=True, help="path to the LLM generated report markdown")
+    p.set_defaults(func=cmd_audit_llm_report)
     return parser
 
 

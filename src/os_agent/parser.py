@@ -20,9 +20,10 @@ C_FUNC_PATTERN = re.compile(
     r"^\s*(?:static\s+)?(?:inline\s+)?[A-Za-z_][A-Za-z0-9_\s\*]+\s+([A-Za-z_][A-Za-z0-9_]*)\s*\([^;]*\)\s*\{"
 )
 C_TYPE_PATTERNS = [
-    ("struct", re.compile(r"^\s*(?:typedef\s+)?struct\s+([A-Za-z_][A-Za-z0-9_]*)?\b")),
-    ("enum", re.compile(r"^\s*(?:typedef\s+)?enum\s+([A-Za-z_][A-Za-z0-9_]*)?\b")),
+    ("struct", re.compile(r"^\s*(?:typedef\s+)?struct\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{")),
+    ("enum", re.compile(r"^\s*(?:typedef\s+)?enum\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{")),
 ]
+C_MACRO_PATTERN = re.compile(r"^\s*#\s*define\s+([A-Za-z_][A-Za-z0-9_]*)\b")
 C_CONTROL_PREFIXES = (
     "if",
     "else",
@@ -72,6 +73,10 @@ class SymbolParser:
             stripped = line.strip()
             leading = stripped.split(maxsplit=1)[0] if stripped else ""
             if leading in C_CONTROL_PREFIXES:
+                continue
+            macro = C_MACRO_PATTERN.search(line)
+            if macro:
+                symbols.append(SymbolDef(name=macro.group(1), kind="macro", file=rel, line_start=line_no, line_end=line_no, signature=line.strip()))
                 continue
             func = C_FUNC_PATTERN.search(line)
             if func:

@@ -28,6 +28,10 @@ class Reporter:
             "",
             profile.overview,
             "",
+            "## 摘要评分",
+            "",
+            *self._maturity_summary(profile),
+            "",
             "## 构建系统",
             "",
             self._finding_text(profile.build_system),
@@ -61,6 +65,17 @@ class Reporter:
             "",
         ])
         lines.extend(self._render_findings_or_empty(result.overlap_points))
+        lines.extend([
+            "",
+            "## 代码级相似线索检测",
+            "",
+            "本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。",
+            "",
+        ])
+        if result.code_similarity_points:
+            lines.extend(self._render_findings_or_empty(result.code_similarity_points))
+        else:
+            lines.append("- 未发现达到阈值的路径、符号、结构体/宏或片段级代码相似线索；当前仅保留功能维度重合证据。")
         lines.extend(["", "## 相似点", ""])
         lines.extend(self._render_findings_or_empty(result.similarities))
         lines.extend(["", "## 差异点", ""])
@@ -178,6 +193,92 @@ class Reporter:
     def _lang_summary(self, profile: KernelProfile) -> str:
         items = sorted(profile.meta.languages.items(), key=lambda item: -item[1])[:5]
         return ", ".join(f"{k} {v} LOC" for k, v in items) if items else "未识别"
+
+    def _maturity_summary(self, profile: KernelProfile) -> list[str]:
+        score, details = self._maturity_score(profile)
+        level = self._maturity_level(score)
+        confirmed = [dim for dim, findings in profile.dimensions.items() if self._dimension_confidence([f for f in findings if f.confidence != "unconfirmed"]) != "unconfirmed"]
+        high_confidence = [
+            dim
+            for dim, findings in profile.dimensions.items()
+            if self._dimension_confidence([f for f in findings if f.confidence != "unconfirmed"]) == "high"
+        ]
+        summary = self.checker.profile_summary(profile)
+        lines = [
+            f"- 综合成熟度：{level}（{score}/100）",
+            f"- 已确认 OS 维度：{len(confirmed)}/{len(DIMENSIONS)}；高置信维度：{len(high_confidence)}/{len(DIMENSIONS)}",
+            f"- 构建入口：{details['build']}；证据健康度：{details['evidence']}；无效证据引用：{summary['invalid_evidence']}",
+            "- 评分口径：该分数由本地静态分析、源码证据和 self-check 派生，不代表比赛官方评分，也不调用 LLM。",
+            "",
+            "| 评分项 | 得分 | 依据 |",
+            "| --- | --- | --- |",
+            f"| OS 机制覆盖 | {details['dimension_score']}/80 | 调度、内存、系统调用、文件系统、同步、中断、驱动等维度的确认情况 |",
+            f"| 构建入口 | {details['build_score']}/10 | 是否识别到 Makefile、Cargo.toml、CMakeLists.txt 等构建入口 |",
+            f"| 证据健康度 | {details['evidence_score']}/10 | 关键结论证据覆盖率与无效证据引用数 |",
+            "",
+            "| OS 维度 | 状态 | 置信度 | 证据数 |",
+            "| --- | --- | --- | --- |",
+        ]
+        for dim, spec in DIMENSIONS.items():
+            findings = profile.dimensions.get(dim, [])
+            valid_findings = [finding for finding in findings if finding.confidence != "unconfirmed"]
+            confidence = self._dimension_confidence(valid_findings)
+            evidence_count = sum(len(finding.evidence) for finding in valid_findings)
+            status = "已确认" if valid_findings else "未确认"
+            lines.append(f"| {spec['title']} | {status} | {confidence} | {evidence_count} |")
+        return lines
+
+    def _maturity_score(self, profile: KernelProfile) -> tuple[int, dict[str, int | str]]:
+        dimension_weights = {
+            "scheduler": 14,
+            "memory": 16,
+            "syscall": 12,
+            "filesystem": 10,
+            "sync": 10,
+            "interrupt": 10,
+            "driver": 8,
+        }
+        dimension_score = 0
+        for dim, weight in dimension_weights.items():
+            findings = [finding for finding in profile.dimensions.get(dim, []) if finding.confidence != "unconfirmed"]
+            confidence = self._dimension_confidence(findings)
+            if confidence == "high":
+                dimension_score += weight
+            elif confidence == "medium":
+                dimension_score += round(weight * 0.7)
+            elif confidence not in {"unconfirmed", ""}:
+                dimension_score += round(weight * 0.5)
+
+        build_score = 0
+        build_status = "未确认"
+        if profile.build_system and profile.build_system.confidence != "unconfirmed" and profile.build_system.evidence:
+            build_score = 10
+            build_status = "已确认"
+
+        summary = self.checker.profile_summary(profile)
+        evidence_score = round(float(summary["coverage"]) / 10)
+        evidence_score = max(0, evidence_score - int(summary["invalid_evidence"]) * 2)
+        evidence_score = min(10, evidence_score)
+        evidence_status = f"{summary['coverage']:.1f}% 覆盖率"
+
+        score = min(100, dimension_score + build_score + evidence_score)
+        details: dict[str, int | str] = {
+            "dimension_score": dimension_score,
+            "build_score": build_score,
+            "evidence_score": evidence_score,
+            "build": build_status,
+            "evidence": evidence_status,
+        }
+        return score, details
+
+    def _maturity_level(self, score: int) -> str:
+        if score >= 85:
+            return "A 级：机制完整、证据充分"
+        if score >= 70:
+            return "B 级：主要机制较完整"
+        if score >= 50:
+            return "C 级：原型可用但覆盖不足"
+        return "D 级：信息不足或实现线索较少"
 
     def _check_summary(self, profile: KernelProfile) -> list[str]:
         summary = self.checker.profile_summary(profile)
