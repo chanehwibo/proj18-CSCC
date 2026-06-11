@@ -1134,7 +1134,7 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 - `freertos-kernel` 的文件系统未确认是合理结果；系统调用和驱动维度应保守解释为 RTOS port layer 和硬件适配线索。
 - `sel4` 的文件系统未确认是合理结果，符合微内核样本边界。
 - `oskernel2024-aabcb` 对比报告能给出功能重合和代码级相似线索，但仍明确不裁定抄袭。
-- 完整测试增加到 48 个并全部通过。
+- 完整测试增加到 49 个并全部通过。
 
 ### 下一步计划
 
