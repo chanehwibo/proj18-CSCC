@@ -941,3 +941,43 @@ python scripts\kernelsage.py audit-llm-report --prompt data\reports\prompts\xv6-
 | P1 | 若拿到官方获奖链接，补充 2-3 个 `verified_award` 样本，并记录 award source |
 | P1 | 在答辩材料中强调“样本来源分级，宁缺毋滥”的可信边界 |
 | P2 | 后续可为 manifest 增加来源校验脚本，检查 `verified_award` 是否同时填写 `award_level` 和 `award_source_url` |
+
+## 阶段 24：精选样例展示材料
+
+- 日期：2026-06-11
+- 目标：补齐“缺少人工审阅后的高质量样例报告”的问题，固定一份可用于演示视频和答辩讲稿的展示材料。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 稳定性样例 | 选择 `xv6-public`，展示经典小型 OS 仓库的稳定识别和比较能力 |
+| 比赛场景样例 | 选择 `oskernel2024-aabcb`，展示公开比赛作品样本的分析和比较能力 |
+| 报告链路 | 重新生成两类样本的 describe/compare 报告，作为本地展示依据 |
+| 展示文档 | 新增 `docs/SHOWCASE_CASE.md`，整理输入仓库、描述报告、对比报告、self-check 和人工点评 |
+| README | 增加 `SHOWCASE_CASE.md` 链接，说明其可作为演示视频和答辩讲稿底稿 |
+| 边界说明 | 展示文档明确说明样本来源等级、代码级线索不是抄袭裁定、创新性判断需保守解释 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'
+python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 3
+python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb
+python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --limit 3
+```
+
+### 观察结果
+
+- `xv6-public`：描述报告 A 级 100/100，描述 self-check 覆盖率 100%，对比报告覆盖率 100%，适合展示稳定性。
+- `oskernel2024-aabcb`：描述报告 A 级 100/100，来源等级为 `competition_sample`，适合展示比赛场景。
+- 两个样例均保留“未核验比赛样本不作为特奖/一等奖背书”的边界。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 根据 `docs/SHOWCASE_CASE.md` 录制 3-5 分钟演示视频 |
+| P1 | 将展示文档中的人工点评压缩成答辩讲稿口播版 |
+| P2 | 若后续接入 `verified_award` 样本，再补充一个获奖案例展示样例 |

@@ -29,7 +29,7 @@
 | 参考库 | 已扩展 | 18 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 等 |
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
-| 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md) 和 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md) |
+| 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md) 和 [docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md) |
 | 下一重点 | 进行中 | 报告质量抽查、答辩材料整理、获奖案例来源核验 |
 
 ## 系统做什么
@@ -132,6 +132,8 @@ python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-publi
 ```powershell
 python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
 ```
+
+固定展示样例见 [docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)，包含 `xv6-public` 稳定性样例和 `oskernel2024-aabcb` 比赛场景样例，可直接作为演示视频和答辩讲稿底稿。
 
 运行测试：
 
@@ -270,6 +272,7 @@ proj18-os-agent-compare/
 |-- docs/
 |   |-- PLAN.md
 |   |-- DEMO.md
+|   |-- SHOWCASE_CASE.md
 |   |-- STAGE_REVIEW.md
 |   |-- design.md
 |   |-- evaluation.md
@@ -318,7 +321,7 @@ proj18-os-agent-compare/
 | P1 | 答辩材料整理 | 进行中 |
 | P2 | BM25/向量检索、调用图、HTML 展示 | 延后 |
 
-演示流程见 [docs/DEMO.md](docs/DEMO.md)，阶段性评审材料见 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)，研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
+演示流程见 [docs/DEMO.md](docs/DEMO.md)，固定展示样例见 [docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)，阶段性评审材料见 [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)，研发过程记录见 [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md)。
 
 ## 分工
 
