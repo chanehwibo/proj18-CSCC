@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -22,6 +23,8 @@ from .selfcheck import EvidenceChecker
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CACHE_DIR = PROJECT_ROOT / "data" / "llm_cache"
+MARKDOWN_CODE_SPAN_RE = re.compile(r"`(?P<body>[^`\r\n]+)`")
+BARE_EVIDENCE_REF_RE = re.compile(r"^(?P<file>.+?):(?P<start>\d+)(?:-(?P<end>\d+))?$")
 
 
 @dataclass
@@ -143,11 +146,32 @@ class LLMReportGenerator:
 
     def render_profile(self, profile: KernelProfile, *, dry_run_path: Path | None = None) -> str:
         prompt = self._profile_prompt(profile)
-        return self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
+        report = self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
+        return self._normalize_evidence_refs(report)
 
     def render_compare(self, result: CompareResult, *, dry_run_path: Path | None = None) -> str:
         prompt = self._compare_prompt(result)
-        return self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
+        report = self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
+        return self._normalize_evidence_refs(report)
+
+    def _normalize_evidence_refs(self, report: str) -> str:
+        """Normalize LLM shorthand `path:1-3` citations to the audited `path:L1-L3` form."""
+
+        def replace(match) -> str:
+            body = match.group("body")
+            if ":L" in body:
+                return match.group(0)
+            ref = BARE_EVIDENCE_REF_RE.fullmatch(body)
+            if not ref:
+                return match.group(0)
+            file = ref.group("file")
+            start = ref.group("start")
+            end = ref.group("end")
+            if end:
+                return f"`{file}:L{start}-L{end}`"
+            return f"`{file}:L{start}`"
+
+        return MARKDOWN_CODE_SPAN_RE.sub(replace, report)
 
     def _profile_prompt(self, profile: KernelProfile) -> str:
         compact: dict[str, Any] = {
@@ -166,7 +190,7 @@ class LLMReportGenerator:
             "请基于下面的 KernelProfile 生成一份项目描述报告。\n"
             "要求：\n"
             "1. 必须按操作系统维度组织，包括调度、内存、系统调用、文件系统、同步、中断、驱动。\n"
-            "2. 每个关键判断都要引用已有 evidence 的 file 和行号，不能引用 JSON 中不存在的文件或行号。\n"
+            "2. 每个关键判断都要引用已有 evidence 的 file 和行号，引用必须写成反引号代码格式 `path:Lx-Ly`，例如 `kernel/syscall.c:L10-L14`；不能写成 `path:10-14`，也不能引用 JSON 中不存在的文件或行号。\n"
             "3. 不要引入 profile 之外的信息。\n"
             "4. 不要根据文件名或常识扩写具体算法；如果 evidence 没有说明算法，只能写“未确认”。\n"
             "5. 只有 source_tier 为 verified_award 且带 award_source_url 的样本，才能称为获奖案例；其他样本只能称为教学基线、架构参考或比赛作品样本。\n"
@@ -190,7 +214,7 @@ class LLMReportGenerator:
             "请基于下面的规则比较结果生成一份人类友好的项目比较报告。\n"
             "要求：\n"
             "1. 分为比较对象选择、功能重合与疑似重复证据、代码级相似线索检测、相似点、差异点、可能创新点、待人工复核项、核验摘要。\n"
-            "2. 所有关键判断都必须保留 evidence 中已有的 file 和行号，不能引用 JSON 中不存在的文件或行号。\n"
+            "2. 所有关键判断都必须保留 evidence 中已有的 file 和行号，引用必须写成反引号代码格式 `path:Lx-Ly`，例如 `kernel/syscall.c:L10-L14`；不能写成 `path:10-14`，也不能引用 JSON 中不存在的文件或行号。\n"
             "3. overlap_points 只能表述为功能维度和实现线索重合，不能直接判定代码抄袭；必须说明需要人工复核。\n"
             "4. code_similarity_points 可能包含文件路径、函数/符号名、结构体/宏名和片段 token/结构相似度线索，只能表述为代码级可复核线索，不能直接裁定抄袭。\n"
             "5. 不要引入输入 JSON 之外的信息。\n"

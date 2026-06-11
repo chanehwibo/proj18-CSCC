@@ -1017,3 +1017,48 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 | --- | --- |
 | P1 | 后续如引入真实 LLM 输出，可补一条 dry-run prompt 审计端到端测试 |
 | P2 | 若出现新的误判类型，再增加小型反例 fixture 仓库 |
+
+## 阶段 26：真实 LLM 比较报告试跑与审计修正
+
+- 日期：2026-06-11
+- 目标：对 `xv6-public` 和 `oskernel2024-aabcb` 各执行一次真实 DeepSeek compare 报告生成，并用本地 `audit-llm-report` 检查证据链和越权表述。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| Dry-run 基准 | 先为两份 compare 生成 prompt，作为审计 evidence 边界 |
+| 真实 LLM 试跑 | 对 `xv6-public` 和 `oskernel2024-aabcb` 分别执行 `--use-llm --limit 3` |
+| 输出审计 | 使用 `audit-llm-report` 检查 LLM 输出是否引用越界、缺关键章节或出现越权抄袭措辞 |
+| 问题发现 | 首次审计发现 DeepSeek 将证据写成 `path:1-3`，未按 `path:L1-L3` 格式输出，导致审计器判定 missing citations |
+| 输出归一化 | LLM 报告生成后自动把反引号内的 `path:1-3` 归一化为 `path:L1-L3`，不新增文件或行号 |
+| 审计增强 | 审计器支持中文/空格路径，并支持同一文件相邻 evidence 合并覆盖，例如 L11 与 L12 合法覆盖 L11-L12 |
+| Prompt 收紧 | compare/profile prompt 明确要求证据引用必须写成反引号代码格式 `path:Lx-Ly`，禁止 `path:10-14` |
+| 测试 | 增加 LLM 引用归一化、中文路径审计、相邻 evidence 范围审计和 prompt 格式约束测试 |
+
+### 已验证命令
+
+```powershell
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 3 --llm-dry-run
+python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --limit 3 --llm-dry-run
+python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 3 --use-llm
+python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --limit 3 --use-llm
+python scripts\kernelsage.py audit-llm-report --prompt data\reports\prompts\xv6-public.compare.prompt.md --report data\reports\compare\xv6-public_vs_history.md
+python scripts\kernelsage.py audit-llm-report --prompt data\reports\prompts\oskernel2024-aabcb.compare.prompt.md --report data\reports\compare\oskernel2024-aabcb_vs_history.md
+```
+
+### 观察结果
+
+- `xv6-public` LLM compare 审计通过：allowed evidence 166，cited references 125，issues 0。
+- `oskernel2024-aabcb` LLM compare 审计通过：allowed evidence 192，cited references 109，issues 0。
+- 两份报告均保留“代码级相似线索不是抄袭裁定”的边界，并保留“当前证据不足，未自动确认创新点”的保守表达。
+- 完整测试增加到 39 个并全部通过。
+- 本次真实调用消耗 DeepSeek API token；后续重复运行同 prompt 会优先使用本地 `data/llm_cache/` 缓存。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 人工抽查两份真实 LLM 报告，检查语义是否弱化证据或过度总结 |
+| P1 | 将一份通过审计的 LLM compare 报告纳入演示材料，但明确其是“受约束润色”而不是裁判 |
+| P2 | 后续如继续接入更多模型，复用同一套 dry-run + audit 闸门 |

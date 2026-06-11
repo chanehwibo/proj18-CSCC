@@ -10,7 +10,7 @@ from typing import Any
 
 
 JSON_BLOCK_RE = re.compile(r"```json\s*(?P<json>.*?)```", re.DOTALL)
-REF_RE = re.compile(r"(?P<file>[A-Za-z0-9_./\\-]+):L(?P<start>\d+)(?:-L(?P<end>\d+))?")
+REF_RE = re.compile(r"`(?P<file>[^`\r\n]+?):L(?P<start>\d+)(?:-L(?P<end>\d+))?`")
 
 REQUIRED_COMPARE_SECTIONS = (
     "比较对象选择",
@@ -99,7 +99,7 @@ class LLMReportAuditor:
             )
 
         for file, start, end in cited_refs:
-            if not any(evidence.covers(file, start, end) for evidence in evidence_ranges):
+            if not self._reference_allowed(file, start, end, evidence_ranges):
                 result.issues.append(
                     LLMAuditIssue(
                         "unknown_reference",
@@ -136,6 +136,21 @@ class LLMReportAuditor:
             )
 
         return result
+
+    def _reference_allowed(self, file: str, line_start: int, line_end: int, evidence_ranges: list[EvidenceRange]) -> bool:
+        ranges = sorted(
+            ((evidence.line_start, evidence.line_end) for evidence in evidence_ranges if evidence.file == file),
+            key=lambda item: item[0],
+        )
+        if not ranges:
+            return False
+        merged: list[tuple[int, int]] = []
+        for start, end in ranges:
+            if not merged or start > merged[-1][1] + 1:
+                merged.append((start, end))
+            else:
+                merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        return any(start <= line_start <= line_end <= end for start, end in merged)
 
     def _extract_prompt_json(self, prompt_text: str, result: LLMAuditResult) -> dict[str, Any]:
         match = JSON_BLOCK_RE.search(prompt_text)
