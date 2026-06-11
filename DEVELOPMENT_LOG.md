@@ -981,3 +981,39 @@ python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id o
 | P1 | 根据 `docs/SHOWCASE_CASE.md` 录制 3-5 分钟演示视频 |
 | P1 | 将展示文档中的人工点评压缩成答辩讲稿口播版 |
 | P2 | 若后续接入 `verified_award` 样本，再补充一个获奖案例展示样例 |
+
+## 阶段 25：端到端测试补强
+
+- 日期：2026-06-11
+- 目标：回应“测试覆盖还偏少”的问题，在不引入网络、真实 LLM API 或大样本库依赖的前提下，为 describe 和 compare 主流程补充轻量端到端回归测试。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 测试 fixture | 在测试中动态构造最小 OS 仓库，包含调度、内存、系统调用、文件系统、同步、中断、驱动和 Makefile |
+| describe E2E | 新增测试覆盖 `cmd_describe` 从仓库输入到 profile JSON 与 Markdown 描述报告产出 |
+| compare E2E | 新增测试覆盖 `cmd_compare` 从新仓库、历史库选择到比较报告产出 |
+| 回归断言 | 检查报告关键章节、源码路径、行号证据、历史样本选择和代码级相似线索章节 |
+| 隔离性 | 测试使用临时目录和 monkey patch 的 `REPORTS_DIR`/`PROFILES_DIR`/`SAMPLES_DIR`，不污染真实样本库和本地报告 |
+| README | 更新当前测试状态和仓库目录中的测试文件清单 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+$env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
+```
+
+### 观察结果
+
+- 测试总数从 34 个增加到 36 个，全部通过。
+- 新增测试不调用 DeepSeek API，不消耗 token。
+- 端到端测试覆盖的是规则版主链路，能防止后续修改导致 describe/compare 报告无法生成、关键章节消失或历史样本选择失效。
+
+### 下一步计划
+
+| 优先级 | 任务 |
+| --- | --- |
+| P1 | 后续如引入真实 LLM 输出，可补一条 dry-run prompt 审计端到端测试 |
+| P2 | 若出现新的误判类型，再增加小型反例 fixture 仓库 |
