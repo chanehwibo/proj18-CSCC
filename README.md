@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/school-logo.png" alt="天津师范大学 LOGO" width="168">
+  <img src="assets/school-logo.png" alt="天津师范大学 LOGO" width="100%">
 </p>
 
 <h1 align="center">KernelSage</h1>

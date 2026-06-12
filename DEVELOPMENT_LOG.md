@@ -1157,6 +1157,7 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 | README 首屏 | 顶部增加居中学校 LOGO、项目名、项目定位、学校学院信息和官方 GitLab 仓库链接 |
 | 目录导航 | 在 README 开头补充目录，覆盖项目卡片、当前状态、核心能力、参考库、快速开始、LLM 配置、证据边界、系统架构等主要章节 |
 | 目录结构 | 更新 README 的仓库目录树，标出 `assets/school-logo.png` 资源文件 |
+| 展示微调 | 将 README 顶部 LOGO 从固定小图调整为 `100%` 宽度展示，作为首屏横幅 |
 
 ### 说明
 
