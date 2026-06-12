@@ -1,12 +1,43 @@
-# KernelSage
+<p align="center">
+  <img src="assets/school-logo.png" alt="天津师范大学 LOGO" width="168">
+</p>
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB)
-![Stage](https://img.shields.io/badge/Stage-V1%20MVP-brightgreen)
-![Samples](https://img.shields.io/badge/Reference%20Library-18%20repos-blue)
-![LLM](https://img.shields.io/badge/LLM-DeepSeek%20compatible-6A5ACD)
-![Evidence](https://img.shields.io/badge/Evidence-self--check-important)
+<h1 align="center">KernelSage</h1>
+
+<p align="center"><strong>面向小型操作系统仓库的智能分析比对系统</strong></p>
+
+<p align="center">
+  天津师范大学 · 电子与通信工程学院 · proj18 操作系统设计赛
+  <br>
+  <a href="https://gitlab.eduxiji.net/T2026100659911488/project3136859-389327">官方 GitLab 仓库</a>
+</p>
+
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB">
+  <img alt="Stage" src="https://img.shields.io/badge/Stage-V1%20MVP-brightgreen">
+  <img alt="Samples" src="https://img.shields.io/badge/Reference%20Library-18%20repos-blue">
+  <img alt="LLM" src="https://img.shields.io/badge/LLM-DeepSeek%20compatible-6A5ACD">
+  <img alt="Evidence" src="https://img.shields.io/badge/Evidence-self--check-important">
+</p>
 
 面向小型操作系统仓库的分析比对智能体系统。KernelSage 接收一个 OS 源码仓库，生成结构化画像、证据链描述报告，并与历史参考库进行多维度比较，辅助评审或参赛团队识别相似设计、差异点和可能创新点。
+
+## 目录
+
+- [项目卡片](#项目卡片)
+- [当前状态](#当前状态)
+- [系统做什么](#系统做什么)
+- [核心能力](#核心能力)
+- [参考库覆盖](#参考库覆盖)
+- [快速开始](#快速开始)
+- [输出文件](#输出文件)
+- [LLM 配置](#llm-配置)
+- [证据与边界](#证据与边界)
+- [系统架构](#系统架构)
+- [仓库目录](#仓库目录)
+- [研发路线](#研发路线)
+- [分工](#分工)
+- [当前结论](#当前结论)
 
 ## 项目卡片
 
@@ -270,6 +301,9 @@ proj18-os-agent-compare/
 |-- LICENSE
 |-- pyproject.toml
 |-- .env.example
+|-- assets/
+|   |-- school-logo.png
+|   `-- .gitkeep
 |-- docs/
 |   |-- PLAN.md
 |   |-- DEMO.md

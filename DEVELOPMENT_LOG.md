@@ -1143,3 +1143,22 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 | P1 | 固定 1 份描述报告和 1 份对比报告作为人工标注 golden 样例 |
 | P1 | 根据 `docs/REPORT_AUDIT.md` 压缩出答辩用“报告可信度如何保证”口播材料 |
 | P2 | 后续为 syscall 增加 `entry/wrapper/stub/full_dispatch` 等子类型，降低兼容层误读风险 |
+
+## 阶段 28：README 首屏展示与目录导航优化
+
+- 日期：2026-06-12
+- 目标：参考优秀获奖仓库的项目页展示风格，增强仓库 README 首屏识别度和评审浏览效率。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 学校标识 | 将外层 `学校LOGO.png` 复制到仓库内 `assets/school-logo.png`，避免 README 依赖本地外部路径 |
+| README 首屏 | 顶部增加居中学校 LOGO、项目名、项目定位、学校学院信息和官方 GitLab 仓库链接 |
+| 目录导航 | 在 README 开头补充目录，覆盖项目卡片、当前状态、核心能力、参考库、快速开始、LLM 配置、证据边界、系统架构等主要章节 |
+| 目录结构 | 更新 README 的仓库目录树，标出 `assets/school-logo.png` 资源文件 |
+
+### 说明
+
+- 本次只调整展示层文档和静态图片资源，不改变分析、对比、LLM、测试等功能逻辑。
+- README 中的图片采用仓库内相对路径，推送到官方 GitLab 后可直接渲染。
