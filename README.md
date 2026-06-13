@@ -60,8 +60,8 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
 | MVP 闭环 | 已完成 | 仓库扫描、画像生成、报告生成、历史比较、self-check 已跑通 |
 | 参考库 | 已扩展 | 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例 |
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
-| 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
-| 测试回归 | 已补强 | 59 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、证据格式约束、报告抽查回归和 golden 文档契约 |
+| 证据约束 | 已实现 | 报告保留源码路径和行号，compare self-check 按新仓库/历史仓库 root 校验证据 |
+| 测试回归 | 已补强 | 62 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、compare evidence root 边界、证据格式约束、报告抽查回归和 golden 文档契约 |
 | 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)、[docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
 | 下一重点 | 进行中 | 答辩材料整理、获奖案例持续抽查、LLM 输出边界优化 |
 
@@ -124,7 +124,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 - [x] 行动项 9：实现代码级相似线索检测，覆盖路径、函数名、结构体/宏和片段 token/结构相似度。
 - [x] 行动项 10：接入 DeepSeek/OpenAI-compatible LLM 客户端，支持 dry-run、缓存和失败回退。
 - [x] 行动项 11：实现 `audit-llm-report`，检查 LLM 报告是否越界引用或把相似线索写成抄袭结论。
-- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 59 个 unittest 通过。
+- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 62 个 unittest 通过。
 - [x] 行动项 13：整理展示样例链路，固定 `xv6-public` 和 `oskernel2024-aabcb` 两条演示路径。
 - [x] 行动项 14：固定 1 份描述 golden 和 1 份对比 golden，作为人工校准样例。
 - [ ] 行动项 15：继续沉淀答辩材料，压缩“可信度如何保证”“为什么不自动判抄袭”“样本库偏置如何控制”等口播内容。
@@ -260,7 +260,7 @@ LLM_API_KEY=replace_with_your_new_api_key
 
 ### 4.5 证据核验与风险边界
 
-KernelSage 的报告末尾会输出 self-check 摘要，用于检查关键结论是否被源码证据支撑：
+KernelSage 的报告末尾会输出 self-check 摘要，用于检查关键结论是否被源码证据支撑。描述报告按当前仓库 root 校验，比较报告会区分新仓库和历史仓库 root，避免同名相对路径被误判为有效证据：
 
 | 指标 | 含义 |
 | --- | --- |
@@ -313,7 +313,7 @@ KernelSage 的报告末尾会输出 self-check 摘要，用于检查关键结论
 | selector/profile cache | 历史样本选择策略和画像缓存失效机制 |
 | reporter/similarity | 描述报告、比较报告、功能重合和代码级相似线索 |
 | llm prompt/audit | prompt 证据边界、引用格式归一化和 LLM 报告审计 |
-| selfcheck | 文件路径、行号、关键结论覆盖率和无效证据识别 |
+| selfcheck | 文件路径、行号、compare repo root、关键结论覆盖率和无效证据识别 |
 
 已验证命令：
 
@@ -322,7 +322,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 ```
 
-最近一次完整回归记录为 59 个 unittest 全部通过。
+最近一次完整回归记录为 62 个 unittest 全部通过。
 
 ### 5.2 报告质量评估
 

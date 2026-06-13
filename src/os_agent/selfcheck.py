@@ -22,13 +22,35 @@ class EvidenceChecker:
             + result.differences
             + result.unique_points
         )
-        return self._summary(findings, evidence_root)
+        evidence_roots = {
+            repo_id: Path(root)
+            for repo_id, root in result.evidence_roots.items()
+            if repo_id and root
+        }
+        return self._summary(
+            findings,
+            evidence_root,
+            evidence_roots=evidence_roots,
+            require_root=evidence_root is None and not evidence_roots,
+        )
 
-    def invalid_evidence(self, findings: list[Finding], root: Path | None = None) -> list[Evidence]:
+    def invalid_evidence(
+        self,
+        findings: list[Finding],
+        root: Path | None = None,
+        *,
+        evidence_roots: dict[str, Path] | None = None,
+        require_root: bool = False,
+    ) -> list[Evidence]:
         invalid: list[Evidence] = []
         for finding in findings:
             for evidence in finding.evidence:
-                if not self._evidence_exists(evidence, root):
+                if not self._evidence_exists(
+                    evidence,
+                    root,
+                    evidence_roots=evidence_roots,
+                    require_root=require_root,
+                ):
                     invalid.append(evidence)
         return invalid
 
@@ -40,10 +62,22 @@ class EvidenceChecker:
             findings.extend(dim_findings)
         return findings
 
-    def _summary(self, findings: list[Finding], root: Path | None) -> dict[str, int | float]:
+    def _summary(
+        self,
+        findings: list[Finding],
+        root: Path | None,
+        *,
+        evidence_roots: dict[str, Path] | None = None,
+        require_root: bool = False,
+    ) -> dict[str, int | float]:
         key_findings = [finding for finding in findings if self._is_key_finding(finding)]
         with_evidence = [finding for finding in key_findings if finding.evidence]
-        invalid = self.invalid_evidence(key_findings, root)
+        invalid = self.invalid_evidence(
+            key_findings,
+            root,
+            evidence_roots=evidence_roots,
+            require_root=require_root,
+        )
         coverage = (len(with_evidence) / len(key_findings) * 100) if key_findings else 0.0
         return {
             "key_findings": len(key_findings),
@@ -53,12 +87,33 @@ class EvidenceChecker:
             "unconfirmed": sum(1 for finding in findings if finding.confidence == "unconfirmed"),
         }
 
-    def _evidence_exists(self, evidence: Evidence, root: Path | None) -> bool:
+    def _evidence_exists(
+        self,
+        evidence: Evidence,
+        root: Path | None,
+        *,
+        evidence_roots: dict[str, Path] | None = None,
+        require_root: bool = False,
+    ) -> bool:
         if not evidence.file:
             return False
+        if evidence_roots:
+            if evidence.repo_id:
+                repo_root = evidence_roots.get(evidence.repo_id)
+                return self._path_evidence_exists(evidence, repo_root) if repo_root else False
+            return any(self._path_evidence_exists(evidence, repo_root) for repo_root in evidence_roots.values())
         if root is None:
-            return True
-        path = root / evidence.file
+            return not require_root
+        return self._path_evidence_exists(evidence, root)
+
+    def _path_evidence_exists(self, evidence: Evidence, root: Path) -> bool:
+        try:
+            root = root.resolve()
+            path = (root / evidence.file).resolve()
+        except (OSError, RuntimeError):
+            return False
+        if path != root and root not in path.parents:
+            return False
         if not path.exists():
             return False
         try:

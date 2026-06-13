@@ -1,4 +1,6 @@
+import tempfile
 import unittest
+from pathlib import Path
 
 from os_agent.models import Evidence, Finding, KernelProfile, RepoMeta, SymbolDef
 from os_agent.agent import CompareAgent
@@ -62,6 +64,41 @@ class CodeSimilarityDetectorTest(unittest.TestCase):
 
 
 class CompareAgentCodeSimilarityTest(unittest.TestCase):
+    def test_compare_records_repo_ids_and_roots_for_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            new_root = root / "new"
+            hist_root = root / "hist"
+            new_profile = KernelProfile(
+                meta=RepoMeta(repo_id="new", name="new", root_path=str(new_root)),
+                dimensions={
+                    "syscall": [
+                        Finding(
+                            "new syscall",
+                            confidence="high",
+                            evidence=[Evidence("kernel/syscall.c", 1, 1, "void syscall(void) {}\n")],
+                        )
+                    ]
+                },
+            )
+            history_profile = KernelProfile(
+                meta=RepoMeta(repo_id="hist", name="hist", root_path=str(hist_root)),
+                dimensions={
+                    "syscall": [
+                        Finding(
+                            "hist syscall",
+                            confidence="high",
+                            evidence=[Evidence("kernel/syscall.c", 1, 1, "void syscall(void) {}\n")],
+                        )
+                    ]
+                },
+            )
+
+            result = CompareAgent(CodeSimilarityDetector(threshold=0.95)).compare(new_profile, [history_profile])
+
+        self.assertEqual(result.evidence_roots, {"new": str(new_root), "hist": str(hist_root)})
+        self.assertEqual([evidence.repo_id for evidence in result.overlap_points[0].evidence], ["new", "hist"])
+
     def test_compare_adds_code_similarity_points_for_shared_dimension(self):
         new_profile = KernelProfile(
             meta=RepoMeta(repo_id="new", name="new"),

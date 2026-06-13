@@ -16,6 +16,7 @@ class Evidence:
     snippet: str
     kind: str = "code"
     note: str = ""
+    repo_id: str = ""
 
 
 @dataclass
@@ -100,6 +101,7 @@ class CompareResult:
     differences: list[Finding] = field(default_factory=list)
     unique_points: list[Finding] = field(default_factory=list)
     generated_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    evidence_roots: dict[str, str] = field(default_factory=dict)
 
 
 def is_verified_award_case(meta: RepoMeta) -> bool:
@@ -122,6 +124,7 @@ def evidence_from_dict(data: dict[str, Any]) -> Evidence:
         snippet=data.get("snippet", ""),
         kind=data.get("kind", "code"),
         note=data.get("note", ""),
+        repo_id=data.get("repo_id", ""),
     )
 
 

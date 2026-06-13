@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import PurePosixPath
 
 from .analyzer import DIMENSIONS
@@ -44,6 +45,7 @@ class CompareAgent:
         result = CompareResult(
             new_repo=new_profile.meta.name,
             history_repos=[profile.meta.name for profile in selected],
+            evidence_roots=self._evidence_roots([new_profile, *selected]),
         )
         if not selected:
             result.differences.append(Finding("未提供历史仓库，无法进行比较。", confidence="unconfirmed"))
@@ -72,7 +74,10 @@ class CompareAgent:
 
             shared_dims.append(dim)
             dim_title = DIMENSIONS.get(dim, {}).get("title", dim)
-            evidence = new_finding.evidence[:2] + hist_finding.evidence[:2]
+            evidence = (
+                self._tag_evidence_list(new_finding.evidence[:2], new_profile)
+                + self._tag_evidence_list(hist_finding.evidence[:2], history)
+            )
             statement = (
                 f"与 {history.meta.name} 在“{dim_title}”维度存在功能重合："
                 "双方均有可追溯源码证据，属于需要重点复核的相似实现线索。"
@@ -99,7 +104,7 @@ class CompareAgent:
                 result.unique_points.append(Finding(
                     f"新项目在“{dim_title}”维度有可确认实现，而历史样本 {history.meta.name} 当前未确认该维度。",
                     confidence="low",
-                    evidence=new_finding.evidence[:2],
+                    evidence=self._tag_evidence_list(new_finding.evidence[:2], new_profile),
                 ))
 
         for dim in sorted(new_dims - hist_dims):
@@ -187,16 +192,16 @@ class CompareAgent:
         )
         evidence: list[Evidence] = []
         for left, right in pairs[:2]:
-            evidence.extend([self._symbol_evidence(left), self._symbol_evidence(right)])
+            evidence.extend([self._symbol_evidence(left, new_profile), self._symbol_evidence(right, history)])
         confidence = "high" if len(pairs) >= 3 else "medium"
         result.code_similarity_points.append(Finding(statement, confidence=confidence, evidence=evidence))
 
-    def _dimension_evidence(self, profile: KernelProfile, dim: str, limit: int) -> list:
-        evidence = []
+    def _dimension_evidence(self, profile: KernelProfile, dim: str, limit: int) -> list[Evidence]:
+        evidence: list[Evidence] = []
         for finding in profile.dimensions.get(dim, []):
             if finding.confidence == "unconfirmed":
                 continue
-            evidence.extend(finding.evidence)
+            evidence.extend(self._tag_evidence_list(finding.evidence, profile))
             if len(evidence) >= limit:
                 break
         return evidence[:limit]
@@ -271,7 +276,7 @@ class CompareAgent:
     def _is_low_value_symbol(self, name: str) -> bool:
         return len(name) < 3 or name in LOW_VALUE_SYMBOL_NAMES
 
-    def _symbol_evidence(self, symbol: SymbolDef) -> Evidence:
+    def _symbol_evidence(self, symbol: SymbolDef, profile: KernelProfile) -> Evidence:
         return Evidence(
             file=symbol.file,
             line_start=symbol.line_start,
@@ -279,7 +284,23 @@ class CompareAgent:
             snippet=symbol.signature,
             kind="code",
             note=f"{symbol.kind} {symbol.name}",
+            repo_id=self._repo_id(profile),
         )
+
+    def _tag_evidence_list(self, evidences: list[Evidence], profile: KernelProfile) -> list[Evidence]:
+        repo_id = self._repo_id(profile)
+        return [replace(evidence, repo_id=evidence.repo_id or repo_id) for evidence in evidences]
+
+    def _evidence_roots(self, profiles: list[KernelProfile]) -> dict[str, str]:
+        roots: dict[str, str] = {}
+        for profile in profiles:
+            repo_id = self._repo_id(profile)
+            if repo_id and profile.meta.root_path:
+                roots[repo_id] = profile.meta.root_path
+        return roots
+
+    def _repo_id(self, profile: KernelProfile) -> str:
+        return profile.meta.repo_id or profile.meta.name
 
     def _first_confirmed(self, profile: KernelProfile, dim: str) -> Finding | None:
         for finding in profile.dimensions.get(dim, []):
