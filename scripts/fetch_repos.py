@@ -79,6 +79,22 @@ def get_head_sha(repo_dir: Path) -> str | None:
     return out.strip() if code == 0 else None
 
 
+def normalize_clone_depth(depth: int) -> int:
+    return depth if depth > 0 else 0
+
+
+def clone_depth_label(depth: int) -> str:
+    return str(depth) if depth > 0 else "full"
+
+
+def build_clone_args(url: str, repo_dir: Path, depth: int) -> list[str]:
+    args = ["clone"]
+    if depth > 0:
+        args.extend(["--depth", str(depth), "--single-branch"])
+    args.extend([url, str(repo_dir)])
+    return args
+
+
 def clone_one(entry: dict[str, Any], out_dir: Path, depth: int, reclone: bool) -> FetchResult:
     repo_id = entry["repo_id"]
     url = entry["url"]
@@ -98,8 +114,9 @@ def clone_one(entry: dict[str, Any], out_dir: Path, depth: int, reclone: bool) -
                 path=str(repo_dir), head_sha=head, duration_sec=elapsed,
             )
 
-    log(f"克隆 {repo_id}  <-  {url}  (depth={depth})")
-    args = ["clone", "--depth", str(depth), "--single-branch", url, str(repo_dir)]
+    depth = normalize_clone_depth(depth)
+    log(f"克隆 {repo_id}  <-  {url}  (depth={clone_depth_label(depth)})")
+    args = build_clone_args(url, repo_dir, depth)
     try:
         code, _out, err = run_git(args, timeout=900)
     except subprocess.TimeoutExpired as e:
@@ -175,7 +192,7 @@ def main() -> int:
     log(f"输出目录: {args.out}")
     log(f"将处理 {len(repos)} 个仓库")
 
-    depth = max(args.depth, 1) if args.depth > 0 else 2**31 - 1
+    depth = normalize_clone_depth(args.depth)
     results: list[FetchResult] = []
     for entry in repos:
         results.append(clone_one(entry, args.out, depth=depth, reclone=args.reclone))
