@@ -69,16 +69,22 @@ class LLMClient:
         self.settings.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def chat(self, prompt: str, *, system: str, dry_run_path: Path | None = None, use_cache: bool = True) -> str:
-        cache_key = self._cache_key(system, prompt)
-        cache_path = self.settings.cache_dir / f"{cache_key}.json"
-        if use_cache and cache_path.exists():
-            data = json.loads(cache_path.read_text(encoding="utf-8"))
-            return data["content"]
-
         if dry_run_path:
             dry_run_path.parent.mkdir(parents=True, exist_ok=True)
             dry_run_path.write_text(self._format_prompt(system, prompt), encoding="utf-8")
             return f"LLM dry-run prompt written to {dry_run_path}"
+
+        cache_key = self._cache_key(system, prompt)
+        cache_path = self.settings.cache_dir / f"{cache_key}.json"
+        if use_cache and cache_path.exists():
+            try:
+                data = json.loads(cache_path.read_text(encoding="utf-8"))
+                content = data["content"]
+            except (OSError, json.JSONDecodeError, KeyError, TypeError) as exc:
+                raise RuntimeError(f"LLM cache is invalid: {cache_path}") from exc
+            if not isinstance(content, str):
+                raise RuntimeError(f"LLM cache content is not text: {cache_path}")
+            return content
 
         if not self.settings.api_key or self.settings.api_key == "replace_with_your_new_api_key":
             raise RuntimeError("LLM_API_KEY is not configured. Copy .env.example to .env and set a new API key.")
@@ -103,16 +109,36 @@ class LLMClient:
         )
         try:
             with urllib.request.urlopen(request, timeout=self.settings.timeout) as response:
-                data = json.loads(response.read().decode("utf-8"))
+                raw_body = response.read().decode("utf-8")
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode("utf-8", errors="replace")
             raise RuntimeError(f"LLM API HTTP {exc.code}: {detail}") from exc
+        except urllib.error.URLError as exc:
+            reason = getattr(exc, "reason", exc)
+            raise RuntimeError(f"LLM API request failed: {reason}") from exc
+        except OSError as exc:
+            raise RuntimeError(f"LLM API request failed: {exc}") from exc
 
-        content = data["choices"][0]["message"]["content"]
-        cache_path.write_text(
-            json.dumps({"content": content, "model": self.settings.model}, ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
+        try:
+            data = json.loads(raw_body)
+        except json.JSONDecodeError as exc:
+            preview = raw_body[:200].replace("\n", " ")
+            raise RuntimeError(f"LLM API returned invalid JSON: {preview}") from exc
+
+        try:
+            content = data["choices"][0]["message"]["content"]
+        except (KeyError, IndexError, TypeError) as exc:
+            raise RuntimeError("LLM API response missing choices[0].message.content") from exc
+        if not isinstance(content, str):
+            raise RuntimeError("LLM API response content is not text")
+
+        try:
+            cache_path.write_text(
+                json.dumps({"content": content, "model": self.settings.model}, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except OSError as exc:
+            raise RuntimeError(f"LLM cache write failed: {cache_path}") from exc
         return content
 
     def _cache_key(self, system: str, prompt: str) -> str:

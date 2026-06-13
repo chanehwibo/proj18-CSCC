@@ -1278,3 +1278,50 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 - Golden 样例是质量校准材料，不是官方评分，也不替代最终人工评审。
 - self-check 覆盖率只说明报告引用有效，不等于所有结论自动正确。
 - 对比 golden 明确保留“不直接判定代码抄袭”的边界，不能把相似线索升级成裁决。
+
+## 阶段 33：修复 LLM dry-run 被缓存短路的问题
+
+- 日期：2026-06-13
+- 目标：回应“LLM dry-run 逻辑有缺陷”的审核意见，确保 `--llm-dry-run` 始终生成 prompt 文件，不会因为同 prompt 已有 LLM 缓存而直接返回缓存内容。
+
+### 问题确认
+
+旧逻辑中 `LLMClient.chat()` 先计算 prompt 缓存并读取 `data/llm_cache/<hash>.json`，之后才处理 `dry_run_path`。因此当相同 prompt 已存在缓存时，`--llm-dry-run` 会直接返回缓存内容，无法生成新的 prompt 文件。这与 dry-run 的定位冲突：dry-run 应用于审查 prompt 边界，不应被响应缓存短路。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| LLM 客户端 | 将 `dry_run_path` 分支移动到缓存读取之前，dry-run 优先写入 prompt 文件并立即返回 |
+| 回归测试 | 在 `tests/test_llm_prompt.py` 中新增缓存命中场景，确认 dry-run 仍生成 prompt 文件且不返回缓存内容 |
+| 文档同步 | 更新 README、报告审计记录和外部痛点文档中的测试数量与风险边界说明 |
+
+### 边界说明
+
+- 真实 LLM 调用仍保留缓存复用，用于减少重复请求和 API 成本。
+- dry-run 不读取响应缓存，也不调用 API，只输出 prompt 供人工审查。
+- 新增回归测试后，完整测试数从 51 个增加到 52 个。
+
+## 阶段 34：加固中转站 API 异常 fallback
+
+- 日期：2026-06-13
+- 目标：回应“中转站 API 异常 fallback 不稳”的审核意见，确保在线 LLM 返回网络错误、非法 JSON 或结构异常时，CLI 能稳定回退到规则版报告。
+
+### 问题确认
+
+旧逻辑只把 `HTTPError` 包装为 `RuntimeError`。在真实中转站场景中，`urlopen` 还可能抛出 `URLError` 或底层 `OSError`；返回体也可能不是合法 JSON，或者缺少 `choices[0].message.content`。这些异常此前会绕过 CLI 的 `except RuntimeError` 分支，导致不能按设计 fallback 到规则版报告。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| LLM 客户端 | 将缓存读取异常、`URLError`、底层 IO 异常、JSON 解析失败和响应结构缺失统一包装为 `RuntimeError` |
+| 响应校验 | 显式检查 `choices[0].message.content` 是否存在且为文本，避免中转站返回非 OpenAI-compatible 结构时崩溃 |
+| 回归测试 | 新增 `URLError`、非法 JSON、缺少 content 三类 mock 测试，确认异常会被 CLI fallback 可接收的 `RuntimeError` 表达 |
+| 文档同步 | 更新 README、报告审计记录和外部痛点文档中的测试数量与风险边界说明 |
+
+### 边界说明
+
+- 本次没有扩大 CLI 的异常捕获范围，而是在 LLM 客户端边界统一收敛错误类型，避免吞掉规则报告流程中的真实 bug。
+- fallback 的目标是保证报告可生成；规则版报告仍基于本地静态分析和证据链，不依赖在线 LLM。
+- 新增回归测试后，完整测试数从 52 个增加到 55 个。

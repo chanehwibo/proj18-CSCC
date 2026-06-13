@@ -61,7 +61,7 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
 | 参考库 | 已扩展 | 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例 |
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
-| 测试回归 | 已补强 | 51 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、证据格式约束、报告抽查回归和 golden 文档契约 |
+| 测试回归 | 已补强 | 55 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、证据格式约束、报告抽查回归和 golden 文档契约 |
 | 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)、[docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
 | 下一重点 | 进行中 | 答辩材料整理、获奖案例持续抽查、LLM 输出边界优化 |
 
@@ -124,7 +124,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 - [x] 行动项 9：实现代码级相似线索检测，覆盖路径、函数名、结构体/宏和片段 token/结构相似度。
 - [x] 行动项 10：接入 DeepSeek/OpenAI-compatible LLM 客户端，支持 dry-run、缓存和失败回退。
 - [x] 行动项 11：实现 `audit-llm-report`，检查 LLM 报告是否越界引用或把相似线索写成抄袭结论。
-- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 51 个 unittest 通过。
+- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 55 个 unittest 通过。
 - [x] 行动项 13：整理展示样例链路，固定 `xv6-public` 和 `oskernel2024-aabcb` 两条演示路径。
 - [x] 行动项 14：固定 1 份描述 golden 和 1 份对比 golden，作为人工校准样例。
 - [ ] 行动项 15：继续沉淀答辩材料，压缩“可信度如何保证”“为什么不自动判抄袭”“样本库偏置如何控制”等口播内容。
@@ -322,7 +322,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 ```
 
-最近一次完整回归记录为 51 个 unittest 全部通过。
+最近一次完整回归记录为 55 个 unittest 全部通过。
 
 ### 5.2 报告质量评估
 
