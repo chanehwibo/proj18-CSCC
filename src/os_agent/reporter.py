@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from .analyzer import DIMENSIONS
-from .models import CompareResult, Evidence, Finding, KernelProfile
+from .models import CompareResult, Evidence, Finding, KernelProfile, is_verified_award_case
 from .selfcheck import EvidenceChecker
 
 SOURCE_TIER_LABELS = {
@@ -206,10 +206,12 @@ class Reporter:
 
     def _source_tier_text(self, profile: KernelProfile) -> str:
         label = SOURCE_TIER_LABELS.get(profile.meta.source_tier, profile.meta.source_tier or "未标注")
+        if is_verified_award_case(profile.meta):
+            award = profile.meta.award_level or "获奖等级未填写"
+            return f"{label}（{award}，来源：{profile.meta.award_source_url}）"
         if profile.meta.source_tier == "verified_award":
             award = profile.meta.award_level or "获奖等级未填写"
-            source = f"，来源：{profile.meta.award_source_url}" if profile.meta.award_source_url else "，来源未填写"
-            return f"{label}（{award}{source}）"
+            return f"比赛作品样本（award_source_url 未填写，暂不作为获奖案例；标注奖项：{award}）"
         return label
 
     def _maturity_summary(self, profile: KernelProfile) -> list[str]:

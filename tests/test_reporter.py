@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from os_agent.models import CompareResult, Evidence, Finding, KernelProfile, RepoMeta
-from os_agent.reporter import Reporter
+from os_agent.reporter import Reporter, SOURCE_TIER_LABELS
 
 
 class ReporterTest(unittest.TestCase):
@@ -72,6 +72,22 @@ class ReporterTest(unittest.TestCase):
         self.assertIn("关键代码片段", report)
         self.assertIn("复核建议", report)
         self.assertIn("kernel/syscall.c", report)
+
+    def test_verified_award_without_source_is_not_rendered_as_award_case(self):
+        profile = KernelProfile(
+            meta=RepoMeta(
+                repo_id="missing-source-award",
+                name="missing-source-award",
+                source_tier="verified_award",
+                award_level="一等奖",
+            ),
+            overview="overview",
+        )
+
+        report = Reporter().render_profile(profile)
+
+        self.assertNotIn(SOURCE_TIER_LABELS["verified_award"], report)
+        self.assertIn("award_source_url", report)
 
     def test_profile_report_renders_evidence_bound_maturity_score(self):
         with tempfile.TemporaryDirectory() as tmp:

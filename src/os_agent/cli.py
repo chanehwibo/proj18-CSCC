@@ -12,7 +12,7 @@ from .analyzer import KernelAnalyzer
 from .collector import RepoCollector
 from .llm import LLMReportGenerator
 from .llm_audit import LLMReportAuditor
-from .models import KernelProfile, to_dict
+from .models import KernelProfile, is_verified_award_case, to_dict
 from .parser import SymbolParser
 from .profile_cache import ProfileCache
 from .reporter import Reporter
@@ -71,8 +71,10 @@ def write_json(path: Path, value) -> None:
 
 def source_tier_label(profile: KernelProfile) -> str:
     label = SOURCE_TIER_LABELS.get(profile.meta.source_tier, profile.meta.source_tier or "未标注")
-    if profile.meta.source_tier == "verified_award" and profile.meta.award_level:
+    if is_verified_award_case(profile.meta) and profile.meta.award_level:
         return f"{label}/{profile.meta.award_level}"
+    if profile.meta.source_tier == "verified_award":
+        return "比赛作品样本（获奖来源未填写，暂不作为获奖案例）"
     return label
 
 

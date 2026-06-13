@@ -102,6 +102,10 @@ class CompareResult:
     generated_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
+def is_verified_award_case(meta: RepoMeta) -> bool:
+    return meta.source_tier == "verified_award" and bool(meta.award_source_url)
+
+
 def to_dict(value: Any) -> Any:
     if hasattr(value, "__dataclass_fields__"):
         return asdict(value)

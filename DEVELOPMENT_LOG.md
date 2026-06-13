@@ -1325,3 +1325,28 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 - 本次没有扩大 CLI 的异常捕获范围，而是在 LLM 客户端边界统一收敛错误类型，避免吞掉规则报告流程中的真实 bug。
 - fallback 的目标是保证报告可生成；规则版报告仍基于本地静态分析和证据链，不依赖在线 LLM。
 - 新增回归测试后，完整测试数从 52 个增加到 55 个。
+
+## 阶段 35：收紧获奖案例来源判定
+
+- 日期：2026-06-13
+- 目标：回应“获奖案例规则文档和实现不完全一致”的审核意见，确保只有 `source_tier=verified_award` 且填写 `award_source_url` 的样本才会在报告中被称为获奖案例。
+
+### 问题确认
+
+README 和 prompt 已经要求“必须是 `verified_award` 且带来源记录才可称为获奖案例”，但 `Reporter._source_tier_text()` 和 CLI 的 `source_tier_label()` 只检查了 `source_tier == "verified_award"`。如果 manifest 后续误填 `verified_award` 但遗漏 `award_source_url`，报告仍可能进入“已核验获奖案例”的语义。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 数据模型 | 新增 `is_verified_award_case(meta)`，集中表达获奖案例成立条件 |
+| Reporter | 缺少 `award_source_url` 时按比赛作品样本处理，并显式提示 `award_source_url` 未填写 |
+| CLI | 历史样本选择说明复用同一规则，避免 compare 报告把缺来源样本显示为获奖案例 |
+| 回归测试 | 新增 reporter 和 CLI 两个测试，覆盖 `verified_award` 但缺少来源的边界场景 |
+| 文档同步 | 更新 README、报告审计记录和外部痛点文档中的测试数量与风险边界说明 |
+
+### 边界说明
+
+- 当前 manifest 中 3 个已核验一等奖样本仍保留 `award_source_url=os-funtion-winners.md`，不受影响。
+- 如果未来补入新获奖样本，必须同时填写来源记录；否则系统会降级为普通比赛作品样本口径。
+- 新增回归测试后，完整测试数从 55 个增加到 57 个。
