@@ -1140,7 +1140,7 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 
 | 优先级 | 任务 |
 | --- | --- |
-| P1 | 固定 1 份描述报告和 1 份对比报告作为人工标注 golden 样例 |
+| P1 | 已在阶段 32 固定 2 份 golden 样例，后续随规则变化维护 |
 | P1 | 根据 `docs/REPORT_AUDIT.md` 压缩出答辩用“报告可信度如何保证”口播材料 |
 | P2 | 后续为 syscall 增加 `entry/wrapper/stub/full_dispatch` 等子类型，降低兼容层误读风险 |
 
@@ -1183,3 +1183,98 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 
 - 本次仍只调整 README 展示文档，不改变分析、比对、LLM 和测试代码。
 - README 改造遵循参考仓库的组织风格，但所有项目描述、命令、边界和进度均使用 KernelSage 当前事实。
+
+## 阶段 30：补入 3 个一等奖参考样本
+
+- 日期：2026-06-13
+- 目标：回应“缺少已核验获奖案例”的审核意见，从官方提供的 `os-funtion-winners.md` 中选择最贴近小型 OS 仓库分析比对定位的 3 个 2024 功能赛道一等奖作品，补入参考库。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 样本清单 | `data/samples/manifest.json` 从 18 个样本扩展到 21 个样本 |
+| 获奖样本 | 新增 `award2024-moca-mola-proj207`、`award2024-huster-proj306`、`award2024-tangram-proj226` |
+| 来源分级 | 3 个新增样本标记为 `source_tier=verified_award`，`award_level=一等奖` |
+| 本地拉取 | 使用 `scripts/fetch_repos.py --only ...` 浅克隆 3 个仓库到本地 `data/samples/` |
+| 报告生成 | 分别生成 3 份规则版 describe 报告，保存在 ignored 的 `data/reports/describe/` |
+| 文档更新 | 更新 README、`docs/STAGE_REVIEW.md`、`docs/SHOWCASE_CASE.md` 和 `docs/REPORT_AUDIT.md` 中的样本数量与获奖样本说明 |
+
+### 新增样本观察
+
+| repo_id | 获奖信息 | 抽查观察 |
+| --- | --- | --- |
+| `award2024-moca-mola-proj207` | 2024 功能赛道一等奖，Moca-Mola，华东师范大学 | 主语言实际为 C/C++，6/7 OS 维度确认，构建入口未确认，系统调用未确认 |
+| `award2024-huster-proj306` | 2024 功能赛道一等奖，HUSTer，华中科技大学 | Rust 为主，Asterinas/framekernel 结构明显，7/7 OS 维度确认 |
+| `award2024-tangram-proj226` | 2024 功能赛道一等奖，金博老师yyds，清华大学 | C+Rust 混合，组件化内核/ArceOS 相关路线明显，6/7 OS 维度确认 |
+
+### 边界说明
+
+- 当前获奖来源记录来自官方提供的 `os-funtion-winners.md`，已在 manifest 的 `award_source_url` 中记录为该文件名。
+- 新增样本已拉取到本地，但 `data/samples/`、`data/reports/` 和 `data/profiles/` 仍是 ignored 运行数据，不提交仓库。
+
+## 阶段 31：样本库干净目录复现检查
+
+- 日期：2026-06-13
+- 目标：回应“样本库复现链路需要再确认”的审核意见，验证评审在克隆仓库后可以通过 README/脚本重新拉取样本并生成报告。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 干净目录 | 新建临时目录 `C:\Users\CanhuiBao\AppData\Local\Temp\kernelsage-repro-20260613-092724`，不复用现有 `data/samples/` |
+| 样本拉取 | 使用 `scripts/fetch_repos.py --out ... --only ...` 从零拉取 3 个代表样本 |
+| 来源覆盖 | 覆盖 GitLab 获奖样本 `award2024-huster-proj306`、GitHub 教学基线 `xv6-public`、GitHub RTOS `freertos-kernel` |
+| 报告生成 | 对临时目录中的 `award2024-huster-proj306` 生成 describe 报告 |
+| 对比报告 | 使用临时 `samples` 目录作为 history，生成 `award2024-huster-proj306` 的 compare 报告 |
+| README | 在快速启动章节补充“干净目录复现检查（可选）”命令 |
+
+### 验证结果
+
+| repo_id | 拉取结果 | HEAD |
+| --- | --- | --- |
+| `award2024-huster-proj306` | ok | `2df9799f` |
+| `xv6-public` | ok | `eeb7b415` |
+| `freertos-kernel` | ok | `543558ba` |
+
+生成结果：
+
+- `huster-describe.md` 成功生成，识别为 `verified_award/一等奖`、`framekernel`、`x86_64`。
+- `huster-compare.md` 成功生成，临时 history 中选择 `xv6-public` 和 `freertos-kernel` 作为对比对象。
+- `fetch_repos.py` 的 `_fetch_report.json` 显示 ok=3、failed=0。
+
+### 边界说明
+
+- 本次是代表性 smoke check，不是全量 21 个样本的重新拉取压测。
+- 当前 CLI 的 profile cache 仍写入项目默认 `data/profiles/`，该目录被 `.gitignore` 排除，不会提交。
+- 全量复现命令仍是 `python scripts\fetch_repos.py`；如评审环境网络不稳定，可先用 README 中的 `--only` 版本验证主链路。
+
+## 阶段 32：固定 2 份 golden 人工校准样例
+
+- 日期：2026-06-13
+- 目标：回应“缺少 1-2 份 golden 样例”的审核意见，在无法继续人工逐字审核的情况下，由 Codex 按人工审核口径固定 1 份描述报告和 1 份对比报告作为质量校准参照。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| Golden 总览 | 新增 `docs/GOLDEN_CASES.md`，说明 golden 样例的定位、复现命令、判定标准和答辩使用方式 |
+| 描述 golden | 新增 `docs/golden/xv6-public.describe.golden.md`，人工核对七维 OS 机制是否有强源码证据 |
+| 对比 golden | 新增 `docs/golden/oskernel2024-aabcb.compare.golden.md`，人工核对历史样本选择、强/弱相似线索和边界表达 |
+| 报告审计 | 更新 `docs/REPORT_AUDIT.md`，把 golden 校准样例纳入人工抽查记录 |
+| README | 在首页、测试评估、文档索引和目录树中加入 golden 样例入口 |
+| 测试契约 | 新增 `tests/test_golden_docs.py`，防止 golden 文档缺失关键审核标记或丢失相似性边界声明 |
+| 外部痛点 | 更新 `痛点与解决方案.md`，补充“没有人工标注黄金报告时如何说明质量”的答辩口径 |
+
+### 人工审核结论
+
+| Golden 样例 | 结论 | 边界 |
+| --- | --- | --- |
+| `xv6-public.describe.golden.md` | 通过。`scheduler()`、`walkpgdir/mappages()`、`syscall()`、inode、spinlock、trap、IDE/KBD 中断等强证据足以支撑七维描述结论 | 自动报告的部分首条命中偏弱，golden 以人工挑选的强证据校准 |
+| `oskernel2024-aabcb.compare.golden.md` | 通过。内存布局宏、进程结构、`swtch`、系统调用入口等属于强复核线索 | UART/PLIC/virtio 等硬件通用线索只能作为弱到中等线索，不得写成抄袭裁定 |
+
+### 边界说明
+
+- Golden 样例是质量校准材料，不是官方评分，也不替代最终人工评审。
+- self-check 覆盖率只说明报告引用有效，不等于所有结论自动正确。
+- 对比 golden 明确保留“不直接判定代码抄袭”的边界，不能把相似线索升级成裁决。

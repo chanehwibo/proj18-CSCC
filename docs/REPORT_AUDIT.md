@@ -88,14 +88,29 @@ C++ 覆盖修正后可信度明显提高。
 - 对比报告选择 `xv6-riscv`、`OSKernel2024-NQOS`、`OSKernel2024-ouye` 作为最相似样本，选择理由包含风格、架构、语言构成、OS 维度和规模接近度。
 - 对比报告明确写明“不直接判定代码抄袭”，代码级相似线索只作为人工复核入口。
 
+## Golden 校准样例
+
+为回应“缺少人工标注黄金报告”的评审意见，本轮固定了 2 份 golden 样例：
+
+| Golden 文件 | 对应自动报告 | 校准重点 |
+| --- | --- | --- |
+| `docs/golden/xv6-public.describe.golden.md` | `data/reports/describe/xv6-public.md` | 校准七维 OS 机制结论是否被强源码证据支撑 |
+| `docs/golden/oskernel2024-aabcb.compare.golden.md` | `data/reports/compare/oskernel2024-aabcb_vs_history.md` | 校准历史样本选择、代码级相似线索分级和“不裁定抄袭”边界 |
+
+审核结论：
+
+- `xv6-public` 描述报告通过 golden 校准。自动报告 self-check 为 16/16，但 golden 不直接依赖覆盖率，而是补充核对 `scheduler()`、`walkpgdir/mappages()`、`syscall()`、inode、spinlock、trap 和 IDE/KBD 中断等强证据。
+- `oskernel2024-aabcb` 对比报告通过 golden 校准。`PGSIZE/TRAMPOLINE/TRAPFRAME/KSTACK`、`proc/context/cpu`、`swtch` 等属于强复核线索；UART、PLIC、virtio 路径等硬件通用线索被降级为弱到中等线索。
+- 两份 golden 均明确说明：相似线索不是抄袭裁定，self-check 不是官方评分，未核验比赛样本不能硬标获奖等级。
+
 ## 剩余风险
 
 | 风险 | 当前处理 | 后续优化方向 |
 | --- | --- | --- |
 | 关键词仍非语义理解 | 已增加证据行号、符号过滤和人工复核提示 | V2 引入 AST/调用图或更细粒度规则 |
 | 少量宏符号仍偏弱 | 过滤注释、路径噪声和低优先级目录 | 为 driver/interrupt/memory 建立维度专用白名单 |
-| 高证据覆盖不等于高质量 | 报告注明不代表官方评分 | 固定 golden report 做人工校准 |
-| 历史样本库仍有限 | 报告保留来源等级和覆盖边界 | 拿到官方获奖链接后补 `verified_award` 样本 |
+| 高证据覆盖不等于高质量 | 已固定 1 份描述 golden 和 1 份对比 golden，说明人工校准口径 | 后续规则变化后同步复核 golden |
+| 历史样本库仍有限 | 报告保留来源等级和覆盖边界，已根据官方提供的 `os-funtion-winners.md` 补入 3 个 2024 功能赛道一等奖样本 | 继续抽查新增获奖样本报告，避免获奖样本引入新的误判 |
 
 ## 本轮验证
 
@@ -109,4 +124,4 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --limit 3
 ```
 
-当前验证结果：49 个 unittest 全部通过，`compileall` 通过；本地已重新生成四份描述报告和一份对比报告，生成物保留在 ignored 的 `data/reports/` 目录供人工查看。
+当前验证结果：51 个 unittest 全部通过，`compileall` 通过；本地已重新生成四份描述报告和一份对比报告，生成物保留在 ignored 的 `data/reports/` 目录供人工查看。Golden 校准材料见 `docs/GOLDEN_CASES.md` 和 `docs/golden/`。

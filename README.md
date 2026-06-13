@@ -7,7 +7,7 @@
 <p align="center">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB">
   <img alt="Stage" src="https://img.shields.io/badge/Stage-V1%20MVP-brightgreen">
-  <img alt="Samples" src="https://img.shields.io/badge/Reference%20Library-18%20repos-blue">
+  <img alt="Samples" src="https://img.shields.io/badge/Reference%20Library-21%20repos-blue">
   <img alt="LLM" src="https://img.shields.io/badge/LLM-DeepSeek%20compatible-6A5ACD">
   <img alt="Evidence" src="https://img.shields.io/badge/Evidence-self--check-important">
 </p>
@@ -58,12 +58,12 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
 | 维度 | 状态 | 说明 |
 | --- | --- | --- |
 | MVP 闭环 | 已完成 | 仓库扫描、画像生成、报告生成、历史比较、self-check 已跑通 |
-| 参考库 | 已扩展 | 18 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 等 |
+| 参考库 | 已扩展 | 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例 |
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，关键结论进入 self-check |
-| 测试回归 | 已补强 | 49 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、证据格式约束和报告抽查回归 |
-| 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
-| 下一重点 | 进行中 | golden 样例固定、答辩材料整理、获奖案例来源核验 |
+| 测试回归 | 已补强 | 51 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、证据格式约束、报告抽查回归和 golden 文档契约 |
+| 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)、[docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
+| 下一重点 | 进行中 | 答辩材料整理、获奖案例持续抽查、LLM 输出边界优化 |
 
 ## 二、项目概述
 
@@ -104,7 +104,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 | --- | --- | --- |
 | **目标 1：仓库扫描与结构建模** | 已完成 | 扫描源码、文档、构建入口、语言分布和目录结构，生成 `RepoSnapshot` |
 | **目标 2：OS 机制画像分析** | 已完成 | 面向调度、内存、系统调用、文件系统、中断、驱动、同步生成 `KernelProfile` |
-| **目标 3：历史样本库与选择策略** | 已完成 | 建立 18 个代表性样本，按画像相似度和技术路线选择 Top N 对比对象 |
+| **目标 3：历史样本库与选择策略** | 已完成 | 建立 21 个代表性样本，按画像相似度和技术路线选择 Top N 对比对象 |
 | **目标 4：证据链报告生成** | 已完成 | 输出描述报告和对比报告，保留源码路径、行号、代码片段和相关符号 |
 | **目标 5：LLM 可控增强** | 已完成 | 支持 `--use-llm`、`--llm-dry-run`、本地缓存、失败回退和 LLM 输出审计 |
 | **目标 6：展示材料与答辩准备** | 进行中 | 已整理 Demo、阶段评审、展示样例和报告审计文档，后续继续压缩答辩表达 |
@@ -118,15 +118,16 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 - [x] 行动项 3：实现仓库扫描、源码文件识别、构建入口识别和语言统计。
 - [x] 行动项 4：实现 Rust/C/C++/Assembly 的轻量符号抽取。
 - [x] 行动项 5：实现七维 OS 机制画像分析，并为每个维度保留证据片段。
-- [x] 行动项 6：建立历史样本 manifest，并扩展到 18 个代表性仓库。
+- [x] 行动项 6：建立历史样本 manifest，并扩展到 21 个代表性仓库。
 - [x] 行动项 7：优化历史样本选择策略，避免只按目录顺序取样。
 - [x] 行动项 8：实现描述报告和比较报告生成，补充维度结论、证据表、代码片段和复核建议。
 - [x] 行动项 9：实现代码级相似线索检测，覆盖路径、函数名、结构体/宏和片段 token/结构相似度。
 - [x] 行动项 10：接入 DeepSeek/OpenAI-compatible LLM 客户端，支持 dry-run、缓存和失败回退。
 - [x] 行动项 11：实现 `audit-llm-report`，检查 LLM 报告是否越界引用或把相似线索写成抄袭结论。
-- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 49 个 unittest 通过。
+- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 51 个 unittest 通过。
 - [x] 行动项 13：整理展示样例链路，固定 `xv6-public` 和 `oskernel2024-aabcb` 两条演示路径。
-- [ ] 行动项 14：继续沉淀答辩材料，压缩“可信度如何保证”“为什么不自动判抄袭”“样本库偏置如何控制”等口播内容。
+- [x] 行动项 14：固定 1 份描述 golden 和 1 份对比 golden，作为人工校准样例。
+- [ ] 行动项 15：继续沉淀答辩材料，压缩“可信度如何保证”“为什么不自动判抄袭”“样本库偏置如何控制”等口播内容。
 
 ### 3.3 项目详细推进情况
 
@@ -140,7 +141,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 
 **强化阶段进展：**
 
-- 参考库扩展到 18 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel、不同语言和架构路线；
+- 参考库扩展到 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel、不同语言和架构路线，并补入 3 个一等奖样本；
 - 引入 `source_tier`、`award_level`、`award_source_url` 等来源分级字段，未核验比赛仓库不硬标“特奖/一等奖”；
 - 优化历史样本选择策略，按照画像相似度和技术路线选择对比对象；
 - 增强描述报告和对比报告，加入证据表、代码片段、相关符号、功能重合和疑似重复证据；
@@ -275,21 +276,21 @@ KernelSage 的报告末尾会输出 self-check 摘要，用于检查关键结论
 | 代码级重复 | 不自动判定抄袭，只标注为需要结合完整代码和提交历史人工复核 |
 | 创新性判断 | 只在当前参考库范围内说明可能差异，不做绝对创新裁定 |
 | 样本库偏置 | 通过来源分级、技术路线覆盖和相似度选择降低偏置，并提示覆盖不足 |
-| 获奖标签 | 只有 `verified_award` 且带官方来源的样本才可称为获奖案例 |
+| 获奖标签 | 只有 `verified_award` 且带来源记录的样本才可称为获奖案例；当前 3 个一等奖样本来源于官方提供的 `os-funtion-winners.md` |
 | LLM 幻觉 | 使用 dry-run、证据边界、缓存和审计命令约束输出 |
 
 ### 4.6 参考库覆盖
 
-当前 `data/samples/manifest.json` 登记 18 个样本仓库。样本库不是追求“大而全”，而是优先覆盖主要技术路线，降低未知输入仓库比较时的偏置。
+当前 `data/samples/manifest.json` 登记 21 个样本仓库。样本库不是追求“大而全”，而是优先覆盖主要技术路线，降低未知输入仓库比较时的偏置。
 
-样本来源采用分级管理：没有官方获奖页面或可靠仓库来源时，不把任何样本硬标为“特奖/一等奖优秀案例”。
+样本来源采用分级管理：没有获奖来源记录或可靠仓库来源时，不把任何样本硬标为“特奖/一等奖优秀案例”。当前 3 个一等奖样本的来源记录来自官方提供的 `os-funtion-winners.md`。
 
 | 来源等级 | 样本 | 覆盖价值 |
 | --- | --- | --- |
 | `teaching_baseline` 教学基线 | rCore、uCore、xv6-riscv、zCore、ArceOS、rCore Book | 覆盖常见课程内核和现代 Rust OS 基线 |
 | `competition_sample` 比赛作品样本 | `oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye` | 贴近真实学生参赛作品形态，但获奖等级未核验 |
 | `architecture_reference` 架构参考样本 | `xv6-public`、`os-tutorial`、`littlekernel`、`freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel` | 补充 x86、ARM、RTOS、微内核、嵌入式内核、unikernel 等路线 |
-| `verified_award` 已核验获奖案例 | 当前暂无 | 只有拿到官方获奖来源和可靠仓库链接后才加入 |
+| `verified_award` 已核验获奖案例 | `award2024-moca-mola-proj207`、`award2024-huster-proj306`、`award2024-tangram-proj226` | 补充 2024 功能赛道一等奖作品，覆盖简易 OS、Rust framekernel、组件化内核路线；获奖来源记录为官方提供的 `os-funtion-winners.md` |
 
 覆盖范围：
 
@@ -321,7 +322,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 ```
 
-最近一次完整回归记录为 49 个 unittest 全部通过。
+最近一次完整回归记录为 51 个 unittest 全部通过。
 
 ### 5.2 报告质量评估
 
@@ -337,6 +338,8 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 
 固定展示样例见 [docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)，包含 `xv6-public` 稳定性样例和 `oskernel2024-aabcb` 比赛场景样例，可作为演示视频和答辩讲稿底稿。
 
+人工校准 golden 样例见 [docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md)。其中固定了 1 份 `xv6-public` 描述 golden 和 1 份 `oskernel2024-aabcb` 对比 golden，用于说明我们如何审核证据强度、相似线索分级和边界表达。
+
 ## 六、项目开发文档和演示材料
 
 | 文档 | 说明 |
@@ -344,6 +347,7 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 | [docs/PLAN.md](docs/PLAN.md) | 三周半赛程下的 MVP 优先研发计划 |
 | [docs/DEMO.md](docs/DEMO.md) | 演示流程和命令说明 |
 | [docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md) | 固定展示样例链路 |
+| [docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md) | 人工校准 golden 样例说明 |
 | [docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md) | 阶段性评审材料 |
 | [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) | 报告人工抽查和修正记录 |
 | [DEVELOPMENT_LOG.md](DEVELOPMENT_LOG.md) | 研发历程记录 |
@@ -364,6 +368,17 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 python scripts\fetch_repos.py
 ```
 
+干净目录复现检查（可选）：不改动现有 `data/samples/`，从临时目录拉取代表样本并生成报告。
+
+```powershell
+$tmp="$env:TEMP\kernelsage-repro"
+python scripts\fetch_repos.py --out "$tmp\samples" --only xv6-public --only freertos-kernel --only award2024-huster-proj306
+python scripts\kernelsage.py describe "$tmp\samples\award2024-huster-proj306" --repo-id award2024-huster-proj306 --out "$tmp\huster-describe.md"
+python scripts\kernelsage.py compare "$tmp\samples\award2024-huster-proj306" --history "$tmp\samples" --repo-id award2024-huster-proj306 --limit 2 --out "$tmp\huster-compare.md"
+```
+
+说明：当前 CLI 的 profile cache 仍写入 `data/profiles/`，该目录已被 `.gitignore` 排除，不会随仓库提交。
+
 生成单个仓库画像和描述报告：
 
 ```powershell
@@ -376,7 +391,7 @@ python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id r
 python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3
 ```
 
-默认会复用 `data/profiles/` 下的 `KernelProfile` 缓存，避免每次比较都重新分析 18 个历史样本。源码仓库 HEAD、文件数量、总大小或修改时间变化时，缓存会自动失效。
+默认会复用 `data/profiles/` 下的 `KernelProfile` 缓存，避免每次比较都重新分析 21 个历史样本。源码仓库 HEAD、文件数量、总大小或修改时间变化时，缓存会自动失效。
 
 ```powershell
 python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
@@ -446,8 +461,12 @@ proj18-os-agent-compare/
 |   |-- PLAN.md
 |   |-- DEMO.md
 |   |-- SHOWCASE_CASE.md
+|   |-- GOLDEN_CASES.md
 |   |-- STAGE_REVIEW.md
 |   |-- REPORT_AUDIT.md
+|   |-- golden/
+|   |   |-- xv6-public.describe.golden.md
+|   |   `-- oskernel2024-aabcb.compare.golden.md
 |   |-- design.md
 |   |-- evaluation.md
 |   `-- report-template.md
@@ -485,6 +504,7 @@ proj18-os-agent-compare/
     |-- test_llm_audit.py
     |-- test_llm_prompt.py
     |-- test_selector.py
+    |-- test_golden_docs.py
     `-- test_selfcheck.py
 ```
 

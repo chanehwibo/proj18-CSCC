@@ -1077,7 +1077,7 @@ tests/integration/
 
 ### 7.3 Golden benchmark（V2）
 
-Golden benchmark 不作为 V1 交付门槛。V2 阶段 `tests/golden/` 存放 3 个手工撰写的高质量描述/比较报告作为黄金参照：
+复杂 Golden benchmark 不作为 V1 交付门槛。当前 V1 已先固定 2 份文档级 golden 校准样例，见 `docs/GOLDEN_CASES.md` 和 `docs/golden/`，用于答辩说明报告质量审核口径。V2 阶段再扩展为可量化评测集，`tests/golden/` 存放 3 个以上手工撰写的高质量描述/比较报告作为黄金参照：
 
 - `rcore-tutorial-v3.describe.golden.md`
 - `ucore-bbl.describe.golden.md`
@@ -1190,7 +1190,7 @@ kernelsage serve --port 8080
 
 - D43: 人工抽查 3 份描述报告 + 3 份比较报告
 - D44: 记录关键结论证据覆盖率，目标 V1 ≥80%
-- D45: 可选：写 1–2 份 golden 报告作为 V2 评测材料
+- D45: 已提前完成轻量版：固定 2 份文档级 golden；V2 再扩展为可量化 golden benchmark
 - D46: 调 prompt，修复无证据推断和表达不清问题
 - D47: 重跑端到端 demo，稳定输出
 - D48: 补全 README、docs/、examples/
