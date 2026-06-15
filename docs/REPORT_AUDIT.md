@@ -124,4 +124,4 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --limit 3
 ```
 
-当前验证结果：62 个 unittest 全部通过，`compileall` 通过；本地已重新生成四份描述报告和一份对比报告，生成物保留在 ignored 的 `data/reports/` 目录供人工查看。Golden 校准材料见 `docs/GOLDEN_CASES.md` 和 `docs/golden/`。
+当前验证结果：64 个 unittest 全部通过，`compileall` 通过；本地已重新生成四份描述报告和一份对比报告，生成物保留在 ignored 的 `data/reports/` 目录供人工查看。Golden 校准材料见 `docs/GOLDEN_CASES.md` 和 `docs/golden/`。

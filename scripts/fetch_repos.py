@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -32,6 +33,7 @@ if hasattr(sys.stdout, "reconfigure"):
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = PROJECT_ROOT / "data" / "samples" / "manifest.json"
 DEFAULT_OUT_DIR = PROJECT_ROOT / "data" / "samples"
+SAFE_REPO_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 
 
 @dataclass
@@ -95,11 +97,38 @@ def build_clone_args(url: str, repo_dir: Path, depth: int) -> list[str]:
     return args
 
 
+def validate_repo_id(repo_id: str) -> str:
+    if not isinstance(repo_id, str) or not repo_id:
+        raise ValueError("repo_id must be a non-empty string")
+    if not SAFE_REPO_ID_RE.fullmatch(repo_id):
+        raise ValueError(f"unsafe repo_id: {repo_id!r}")
+    if repo_id in {".", ".."} or Path(repo_id).is_absolute():
+        raise ValueError(f"unsafe repo_id: {repo_id!r}")
+    return repo_id
+
+
+def resolve_repo_dir(out_dir: Path, repo_id: str) -> Path:
+    safe_repo_id = validate_repo_id(repo_id)
+    out_root = out_dir.resolve(strict=False)
+    repo_dir = (out_root / safe_repo_id).resolve(strict=False)
+    if repo_dir == out_root or out_root not in repo_dir.parents:
+        raise ValueError(f"repo path escapes output directory: {repo_id!r}")
+    return repo_dir
+
+
 def clone_one(entry: dict[str, Any], out_dir: Path, depth: int, reclone: bool) -> FetchResult:
     repo_id = entry["repo_id"]
     url = entry["url"]
-    repo_dir = out_dir / repo_id
     start = datetime.now(timezone.utc)
+    try:
+        repo_dir = resolve_repo_dir(out_dir, repo_id)
+    except ValueError as exc:
+        elapsed = (datetime.now(timezone.utc) - start).total_seconds()
+        log(f"拒绝 {repo_id}: {exc}", level="ERROR")
+        return FetchResult(
+            repo_id=repo_id, url=url, status="failed",
+            path=None, head_sha=None, duration_sec=elapsed, error=str(exc),
+        )
 
     if repo_dir.exists():
         if reclone:

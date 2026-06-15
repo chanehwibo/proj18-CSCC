@@ -1,7 +1,9 @@
 import importlib.util
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 SCRIPT_PATH = Path(__file__).resolve().parents[1] / "scripts" / "fetch_repos.py"
@@ -48,6 +50,37 @@ class FetchReposCloneArgsTest(unittest.TestCase):
                 )
                 self.assertNotIn("--depth", args)
                 self.assertNotIn("--single-branch", args)
+
+    def test_resolve_repo_dir_rejects_unsafe_repo_ids(self):
+        bad_repo_ids = ("../evil", "nested/repo", r"nested\repo", "C:evil", ".hidden", "")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "samples"
+            for repo_id in bad_repo_ids:
+                with self.subTest(repo_id=repo_id):
+                    with self.assertRaises(ValueError):
+                        fetch_repos.resolve_repo_dir(out_dir, repo_id)
+
+    def test_clone_one_rejects_unsafe_repo_id_without_git_or_delete(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp) / "samples"
+            outside = Path(tmp) / "outside"
+            outside.mkdir()
+            marker = outside / "keep.txt"
+            marker.write_text("do not delete", encoding="utf-8")
+
+            with patch.object(fetch_repos, "run_git") as run_git:
+                result = fetch_repos.clone_one(
+                    {"repo_id": "../outside", "url": "https://example.com/repo.git"},
+                    out_dir,
+                    depth=1,
+                    reclone=True,
+                )
+
+            self.assertEqual(result.status, "failed")
+            self.assertIn("unsafe repo_id", result.error)
+            self.assertTrue(marker.exists())
+            run_git.assert_not_called()
 
 
 if __name__ == "__main__":
