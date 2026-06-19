@@ -13,6 +13,7 @@ from .analyzer import KernelAnalyzer
 from .collector import RepoCollector
 from .llm import LLMReportGenerator
 from .llm_audit import LLMReportAuditor
+from .manifest_audit import ManifestAuditor, render_manifest_audit
 from .models import KernelProfile, is_verified_award_case, to_dict
 from .parser import SymbolParser
 from .profile_cache import ProfileCache
@@ -324,6 +325,19 @@ def cmd_audit_llm_report(args: argparse.Namespace) -> int:
     return 0 if result.ok else 1
 
 
+def cmd_manifest_audit(args: argparse.Namespace) -> int:
+    result = ManifestAuditor().audit(Path(args.manifest), Path(args.samples))
+    if args.json:
+        print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        print(render_manifest_audit(result), end="")
+    if result.errors:
+        return 1
+    if args.strict and result.warnings:
+        return 1
+    return 0
+
+
 def add_profile_cache_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--no-profile-cache", action="store_true", help="disable KernelProfile cache reads")
     parser.add_argument("--rebuild-profile-cache", action="store_true", help="force rebuilding cached KernelProfile files")
@@ -383,6 +397,13 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--prompt", required=True, help="path to the dry-run prompt markdown")
     p.add_argument("--report", required=True, help="path to the LLM generated report markdown")
     p.set_defaults(func=cmd_audit_llm_report)
+
+    p = sub.add_parser("manifest-audit", help="audit sample manifest trust metadata")
+    p.add_argument("--manifest", default=str(SAMPLES_DIR / "manifest.json"), help="path to samples manifest JSON")
+    p.add_argument("--samples", default=str(SAMPLES_DIR), help="path to local sample repositories")
+    p.add_argument("--json", action="store_true", help="print machine-readable JSON")
+    p.add_argument("--strict", action="store_true", help="treat warnings as failures")
+    p.set_defaults(func=cmd_manifest_audit)
     return parser
 
 
