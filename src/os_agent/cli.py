@@ -12,6 +12,7 @@ from .agent import CompareAgent
 from .analyzer import KernelAnalyzer
 from .collector import RepoCollector
 from .html_reporter import HTMLReporter
+from .indexer import EvidenceIndexer
 from .llm import LLMReportGenerator
 from .llm_audit import LLMReportAuditor
 from .manifest_audit import ManifestAuditor, render_manifest_audit
@@ -19,6 +20,7 @@ from .models import KernelProfile, is_verified_award_case, to_dict
 from .parser import SymbolParser
 from .profile_cache import ProfileCache
 from .reporter import Reporter
+from .retriever import EvidenceRetriever, render_query_result
 from .selector import HistorySelector
 
 
@@ -361,6 +363,26 @@ def cmd_manifest_audit(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_query_evidence(args: argparse.Namespace) -> int:
+    query = str(args.query or "").strip()
+    if not query:
+        print("query-evidence requires a non-empty query", file=sys.stderr)
+        return 2
+    retriever = EvidenceRetriever()
+    index = EvidenceIndexer().build_samples_index(
+        Path(args.samples),
+        repo_ids=getattr(args, "repo_id", None),
+        max_files_per_repo=args.max_files_per_repo,
+        path_filter_terms=retriever.query_terms(query),
+    )
+    result = retriever.query(index, query, limit=args.limit)
+    if args.json:
+        print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        print(render_query_result(result), end="")
+    return 0
+
+
 def add_profile_cache_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--no-profile-cache", action="store_true", help="disable KernelProfile cache reads")
     parser.add_argument("--rebuild-profile-cache", action="store_true", help="force rebuilding cached KernelProfile files")
@@ -433,6 +455,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--json", action="store_true", help="print machine-readable JSON")
     p.add_argument("--strict", action="store_true", help="treat warnings as failures")
     p.set_defaults(func=cmd_manifest_audit)
+
+    p = sub.add_parser("query-evidence", help="search local sample source evidence by OS concept")
+    p.add_argument("query", help="query text, for example: 调度器/页表/系统调用")
+    p.add_argument("--samples", default=str(SAMPLES_DIR), help="path to local sample repositories")
+    p.add_argument("--repo-id", action="append", help="restrict search to a repo_id; repeatable")
+    p.add_argument("--limit", type=int, default=10, help="maximum evidence hits to print")
+    p.add_argument("--max-files-per-repo", type=int, default=300, help="maximum source files indexed per repository")
+    p.add_argument("--json", action="store_true", help="print machine-readable JSON")
+    p.set_defaults(func=cmd_query_evidence)
     return parser
 
 

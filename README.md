@@ -61,7 +61,8 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
 | 参考库 | 已扩展 | 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例 |
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存、自动审计和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，compare self-check 按新仓库/历史仓库 root 校验证据 |
-| 测试回归 | 已补强 | 73 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、证据格式约束、报告抽查回归和 golden 文档契约 |
+| 展示亮点 | 已补强 | 支持 `manifest-audit` 样本库可信度自检、HTML 证据报告和 `query-evidence` 源码证据检索 |
+| 测试回归 | 已补强 | 83 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、HTML 报告、证据检索和 golden 文档契约 |
 | 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)、[docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
 | 下一重点 | 进行中 | 答辩材料整理、获奖案例持续抽查、LLM 输出边界优化 |
 
@@ -89,6 +90,8 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 - **历史样本选择**：按风格、架构、语言、OS 维度和规模相似度选取代表性参考仓库；
 - **描述报告生成**：输出维度结论、证据表、代码片段、相关符号和复核建议；
 - **对比报告生成**：输出相似点、差异点、可能创新点和功能重合/疑似重复线索；
+- **HTML 证据报告**：可选生成静态 HTML，展示结论、证据文件、行号、自检状态和相似度分数；
+- **证据检索入口**：通过 `query-evidence` 输入“调度器/页表/系统调用”等概念，返回相关源码位置和样本项目；
 - **LLM 受控增强**：在明确开启时调用在线模型润色文本，并通过 prompt 边界、自动审计和审计命令约束输出；
 - **self-check 核验**：检查证据文件、行号和关键结论覆盖率，避免报告脱离源码。
 
@@ -124,10 +127,11 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 - [x] 行动项 9：实现代码级相似线索检测，覆盖路径、函数名、结构体/宏和片段 token/结构相似度。
 - [x] 行动项 10：接入 DeepSeek/OpenAI-compatible LLM 客户端，支持 dry-run、缓存和失败回退。
 - [x] 行动项 11：实现 `audit-llm-report`，检查 LLM 报告是否越界引用或把相似线索写成抄袭结论。
-- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 73 个 unittest 通过。
+- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 83 个 unittest 通过。
 - [x] 行动项 13：整理展示样例链路，固定 `xv6-public` 和 `oskernel2024-aabcb` 两条演示路径。
 - [x] 行动项 14：固定 1 份描述 golden 和 1 份对比 golden，作为人工校准样例。
-- [ ] 行动项 15：继续沉淀答辩材料，压缩“可信度如何保证”“为什么不自动判抄袭”“样本库偏置如何控制”等口播内容。
+- [x] 行动项 15：新增样本库可信度自检、HTML 证据报告和证据检索入口，强化答辩演示能力。
+- [ ] 行动项 16：继续沉淀答辩材料，压缩“可信度如何保证”“为什么不自动判抄袭”“样本库偏置如何控制”等口播内容。
 
 ### 3.3 项目详细推进情况
 
@@ -322,7 +326,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 ```
 
-最近一次完整回归记录为 73 个 unittest 全部通过。
+最近一次完整回归记录为 83 个 unittest 全部通过。
 
 ### 5.2 报告质量评估
 
@@ -368,6 +372,12 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 python scripts\fetch_repos.py
 ```
 
+样本库可信度自检：
+
+```powershell
+python scripts\kernelsage.py manifest-audit --json
+```
+
 干净目录复现检查（可选）：不改动现有 `data/samples/`，从临时目录拉取代表样本并生成报告。
 
 ```powershell
@@ -383,12 +393,14 @@ python scripts\kernelsage.py compare "$tmp\samples\award2024-huster-proj306" --h
 
 ```powershell
 python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3
+python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --html
 ```
 
 生成比较报告：
 
 ```powershell
 python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3
+python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 3 --html
 ```
 
 默认会复用 `data/profiles/` 下的 `KernelProfile` 缓存，避免每次比较都重新分析 21 个历史样本。源码仓库 HEAD、文件数量、总大小或修改时间变化时，缓存会自动失效。
@@ -404,6 +416,13 @@ python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-publi
 
 ```powershell
 python scripts\kernelsage.py demo data\samples\rcore-tutorial-v3 --repo-id rcore-tutorial-v3 --limit 2
+```
+
+检索样本库源码证据：
+
+```powershell
+python scripts\kernelsage.py query-evidence "调度器/页表/系统调用" --limit 5
+python scripts\kernelsage.py query-evidence "系统调用" --repo-id xv6-public --json
 ```
 
 生成 prompt 但不调用 API：
@@ -441,6 +460,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | `data/profiles/*.json` | 结构化 KernelProfile | 否 |
 | `data/reports/describe/*.md` | 描述报告 | 否 |
 | `data/reports/compare/*.md` | 比较报告 | 否 |
+| `data/reports/html/*.html` | HTML 证据报告 | 否 |
 | `data/reports/prompts/*.prompt.md` | LLM dry-run prompt | 否 |
 | `data/llm_cache/` | LLM 响应缓存 | 否 |
 | `data/samples/<repo_id>/` | 本地拉取的历史仓库源码 | 否 |
@@ -484,7 +504,11 @@ proj18-os-agent-compare/
 |       |-- selector.py
 |       |-- agent.py
 |       |-- reporter.py
+|       |-- html_reporter.py
 |       |-- selfcheck.py
+|       |-- indexer.py
+|       |-- retriever.py
+|       |-- manifest_audit.py
 |       |-- llm.py
 |       `-- cli.py
 |-- data/
@@ -505,6 +529,8 @@ proj18-os-agent-compare/
     |-- test_similarity.py
     |-- test_llm_audit.py
     |-- test_llm_prompt.py
+    |-- test_manifest_audit.py
+    |-- test_retriever.py
     |-- test_selector.py
     |-- test_golden_docs.py
     `-- test_selfcheck.py

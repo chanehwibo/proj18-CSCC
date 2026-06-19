@@ -125,6 +125,9 @@ python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id r
 - OS 专用 7 维度画像，而不是通用代码摘要。
 - 比较样本按画像相似度选择。
 - 关键结论带源码路径和行号。
+- 可用 HTML 证据报告展示结论、行号、自检状态和相似度分数。
+- 可用 `query-evidence` 直接检索“调度器/页表/系统调用”等源码证据。
+- 可用 `manifest-audit` 自检样本库可信度。
 - LLM 调用有 dry-run、缓存、失败回退和证据约束。
 - 工具可用一条 `demo` 命令完成端到端演示。
 
@@ -133,7 +136,7 @@ python scripts\kernelsage.py describe data\samples\rcore-tutorial-v3 --repo-id r
 - V1 仍以静态规则和关键词证据为主，不做完整调用图。
 - LLM 输出需要继续人工审阅，不能作为最终判定。
 - 当前历史样本规模较小，后续可扩展到更多比赛仓库。
-- Web/HTML 展示属于后续增强，不影响命令行 MVP 演示。
+- HTML 报告和 query-evidence 是本地展示/检索入口，不改变底层分析结论，也不替代人工复核。
 
 ## 演示后清理
 
