@@ -2,9 +2,10 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from os_agent.models import KernelProfile, RepoMeta
-from os_agent.profile_cache import ProfileCache
+from os_agent.profile_cache import ProfileCache, SourceFingerprint
 
 
 class ProfileCacheTest(unittest.TestCase):
@@ -54,6 +55,51 @@ class ProfileCacheTest(unittest.TestCase):
 
             self.assertFalse(rebuilt.hit)
             self.assertEqual(calls["count"], 2)
+
+    def test_clean_git_repo_uses_fast_fingerprint_without_tree_scan(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            repo = root / "repo"
+            repo.mkdir()
+            cache = ProfileCache(root / "profiles")
+
+            with (
+                patch.object(cache, "_git_head", return_value="abc123"),
+                patch.object(cache, "_git_worktree_clean", return_value=True),
+                patch.object(cache, "_git_tracked_file_count", return_value=7),
+                patch.object(cache, "_full_tree_fingerprint") as full_scan,
+            ):
+                fingerprint = cache.fingerprint(repo)
+
+        self.assertEqual(fingerprint.commit, "git-clean:abc123")
+        self.assertEqual(fingerprint.file_count, 7)
+        self.assertEqual(fingerprint.total_size, 0)
+        self.assertEqual(fingerprint.newest_mtime_ns, 0)
+        full_scan.assert_not_called()
+
+    def test_dirty_git_repo_falls_back_to_full_tree_fingerprint(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            repo = root / "repo"
+            repo.mkdir()
+            cache = ProfileCache(root / "profiles")
+            full = SourceFingerprint(
+                root_path=str(repo),
+                commit="abc123",
+                file_count=1,
+                total_size=32,
+                newest_mtime_ns=99,
+            )
+
+            with (
+                patch.object(cache, "_git_head", return_value="abc123"),
+                patch.object(cache, "_git_worktree_clean", return_value=False),
+                patch.object(cache, "_full_tree_fingerprint", return_value=full) as full_scan,
+            ):
+                fingerprint = cache.fingerprint(repo)
+
+        self.assertEqual(fingerprint, full)
+        full_scan.assert_called_once_with(repo)
 
 
 if __name__ == "__main__":

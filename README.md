@@ -61,7 +61,7 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
 | 参考库 | 已扩展 | 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例 |
 | LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存和失败回退 |
 | 证据约束 | 已实现 | 报告保留源码路径和行号，compare self-check 按新仓库/历史仓库 root 校验证据 |
-| 测试回归 | 已补强 | 69 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、证据格式约束、报告抽查回归和 golden 文档契约 |
+| 测试回归 | 已补强 | 71 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、证据格式约束、报告抽查回归和 golden 文档契约 |
 | 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)、[docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
 | 下一重点 | 进行中 | 答辩材料整理、获奖案例持续抽查、LLM 输出边界优化 |
 

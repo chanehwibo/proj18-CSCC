@@ -12,7 +12,7 @@ from .collector import SKIP_DIRS
 from .models import KernelProfile, kernel_profile_from_dict, to_dict
 
 
-CACHE_SCHEMA_VERSION = "1.8"
+CACHE_SCHEMA_VERSION = "1.9"
 
 
 @dataclass
@@ -86,6 +86,12 @@ class ProfileCache:
         )
 
     def fingerprint(self, repo_path: Path) -> SourceFingerprint:
+        fast = self._git_fast_fingerprint(repo_path)
+        if fast:
+            return fast
+        return self._full_tree_fingerprint(repo_path)
+
+    def _full_tree_fingerprint(self, repo_path: Path) -> SourceFingerprint:
         file_count = 0
         total_size = 0
         newest_mtime_ns = 0
@@ -108,6 +114,23 @@ class ProfileCache:
             file_count=file_count,
             total_size=total_size,
             newest_mtime_ns=newest_mtime_ns,
+        )
+
+    def _git_fast_fingerprint(self, repo_path: Path) -> SourceFingerprint | None:
+        head = self._git_head(repo_path)
+        if not head:
+            return None
+        if not self._git_worktree_clean(repo_path):
+            return None
+        tracked_count = self._git_tracked_file_count(repo_path)
+        if tracked_count is None:
+            return None
+        return SourceFingerprint(
+            root_path=str(repo_path),
+            commit=f"git-clean:{head}",
+            file_count=tracked_count,
+            total_size=0,
+            newest_mtime_ns=0,
         )
 
     def _load_if_valid(
@@ -149,6 +172,40 @@ class ProfileCache:
         except (OSError, subprocess.TimeoutExpired):
             return None
         return proc.stdout.strip() if proc.returncode == 0 else None
+
+    def _git_worktree_clean(self, repo_path: Path) -> bool:
+        try:
+            proc = subprocess.run(
+                ["git", "status", "--porcelain", "--untracked-files=normal"],
+                cwd=str(repo_path),
+                capture_output=True,
+                text=True,
+                timeout=5,
+                encoding="utf-8",
+                errors="replace",
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            return False
+        return proc.returncode == 0 and not proc.stdout.strip()
+
+    def _git_tracked_file_count(self, repo_path: Path) -> int | None:
+        try:
+            proc = subprocess.run(
+                ["git", "ls-files", "-z"],
+                cwd=str(repo_path),
+                capture_output=True,
+                text=True,
+                timeout=10,
+                encoding="utf-8",
+                errors="replace",
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            return None
+        if proc.returncode != 0:
+            return None
+        if not proc.stdout:
+            return 0
+        return sum(1 for item in proc.stdout.split("\0") if item)
 
     def _local_meta_head(self, repo_path: Path) -> str | None:
         meta_path = repo_path / ".kernelsage_meta.json"
