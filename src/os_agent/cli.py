@@ -147,6 +147,16 @@ def source_tier_label(profile: KernelProfile) -> str:
     return label
 
 
+def audit_llm_report_or_raise(prompt_text: str, report: str) -> None:
+    audit = LLMReportAuditor().audit(prompt_text, report)
+    if audit.ok:
+        return
+
+    errors = [f"{issue.code}: {issue.message}" for issue in audit.issues if issue.severity == "error"]
+    detail = "; ".join(errors) if errors else "LLM report audit failed"
+    raise RuntimeError(detail)
+
+
 def cmd_profile(args: argparse.Namespace) -> int:
     profile = build_profile_cached(
         Path(args.repo),
@@ -174,12 +184,15 @@ def cmd_describe(args: argparse.Namespace) -> int:
         if args.llm_dry_run:
             dry_run_path = REPORTS_DIR / "prompts" / f"{profile.meta.repo_id}.describe.prompt.md"
         try:
-            report = LLMReportGenerator().render_profile(profile, dry_run_path=dry_run_path)
+            generator = LLMReportGenerator()
+            report = generator.render_profile(profile, dry_run_path=dry_run_path)
             if args.llm_dry_run:
                 print(report)
                 report = Reporter().render_profile(profile)
+            elif args.use_llm:
+                audit_llm_report_or_raise(generator.format_profile_prompt(profile), report)
         except RuntimeError as exc:
-            print(f"LLM failed, falling back to rule-based report: {exc}", file=sys.stderr)
+            print(f"LLM failed or audit rejected output, falling back to rule-based report: {exc}", file=sys.stderr)
             report = Reporter().render_profile(profile)
     else:
         report = Reporter().render_profile(profile)
@@ -239,6 +252,7 @@ def cmd_demo(args: argparse.Namespace) -> int:
             llm_dry_run=args.llm_dry_run,
             no_profile_cache=args.no_profile_cache,
             rebuild_profile_cache=args.rebuild_profile_cache,
+            jobs=getattr(args, "jobs", 1),
         )
     )
     if compare_code != 0:
@@ -280,12 +294,15 @@ def cmd_compare(args: argparse.Namespace) -> int:
         if args.llm_dry_run:
             dry_run_path = REPORTS_DIR / "prompts" / f"{new_profile.meta.repo_id}.compare.prompt.md"
         try:
-            report = LLMReportGenerator().render_compare(result, dry_run_path=dry_run_path)
+            generator = LLMReportGenerator()
+            report = generator.render_compare(result, dry_run_path=dry_run_path)
             if args.llm_dry_run:
                 print(report)
                 report = Reporter().render_compare(result)
+            elif args.use_llm:
+                audit_llm_report_or_raise(generator.format_compare_prompt(result), report)
         except RuntimeError as exc:
-            print(f"LLM failed, falling back to rule-based compare report: {exc}", file=sys.stderr)
+            print(f"LLM failed or audit rejected output, falling back to rule-based compare report: {exc}", file=sys.stderr)
             report = Reporter().render_compare(result)
     else:
         report = Reporter().render_compare(result)

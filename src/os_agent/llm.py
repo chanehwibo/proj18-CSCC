@@ -180,6 +180,12 @@ class LLMReportGenerator:
         report = self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
         return self._normalize_evidence_refs(report)
 
+    def format_profile_prompt(self, profile: KernelProfile) -> str:
+        return self.client._format_prompt(self.SYSTEM, self._profile_prompt(profile))
+
+    def format_compare_prompt(self, result: CompareResult) -> str:
+        return self.client._format_prompt(self.SYSTEM, self._compare_prompt(result))
+
     def _normalize_evidence_refs(self, report: str) -> str:
         """Normalize LLM shorthand `path:1-3` citations to the audited `path:L1-L3` form."""
 

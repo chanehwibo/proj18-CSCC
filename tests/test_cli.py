@@ -1,3 +1,4 @@
+import argparse
 import tempfile
 import unittest
 from pathlib import Path
@@ -9,13 +10,38 @@ from os_agent.cli import (
     build_parser,
     build_history_profiles,
     cmd_audit_llm_report,
+    cmd_compare,
+    cmd_describe,
     cmd_demo,
     source_tier_label,
 )
-from os_agent.models import KernelProfile, RepoMeta
+from os_agent.models import Evidence, Finding, KernelProfile, RepoMeta
 
 
 class CliParserTest(unittest.TestCase):
+    def _profile_with_evidence(self, root: Path) -> KernelProfile:
+        repo = root / "repo"
+        repo.mkdir()
+        (repo / "kernel.c").write_text("void schedule(void) {}\n", encoding="utf-8")
+        return KernelProfile(
+            meta=RepoMeta(repo_id="audit-repo", name="audit-repo", root_path=str(repo)),
+            dimensions={
+                "scheduler": [
+                    Finding(
+                        "scheduler evidence exists",
+                        evidence=[
+                            Evidence(
+                                file="kernel.c",
+                                line_start=1,
+                                line_end=1,
+                                snippet="void schedule(void) {}",
+                            )
+                        ],
+                    )
+                ]
+            },
+        )
+
     def test_demo_parser_includes_llm_and_history_options(self):
         args = build_parser().parse_args(
             [
@@ -130,6 +156,70 @@ class CliParserTest(unittest.TestCase):
         self.assertEqual([profile.meta.repo_id for profile in profiles], ["alpha", "beta"])
         self.assertEqual(cache_hits, 1)
         self.assertEqual(cache_rebuilt, 1)
+
+    def test_describe_use_llm_falls_back_when_audit_rejects_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            profile = self._profile_with_evidence(root)
+            out = root / "describe.md"
+
+            with (
+                patch("os_agent.cli.PROFILES_DIR", root / "profiles"),
+                patch("os_agent.cli.REPORTS_DIR", root / "reports"),
+                patch("os_agent.cli.build_profile_cached", return_value=profile),
+                patch("os_agent.cli.LLMReportGenerator.render_profile", return_value="bad `missing.c:L1-L1`"),
+            ):
+                code = cmd_describe(
+                    argparse.Namespace(
+                        repo=str(root / "repo"),
+                        repo_id="audit-repo",
+                        out=str(out),
+                        use_llm=True,
+                        llm_dry_run=False,
+                        no_profile_cache=False,
+                        rebuild_profile_cache=False,
+                    )
+                )
+            report = out.read_text(encoding="utf-8")
+
+            self.assertEqual(code, 0)
+            self.assertIn("audit-repo", report)
+            self.assertNotIn("missing.c", report)
+
+    def test_compare_use_llm_falls_back_when_audit_rejects_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            profile = self._profile_with_evidence(root)
+            history = root / "history"
+            history.mkdir()
+            out = root / "compare.md"
+
+            with (
+                patch("os_agent.cli.PROFILES_DIR", root / "profiles"),
+                patch("os_agent.cli.REPORTS_DIR", root / "reports"),
+                patch("os_agent.cli.build_profile_cached", return_value=profile),
+                patch("os_agent.cli.build_history_profiles", return_value=([], 0, 0)),
+                patch("os_agent.cli.LLMReportGenerator.render_compare", return_value="bad `missing.c:L1-L1`"),
+            ):
+                code = cmd_compare(
+                    argparse.Namespace(
+                        new=str(root / "repo"),
+                        history=str(history),
+                        repo_id="audit-repo",
+                        limit=3,
+                        out=str(out),
+                        use_llm=True,
+                        llm_dry_run=False,
+                        no_profile_cache=False,
+                        rebuild_profile_cache=False,
+                        jobs=1,
+                    )
+                )
+            report = out.read_text(encoding="utf-8")
+
+            self.assertEqual(code, 0)
+            self.assertIn("audit-repo", report)
+            self.assertNotIn("missing.c", report)
 
 
 if __name__ == "__main__":
