@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from .agent import CompareAgent
@@ -62,6 +63,74 @@ def build_profile_cached(
         status = "hit" if result.hit else "rebuilt"
         print(f"profile cache {status}: {effective_repo_id} -> {result.profile_path}")
     return result.profile
+
+
+def _history_repo_dirs(history_root: Path, new_path: Path) -> list[Path]:
+    repo_dirs = []
+    for repo_dir in history_root.iterdir():
+        if not repo_dir.is_dir() or repo_dir.name.startswith(".") or repo_dir.resolve() == new_path:
+            continue
+        repo_dirs.append(repo_dir)
+    return sorted(repo_dirs, key=lambda path: path.name.lower())
+
+
+def _build_history_profile(
+    repo_dir: Path,
+    *,
+    use_cache: bool,
+    force_rebuild: bool,
+) -> tuple[KernelProfile, bool]:
+    cache = ProfileCache(PROFILES_DIR)
+    result = cache.get_or_build(
+        repo_dir,
+        repo_dir.name,
+        lambda repo_dir=repo_dir: build_profile(repo_dir, repo_id=repo_dir.name),
+        use_cache=use_cache,
+        force_rebuild=force_rebuild,
+    )
+    return result.profile, result.hit
+
+
+def build_history_profiles(
+    history_root: Path,
+    new_path: Path,
+    *,
+    jobs: int = 1,
+    use_cache: bool = True,
+    force_rebuild: bool = False,
+) -> tuple[list[KernelProfile], int, int]:
+    repo_dirs = _history_repo_dirs(history_root, new_path)
+    if not repo_dirs:
+        return [], 0, 0
+
+    workers = max(1, jobs)
+    results: list[tuple[KernelProfile, bool] | None] = [None] * len(repo_dirs)
+    if workers == 1:
+        for index, repo_dir in enumerate(repo_dirs):
+            results[index] = _build_history_profile(
+                repo_dir,
+                use_cache=use_cache,
+                force_rebuild=force_rebuild,
+            )
+    else:
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {
+                executor.submit(
+                    _build_history_profile,
+                    repo_dir,
+                    use_cache=use_cache,
+                    force_rebuild=force_rebuild,
+                ): index
+                for index, repo_dir in enumerate(repo_dirs)
+            }
+            for future in as_completed(futures):
+                results[futures[future]] = future.result()
+
+    loaded = [result for result in results if result is not None]
+    profiles = [profile for profile, _hit in loaded]
+    cache_hits = sum(1 for _profile, hit in loaded if hit)
+    cache_rebuilt = len(loaded) - cache_hits
+    return profiles, cache_hits, cache_rebuilt
 
 
 def write_json(path: Path, value) -> None:
@@ -154,6 +223,7 @@ def cmd_demo(args: argparse.Namespace) -> int:
             llm_dry_run=args.llm_dry_run,
             no_profile_cache=args.no_profile_cache,
             rebuild_profile_cache=args.rebuild_profile_cache,
+            jobs=getattr(args, "jobs", 1),
         )
     )
     if describe_code != 0:
@@ -189,25 +259,13 @@ def cmd_compare(args: argparse.Namespace) -> int:
         force_rebuild=args.rebuild_profile_cache,
     )
     history_root = Path(args.history)
-    history_profiles: list[KernelProfile] = []
-    cache_hits = 0
-    cache_rebuilt = 0
-    cache = ProfileCache(PROFILES_DIR)
-    for repo_dir in history_root.iterdir():
-        if not repo_dir.is_dir() or repo_dir.name.startswith(".") or repo_dir.resolve() == new_path:
-            continue
-        result = cache.get_or_build(
-            repo_dir,
-            repo_dir.name,
-            lambda repo_dir=repo_dir: build_profile(repo_dir, repo_id=repo_dir.name),
-            use_cache=not args.no_profile_cache,
-            force_rebuild=args.rebuild_profile_cache,
-        )
-        history_profiles.append(result.profile)
-        if result.hit:
-            cache_hits += 1
-        else:
-            cache_rebuilt += 1
+    history_profiles, cache_hits, cache_rebuilt = build_history_profiles(
+        history_root,
+        new_path,
+        jobs=getattr(args, "jobs", 1),
+        use_cache=not args.no_profile_cache,
+        force_rebuild=args.rebuild_profile_cache,
+    )
     ranked = HistorySelector().select(new_profile, history_profiles, limit=args.limit)
     selected_profiles = [item.profile for item in ranked]
     result = CompareAgent().compare(new_profile, selected_profiles, limit=args.limit)
@@ -286,6 +344,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--history", default=str(SAMPLES_DIR))
     p.add_argument("--repo-id")
     p.add_argument("--limit", type=int, default=3)
+    p.add_argument("--jobs", type=int, default=1, help="parallel workers for history profile building")
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate reports")
     p.add_argument("--llm-dry-run", action="store_true", help="write LLM prompts without calling the API")
     add_profile_cache_args(p)
@@ -296,6 +355,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--history", default=str(SAMPLES_DIR))
     p.add_argument("--repo-id")
     p.add_argument("--limit", type=int, default=3)
+    p.add_argument("--jobs", type=int, default=1, help="parallel workers for history profile building")
     p.add_argument("--out")
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate the report")
     p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
