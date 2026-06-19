@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import sys
 import tempfile
 import unittest
@@ -81,6 +82,40 @@ class FetchReposCloneArgsTest(unittest.TestCase):
             self.assertIn("unsafe repo_id", result.error)
             self.assertTrue(marker.exists())
             run_git.assert_not_called()
+
+    def test_write_repo_meta_preserves_award_source_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo_dir = Path(tmp) / "repo"
+            repo_dir.mkdir()
+            fetch_repos.write_repo_meta(
+                repo_dir,
+                {
+                    "repo_id": "award2024-demo",
+                    "name": "Demo Award OS",
+                    "url": "https://example.com/demo.git",
+                    "year": 2024,
+                    "category": "competition",
+                    "source_tier": "verified_award",
+                    "award_level": "一等奖",
+                    "award_source_url": "https://example.com/winners.md",
+                    "style": "componentized",
+                    "arch": ["riscv64"],
+                    "language_primary": "Rust",
+                    "team": "demo team",
+                    "school": "demo school",
+                    "license": "MIT",
+                    "note": "verified from official winners list",
+                },
+                head="abc123",
+                depth=1,
+            )
+
+            meta = json.loads((repo_dir / ".kernelsage_meta.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(meta["year"], 2024)
+        self.assertEqual(meta["source_tier"], "verified_award")
+        self.assertEqual(meta["award_level"], "一等奖")
+        self.assertEqual(meta["award_source_url"], "https://example.com/winners.md")
 
 
 if __name__ == "__main__":
