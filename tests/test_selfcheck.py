@@ -1,3 +1,4 @@
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -85,6 +86,57 @@ class EvidenceCheckerTest(unittest.TestCase):
             )
 
             summary = EvidenceChecker().compare_summary(result)
+
+        self.assertEqual(summary["key_findings"], 1)
+        self.assertEqual(summary["with_evidence"], 1)
+        self.assertEqual(summary["invalid_evidence"], 1)
+
+    def test_profile_summary_requires_non_empty_root_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = Path.cwd()
+            root = Path(tmp)
+            try:
+                (root / "kernel.rs").write_text("fn main() {}\n", encoding="utf-8")
+                profile = KernelProfile(
+                    meta=RepoMeta(repo_id="sample", name="sample", root_path=""),
+                    dimensions={
+                        "entry": [
+                            Finding(
+                                "profile evidence must not resolve through cwd",
+                                confidence="high",
+                                evidence=[Evidence("kernel.rs", 1, 1, "")],
+                            )
+                        ]
+                    },
+                )
+
+                os.chdir(root)
+                summary = EvidenceChecker().profile_summary(profile)
+            finally:
+                os.chdir(cwd)
+
+        self.assertEqual(summary["key_findings"], 1)
+        self.assertEqual(summary["with_evidence"], 1)
+        self.assertEqual(summary["invalid_evidence"], 1)
+
+    def test_empty_file_has_no_valid_line_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "empty.rs").write_text("", encoding="utf-8")
+            profile = KernelProfile(
+                meta=RepoMeta(repo_id="sample", name="sample", root_path=str(root)),
+                dimensions={
+                    "entry": [
+                        Finding(
+                            "empty file line evidence must be invalid",
+                            confidence="high",
+                            evidence=[Evidence("empty.rs", 1, 1, "")],
+                        )
+                    ]
+                },
+            )
+
+            summary = EvidenceChecker().profile_summary(profile)
 
         self.assertEqual(summary["key_findings"], 1)
         self.assertEqual(summary["with_evidence"], 1)

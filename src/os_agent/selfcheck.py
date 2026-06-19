@@ -12,7 +12,8 @@ class EvidenceChecker:
 
     def profile_summary(self, profile: KernelProfile) -> dict[str, int | float]:
         findings = self._profile_findings(profile)
-        return self._summary(findings, Path(profile.meta.root_path))
+        root = Path(profile.meta.root_path) if profile.meta.root_path else None
+        return self._summary(findings, root, require_root=True)
 
     def compare_summary(self, result: CompareResult, evidence_root: Path | None = None) -> dict[str, int | float]:
         findings = (
@@ -120,7 +121,9 @@ class EvidenceChecker:
             line_count = len(path.read_text(encoding="utf-8", errors="ignore").splitlines())
         except OSError:
             return False
-        return 1 <= evidence.line_start <= evidence.line_end <= max(line_count, 1)
+        if line_count == 0:
+            return False
+        return 1 <= evidence.line_start <= evidence.line_end <= line_count
 
     def _is_key_finding(self, finding: Finding) -> bool:
         if finding.confidence == "unconfirmed":
