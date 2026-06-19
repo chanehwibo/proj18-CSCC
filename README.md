@@ -55,16 +55,62 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
 
 当前项目已经形成可演示的 V1 MVP：能够拉取代表性历史样本，分析一个小型 OS 仓库，生成结构化画像、描述报告和对比报告，并给出证据核验摘要。系统强调“证据优先、边界清晰、可解释比较”，默认规则版分析不消耗在线模型 API，只有显式启用 `--use-llm` 时才调用 DeepSeek/OpenAI-compatible 模型。
 
-| 维度 | 状态 | 说明 |
-| --- | --- | --- |
-| MVP 闭环 | 已完成 | 仓库扫描、画像生成、报告生成、历史比较、self-check 已跑通 |
-| 参考库 | 已扩展 | 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例 |
-| LLM 接入 | 已接入 | 支持 DeepSeek/OpenAI-compatible API、dry-run、缓存、自动审计和失败回退 |
-| 证据约束 | 已实现 | 报告保留源码路径和行号，compare self-check 按新仓库/历史仓库 root 校验证据 |
-| 展示亮点 | 已补强 | 支持 `manifest-audit` 样本库可信度自检、HTML 证据报告和 `query-evidence` 源码证据检索 |
-| 测试回归 | 已补强 | 83 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、HTML 报告、证据检索和 golden 文档契约 |
-| 演示材料 | 已整理 | 见 [docs/DEMO.md](docs/DEMO.md)、[docs/STAGE_REVIEW.md](docs/STAGE_REVIEW.md)、[docs/HIGHLIGHTS.md](docs/HIGHLIGHTS.md)、[docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md)、[docs/GOLDEN_CASES.md](docs/GOLDEN_CASES.md) 和 [docs/REPORT_AUDIT.md](docs/REPORT_AUDIT.md) |
-| 下一重点 | 进行中 | 答辩材料整理、获奖案例持续抽查、LLM 输出边界优化 |
+<table>
+  <colgroup>
+    <col width="120">
+    <col width="96">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th nowrap>维度</th>
+      <th nowrap>状态</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td nowrap>MVP 闭环</td>
+      <td nowrap>已完成</td>
+      <td>仓库扫描、画像生成、报告生成、历史比较、self-check 已跑通</td>
+    </tr>
+    <tr>
+      <td nowrap>参考库</td>
+      <td nowrap>已扩展</td>
+      <td>21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例</td>
+    </tr>
+    <tr>
+      <td nowrap>LLM 接入</td>
+      <td nowrap>已接入</td>
+      <td>支持 DeepSeek/OpenAI-compatible API、dry-run、缓存、自动审计和失败回退</td>
+    </tr>
+    <tr>
+      <td nowrap>证据约束</td>
+      <td nowrap>已实现</td>
+      <td>报告保留源码路径和行号，compare self-check 按新仓库/历史仓库 root 校验证据</td>
+    </tr>
+    <tr>
+      <td nowrap>展示亮点</td>
+      <td nowrap>已补强</td>
+      <td>支持 <code>manifest-audit</code> 样本库可信度自检、HTML 证据报告和 <code>query-evidence</code> 源码证据检索</td>
+    </tr>
+    <tr>
+      <td nowrap>测试回归</td>
+      <td nowrap>已补强</td>
+      <td>83 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、HTML 报告、证据检索和 golden 文档契约</td>
+    </tr>
+    <tr>
+      <td nowrap>演示材料</td>
+      <td nowrap>已整理</td>
+      <td>见 <a href="docs/DEMO.md">docs/DEMO.md</a>、<a href="docs/STAGE_REVIEW.md">docs/STAGE_REVIEW.md</a>、<a href="docs/HIGHLIGHTS.md">docs/HIGHLIGHTS.md</a>、<a href="docs/SHOWCASE_CASE.md">docs/SHOWCASE_CASE.md</a>、<a href="docs/GOLDEN_CASES.md">docs/GOLDEN_CASES.md</a> 和 <a href="docs/REPORT_AUDIT.md">docs/REPORT_AUDIT.md</a></td>
+    </tr>
+    <tr>
+      <td nowrap>下一重点</td>
+      <td nowrap>进行中</td>
+      <td>答辩材料整理、获奖案例持续抽查、LLM 输出边界优化</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 二、项目概述
 
