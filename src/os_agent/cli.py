@@ -11,6 +11,7 @@ from pathlib import Path
 from .agent import CompareAgent
 from .analyzer import KernelAnalyzer
 from .collector import RepoCollector
+from .html_reporter import HTMLReporter
 from .llm import LLMReportGenerator
 from .llm_audit import LLMReportAuditor
 from .manifest_audit import ManifestAuditor, render_manifest_audit
@@ -139,6 +140,15 @@ def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(to_dict(value), ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def wants_html(args: argparse.Namespace) -> bool:
+    return bool(getattr(args, "html", False) or getattr(args, "html_out", None))
+
+
+def write_text(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+
 def source_tier_label(profile: KernelProfile) -> str:
     label = SOURCE_TIER_LABELS.get(profile.meta.source_tier, profile.meta.source_tier or "未标注")
     if is_verified_award_case(profile.meta) and profile.meta.award_level:
@@ -198,8 +208,11 @@ def cmd_describe(args: argparse.Namespace) -> int:
     else:
         report = Reporter().render_profile(profile)
     out = Path(args.out) if args.out else REPORTS_DIR / "describe" / f"{profile.meta.repo_id}.md"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(report, encoding="utf-8")
+    write_text(out, report)
+    if wants_html(args):
+        html_out = Path(args.html_out) if getattr(args, "html_out", None) else REPORTS_DIR / "html" / f"{profile.meta.repo_id}.describe.html"
+        write_text(html_out, HTMLReporter().render_profile(profile))
+        print(f"html report written: {html_out}")
     print(f"profile written: {profile_path}")
     print(f"report written: {out}")
     return 0
@@ -216,6 +229,8 @@ def cmd_describe_all(args: argparse.Namespace) -> int:
                 out=None,
                 use_llm=args.use_llm,
                 llm_dry_run=args.llm_dry_run,
+                html=getattr(args, "html", False),
+                html_out=None,
                 no_profile_cache=args.no_profile_cache,
                 rebuild_profile_cache=args.rebuild_profile_cache,
             )
@@ -235,6 +250,8 @@ def cmd_demo(args: argparse.Namespace) -> int:
             out=None,
             use_llm=args.use_llm,
             llm_dry_run=args.llm_dry_run,
+            html=getattr(args, "html", False),
+            html_out=None,
             no_profile_cache=args.no_profile_cache,
             rebuild_profile_cache=args.rebuild_profile_cache,
             jobs=getattr(args, "jobs", 1),
@@ -251,6 +268,8 @@ def cmd_demo(args: argparse.Namespace) -> int:
             out=None,
             use_llm=args.use_llm,
             llm_dry_run=args.llm_dry_run,
+            html=getattr(args, "html", False),
+            html_out=None,
             no_profile_cache=args.no_profile_cache,
             rebuild_profile_cache=args.rebuild_profile_cache,
             jobs=getattr(args, "jobs", 1),
@@ -307,7 +326,11 @@ def cmd_compare(args: argparse.Namespace) -> int:
             report = Reporter().render_compare(result)
     else:
         report = Reporter().render_compare(result)
-    out.write_text(report, encoding="utf-8")
+    write_text(out, report)
+    if wants_html(args):
+        html_out = Path(args.html_out) if getattr(args, "html_out", None) else REPORTS_DIR / "html" / f"{new_profile.meta.repo_id}_vs_history.html"
+        write_text(html_out, HTMLReporter().render_compare(result))
+        print(f"html report written: {html_out}")
     write_json(PROFILES_DIR / f"{new_profile.meta.repo_id}.json", new_profile)
     if ranked:
         print("selected history repositories:")
@@ -360,6 +383,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--out")
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate the report")
     p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
+    p.add_argument("--html", action="store_true", help="also write an HTML evidence report")
+    p.add_argument("--html-out", help="path to the HTML evidence report")
     add_profile_cache_args(p)
     p.set_defaults(func=cmd_describe)
 
@@ -367,6 +392,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--samples", default=str(SAMPLES_DIR))
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate reports")
     p.add_argument("--llm-dry-run", action="store_true", help="write LLM prompts without calling the API")
+    p.add_argument("--html", action="store_true", help="also write HTML evidence reports")
     add_profile_cache_args(p)
     p.set_defaults(func=cmd_describe_all)
 
@@ -378,6 +404,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--jobs", type=int, default=1, help="parallel workers for history profile building")
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate reports")
     p.add_argument("--llm-dry-run", action="store_true", help="write LLM prompts without calling the API")
+    p.add_argument("--html", action="store_true", help="also write HTML evidence reports")
     add_profile_cache_args(p)
     p.set_defaults(func=cmd_demo)
 
@@ -390,6 +417,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--out")
     p.add_argument("--use-llm", action="store_true", help="call configured LLM API to generate the report")
     p.add_argument("--llm-dry-run", action="store_true", help="write the LLM prompt without calling the API")
+    p.add_argument("--html", action="store_true", help="also write an HTML evidence report")
+    p.add_argument("--html-out", help="path to the HTML evidence report")
     add_profile_cache_args(p)
     p.set_defaults(func=cmd_compare)
 

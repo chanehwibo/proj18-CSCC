@@ -83,6 +83,23 @@ class CliParserTest(unittest.TestCase):
         self.assertTrue(args.no_profile_cache)
         self.assertTrue(args.rebuild_profile_cache)
 
+    def test_describe_parser_includes_html_options(self):
+        args = build_parser().parse_args(
+            [
+                "describe",
+                "data/samples/xv6-public",
+                "--repo-id",
+                "xv6-public",
+                "--html",
+                "--html-out",
+                "data/reports/html/xv6-public.html",
+            ]
+        )
+
+        self.assertIs(args.func, cmd_describe)
+        self.assertTrue(args.html)
+        self.assertEqual(args.html_out, "data/reports/html/xv6-public.html")
+
     def test_audit_llm_report_parser(self):
         args = build_parser().parse_args(
             [
@@ -185,6 +202,39 @@ class CliParserTest(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertIn("audit-repo", report)
             self.assertNotIn("missing.c", report)
+
+    def test_describe_writes_html_report_when_requested(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            profile = self._profile_with_evidence(root)
+            out = root / "describe.md"
+            html_out = root / "describe.html"
+
+            with (
+                patch("os_agent.cli.PROFILES_DIR", root / "profiles"),
+                patch("os_agent.cli.REPORTS_DIR", root / "reports"),
+                patch("os_agent.cli.build_profile_cached", return_value=profile),
+            ):
+                code = cmd_describe(
+                    argparse.Namespace(
+                        repo=str(root / "repo"),
+                        repo_id="audit-repo",
+                        out=str(out),
+                        use_llm=False,
+                        llm_dry_run=False,
+                        html=True,
+                        html_out=str(html_out),
+                        no_profile_cache=False,
+                        rebuild_profile_cache=False,
+                    )
+                )
+            html = html_out.read_text(encoding="utf-8")
+
+            self.assertEqual(code, 0)
+            self.assertTrue(out.exists())
+            self.assertIn("Profile evidence report", html)
+            self.assertIn("Evidence Files", html)
+            self.assertIn("Self-check", html)
 
     def test_compare_use_llm_falls_back_when_audit_rejects_output(self):
         with tempfile.TemporaryDirectory() as tmp:

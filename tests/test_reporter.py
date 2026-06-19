@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from os_agent.models import CompareResult, Evidence, Finding, KernelProfile, RepoMeta
+from os_agent.html_reporter import HTMLReporter
 from os_agent.reporter import Reporter, SOURCE_TIER_LABELS
 
 
@@ -118,6 +119,72 @@ class ReporterTest(unittest.TestCase):
         self.assertIn("| 证据健康度 | 10/10 |", report)
         self.assertIn("| 调度与任务管理 | 已确认 | high | 1 |", report)
         self.assertIn("不代表比赛官方评分，也不调用 LLM", report)
+
+
+class HTMLReporterTest(unittest.TestCase):
+    def test_profile_html_renders_evidence_and_self_check(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "kernel.c").write_text("void schedule(void) {}\n", encoding="utf-8")
+            profile = KernelProfile(
+                meta=RepoMeta(
+                    repo_id="html-os",
+                    name="html-os",
+                    root_path=str(root),
+                    style="teaching-monolithic",
+                    languages={"c": 1},
+                    file_count=1,
+                    loc_total=1,
+                ),
+                overview="profile overview",
+                dimensions={
+                    "scheduler": [
+                        Finding(
+                            "项目包含调度入口。",
+                            confidence="high",
+                            evidence=[Evidence("kernel.c", 1, 1, "void schedule(void) {}", note="scheduler")],
+                        )
+                    ]
+                },
+            )
+
+            html = HTMLReporter().render_profile(profile)
+
+        self.assertIn("<!doctype html>", html)
+        self.assertIn("Profile evidence report", html)
+        self.assertIn("Evidence Files", html)
+        self.assertIn("Self-check", html)
+        self.assertIn("kernel.c", html)
+        self.assertIn("status-ok", html)
+
+    def test_compare_html_renders_similarity_scores_and_conclusions(self):
+        result = CompareResult(
+            new_repo="new-os",
+            history_repos=["hist-os"],
+            selection_notes=["hist-os: score=0.82; 架构重合度 1.00"],
+            overlap_points=[
+                Finding(
+                    "与 hist-os 在系统调用维度存在功能重合。",
+                    confidence="medium",
+                    evidence=[Evidence("kernel/syscall.c", 2, 3, "void syscall(void) {}", repo_id="new-os")],
+                )
+            ],
+            code_similarity_points=[
+                Finding(
+                    "与 hist-os 发现片段级代码相似度 0.82。",
+                    confidence="high",
+                    evidence=[Evidence("hist/syscall.c", 4, 5, "void syscall(void) {}", repo_id="hist-os")],
+                )
+            ],
+        )
+
+        html = HTMLReporter().render_compare(result)
+
+        self.assertIn("Compare evidence report", html)
+        self.assertIn("Similarity Scores", html)
+        self.assertIn("Conclusions", html)
+        self.assertIn("0.82", html)
+        self.assertIn("width:82%", html)
 
 
 if __name__ == "__main__":
