@@ -93,6 +93,7 @@ Markdown 报告之外可生成静态 HTML，集中展示结论、证据文件、
 
 - `describe`、`compare`、`describe-all`、`demo` 支持 `--html`。
 - HTML 报告复用 self-check，不绕过证据校验。
+- 即使 Markdown 使用 `--use-llm` 增强，HTML 仍由结构化 profile/compare 数据渲染，是证据展示视图，不直接复刻 LLM 文本。
 - 默认输出到 `data/reports/html/`，作为本地生成物不提交仓库。
 
 ### 演示命令
@@ -138,7 +139,8 @@ python scripts\kernelsage.py query-evidence "系统调用" --repo-id xv6-public 
 
 - `--use-llm` 显式启用模型。
 - `--llm-dry-run` 只生成 prompt 文件，不调用 API。
-- `audit-llm-report` 检查 LLM 是否引用不存在证据、越界确认创新点或写成裁定。
+- 默认模型配置为 `deepseek-v4-pro`。
+- `audit-llm-report` 按 profile/compare 类型检查 LLM 是否引用不存在证据、越界确认创新点或写成裁定。
 - API 异常、JSON 异常、字段缺失、审计失败都会 fallback 到规则版报告。
 - `.env`、`data/llm_cache/` 等本地敏感数据不提交。
 

@@ -313,6 +313,6 @@ class Reporter:
             f"- 关键结论数：{summary['key_findings']}",
             f"- 含证据关键结论数：{summary['with_evidence']}（{summary['coverage']:.1f}%）",
             f"- 无效证据引用数：{summary['invalid_evidence']}",
-            f"- 未确认结论数：{summary['unconfirmed']}",
+            f"- 未确认关键结论数：{summary['unconfirmed']}",
             "- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。",
         ]

@@ -64,7 +64,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | 含证据关键结论数 | 16 |
 | 证据覆盖率 | 100.0% |
 | 无效证据引用数 | 0 |
-| 未确认结论数 | 0 |
+| 未确认关键结论数 | 0 |
 
 ## 比较报告摘要
 
@@ -91,7 +91,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | 含证据关键结论数 | 14 |
 | 证据覆盖率 | 100.0% |
 | 无效证据引用数 | 0 |
-| 未确认结论数 | 0 |
+| 未确认关键结论数 | 0 |
 
 ## 人工复核结论
 

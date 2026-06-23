@@ -5,7 +5,7 @@ import unittest
 import urllib.error
 from unittest.mock import patch
 
-from os_agent.llm import LLMClient, LLMReportGenerator, LLMSettings
+from os_agent.llm import DEFAULT_LLM_MODEL, LLMClient, LLMReportGenerator, LLMSettings
 from os_agent.models import CompareResult, Finding
 
 
@@ -89,6 +89,12 @@ class LLMClientFallbackTest(unittest.TestCase):
                     client.chat("prompt", system="system")
 
 
+class LLMSettingsTest(unittest.TestCase):
+    def test_default_model_uses_deepseek_v4_pro(self):
+        self.assertEqual(DEFAULT_LLM_MODEL, "deepseek-v4-pro")
+        self.assertEqual(LLMSettings().model, "deepseek-v4-pro")
+
+
 class LLMComparePromptTest(unittest.TestCase):
     def test_compare_prompt_includes_selection_overlap_self_check_and_uncertain_unique_rule(self):
         result = CompareResult(
@@ -114,6 +120,7 @@ class LLMComparePromptTest(unittest.TestCase):
         self.assertIn("当前证据不足，未自动确认创新点", prompt)
         self.assertIn("不能强行总结创新点", prompt)
         self.assertIn("不得把未标注为 verified_award 的历史样本称为特奖、一等奖或优秀获奖案例", prompt)
+        self.assertIn("未确认关键结论数", prompt)
 
     def test_normalizes_shorthand_evidence_references(self):
         generator = LLMReportGenerator.__new__(LLMReportGenerator)
@@ -129,6 +136,27 @@ class LLMComparePromptTest(unittest.TestCase):
         self.assertIn("`kernel/syscall.c:L10-L14`", normalized)
         self.assertIn("`LAB4 内存管理/trap.c:L9-L13`", normalized)
         self.assertIn("`kernel/proc.c:L4-L8`", normalized)
+
+    def test_appends_self_check_summary_when_llm_omits_it(self):
+        generator = LLMReportGenerator.__new__(LLMReportGenerator)
+
+        report = generator._ensure_self_check_summary(
+            "正文",
+            {"key_findings": 2, "with_evidence": 1, "coverage": 50.0, "invalid_evidence": 0, "unconfirmed": 1},
+        )
+
+        self.assertIn("## 核验摘要", report)
+        self.assertIn("未确认关键结论数：1", report)
+        self.assertIn("本地 self-check", report)
+
+    def test_appends_compare_review_section_before_existing_summary(self):
+        generator = LLMReportGenerator.__new__(LLMReportGenerator)
+
+        report = generator._ensure_compare_review_section("## 可能创新点\n\n无。\n\n## 核验摘要\n\n- 关键结论数：1\n")
+
+        self.assertIn("## 待人工复核项", report)
+        self.assertLess(report.index("## 待人工复核项"), report.index("## 核验摘要"))
+        self.assertIn("不构成抄袭裁定", report)
 
 
 if __name__ == "__main__":

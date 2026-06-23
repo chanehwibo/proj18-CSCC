@@ -223,7 +223,7 @@ class Settings(BaseSettings):
 
     # LLM
     llm_provider: str = "deepseek"          # deepseek / qwen / ollama
-    llm_model: str = "deepseek-chat"
+    llm_model: str = "deepseek-v4-pro"
     llm_base_url: str = "https://api.deepseek.com/v1"
     llm_api_key: str = ""                    # 从 .env 读取
     llm_max_tokens: int = 4096
@@ -1030,7 +1030,7 @@ def hallucination_check(report: Markdown, evidences: list[Evidence]) -> CheckRep
 ## 附录：核验摘要
 - 关键结论数：35
 - 含证据关键结论数：29（82.9%）
-- 未确认结论：4
+- 未确认关键结论数：4
 - 失效证据（指向不存在的文件/行）：0 ✅
 ```
 

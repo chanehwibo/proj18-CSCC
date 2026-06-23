@@ -114,6 +114,22 @@ class CliParserTest(unittest.TestCase):
         self.assertIs(args.func, cmd_audit_llm_report)
         self.assertEqual(args.prompt, "data/reports/prompts/xv6-public.compare.prompt.md")
         self.assertEqual(args.report, "data/reports/compare/xv6-public_vs_history.md")
+        self.assertEqual(args.report_type, "auto")
+
+    def test_audit_llm_report_parser_accepts_report_type(self):
+        args = build_parser().parse_args(
+            [
+                "audit-llm-report",
+                "--prompt",
+                "data/reports/prompts/xv6-public.describe.prompt.md",
+                "--report",
+                "data/reports/describe/xv6-public.md",
+                "--report-type",
+                "profile",
+            ]
+        )
+
+        self.assertEqual(args.report_type, "profile")
 
     def test_verified_award_label_requires_award_source_url(self):
         profile = KernelProfile(

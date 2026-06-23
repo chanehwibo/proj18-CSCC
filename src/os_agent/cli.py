@@ -160,8 +160,17 @@ def source_tier_label(profile: KernelProfile) -> str:
     return label
 
 
-def audit_llm_report_or_raise(prompt_text: str, report: str) -> None:
-    audit = LLMReportAuditor().audit(prompt_text, report)
+def configure_stdio() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except (OSError, ValueError):
+                pass
+
+
+def audit_llm_report_or_raise(prompt_text: str, report: str, *, report_type: str = "auto") -> None:
+    audit = LLMReportAuditor().audit(prompt_text, report, report_type=report_type)
     if audit.ok:
         return
 
@@ -203,7 +212,7 @@ def cmd_describe(args: argparse.Namespace) -> int:
                 print(report)
                 report = Reporter().render_profile(profile)
             elif args.use_llm:
-                audit_llm_report_or_raise(generator.format_profile_prompt(profile), report)
+                audit_llm_report_or_raise(generator.format_profile_prompt(profile), report, report_type="profile")
         except RuntimeError as exc:
             print(f"LLM failed or audit rejected output, falling back to rule-based report: {exc}", file=sys.stderr)
             report = Reporter().render_profile(profile)
@@ -322,7 +331,7 @@ def cmd_compare(args: argparse.Namespace) -> int:
                 print(report)
                 report = Reporter().render_compare(result)
             elif args.use_llm:
-                audit_llm_report_or_raise(generator.format_compare_prompt(result), report)
+                audit_llm_report_or_raise(generator.format_compare_prompt(result), report, report_type="compare")
         except RuntimeError as exc:
             print(f"LLM failed or audit rejected output, falling back to rule-based compare report: {exc}", file=sys.stderr)
             report = Reporter().render_compare(result)
@@ -345,7 +354,7 @@ def cmd_compare(args: argparse.Namespace) -> int:
 
 
 def cmd_audit_llm_report(args: argparse.Namespace) -> int:
-    result = LLMReportAuditor().audit_paths(Path(args.prompt), Path(args.report))
+    result = LLMReportAuditor().audit_paths(Path(args.prompt), Path(args.report), report_type=args.report_type)
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
     return 0 if result.ok else 1
 
@@ -447,6 +456,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("audit-llm-report", help="audit an LLM report against its dry-run prompt")
     p.add_argument("--prompt", required=True, help="path to the dry-run prompt markdown")
     p.add_argument("--report", required=True, help="path to the LLM generated report markdown")
+    p.add_argument("--report-type", choices=["auto", "profile", "compare"], default="auto", help="report type for section-specific audit rules")
     p.set_defaults(func=cmd_audit_llm_report)
 
     p = sub.add_parser("manifest-audit", help="audit sample manifest trust metadata")
@@ -468,9 +478,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    configure_stdio()
     parser = build_parser()
     args = parser.parse_args(argv)
     return args.func(args)

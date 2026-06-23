@@ -23,6 +23,7 @@ from .selfcheck import EvidenceChecker
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CACHE_DIR = PROJECT_ROOT / "data" / "llm_cache"
+DEFAULT_LLM_MODEL = "deepseek-v4-pro"
 MARKDOWN_CODE_SPAN_RE = re.compile(r"`(?P<body>[^`\r\n]+)`")
 BARE_EVIDENCE_REF_RE = re.compile(r"^(?P<file>.+?):(?P<start>\d+)(?:-(?P<end>\d+))?$")
 
@@ -31,7 +32,7 @@ BARE_EVIDENCE_REF_RE = re.compile(r"^(?P<file>.+?):(?P<start>\d+)(?:-(?P<end>\d+
 class LLMSettings:
     provider: str = "deepseek"
     base_url: str = "https://api.deepseek.com/v1"
-    model: str = "deepseek-chat"
+    model: str = DEFAULT_LLM_MODEL
     api_key: str = ""
     timeout: int = 120
     max_tokens: int = 4096
@@ -55,7 +56,7 @@ def load_settings() -> LLMSettings:
     return LLMSettings(
         provider=os.getenv("LLM_PROVIDER", "deepseek"),
         base_url=os.getenv("LLM_BASE_URL", "https://api.deepseek.com/v1").rstrip("/"),
-        model=os.getenv("LLM_MODEL", "deepseek-chat"),
+        model=os.getenv("LLM_MODEL", DEFAULT_LLM_MODEL),
         api_key=os.getenv("LLM_API_KEY", ""),
         timeout=int(os.getenv("LLM_TIMEOUT", "120")),
         max_tokens=int(os.getenv("LLM_MAX_TOKENS", "4096")),
@@ -173,12 +174,19 @@ class LLMReportGenerator:
     def render_profile(self, profile: KernelProfile, *, dry_run_path: Path | None = None) -> str:
         prompt = self._profile_prompt(profile)
         report = self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
-        return self._normalize_evidence_refs(report)
+        report = self._normalize_evidence_refs(report)
+        if dry_run_path:
+            return report
+        return self._ensure_self_check_summary(report, EvidenceChecker().profile_summary(profile))
 
     def render_compare(self, result: CompareResult, *, dry_run_path: Path | None = None) -> str:
         prompt = self._compare_prompt(result)
         report = self.client.chat(prompt, system=self.SYSTEM, dry_run_path=dry_run_path)
-        return self._normalize_evidence_refs(report)
+        report = self._normalize_evidence_refs(report)
+        if dry_run_path:
+            return report
+        report = self._ensure_compare_review_section(report)
+        return self._ensure_self_check_summary(report, EvidenceChecker().compare_summary(result))
 
     def format_profile_prompt(self, profile: KernelProfile) -> str:
         return self.client._format_prompt(self.SYSTEM, self._profile_prompt(profile))
@@ -205,6 +213,35 @@ class LLMReportGenerator:
 
         return MARKDOWN_CODE_SPAN_RE.sub(replace, report)
 
+    def _ensure_self_check_summary(self, report: str, summary: dict[str, int | float]) -> str:
+        if "核验摘要" in report:
+            return report
+        lines = [
+            "## 核验摘要",
+            "",
+            f"- 关键结论数：{summary['key_findings']}",
+            f"- 含证据关键结论数：{summary['with_evidence']}（{summary['coverage']:.1f}%）",
+            f"- 无效证据引用数：{summary['invalid_evidence']}",
+            f"- 未确认关键结论数：{summary['unconfirmed']}",
+            "- 统计口径：关键结论指需要源码证据支撑的设计判断；证据率只统计关键设计判断。",
+            "- 来源：本节由本地 self-check 根据结构化证据自动补全。",
+        ]
+        return report.rstrip() + "\n\n" + "\n".join(lines) + "\n"
+
+    def _ensure_compare_review_section(self, report: str) -> str:
+        if "待人工复核" in report:
+            return report
+        lines = [
+            "## 待人工复核项",
+            "",
+            "- 功能重合、路径/符号重合和片段级相似度只能作为可复核线索，不构成抄袭裁定；需要人工结合完整源码、提交历史和实现语义复核。",
+        ]
+        section = "\n\n" + "\n".join(lines) + "\n"
+        summary_match = re.search(r"(?m)^##\s*核验摘要", report)
+        if summary_match:
+            return report[: summary_match.start()].rstrip() + section + "\n" + report[summary_match.start() :].lstrip()
+        return report.rstrip() + section
+
     def _profile_prompt(self, profile: KernelProfile) -> str:
         compact: dict[str, Any] = {
             "meta": to_dict(profile.meta),
@@ -226,7 +263,7 @@ class LLMReportGenerator:
             "3. 不要引入 profile 之外的信息。\n"
             "4. 不要根据文件名或常识扩写具体算法；如果 evidence 没有说明算法，只能写“未确认”。\n"
             "5. 只有 source_tier 为 verified_award 且带 award_source_url 的样本，才能称为获奖案例；其他样本只能称为教学基线、架构参考或比赛作品样本。\n"
-            "6. 最后给出“核验摘要”，说明 self_check 统计值和仍未确认的信息。\n\n"
+            "6. 最后给出“核验摘要”；self_check 中的 unconfirmed 只能表述为“未确认关键结论数”，仍需人工确认的信息单独说明，避免与统计值混写。\n\n"
             f"KernelProfile JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )
 
@@ -253,6 +290,6 @@ class LLMReportGenerator:
             "6. 必须保留 selection_notes 中的历史样本选择依据。\n"
             "7. 如果 unique_points 为空或只有“未确认”，必须明确写“当前证据不足，未自动确认创新点”，不能强行总结创新点。\n"
             "8. 不得把未标注为 verified_award 的历史样本称为特奖、一等奖或优秀获奖案例；未核验比赛样本只能称为比赛作品样本。\n"
-            "9. 核验摘要必须引用 self_check 的统计值，并说明证据率只统计关键设计判断。\n\n"
+            "9. 核验摘要必须引用 self_check 的统计值；unconfirmed 只能表述为“未确认关键结论数”，并说明证据率只统计关键设计判断。\n\n"
             f"CompareResult JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )
