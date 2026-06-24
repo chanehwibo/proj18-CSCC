@@ -986,27 +986,27 @@ python -m unittest discover -s tests
 
 ```text
 ----------------------------------------------------------------------
-Ran 91 tests in 0.606s
+Ran 92 tests in 0.715s
 
 OK
 ```
 
 实际耗时可能不同，但必须看到：
 
-- `Ran 91 tests`
+- `Ran 92 tests`
 - `OK`
 
 如果中间出现少量测试命令打印，例如 `profile written`、`compare report written`、`LLM failed or audit rejected output, falling back...`，这是测试用例在验证 CLI 和 fallback 行为，不是失败。
 
 建议红框框选：
 
-- `Ran 91 tests`
+- `Ran 92 tests`
 - `OK`
 
 建议旁边红字说明：
 
 ```text
-91 个 unittest 覆盖 CLI、报告、LLM 审计、缓存、fetch、安全边界、HTML 和检索能力。
+92 个 unittest 覆盖 CLI、报告、LLM 审计、缓存、fetch、安全边界、HTML 和检索能力。
 ```
 
 ### 10.2 运行语法编译检查
@@ -1014,7 +1014,7 @@ OK
 命令：
 
 ```powershell
-python -m compileall -q src scripts\kernelsage.py tests
+python -m compileall -q src scripts\kernelsage.py scripts\fetch_repos.py tests
 ```
 
 正确现象：
@@ -1052,7 +1052,7 @@ compileall 无输出表示源码、脚本和测试文件语法检查通过。
 | 3:35-4:05 | PowerShell | 运行 `query-evidence` | `输入中文 OS 概念，返回真实源码位置` |
 | 4:05-4:35 | PowerShell/记事本 | 运行 `--llm-dry-run` 并打开 prompt | `只生成提问稿，不调用 API，LLM 输入可审计` |
 | 4:35-4:50 | PowerShell | 可选展示真实 LLM 审计结果 | `LLM 输出通过证据边界审计` |
-| 4:50-5:00 | PowerShell | 展示 unittest 尾部 | `91 个 unittest 通过，工程质量闭环` |
+| 4:50-5:00 | PowerShell | 展示 unittest 尾部 | `92 个 unittest 通过，工程质量闭环` |
 
 ### 11.2 推荐录屏命令顺序
 
@@ -1107,7 +1107,7 @@ python scripts\kernelsage.py audit-llm-report --report-type compare --prompt dat
 
 ```powershell
 python -m unittest discover -s tests
-python -m compileall -q src scripts\kernelsage.py tests
+python -m compileall -q src scripts\kernelsage.py scripts\fetch_repos.py tests
 ```
 
 如果 5 分钟时间不够，`audit-llm-report` 和 `compileall` 可以只展示命令和成功结果，不展开解释。
@@ -1251,7 +1251,7 @@ LLM failed or audit rejected output, falling back to rule-based report
 真正的成功标志是最后：
 
 ```text
-Ran 91 tests
+Ran 92 tests
 OK
 ```
 
@@ -1304,7 +1304,7 @@ git status --short --ignored
 | query-evidence | `hits` 大于 0，结果包含源码路径和行号 |
 | dry-run | 生成 `data\reports\prompts\xv6-public.compare.prompt.md` |
 | LLM 审计 | `audit-llm-report` 输出 `"ok": true` |
-| unittest | `Ran 91 tests` 且 `OK` |
+| unittest | `Ran 92 tests` 且 `OK` |
 | compileall | 无输出、无报错 |
 | 安全边界 | 不展示 `.env`；提交最终演示报告，但不提交样本源码、临时输入仓库、profile、prompt 和 LLM 缓存 |
 

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -63,16 +64,26 @@ def load_manifest(path: Path) -> dict[str, Any]:
     return data
 
 
+def resolve_git_command() -> list[str]:
+    git = shutil.which("git") or "git"
+    if sys.platform == "win32" and Path(git).suffix.lower() in {".cmd", ".bat"}:
+        return [os.environ.get("COMSPEC", "cmd.exe"), "/c", git]
+    return [git]
+
+
 def run_git(args: list[str], cwd: Path | None = None, timeout: int = 600) -> tuple[int, str, str]:
-    proc = subprocess.run(
-        ["git", *args],
-        cwd=str(cwd) if cwd else None,
-        capture_output=True,
-        text=True,
-        timeout=timeout,
-        encoding="utf-8",
-        errors="replace",
-    )
+    try:
+        proc = subprocess.run(
+            [*resolve_git_command(), *args],
+            cwd=str(cwd) if cwd else None,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except OSError as exc:
+        return 127, "", str(exc)
     return proc.returncode, proc.stdout, proc.stderr
 
 

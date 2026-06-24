@@ -75,7 +75,7 @@ compare 阶段在已有 `KernelProfile` 和源码 evidence 上补充五类线索
 
 ```powershell
 $env:PYTHONPATH='src'; python -m unittest discover -s tests
-python -m compileall src scripts\kernelsage.py
+python -m compileall src scripts\kernelsage.py scripts\fetch_repos.py
 $env:PYTHONPATH='src'; python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5
 ```
 

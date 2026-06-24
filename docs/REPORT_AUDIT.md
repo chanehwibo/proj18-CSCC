@@ -116,7 +116,7 @@ C++ 覆盖修正后可信度明显提高。
 
 ```powershell
 $env:PYTHONPATH='src'; python -m unittest discover -s tests
-$env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
+$env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py scripts\fetch_repos.py tests
 python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel --rebuild-profile-cache
 python scripts\kernelsage.py describe data\samples\includeos --repo-id includeos --rebuild-profile-cache
 python scripts\kernelsage.py describe data\samples\sel4 --repo-id sel4 --rebuild-profile-cache
@@ -124,4 +124,4 @@ python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id 
 python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --limit 3
 ```
 
-当前验证结果：91 个 unittest 全部通过，`compileall` 通过；本地已重新生成四份描述报告和一份对比报告，生成物保留在 ignored 的 `data/reports/` 目录供人工查看。Golden 校准材料见 `docs/GOLDEN_CASES.md` 和 `docs/golden/`。
+当前验证结果：92 个 unittest 全部通过，`compileall` 通过；本地已重新生成四份描述报告和一份对比报告，生成物保留在 ignored 的 `data/reports/` 目录供人工查看。Golden 校准材料见 `docs/GOLDEN_CASES.md` 和 `docs/golden/`。

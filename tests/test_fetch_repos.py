@@ -52,6 +52,17 @@ class FetchReposCloneArgsTest(unittest.TestCase):
                 self.assertNotIn("--depth", args)
                 self.assertNotIn("--single-branch", args)
 
+    def test_windows_git_cmd_is_wrapped_with_cmd(self):
+        git_cmd = r"C:\Users\demo\AppData\Local\Microsoft\WindowsApps\git.cmd"
+        comspec = r"C:\Windows\System32\cmd.exe"
+
+        with patch.object(fetch_repos.shutil, "which", return_value=git_cmd), \
+             patch.object(fetch_repos.sys, "platform", "win32"), \
+             patch.dict(fetch_repos.os.environ, {"COMSPEC": comspec}):
+            command = fetch_repos.resolve_git_command()
+
+        self.assertEqual(command, [comspec, "/c", git_cmd])
+
     def test_resolve_repo_dir_rejects_unsafe_repo_ids(self):
         bad_repo_ids = ("../evil", "nested/repo", r"nested\repo", "C:evil", ".hidden", "")
 

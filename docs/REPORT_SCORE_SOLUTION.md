@@ -61,7 +61,7 @@ OS 维度采用加权评分：
 
 ```powershell
 $env:PYTHONPATH='src'; python -m unittest discover -s tests
-python -m compileall src scripts\kernelsage.py
+python -m compileall src scripts\kernelsage.py scripts\fetch_repos.py
 python scripts\kernelsage.py describe data\samples\xv6-public --repo-id xv6-public --rebuild-profile-cache
 python scripts\kernelsage.py describe data\samples\freertos-kernel --repo-id freertos-kernel --rebuild-profile-cache
 ```
