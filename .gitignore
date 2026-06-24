@@ -24,6 +24,7 @@ data/llm_cache/
 data/samples/*
 !data/samples/.gitkeep
 !data/samples/manifest.json
+data/inputs/
 data/raw/
 data/repos/
 
