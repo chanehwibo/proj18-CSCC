@@ -12,7 +12,14 @@ build/
 data/indexes/*
 !data/indexes/.gitkeep
 data/profiles/
-data/reports/
+data/reports/*
+!data/reports/describe/
+!data/reports/describe/**
+!data/reports/compare/
+!data/reports/compare/**
+!data/reports/html/
+!data/reports/html/**
+data/reports/describe/*.dryrun.md
 data/llm_cache/
 data/samples/*
 !data/samples/.gitkeep

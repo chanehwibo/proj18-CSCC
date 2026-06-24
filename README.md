@@ -509,14 +509,14 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 | 路径 | 说明 | 是否提交 |
 | --- | --- | --- |
 | `data/profiles/*.json` | 结构化 KernelProfile | 否 |
-| `data/reports/describe/*.md` | 描述报告 | 否 |
-| `data/reports/compare/*.md` | 比较报告 | 否 |
-| `data/reports/html/*.html` | HTML 证据报告 | 否 |
+| `data/reports/describe/*.md` | 描述报告 | 是 |
+| `data/reports/compare/*.md` | 比较报告 | 是 |
+| `data/reports/html/*.html` | HTML 证据报告 | 是 |
 | `data/reports/prompts/*.prompt.md` | LLM dry-run prompt | 否 |
 | `data/llm_cache/` | LLM 响应缓存 | 否 |
 | `data/samples/<repo_id>/` | 本地拉取的历史仓库源码 | 否 |
 
-报告和样本源码是运行生成物，当前会在本地保留供人工查看，但默认不提交到仓库。
+最终演示报告已随仓库提交，便于初赛评委直接查看；LLM prompt、缓存、结构化 profile 和本地样本源码仍作为运行生成物保留在本地，不提交到仓库。
 
 ## 八、目录索引
 

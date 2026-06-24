@@ -1061,7 +1061,7 @@ python -m compileall -q src scripts\kernelsage.py tests
 | `data\reports\html\xv6-public_vs_history.html` | `start data\reports\html\xv6-public_vs_history.html` | 对比 HTML、相似度、证据、自检 | `相似度和证据来源可视化` |
 | `data\reports\prompts\xv6-public.compare.prompt.md` | `notepad data\reports\prompts\xv6-public.compare.prompt.md` | LLM prompt 和证据约束 | `LLM 输入可审计，不是黑箱调用` |
 
-这些文件都属于运行生成物，默认不提交仓库。
+其中 `data\reports\describe`、`data\reports\compare` 和 `data\reports\html` 的最终演示报告已提交到仓库，便于评委直接查看；`data\profiles`、`data\reports\prompts`、`data\llm_cache` 和样本源码仍是本地运行数据。
 
 ## 13. 常见问题排查
 
@@ -1213,12 +1213,12 @@ git status --short --ignored
 正确现象：
 
 - 如果没有修改源码和文档，普通 tracked 区域应为空。
-- 可能看到 `!! .env`、`!! data/reports/`、`!! data/profiles/`、`!! data/llm_cache/`、`!! data/samples/...`，这表示它们被忽略，不会提交。
+- 可能看到 `!! .env`、`!! data/profiles/`、`!! data/llm_cache/`、`!! data/samples/...`、`!! data/reports/prompts/` 或 `!! data/reports/tmp/`，这表示它们被忽略，不会提交；最终演示报告目录 `data/reports/describe`、`data/reports/compare`、`data/reports/html` 已纳入仓库。
 
 建议旁边红字说明：
 
 ```text
-本地密钥、样本源码、LLM 缓存和报告产物均被 ignored，避免误提交。
+本地密钥、样本源码、LLM 缓存和 prompt/tmp 产物保持 ignored；最终演示报告随仓库提交，便于评委查看。
 ```
 
 ## 15. 最终成功判定清单
@@ -1240,7 +1240,7 @@ git status --short --ignored
 | LLM 审计 | `audit-llm-report` 输出 `"ok": true` |
 | unittest | `Ran 91 tests` 且 `OK` |
 | compileall | 无输出、无报错 |
-| 安全边界 | 不展示 `.env`，不提交 `data` 生成物 |
+| 安全边界 | 不展示 `.env`；提交最终演示报告，但不提交样本源码、profile、prompt 和 LLM 缓存 |
 
 全部满足后，可以说明：
 

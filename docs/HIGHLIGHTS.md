@@ -94,7 +94,7 @@ Markdown 报告之外可生成静态 HTML，集中展示结论、证据文件、
 - `describe`、`compare`、`describe-all`、`demo` 支持 `--html`。
 - HTML 报告复用 self-check，不绕过证据校验。
 - 即使 Markdown 使用 `--use-llm` 增强，HTML 仍由结构化 profile/compare 数据渲染，是证据展示视图，不直接复刻 LLM 文本。
-- 默认输出到 `data/reports/html/`，作为本地生成物不提交仓库。
+- 默认输出到 `data/reports/html/`；最终演示 HTML 报告已随仓库提交，便于初赛评委直接查看。
 
 ### 演示命令
 
