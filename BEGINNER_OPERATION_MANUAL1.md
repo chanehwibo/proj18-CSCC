@@ -286,6 +286,20 @@ python scripts\kernelsage.py demo data\samples\xv6-public --repo-id xv6-public -
 
 下面这组命令更像评委关心的查重场景：把 `oskernel2024-aabcb` 当作待检测输入仓库，和历史样本库做对比。
 
+先根据 `data\samples\manifest.json` 拉取这个公开比赛仓库：
+
+```powershell
+python scripts\fetch_repos.py --only oskernel2024-aabcb
+```
+
+该命令会从下面的公开地址浅克隆到 `data\samples\oskernel2024-aabcb`：
+
+```text
+https://gitlab.eduxiji.net/T202410269994328/project2608132-273971.git
+```
+
+再对本地输入仓库进行画像和历史比对：
+
 ```powershell
 python scripts\kernelsage.py describe data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --html
 python scripts\kernelsage.py compare data\samples\oskernel2024-aabcb --repo-id oskernel2024-aabcb --history data\samples --limit 3 --jobs 4 --html
