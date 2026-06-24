@@ -1718,3 +1718,37 @@ $env:PYTHONPATH='src'; python scripts\kernelsage.py audit-llm-report --report-ty
 - 当前 91 个 unittest 通过，`compileall` 通过。
 - `deepseek-v4-pro` 实际 describe/compare 调用可运行，生成报告通过本地 LLM 审计。
 - `manifest-audit` 当前 21 个样本、0 error、0 warning。
+
+## 阶段 50：新增新手操作手册与演示步骤
+
+- 日期：2026-06-23
+- 目标：整理一份面向零基础操作者的全流程操作手册，让演示录屏人员可以按步骤完成环境检查、样本自检、报告生成、HTML 展示、证据检索、LLM dry-run、LLM 审计和回归测试。
+
+### 已完成任务
+
+| 模块 | 完成内容 |
+| --- | --- |
+| 新手手册 | 新增 `BEGINNER_OPERATION_MANUAL1.md`，按“命令、正确现象、生成文件、展示重点、旁边说明文字”组织 |
+| 演示链路 | 固定 `xv6-public` 主演示路径，覆盖 `manifest-audit`、`demo --html`、Markdown 报告、HTML 报告、`query-evidence`、`--llm-dry-run`、`audit-llm-report` 和 unittest |
+| 安全说明 | 手册明确不展示 `.env`，不提交 `data/samples`、`data/reports`、`data/profiles`、`data/llm_cache` 等本地数据 |
+| README | 在项目开发文档和演示材料索引中加入新手手册入口，并同步当前 91 个 unittest 口径 |
+| 文档一致性 | 将 README、报告审计和亮点文档中的 unittest 数量同步为当前回归结果 |
+
+### 已验证命令
+
+```powershell
+$env:PYTHONPATH='src'; python scripts\kernelsage.py manifest-audit
+$env:PYTHONPATH='src'; python scripts\kernelsage.py demo data\samples\xv6-public --repo-id xv6-public --limit 2 --jobs 4 --html
+$env:PYTHONPATH='src'; python scripts\kernelsage.py query-evidence "调度器/页表/系统调用" --limit 5
+$env:PYTHONPATH='src'; python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 2 --jobs 4 --llm-dry-run
+$env:PYTHONPATH='src'; python scripts\kernelsage.py audit-llm-report --report-type profile --prompt data\reports\prompts\xv6-public.describe.prompt.md --report data\reports\describe\xv6-public.md
+$env:PYTHONPATH='src'; python scripts\kernelsage.py audit-llm-report --report-type compare --prompt data\reports\prompts\xv6-public.compare.prompt.md --report data\reports\compare\xv6-public_vs_history.md
+$env:PYTHONPATH='src'; python -m unittest discover -s tests
+$env:PYTHONPATH='src'; python -m compileall -q src scripts\kernelsage.py tests
+```
+
+### 边界说明
+
+- 本次只新增和同步演示文档，不改变分析、对比、LLM 或测试逻辑。
+- 手册中的真实 LLM 调用章节为可选步骤，默认演示可使用 dry-run 避免消耗 API 额度。
+- 手册记录的 `data/` 产物均为本地 ignored 生成物，仅用于演示和人工查看。

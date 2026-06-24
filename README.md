@@ -97,12 +97,12 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
     <tr>
       <td width="120" nowrap>测试回归</td>
       <td width="96" nowrap>已补强</td>
-      <td>83 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、HTML 报告、证据检索和 golden 文档契约</td>
+      <td>91 个 unittest 通过，覆盖 describe/compare E2E、LLM 审计、dry-run 缓存边界、中转站异常 fallback、获奖来源边界、fetch full clone 边界、fetch repo_id 安全边界、compare evidence root 边界、HTML 报告、证据检索和 golden 文档契约</td>
     </tr>
     <tr>
       <td width="120" nowrap>演示材料</td>
       <td width="96" nowrap>已整理</td>
-      <td>见 <a href="docs/DEMO.md">docs/DEMO.md</a>、<a href="docs/STAGE_REVIEW.md">docs/STAGE_REVIEW.md</a>、<a href="docs/HIGHLIGHTS.md">docs/HIGHLIGHTS.md</a>、<a href="docs/SHOWCASE_CASE.md">docs/SHOWCASE_CASE.md</a>、<a href="docs/GOLDEN_CASES.md">docs/GOLDEN_CASES.md</a> 和 <a href="docs/REPORT_AUDIT.md">docs/REPORT_AUDIT.md</a></td>
+      <td>见 <a href="BEGINNER_OPERATION_MANUAL1.md">BEGINNER_OPERATION_MANUAL1.md</a>、<a href="docs/DEMO.md">docs/DEMO.md</a>、<a href="docs/STAGE_REVIEW.md">docs/STAGE_REVIEW.md</a>、<a href="docs/HIGHLIGHTS.md">docs/HIGHLIGHTS.md</a>、<a href="docs/SHOWCASE_CASE.md">docs/SHOWCASE_CASE.md</a>、<a href="docs/GOLDEN_CASES.md">docs/GOLDEN_CASES.md</a> 和 <a href="docs/REPORT_AUDIT.md">docs/REPORT_AUDIT.md</a></td>
     </tr>
     <tr>
       <td width="120" nowrap>下一重点</td>
@@ -173,7 +173,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 - [x] 行动项 9：实现代码级相似线索检测，覆盖路径、函数名、结构体/宏和片段 token/结构相似度。
 - [x] 行动项 10：接入 DeepSeek/OpenAI-compatible LLM 客户端，支持 dry-run、缓存和失败回退。
 - [x] 行动项 11：实现 `audit-llm-report`，检查 LLM 报告是否越界引用或把相似线索写成抄袭结论。
-- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 83 个 unittest 通过。
+- [x] 行动项 12：补充端到端测试和报告抽查回归，当前 91 个 unittest 通过。
 - [x] 行动项 13：整理展示样例链路，固定 `xv6-public` 和 `oskernel2024-aabcb` 两条演示路径。
 - [x] 行动项 14：固定 1 份描述 golden 和 1 份对比 golden，作为人工校准样例。
 - [x] 行动项 15：新增样本库可信度自检、HTML 证据报告和证据检索入口，强化答辩演示能力。
@@ -373,7 +373,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 ```
 
-最近一次完整回归记录为 83 个 unittest 全部通过。
+最近一次完整回归记录为 91 个 unittest 全部通过。
 
 ### 5.2 报告质量评估
 
@@ -396,6 +396,7 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py tests
 | 文档 | 说明 |
 | --- | --- |
 | [docs/PLAN.md](docs/PLAN.md) | 三周半赛程下的 MVP 优先研发计划 |
+| [BEGINNER_OPERATION_MANUAL1.md](BEGINNER_OPERATION_MANUAL1.md) | 新手傻瓜式全流程操作手册、演示步骤和正确现象说明 |
 | [docs/DEMO.md](docs/DEMO.md) | 演示流程和命令说明 |
 | [docs/HIGHLIGHTS.md](docs/HIGHLIGHTS.md) | 项目特色与亮点说明 |
 | [docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md) | 固定展示样例链路 |
@@ -522,6 +523,7 @@ $env:PYTHONPATH='src'; python -m unittest discover -s tests
 ```text
 proj18-os-agent-compare/
 |-- README.md
+|-- BEGINNER_OPERATION_MANUAL1.md
 |-- DEVELOPMENT_LOG.md
 |-- LICENSE
 |-- pyproject.toml
