@@ -262,7 +262,7 @@ class LLMReportGenerator:
             "2. 每个关键判断都要引用已有 evidence 的 file 和行号，引用必须写成反引号代码格式 `path:Lx-Ly`，例如 `kernel/syscall.c:L10-L14`；不能写成 `path:10-14`，也不能引用 JSON 中不存在的文件或行号。\n"
             "3. 不要引入 profile 之外的信息。\n"
             "4. 不要根据文件名或常识扩写具体算法；如果 evidence 没有说明算法，只能写“未确认”。\n"
-            "5. 只有 source_tier 为 verified_award 且带 award_source_url 的样本，才能称为获奖案例；其他样本只能称为教学基线、架构参考或比赛作品样本。\n"
+            "5. 只有 source_tier 为 verified_award 且带 award_source_url 的样本，才能称为获奖案例；其他样本只能称为教学基线、架构参考、赛事历史作品或比赛作品样本。\n"
             "6. 最后给出“核验摘要”；self_check 中的 unconfirmed 只能表述为“未确认关键结论数”，仍需人工确认的信息单独说明，避免与统计值混写。\n\n"
             f"KernelProfile JSON:\n```json\n{json.dumps(compact, ensure_ascii=False, indent=2)}\n```"
         )

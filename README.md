@@ -77,7 +77,7 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
     <tr>
       <td width="120" nowrap>参考库</td>
       <td width="96" nowrap>已扩展</td>
-      <td>21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例</td>
+      <td>141 个本地可复核样本，覆盖教学基线、赛事历史作品、比赛作品、RTOS、微内核、unikernel 和 3 个一等奖案例</td>
     </tr>
     <tr>
       <td width="120" nowrap>LLM 接入</td>
@@ -153,7 +153,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 | --- | --- | --- |
 | **目标 1：仓库扫描与结构建模** | 已完成 | 扫描源码、文档、构建入口、语言分布和目录结构，生成 `RepoSnapshot` |
 | **目标 2：OS 机制画像分析** | 已完成 | 面向调度、内存、系统调用、文件系统、中断、驱动、同步生成 `KernelProfile` |
-| **目标 3：历史样本库与选择策略** | 已完成 | 建立 21 个代表性样本，按画像相似度和技术路线选择 Top N 对比对象 |
+| **目标 3：历史样本库与选择策略** | 已完成 | 建立 141 个本地可复核样本，按画像相似度和技术路线选择 Top N 对比对象 |
 | **目标 4：证据链报告生成** | 已完成 | 输出描述报告和对比报告，保留源码路径、行号、代码片段和相关符号 |
 | **目标 5：LLM 可控增强** | 已完成 | 支持 `--use-llm`、`--llm-dry-run`、本地缓存、失败回退和 LLM 输出审计 |
 | **目标 6：展示材料与答辩准备** | 进行中 | 已整理 Demo、阶段评审、展示样例和报告审计文档，后续继续压缩答辩表达 |
@@ -167,7 +167,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 - [x] 行动项 3：实现仓库扫描、源码文件识别、构建入口识别和语言统计。
 - [x] 行动项 4：实现 Rust/C/C++/Assembly 的轻量符号抽取。
 - [x] 行动项 5：实现七维 OS 机制画像分析，并为每个维度保留证据片段。
-- [x] 行动项 6：建立历史样本 manifest，并扩展到 21 个代表性仓库。
+- [x] 行动项 6：建立历史样本 manifest，并扩展到 141 个本地可复核仓库，其中 120 个来自赛事组 collected-data.xlsx。
 - [x] 行动项 7：优化历史样本选择策略，避免只按目录顺序取样。
 - [x] 行动项 8：实现描述报告和比较报告生成，补充维度结论、证据表、代码片段和复核建议。
 - [x] 行动项 9：实现代码级相似线索检测，覆盖路径、函数名、结构体/宏和片段 token/结构相似度。
@@ -191,7 +191,7 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 
 **强化阶段进展：**
 
-- 参考库扩展到 21 个代表性样本，覆盖教学基线、比赛作品、RTOS、微内核、unikernel、不同语言和架构路线，并补入 3 个一等奖样本；
+- 参考库扩展到 141 个本地可复核样本，覆盖教学基线、赛事历史作品、比赛作品、RTOS、微内核、unikernel、不同语言和架构路线，并补入 3 个一等奖样本；
 - 引入 `source_tier`、`award_level`、`award_source_url` 等来源分级字段，未核验比赛仓库不硬标“特奖/一等奖”；
 - 优化历史样本选择策略，按照画像相似度和技术路线选择对比对象；
 - 增强描述报告和对比报告，加入证据表、代码片段、相关符号、功能重合和疑似重复证据；
@@ -332,7 +332,7 @@ KernelSage 的报告末尾会输出 self-check 摘要，用于检查关键结论
 
 ### 4.6 参考库覆盖
 
-当前 `data/samples/manifest.json` 登记 21 个样本仓库。样本库不是追求“大而全”，而是优先覆盖主要技术路线，降低未知输入仓库比较时的偏置。
+当前 `data/samples/manifest.json` 登记 141 个本地可复核样本仓库，其中 120 个来自赛事组提供的 `collected-data.xlsx` 并统一标记为赛事历史作品。样本库不是追求“大而全”，而是优先覆盖主要技术路线，降低未知输入仓库比较时的偏置。
 
 样本来源采用分级管理：没有获奖来源记录或可靠仓库来源时，不把任何样本硬标为“特奖/一等奖优秀案例”。当前 3 个一等奖样本的来源记录来自官方提供的 `os-funtion-winners.md`。
 
@@ -340,6 +340,7 @@ KernelSage 的报告末尾会输出 self-check 摘要，用于检查关键结论
 | --- | --- | --- |
 | `teaching_baseline` 教学基线 | rCore、uCore、xv6-riscv、zCore、ArceOS、rCore Book | 覆盖常见课程内核和现代 Rust OS 基线 |
 | `competition_sample` 比赛作品样本 | `oskernel2024-hfut666`、`oskernel2024-aabcb`、`oskernel2024-nqos`、`oskernel2024-ouye` | 贴近真实学生参赛作品形态，但获奖等级未核验 |
+| `competition_history` 赛事历史作品 | 120 个来自赛事组 `collected-data.xlsx` 且已成功浅克隆的历史作品 | 扩展真实赛事作品覆盖面，作为未知输入仓库的历史对比候选 |
 | `architecture_reference` 架构参考样本 | `xv6-public`、`os-tutorial`、`littlekernel`、`freertos-kernel`、`tock`、`sel4`、`includeos`、`redox-kernel` | 补充 x86、ARM、RTOS、微内核、嵌入式内核、unikernel 等路线 |
 | `verified_award` 已核验获奖案例 | `award2024-moca-mola-proj207`、`award2024-huster-proj306`、`award2024-tangram-proj226` | 补充 2024 功能赛道一等奖作品，覆盖简易 OS、Rust framekernel、组件化内核路线；获奖来源记录为官方提供的 `os-funtion-winners.md` |
 
@@ -454,7 +455,7 @@ python scripts\kernelsage.py compare data\samples\rcore-tutorial-v3 --repo-id rc
 
 传入 `--html` 时会额外生成静态证据视图。即使同时使用 `--use-llm`，HTML 仍基于结构化 profile/compare 数据和 self-check 渲染，不直接复刻 LLM Markdown 文本。
 
-默认会复用 `data/profiles/` 下的 `KernelProfile` 缓存，避免每次比较都重新分析 21 个历史样本。源码仓库 HEAD、文件数量、总大小或修改时间变化时，缓存会自动失效。
+默认会复用 `data/profiles/` 下的 `KernelProfile` 缓存，避免每次比较都重新分析 141 个历史样本。源码仓库 HEAD、文件数量、总大小或修改时间变化时，缓存会自动失效。
 
 ```powershell
 python scripts\kernelsage.py compare data\samples\xv6-public --repo-id xv6-public --limit 5

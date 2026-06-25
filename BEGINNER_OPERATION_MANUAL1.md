@@ -198,7 +198,7 @@ python scripts\kernelsage.py manifest-audit
 Manifest audit summary
 - manifest: C:\Users\CanhuiBao\Desktop\2026操作系统大赛\proj18-os-agent-compare\data\samples\manifest.json
 - samples_dir: C:\Users\CanhuiBao\Desktop\2026操作系统大赛\proj18-os-agent-compare\data\samples
-- repos: 21
+- repos: 141
 - errors: 0
 - warnings: 0
 - issues: none
@@ -206,7 +206,7 @@ Manifest audit summary
 
 关键成功标志：
 
-- `repos: 21`
+- `repos: 141`
 - `errors: 0`
 - `warnings: 0`
 - `issues: none`
@@ -215,7 +215,7 @@ Manifest audit summary
 
 建议红框框选：
 
-- `repos: 21`
+- `repos: 141`
 - `errors: 0`
 - `warnings: 0`
 - `issues: none`
@@ -223,7 +223,7 @@ Manifest audit summary
 建议旁边红字说明：
 
 ```text
-样本库可信度自检通过：21 个样本的 ID、来源记录、本地目录和 HEAD 信息可核验。
+样本库可信度自检通过：141 个样本的 ID、来源记录、本地目录和 HEAD 信息可核验。
 ```
 
 ### 2.2 JSON 模式，适合说明可接入 CI
@@ -1007,7 +1007,7 @@ compileall 无输出表示源码、脚本和测试文件语法检查通过。
 | --- | --- | --- | --- |
 | 0:00-0:25 | README 或赛题页面 | 展示项目名和定位 | `面向小型 OS 仓库的智能分析比对系统` |
 | 0:25-0:45 | PowerShell | 进入项目目录，设置 `PYTHONPATH` | `本地 CLI 演示，不依赖前端服务` |
-| 0:45-1:10 | PowerShell | 运行 `manifest-audit` | `21 个样本 0 error 0 warning，样本库可自检` |
+| 0:45-1:10 | PowerShell | 运行 `manifest-audit` | `141 个样本 0 error 0 warning，样本库可自检` |
 | 1:10-1:50 | PowerShell | 指定输入仓库并运行 `demo --html` | `输入仓库完成画像、描述、对比和 HTML 报告` |
 | 1:50-2:25 | 记事本 | 打开描述报告 | `七维 OS 机制画像，关键结论带源码路径和行号` |
 | 2:25-3:00 | 记事本 | 打开对比报告 | `自动选择历史样本，输出相似、差异和人工复核线索` |
@@ -1252,7 +1252,7 @@ git status --short --ignored
 | 进入项目目录 | `Get-Location` 指向 `proj18-os-agent-compare` |
 | 编码和模块路径 | 已执行 `$env:PYTHONPATH='src'` |
 | 样本库 | `data\samples\xv6-public` 存在 |
-| manifest-audit | `repos: 21`、`errors: 0`、`warnings: 0`、`issues: none` |
+| manifest-audit | `repos: 141`、`errors: 0`、`warnings: 0`、`issues: none` |
 | demo 主流程 | 出现 `report written`、`compare report written`、`html report written` |
 | 描述报告 | `data\reports\describe\xv6-public.md` 存在，包含 OS 机制和证据 |
 | 对比报告 | `data\reports\compare\xv6-public_vs_history.md` 存在，包含历史样本选择 |

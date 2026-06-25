@@ -9,6 +9,7 @@ from .selfcheck import EvidenceChecker
 SOURCE_TIER_LABELS = {
     "verified_award": "已核验获奖案例",
     "competition_sample": "比赛作品样本（获奖等级未核验）",
+    "competition_history": "赛事历史作品",
     "teaching_baseline": "教学基线",
     "architecture_reference": "架构参考样本",
     "unknown": "未标注",
