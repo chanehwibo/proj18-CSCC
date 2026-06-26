@@ -203,6 +203,8 @@ class WebConsoleBuilder:
         eno = item.get("entry_no") or entry_number(meta)
         resolved_year = item.get("year") or year_from_entry(eno) or meta.year or year
         repo_url = item.get("url") or meta.url or "未提供"
+        top_overlap = compares[0]["overlap_score"] if compares else 0.0
+        risk_level = "high" if top_overlap >= 60 else ("medium" if top_overlap >= 30 else ("low" if compares else "none"))
 
         return {
             "repo_id": repo_id,
@@ -220,8 +222,12 @@ class WebConsoleBuilder:
             "languages": meta.languages,
             "loc": meta.loc_total,
             "file_count": meta.file_count,
+            "symbol_count": len(profile.symbols),
             "source_tier_label": source_tier_label(meta),
             "maturity": maturity,
+            "dimensions": self._dimensions_summary(profile),
+            "top_overlap": round(top_overlap, 1),
+            "risk_level": risk_level,
             "selfcheck": self._round_selfcheck(self.checker.profile_summary(profile)),
             "reports": {
                 "describe_md": self.reporter.render_profile(profile),
@@ -229,6 +235,19 @@ class WebConsoleBuilder:
                 "compares": compares,
             },
         }
+
+    def _dimensions_summary(self, profile: KernelProfile) -> list[dict[str, Any]]:
+        out: list[dict[str, Any]] = []
+        for dim, spec in DIMENSIONS.items():
+            findings = [f for f in profile.dimensions.get(dim, []) if f.confidence != "unconfirmed"]
+            confidence = self.reporter.dimension_confidence(findings)
+            out.append({
+                "key": dim,
+                "title": spec["title"],
+                "status": "confirmed" if findings else "unconfirmed",
+                "confidence": confidence,
+            })
+        return out
 
     # ---- top-N "重合/重复率最高" 1v1 compares -----------------------------
     def _top_compares(

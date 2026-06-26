@@ -28,6 +28,9 @@ data/inputs/
 data/raw/
 data/repos/
 
+# Local contest-input working dir (this-year repos before publishing)
+inputs/
+
 .env
 .env.*
 !.env.example

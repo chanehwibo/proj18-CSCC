@@ -83,7 +83,7 @@
 <rect class="node" x="435" y="760" width="730" height="82" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
 <text class="box-title" x="459" y="794">数据模型流转</text>
 <text class="body" x="459" y="822">
-<tspan x="459" dy="0">RepoSnapshot -&gt; Symbol[] -&gt; DimensionEvidence -&gt; KernelProfile</tspan>
+<tspan x="459" dy="0">RepoSnapshot -&gt; ParsedRepo(SymbolDef) -&gt; Finding / Evidence -&gt; KernelProfile</tspan>
 </text>
 <line class="line" x1="365" y1="250" x2="428" y2="186"/>
 <line class="line" x1="800" y1="227" x2="800" y2="255"/>
@@ -92,5 +92,5 @@
 <line class="line" x1="1165" y1="559" x2="1218" y2="255"/>
 <line class="line-soft" x1="365" y1="515" x2="428" y2="405"/>
 <line class="line-soft" x1="800" y1="667" x2="800" y2="755"/>
-<line class="line-dash" x1="1225" y1="532" x2="1172" y2="592"/>
+<line class="line-dash" x1="1225" y1="516" x2="1170" y2="516"/>
 </svg>

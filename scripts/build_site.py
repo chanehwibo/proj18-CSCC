@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -47,22 +48,40 @@ DEMO_INPUTS = {
 }
 
 
-def _meta_overrides(repo_dir: Path) -> dict:
-    meta_path = repo_dir / ".kernelsage_meta.json"
-    if not meta_path.exists():
-        return {}
+def _git_remote_url(repo_dir: Path) -> str | None:
+    """Best-effort read of the origin remote URL from a cloned repo."""
     try:
-        data = json.loads(meta_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-    return {
-        "team": data.get("team"),
-        "school": data.get("school"),
-        "members": data.get("members"),
-        "subtrack": data.get("subtrack"),
-        "url": data.get("url"),
-        "year": data.get("year"),
-    }
+        proc = subprocess.run(
+            ["git", "-C", str(repo_dir), "remote", "get-url", "origin"],
+            capture_output=True, text=True, timeout=10, encoding="utf-8", errors="replace",
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    url = proc.stdout.strip() if proc.returncode == 0 else ""
+    return url or None
+
+
+def _meta_overrides(repo_dir: Path) -> dict:
+    overrides: dict = {}
+    meta_path = repo_dir / ".kernelsage_meta.json"
+    if meta_path.exists():
+        try:
+            data = json.loads(meta_path.read_text(encoding="utf-8"))
+            overrides = {
+                "team": data.get("team"),
+                "school": data.get("school"),
+                "members": data.get("members"),
+                "subtrack": data.get("subtrack"),
+                "url": data.get("url"),
+                "year": data.get("year"),
+            }
+        except (OSError, json.JSONDecodeError):
+            overrides = {}
+    # Fall back to the git origin remote when no URL is recorded, so contest
+    # repos cloned without a meta file still show their真实 Repo 地址.
+    if not overrides.get("url"):
+        overrides["url"] = _git_remote_url(repo_dir)
+    return overrides
 
 
 def discover_inputs(args: argparse.Namespace) -> dict[str, list[dict]]:
