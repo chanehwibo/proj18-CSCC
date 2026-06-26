@@ -216,6 +216,10 @@ KernelSage 围绕“源码证据链”和“历史样本比较”构建，当前
 
 KernelSage 的主流程如下：
 
+![KernelSage 作品架构结构图](assets/kernelsage-architecture.svg)
+
+PPT 可直接使用同版位图 `assets/kernelsage-architecture.png`，也可以打开 `assets/kernelsage-architecture-slide.pptx` 复制单页幻灯片；支持 SVG 的编辑器可直接使用上图源文件。
+
 ```text
 输入一个 OS 仓库
       |

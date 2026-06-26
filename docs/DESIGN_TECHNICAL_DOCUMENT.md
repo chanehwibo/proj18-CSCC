@@ -124,6 +124,10 @@ KernelSage 的目标是设计并实现一套面向小型操作系统仓库的分
 
 KernelSage 按分层方式设计，整体数据流如下：
 
+![KernelSage 作品架构结构图](../assets/kernelsage-architecture.svg)
+
+同版 PNG 文件位于 `assets/kernelsage-architecture.png`，单页 PPTX 位于 `assets/kernelsage-architecture-slide.pptx`，可用于答辩材料或不方便直接嵌入 SVG 的场景。
+
 ```text
 输入仓库 / 历史样本 manifest
         |

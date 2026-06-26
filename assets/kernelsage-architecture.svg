@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">KernelSage 作品架构结构图</title>
+  <desc id="desc">KernelSage 从待分析 OS 仓库和历史样本库输入，经过任务调度、采集、解析、画像、历史对比、报告审计，输出 Markdown、HTML、网站和 PPT 配图。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2f855a"/>
+    </marker>
+    <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 36px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #0f172a; text-anchor: middle; }
+      .subtitle { font: 400 18px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #475569; text-anchor: middle; }
+      .section-title { font: 700 22px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #0f172a; }
+      .box-title { font: 700 19px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #0f172a; }
+      .body { font: 400 15px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #334155; }
+      .small { font: 400 13px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #475569; }
+      .tag { font: 700 13px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #ffffff; text-anchor: middle; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 8; filter: url(#soft-shadow); }
+      .engine { fill: #eef6ff; stroke: #8bb8e8; stroke-width: 2; rx: 10; }
+      .module { fill: #ffffff; stroke: #b6c7d8; stroke-width: 1.5; rx: 8; }
+      .input-accent { fill: #e9f7ef; stroke: #8fc9a8; }
+      .output-accent { fill: #fff7e8; stroke: #f0bd6a; }
+      .llm-accent { fill: #f8f0ff; stroke: #b99be6; stroke-dasharray: 8 7; }
+      .store { fill: #f1f5f9; stroke: #cbd5e1; rx: 8; }
+      .chain { fill: #ecfeff; stroke: #67c7d4; rx: 8; }
+      .line { fill: none; stroke: #334155; stroke-width: 2.4; marker-end: url(#arrow); }
+      .line-soft { fill: none; stroke: #64748b; stroke-width: 2; marker-end: url(#arrow); }
+      .line-green { fill: none; stroke: #2f855a; stroke-width: 2.4; marker-end: url(#arrow-green); }
+      .line-dashed { fill: none; stroke: #7c3aed; stroke-width: 2; stroke-dasharray: 7 7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="900"/>
+  <text class="title" x="800" y="54">KernelSage 作品架构结构图</text>
+  <text class="subtitle" x="800" y="84">源码 evidence -> KernelProfile -> 历史对比 -> 报告审计，LLM 只作为可选增强</text>
+
+  <rect class="card input-accent" x="55" y="130" width="270" height="250"/>
+  <text class="section-title" x="85" y="170">输入对象</text>
+  <rect x="85" y="190" width="210" height="44" rx="8" fill="#2f855a"/>
+  <text class="tag" x="190" y="218">待分析 OS 仓库</text>
+  <text class="body" x="85" y="262">
+    <tspan x="85" dy="0">源码、README、docs</tspan>
+    <tspan x="85" dy="24">构建脚本、目录结构</tspan>
+    <tspan x="85" dy="24">Rust / C / C++ / Assembly</tspan>
+  </text>
+  <line x1="85" y1="325" x2="295" y2="325" stroke="#8fc9a8" stroke-width="1.3"/>
+  <text class="body" x="85" y="352">历史样本 manifest / 141 个样本</text>
+
+  <rect class="engine" x="365" y="118" width="770" height="640"/>
+  <text class="section-title" x="395" y="155">KernelSage 分析比对引擎</text>
+
+  <rect class="module" x="405" y="175" width="690" height="70"/>
+  <text class="box-title" x="430" y="203">1. 入口与任务调度层</text>
+  <text class="body" x="430" y="228">CLI / scripts/kernelsage.py / site builder：把命令转换为 profile、describe、compare、audit 等任务</text>
+
+  <rect class="module" x="405" y="265" width="690" height="70"/>
+  <text class="box-title" x="430" y="293">2. 数据采集层</text>
+  <text class="body" x="430" y="318">collector.py：扫描源码、README、docs、构建入口、语言分布和仓库规模</text>
+
+  <rect class="module" x="405" y="355" width="690" height="70"/>
+  <text class="box-title" x="430" y="383">3. 符号解析层</text>
+  <text class="body" x="430" y="408">parser.py：抽取函数、结构体、宏、impl、汇编符号，形成可定位源码证据</text>
+
+  <rect class="module" x="405" y="445" width="690" height="86"/>
+  <text class="box-title" x="430" y="474">4. 七维 OS 机制画像层</text>
+  <text class="body" x="430" y="500">analyzer.py：调度、内存、系统调用、文件系统、中断、驱动、同步等维度</text>
+  <text class="small" x="430" y="520">输出 KernelProfile，记录命中机制、源码路径、行号和复核提示</text>
+
+  <rect class="module" x="405" y="552" width="690" height="86"/>
+  <text class="box-title" x="430" y="581">5. 历史对比与检索层</text>
+  <text class="body" x="430" y="607">selector.py / agent.py / retriever.py：按风格、架构、语言、OS 维度和规模选择 Top N</text>
+  <text class="small" x="430" y="627">输出相似点、差异点、代码级线索和人工复核边界</text>
+
+  <rect class="module" x="405" y="660" width="690" height="70"/>
+  <text class="box-title" x="430" y="688">6. 报告生成与审计层</text>
+  <text class="body" x="430" y="713">reporter.py / html_reporter.py / selfcheck.py / llm_audit.py：生成报告并核验证据边界</text>
+
+  <line class="line-soft" x1="750" y1="245" x2="750" y2="264"/>
+  <line class="line-soft" x1="750" y1="335" x2="750" y2="354"/>
+  <line class="line-soft" x1="750" y1="425" x2="750" y2="444"/>
+  <line class="line-soft" x1="750" y1="531" x2="750" y2="551"/>
+  <line class="line-soft" x1="750" y1="638" x2="750" y2="659"/>
+
+  <rect class="card output-accent" x="1200" y="130" width="345" height="275"/>
+  <text class="section-title" x="1230" y="170">输出与交付</text>
+  <text class="body" x="1230" y="207">
+    <tspan x="1230" dy="0">Markdown 描述报告 / 对比报告</tspan>
+    <tspan x="1230" dy="25">HTML 报告与 data/reports 样例</tspan>
+    <tspan x="1230" dy="25">self-check / LLM audit 摘要</tspan>
+    <tspan x="1230" dy="25">静态网站 site/ 与公网展示</tspan>
+    <tspan x="1230" dy="25">README / 设计文档 / PPT 配图</tspan>
+  </text>
+  <rect x="1230" y="338" width="245" height="40" rx="8" fill="#b45309"/>
+  <text class="tag" x="1352.5" y="364">评审可复核材料</text>
+
+  <rect class="card llm-accent" x="1200" y="455" width="345" height="170"/>
+  <text class="section-title" x="1230" y="494">可选 LLM 增强</text>
+  <text class="body" x="1230" y="529">
+    <tspan x="1230" dy="0">llm.py：OpenAI-compatible chat/completions</tspan>
+    <tspan x="1230" dy="25">llm_audit.py：未知引用、越权判断检查</tspan>
+    <tspan x="1230" dy="25">--llm-dry-run 只生成 prompt，不调用 API</tspan>
+  </text>
+  <text class="small" x="1230" y="604">默认规则版报告不依赖在线模型</text>
+
+  <rect class="chain" x="55" y="430" width="270" height="195"/>
+  <text class="section-title" x="85" y="470">证据优先原则</text>
+  <text class="body" x="85" y="506">
+    <tspan x="85" dy="0">所有结论尽量落到：</tspan>
+    <tspan x="85" dy="27">源码路径 + 行号 + 片段</tspan>
+    <tspan x="85" dy="27">机制命中 + 画像字段</tspan>
+    <tspan x="85" dy="27">相似边界 + 人工复核建议</tspan>
+  </text>
+  <text class="small" x="85" y="603">不把相似线索直接写成裁决结论</text>
+
+  <rect class="store" x="365" y="790" width="1180" height="80"/>
+  <text class="box-title" x="395" y="823">本地数据与缓存</text>
+  <rect x="585" y="812" width="205" height="36" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text class="small" x="606" y="835">data/samples/manifest.json</text>
+  <rect x="815" y="812" width="180" height="36" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text class="small" x="846" y="835">data/profiles/</text>
+  <rect x="1020" y="812" width="180" height="36" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text class="small" x="1051" y="835">data/reports/</text>
+  <rect x="1225" y="812" width="180" height="36" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text class="small" x="1254" y="835">data/llm_cache/</text>
+
+  <line class="line" x1="325" y1="255" x2="398" y2="210"/>
+  <line class="line-green" x1="325" y1="340" x2="398" y2="594"/>
+  <line class="line" x1="1095" y1="695" x2="1193" y2="270"/>
+  <line class="line-dashed" x1="1200" y1="540" x2="1102" y2="695"/>
+  <line class="line-soft" x1="750" y1="730" x2="750" y2="785"/>
+  <line class="line-soft" x1="980" y1="595" x2="1220" y2="545"/>
+</svg>
