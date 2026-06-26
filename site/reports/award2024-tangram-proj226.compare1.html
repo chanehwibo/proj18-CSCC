@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tangram proj226 kernel components frameworks vs ArceOS 比较报告</title>
+<style>
+:root{
+  --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc;
+  --brand:#0f766e; --brand-dark:#115e59; --brand-soft:#ccfbf1;
+  --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --bg:#eef2f6;
+  --chip:#eef2ff; --chip-ink:#3730a3;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;}
+a{color:var(--brand-dark);}
+header.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,var(--brand) 0%,var(--brand-dark) 100%);color:#fff;
+  padding:18px 28px;box-shadow:0 2px 10px rgba(15,23,42,.18);}
+.topbar h1{margin:0;font-size:24px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px;}
+.topbar .sub{margin-top:4px;font-size:13px;opacity:.85;}
+.topbar .nav{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.topbar .nav a{color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);transition:all .25s ease;
+  display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px;cursor:pointer;}
+.topbar .nav a:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7);
+  transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.topbar .nav a.active{background:#fff;color:var(--brand-dark);border-color:#fff;font-weight:800;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);transform:scale(1.02);}
+.topbar .nav a.active:hover{background:#f0fdfa;box-shadow:0 6px 22px rgba(0,0,0,.25);}
+.topbar .row{display:flex;align-items:flex-end;gap:18px;max-width:1320px;margin:0 auto;}
+main{max-width:1320px;margin:0 auto;padding:20px 24px 60px;}
+
+.tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
+.tab{padding:9px 22px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 2px 8px rgba(15,118,110,.3);}
+.tab .n{font-size:12px;opacity:.8;margin-left:6px;}
+.toolbar{margin-left:auto;display:flex;gap:10px;align-items:center;}
+.toolbar input{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;min-width:220px;}
+
+.year-meta{color:var(--muted);font-size:13px;margin:4px 0 14px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:18px;}
+.empty{padding:50px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px;}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px rgba(15,23,42,.06);transition:transform .12s ease,box-shadow .12s ease;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.12);}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);}
+.card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;}
+.card .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--chip-ink);font-weight:600;}
+.chip.ok{background:#dcfce7;color:var(--ok);} .chip.warn{background:#fef3c7;color:var(--warn);} .chip.bad{background:#fee2e2;color:var(--bad);}
+.chip.tier{background:#e0f2fe;color:#075985;}
+
+.card .info{padding:12px 18px;font-size:13.5px;}
+.card .info dl{display:grid;grid-template-columns:84px 1fr;gap:6px 10px;margin:0;}
+.card .info dt{color:var(--muted);}
+.card .info dd{margin:0;word-break:break-word;}
+.card .info dd a{word-break:break-all;}
+
+.card .reports{padding:12px 18px 16px;border-top:1px dashed var(--line);margin-top:auto;}
+.card .reports .grp{margin-bottom:10px;}
+.card .reports .grp:last-child{margin-bottom:0;}
+.card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:#fff;color:var(--brand-dark);
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;}
+.btn:hover{background:var(--brand);color:#fff;}
+.btn.solid{background:var(--brand);color:#fff;}
+.btn.solid:hover{background:var(--brand-dark);}
+.btn small{font-weight:500;opacity:.8;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:100;}
+.modal.open{display:flex;}
+.modal .panel{margin:auto;width:min(1040px,94vw);height:88vh;background:#fff;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.4);}
+.modal .mhd{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--panel);}
+.modal .mhd .t{font-weight:700;font-size:15px;}
+.modal .mhd .x{margin-left:auto;cursor:pointer;border:none;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:14px;}
+.modal iframe{flex:1;border:0;width:100%;}
+
+/* baseline + report pages */
+.doc{max-width:1040px;margin:0 auto;background:#fff;padding:30px 40px 60px;}
+.doc h1{font-size:26px;border-bottom:2px solid var(--brand);padding-bottom:8px;}
+.doc h2{font-size:20px;margin-top:28px;border-left:4px solid var(--brand);padding-left:10px;}
+.doc h3{font-size:16px;margin-top:20px;color:var(--brand-dark);}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+.doc th,.doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.doc th{background:#eef3f8;}
+.doc code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:.92em;}
+.doc blockquote{margin:10px 0;padding:8px 14px;background:#fffbeb;border-left:4px solid var(--warn);color:#78350f;}
+.doc ul{padding-left:22px;} .doc li.sub{list-style:circle;margin-left:18px;}
+.doc hr{border:none;border-top:1px solid var(--line);margin:18px 0;}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input{min-width:140px;}}
+</style>
+</head><body style="background:#fff">
+<div class="doc"><h1>Tangram proj226 kernel components frameworks 比较报告</h1>
+<ul>
+<li>对比历史仓库：ArceOS</li>
+<li>生成时间：2026-06-26T02:33:32.926841+00:00</li>
+<li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
+</ul>
+<h2>历史样本选择</h2>
+<ul>
+<li>ArceOS（来源：教学基线）：画像相似度 score=6.73；架构重合度 0.67; 语言构成相似度 0.62; OS 维度重合度 0.86; 代码规模接近度 0.72</li>
+</ul>
+<h2>功能重合与疑似重复证据</h2>
+<p>本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。</p>
+<ul>
+<li>与 ArceOS 在“设备驱动”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/raspi4/chainloader/src/driver.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>// Copyright (c) 2018-2023 Andre Richter &lt;andre.o.richter@gmail.com&gt; //! Driver support. use crate::synchronization::{interface::Mutex, NullLock};</code></p>
+<li><code>tools/raspi4/chainloader/src/console.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>// Copyright (c) 2018-2023 Andre Richter &lt;andre.o.richter@gmail.com&gt; //! System console. mod null_console;</code></p>
+<li><code>modules/axdriver/src/virtio.rs:L19-L23</code>：关键词命中</li>
+<p>代码片段：<code>} /// A trait for VirtIO device meta information. pub trait VirtIoDevMeta { const DEVICE_TYPE: DeviceType;</code></p>
+<li><code>modules/axdriver/src/drivers.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>use axdriver_base::DeviceType; #[cfg(feature = "virtio")] use crate::virtio::{self, VirtIoDevMeta};</code></p>
+<li>与 ArceOS 在“文件系统”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/sys/stat.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>struct stat { dev_t st_dev;             /* ID of device containing file*/ ino_t st_ino;             /* inode number*/ mode_t st_mode;           /* protection*/ nlink_t st_nlink;...</code></p>
+<li><code>modules/axfs/src/fs/fatfs.rs:L32-L36</code>：关键词命中</li>
+<p>代码片段：<code>fatfs::format_volume(&amp;mut disk, opts).expect("failed to format volume"); let inner = fatfs::FileSystem::new(disk, fatfs::FsOptions::new()) .expect("failed to initialize FAT file...</code></p>
+<li><code>modules/axfs/src/lib.rs:L5-L9</code>：关键词命中</li>
+<p>代码片段：<code>//! # Cargo Features //! //! - 'fatfs': Use [FAT] as the main filesystem and mount it on '/'. This feature //!   is <strong>enabled</strong> by default. //! - 'devfs': Mount ['axfs_devfs::De...</code></p>
+<li>与 ArceOS 在“中断与异常”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/c/pow.c:L601-L605</code>：关键词命中</li>
+<p>代码片段：<code>if (y == 0.0) y = asdouble(sbits &amp; 0x8000000000000000); /* The underflow exception needs to be signaled explicitly.  */ fp_force_eval(fp_barrier(0x1p-1022) * 0x1p-1022); }</code></p>
+<li><code>tools/axlibc/c/time.c:L109-L113</code>：关键词命中</li>
+<p>代码片段：<code>} struct tm *gmtime(const time_t *timer) { static struct tm tm;</code></p>
+<li><code>modules/axhal/src/irq.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! Interrupt management. use axcpu::trap::{IRQ, register_trap_handler};</code></p>
+<li><code>modules/axhal/src/lib.rs:L20-L24</code>：关键词命中</li>
+<p>代码片段：<code>//! - 'fp-simd': Enable floating-point and SIMD support. //! - 'paging': Enable page table manipulation. //! - 'irq': Enable interrupt handling support. //! - 'tls': Enable kern...</code></p>
+<li>与 ArceOS 在“调度与任务管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>apps/task/tls/src/main.rs:L9-L13</code>：关键词命中</li>
+<p>代码片段：<code>use core::ptr::addr_of; use std::{thread, vec::Vec}; #[thread_local]</code></p>
+<li><code>apps/task/sleep/src/main.rs:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>use std::sync::atomic::{AtomicUsize, Ordering}; use std::thread; use std::time::{Duration, Instant};</code></p>
+<li><code>modules/axfs/src/root.rs:L174-L178</code>：关键词命中</li>
+<p>代码片段：<code>#[cfg(feature = "procfs")] root_dir // should not fail .mount("/proc", mounts::procfs().unwrap()) .expect("fail to mount procfs at /proc");</code></p>
+<li><code>modules/axhal/src/lib.rs:L21-L25</code>：关键词命中</li>
+<p>代码片段：<code>//! - 'paging': Enable page table manipulation. //! - 'irq': Enable interrupt handling support. //! - 'tls': Enable kernel space thread-local storage support. //! - 'rtc': Enabl...</code></p>
+<li>与 ArceOS 在“同步机制”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/src/rand.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>use core::{ ffi::{c_int, c_long, c_uint}, sync::atomic::{AtomicU64, Ordering::SeqCst}, };</code></p>
+<li><code>apps/task/sleep/src/main.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>extern crate axstd as std; use std::sync::atomic::{AtomicUsize, Ordering}; use std::thread; use std::time::{Duration, Instant};</code></p>
+<li><code>modules/axfs/src/root.rs:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>use axfs_vfs::{VfsNodeAttr, VfsNodeOps, VfsNodeRef, VfsNodeType, VfsOps, VfsResult}; use axns::{ResArc, def_resource}; use axsync::Mutex; use lazyinit::LazyInit;</code></p>
+<li><code>modules/axhal/src/lib.rs:L113-L117</code>：关键词命中</li>
+<p>代码片段：<code>pub use axplat::init::{init_early_secondary, init_later_secondary}; #[cfg(feature = "smp")] use core::sync::atomic::{AtomicUsize, Ordering}; /// Initializes CPU-local data struc...</code></p>
+<li>与 ArceOS 在“系统调用”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/signal.h:L102-L106</code>：macro si_syscall</li>
+<p>代码片段：<code>#define si_int       si_value.sival_int #define si_call_addr __si_fields.__sigsys.si_call_addr #define si_syscall   __si_fields.__sigsys.si_syscall #define si_arch      __si_fie...</code></p>
+<li><code>api/arceos_posix_api/src/imp/fs.rs:L107-L111</code>：fn sys_open</li>
+<p>代码片段：<code>/// Return its index in the file table ('fd'). Return 'EMFILE' if it already /// has the maximum number of files open. pub fn sys_open(filename: *const c_char, flags: c_int, mod...</code></p>
+<li><code>api/arceos_posix_api/src/imp/fs.rs:L120-L124</code>：fn sys_lseek</li>
+<p>代码片段：<code>/// /// Return its position after seek. pub fn sys_lseek(fd: c_int, offset: ctypes::off_t, whence: c_int) -&gt; ctypes::off_t { debug!("sys_lseek &lt;= {} {} {}", fd, offset, whence);...</code></p>
+</ul>
+<h2>代码级相似线索检测</h2>
+<p>本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。</p>
+<ul>
+<li>与 ArceOS 在“文件系统”维度发现片段级代码相似度 1.00 （token=1.00, structure=1.00）。这属于代码级相似线索，不等同于抄袭结论，需要人工结合完整文件和提交历史复核。 共同 token：dev_t, ino_t, mode_t, nlink_t, st_dev, st_ino, st_mode, st_nlink。（置信度：high）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/sys/stat.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>struct stat { dev_t st_dev;             /* ID of device containing file*/ ino_t st_ino;             /* inode number*/ mode_t st_mode;           /* protection*/ nlink_t st_nlink;...</code></p>
+<li><code>ulib/axlibc/include/sys/stat.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>struct stat { dev_t st_dev;             /* ID of device containing file*/ ino_t st_ino;             /* inode number*/ mode_t st_mode;           /* protection*/ nlink_t st_nlink;...</code></p>
+<li>与 ArceOS 在“同步机制”维度发现片段级代码相似度 0.80 （token=0.69, structure=1.00）。这属于代码级相似线索，不等同于抄袭结论，需要人工结合完整文件和提交历史复核。 共同 token：atomic, atomicu64, core, ordering, sync, use。（置信度：high）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/src/rand.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>use core::{ ffi::{c_int, c_long, c_uint}, sync::atomic::{AtomicU64, Ordering::SeqCst}, };</code></p>
+<li><code>modules/axsync/src/mutex.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! A naïve sleeping mutex. use core::sync::atomic::{AtomicU64, Ordering};</code></p>
+<li>与 ArceOS 在“同步机制”维度发现片段级代码相似度 0.68 （token=0.50, structure=1.00）。这属于代码级相似线索，不等同于抄袭结论，需要人工结合完整文件和提交历史复核。 共同 token：atomic, ordering, sync, use。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>apps/task/yield/src/main.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>extern crate axstd as std; use std::sync::atomic::{AtomicUsize, Ordering}; use std::thread;</code></p>
+<li><code>modules/axsync/src/mutex.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! A naïve sleeping mutex. use core::sync::atomic::{AtomicU64, Ordering};</code></p>
+<li>宏名重合：与 ArceOS 在“设备驱动”维度发现 4 个同名定义：DT_BLK, ENXIO, ENOTBLK, EBUSY。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/dirent.h:L37-L37</code>：macro DT_BLK</li>
+<p>代码片段：<code>#define DT_BLK     6</code></p>
+<li><code>ulib/axlibc/include/dirent.h:L37-L37</code>：macro DT_BLK</li>
+<p>代码片段：<code>#define DT_BLK     6</code></p>
+<li><code>tools/axlibc/include/errno.h:L9-L9</code>：macro ENXIO</li>
+<p>代码片段：<code>#define ENXIO           6      /* No such device or address */</code></p>
+<li><code>ulib/axlibc/include/errno.h:L9-L9</code>：macro ENXIO</li>
+<p>代码片段：<code>#define ENXIO           6      /* No such device or address */</code></p>
+<li>宏名重合：与 ArceOS 在“文件系统”维度发现 4 个同名定义：assert, ENOENT, EBADF, EEXIST。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/assert.h:L10-L10</code>：macro assert</li>
+<p>代码片段：<code>#define assert(x) ((void)((x) || (__assert_fail(#x, __FILE__, __LINE__, __func__), 0)))</code></p>
+<li><code>ulib/axlibc/include/assert.h:L13-L13</code>：macro assert</li>
+<p>代码片段：<code>#define assert(x) ((void)((x) || (__assert_fail(#x, __FILE__, __LINE__, __func__), 0)))</code></p>
+<li><code>tools/axlibc/include/errno.h:L5-L5</code>：macro ENOENT</li>
+<p>代码片段：<code>#define ENOENT          2      /* No such file or directory */</code></p>
+<li><code>ulib/axlibc/include/errno.h:L5-L5</code>：macro ENOENT</li>
+<p>代码片段：<code>#define ENOENT          2      /* No such file or directory */</code></p>
+<li>宏名重合：与 ArceOS 在“调度与任务管理”维度发现 4 个同名定义：DEFAULT_STACK_SIZE, DEFAULT_GUARD_SIZE, ESRCH, ECHILD。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/c/pthread.c:L81-L81</code>：macro DEFAULT_STACK_SIZE</li>
+<p>代码片段：<code>#define DEFAULT_STACK_SIZE 131072</code></p>
+<li><code>ulib/axlibc/c/pthread.c:L81-L81</code>：macro DEFAULT_STACK_SIZE</li>
+<p>代码片段：<code>#define DEFAULT_STACK_SIZE 131072</code></p>
+<li><code>tools/axlibc/c/pthread.c:L82-L82</code>：macro DEFAULT_GUARD_SIZE</li>
+<p>代码片段：<code>#define DEFAULT_GUARD_SIZE 8192</code></p>
+<li><code>ulib/axlibc/c/pthread.c:L82-L82</code>：macro DEFAULT_GUARD_SIZE</li>
+<p>代码片段：<code>#define DEFAULT_GUARD_SIZE 8192</code></p>
+<li>宏名重合：与 ArceOS 在“同步机制”维度发现 4 个同名定义：ENOTBLK, EDEADLK, ENOLCK, EWOULDBLOCK。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/errno.h:L18-L18</code>：macro ENOTBLK</li>
+<p>代码片段：<code>#define ENOTBLK         15     /* Block device required */</code></p>
+<li><code>ulib/axlibc/include/errno.h:L18-L18</code>：macro ENOTBLK</li>
+<p>代码片段：<code>#define ENOTBLK         15     /* Block device required */</code></p>
+<li><code>tools/axlibc/include/errno.h:L38-L38</code>：macro EDEADLK</li>
+<p>代码片段：<code>#define EDEADLK         35     /* Resource deadlock would occur */</code></p>
+<li><code>ulib/axlibc/include/errno.h:L38-L38</code>：macro EDEADLK</li>
+<p>代码片段：<code>#define EDEADLK         35     /* Resource deadlock would occur */</code></p>
+<li>宏名重合：与 ArceOS 在“系统调用”维度发现 3 个同名定义：EINTR, EROFS, ENOSYS。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/errno.h:L7-L7</code>：macro EINTR</li>
+<p>代码片段：<code>#define EINTR           4      /* Interrupted system call */</code></p>
+<li><code>ulib/axlibc/include/errno.h:L7-L7</code>：macro EINTR</li>
+<p>代码片段：<code>#define EINTR           4      /* Interrupted system call */</code></p>
+<li><code>tools/axlibc/include/errno.h:L33-L33</code>：macro EROFS</li>
+<p>代码片段：<code>#define EROFS           30     /* Read-only file system */</code></p>
+<li><code>ulib/axlibc/include/errno.h:L33-L33</code>：macro EROFS</li>
+<p>代码片段：<code>#define EROFS           30     /* Read-only file system */</code></p>
+<li>函数/符号名重合：与 ArceOS 在“同步机制”维度发现 1 个同名定义：lock。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/raspi4/chainloader/src/synchronization.rs:L29-L29</code>：fn lock</li>
+<p>代码片段：<code>fn lock&lt;'a, R&gt;(&amp;'a self, f: impl FnOnce(&amp;'a mut Self::Data) -&gt; R) -&gt; R;</code></p>
+<li><code>ulib/axstd/src/io/stdio.rs:L51-L51</code>：fn lock</li>
+<p>代码片段：<code>pub fn lock(&amp;self) -&gt; StdinLock&lt;'static&gt; {</code></p>
+<li>宏名重合：与 ArceOS 在“中断与异常”维度发现 1 个同名定义：EINTR。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/errno.h:L7-L7</code>：macro EINTR</li>
+<p>代码片段：<code>#define EINTR           4      /* Interrupted system call */</code></p>
+<li><code>ulib/axlibc/include/errno.h:L7-L7</code>：macro EINTR</li>
+<p>代码片段：<code>#define EINTR           4      /* Interrupted system call */</code></p>
+<li>文件路径重合：与 ArceOS 在“文件系统”维度出现同名文件源码路径 <code>tools/axlibc/include/sys/stat.h</code> / <code>ulib/axlibc/include/sys/stat.h</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/sys/stat.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>struct stat { dev_t st_dev;             /* ID of device containing file*/ ino_t st_ino;             /* inode number*/ mode_t st_mode;           /* protection*/ nlink_t st_nlink;...</code></p>
+<li><code>ulib/axlibc/include/sys/stat.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>struct stat { dev_t st_dev;             /* ID of device containing file*/ ino_t st_ino;             /* inode number*/ mode_t st_mode;           /* protection*/ nlink_t st_nlink;...</code></p>
+</ul>
+<h2>相似点</h2>
+<ul>
+<li>与 ArceOS 在“设备驱动”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/raspi4/chainloader/src/driver.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>// Copyright (c) 2018-2023 Andre Richter &lt;andre.o.richter@gmail.com&gt; //! Driver support. use crate::synchronization::{interface::Mutex, NullLock};</code></p>
+<li><code>tools/raspi4/chainloader/src/console.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>// Copyright (c) 2018-2023 Andre Richter &lt;andre.o.richter@gmail.com&gt; //! System console. mod null_console;</code></p>
+<li>与 ArceOS 在“文件系统”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/sys/stat.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>struct stat { dev_t st_dev;             /* ID of device containing file*/ ino_t st_ino;             /* inode number*/ mode_t st_mode;           /* protection*/ nlink_t st_nlink;...</code></p>
+<li><code>modules/axfs/src/fs/fatfs.rs:L32-L36</code>：关键词命中</li>
+<p>代码片段：<code>fatfs::format_volume(&amp;mut disk, opts).expect("failed to format volume"); let inner = fatfs::FileSystem::new(disk, fatfs::FsOptions::new()) .expect("failed to initialize FAT file...</code></p>
+<li>与 ArceOS 在“中断与异常”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/c/pow.c:L601-L605</code>：关键词命中</li>
+<p>代码片段：<code>if (y == 0.0) y = asdouble(sbits &amp; 0x8000000000000000); /* The underflow exception needs to be signaled explicitly.  */ fp_force_eval(fp_barrier(0x1p-1022) * 0x1p-1022); }</code></p>
+<li><code>tools/axlibc/c/time.c:L109-L113</code>：关键词命中</li>
+<p>代码片段：<code>} struct tm *gmtime(const time_t *timer) { static struct tm tm;</code></p>
+<li>与 ArceOS 在“调度与任务管理”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>apps/task/tls/src/main.rs:L9-L13</code>：关键词命中</li>
+<p>代码片段：<code>use core::ptr::addr_of; use std::{thread, vec::Vec}; #[thread_local]</code></p>
+<li><code>apps/task/sleep/src/main.rs:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>use std::sync::atomic::{AtomicUsize, Ordering}; use std::thread; use std::time::{Duration, Instant};</code></p>
+<li>与 ArceOS 在“同步机制”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/src/rand.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>use core::{ ffi::{c_int, c_long, c_uint}, sync::atomic::{AtomicU64, Ordering::SeqCst}, };</code></p>
+<li><code>apps/task/sleep/src/main.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>extern crate axstd as std; use std::sync::atomic::{AtomicUsize, Ordering}; use std::thread; use std::time::{Duration, Instant};</code></p>
+<li>与 ArceOS 在“系统调用”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>tools/axlibc/include/signal.h:L102-L106</code>：macro si_syscall</li>
+<p>代码片段：<code>#define si_int       si_value.sival_int #define si_call_addr __si_fields.__sigsys.si_call_addr #define si_syscall   __si_fields.__sigsys.si_syscall #define si_arch      __si_fie...</code></p>
+<li><code>api/arceos_posix_api/src/imp/fs.rs:L107-L111</code>：fn sys_open</li>
+<p>代码片段：<code>/// Return its index in the file table ('fd'). Return 'EMFILE' if it already /// has the maximum number of files open. pub fn sys_open(filename: *const c_char, flags: c_int, mod...</code></p>
+<li>与 ArceOS 在 driver, filesystem, interrupt, scheduler, sync, syscall 等维度均有可确认实现，可作为进一步人工复核重点。（置信度：medium）</li>
+</ul>
+<h2>差异点</h2>
+<ul>
+<li>与 ArceOS 的语言构成不同：新项目为 {'json': 33, 'build': 974, 'markdown': 5808, 'toml': 376, 'c': 10873, 'make': 596, 'rust': 5140, 'asm': 125, 'text': 53}，历史项目为 {'json': 20, 'build': 1933, 'markdown': 1596, 'toml': 138, 'c': 10256, 'rust': 20231, 'make': 679, 'asm': 189, 'text': 6}。（置信度：medium）</li>
+</ul>
+<h2>可能创新点</h2>
+<ul>
+<li>未确认。</li>
+</ul>
+<h2>附录：核验摘要</h2>
+<ul>
+<li>关键结论数：23</li>
+<li>含证据关键结论数：23（100.0%）</li>
+<li>无效证据引用数：0</li>
+<li>未确认关键结论数：0</li>
+<li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>
+</ul></div>
+</body></html>

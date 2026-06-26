@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OSKernel2024-NQOS vs 2025 松蓝 比较报告</title>
+<style>
+:root{
+  --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc;
+  --brand:#0f766e; --brand-dark:#115e59; --brand-soft:#ccfbf1;
+  --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --bg:#eef2f6;
+  --chip:#eef2ff; --chip-ink:#3730a3;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;}
+a{color:var(--brand-dark);}
+header.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,var(--brand) 0%,var(--brand-dark) 100%);color:#fff;
+  padding:18px 28px;box-shadow:0 2px 10px rgba(15,23,42,.18);}
+.topbar h1{margin:0;font-size:24px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px;}
+.topbar .sub{margin-top:4px;font-size:13px;opacity:.85;}
+.topbar .nav{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.topbar .nav a{color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);transition:all .25s ease;
+  display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px;cursor:pointer;}
+.topbar .nav a:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7);
+  transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.topbar .nav a.active{background:#fff;color:var(--brand-dark);border-color:#fff;font-weight:800;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);transform:scale(1.02);}
+.topbar .nav a.active:hover{background:#f0fdfa;box-shadow:0 6px 22px rgba(0,0,0,.25);}
+.topbar .row{display:flex;align-items:flex-end;gap:18px;max-width:1320px;margin:0 auto;}
+main{max-width:1320px;margin:0 auto;padding:20px 24px 60px;}
+
+.tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
+.tab{padding:9px 22px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 2px 8px rgba(15,118,110,.3);}
+.tab .n{font-size:12px;opacity:.8;margin-left:6px;}
+.toolbar{margin-left:auto;display:flex;gap:10px;align-items:center;}
+.toolbar input{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;min-width:220px;}
+
+.year-meta{color:var(--muted);font-size:13px;margin:4px 0 14px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:18px;}
+.empty{padding:50px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px;}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px rgba(15,23,42,.06);transition:transform .12s ease,box-shadow .12s ease;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.12);}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);}
+.card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;}
+.card .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--chip-ink);font-weight:600;}
+.chip.ok{background:#dcfce7;color:var(--ok);} .chip.warn{background:#fef3c7;color:var(--warn);} .chip.bad{background:#fee2e2;color:var(--bad);}
+.chip.tier{background:#e0f2fe;color:#075985;}
+
+.card .info{padding:12px 18px;font-size:13.5px;}
+.card .info dl{display:grid;grid-template-columns:84px 1fr;gap:6px 10px;margin:0;}
+.card .info dt{color:var(--muted);}
+.card .info dd{margin:0;word-break:break-word;}
+.card .info dd a{word-break:break-all;}
+
+.card .reports{padding:12px 18px 16px;border-top:1px dashed var(--line);margin-top:auto;}
+.card .reports .grp{margin-bottom:10px;}
+.card .reports .grp:last-child{margin-bottom:0;}
+.card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:#fff;color:var(--brand-dark);
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;}
+.btn:hover{background:var(--brand);color:#fff;}
+.btn.solid{background:var(--brand);color:#fff;}
+.btn.solid:hover{background:var(--brand-dark);}
+.btn small{font-weight:500;opacity:.8;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:100;}
+.modal.open{display:flex;}
+.modal .panel{margin:auto;width:min(1040px,94vw);height:88vh;background:#fff;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.4);}
+.modal .mhd{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--panel);}
+.modal .mhd .t{font-weight:700;font-size:15px;}
+.modal .mhd .x{margin-left:auto;cursor:pointer;border:none;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:14px;}
+.modal iframe{flex:1;border:0;width:100%;}
+
+/* baseline + report pages */
+.doc{max-width:1040px;margin:0 auto;background:#fff;padding:30px 40px 60px;}
+.doc h1{font-size:26px;border-bottom:2px solid var(--brand);padding-bottom:8px;}
+.doc h2{font-size:20px;margin-top:28px;border-left:4px solid var(--brand);padding-left:10px;}
+.doc h3{font-size:16px;margin-top:20px;color:var(--brand-dark);}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+.doc th,.doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.doc th{background:#eef3f8;}
+.doc code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:.92em;}
+.doc blockquote{margin:10px 0;padding:8px 14px;background:#fffbeb;border-left:4px solid var(--warn);color:#78350f;}
+.doc ul{padding-left:22px;} .doc li.sub{list-style:circle;margin-left:18px;}
+.doc hr{border:none;border-top:1px solid var(--line);margin:18px 0;}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input{min-width:140px;}}
+</style>
+</head><body style="background:#fff">
+<div class="doc"><h1>OSKernel2024-NQOS 比较报告</h1>
+<ul>
+<li>对比历史仓库：2025 松蓝</li>
+<li>生成时间：2026-06-26T02:33:30.746074+00:00</li>
+<li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
+</ul>
+<h2>历史样本选择</h2>
+<ul>
+<li>2025 松蓝（来源：赛事历史作品）：画像相似度 score=6.75；语言构成相似度 0.88; OS 维度重合度 1.00; 代码规模接近度 0.98</li>
+</ul>
+<h2>功能重合与疑似重复证据</h2>
+<p>本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。</p>
+<ul>
+<li>与 2025 松蓝 在“设备驱动”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/uart.c:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>// // low-level driver routines for 16550a UART. //</code></p>
+<li><code>kernel/virtio.h:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>// // virtio device definitions. // for both the mmio interface, and virtio descriptors. // only tested with qemu.</code></p>
+<li><code>kernel/dev/uart.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>// low-level driver routines for 16550a UART #include "memlayout.h" #include "dev/uart.h"</code></p>
+<li><code>kernel/dev/console.c:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>#include &lt;stdarg.h&gt; #include "dev/console.h" #include "dev/uart.h" #include "mem/vmem.h"</code></p>
+<li>与 2025 松蓝 在“文件系统”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/fs.c:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>//   + Blocks: allocator for raw disk blocks. //   + Log: crash recovery for multi-step updates. //   + Files: inode allocator, reading, writing, metadata. //   + Directories: i...</code></p>
+<li><code>kernel/fs.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>// Disk layout: // [ boot block | super block | log | inode blocks | //                                          free bit map | data blocks] //</code></p>
+<li><code>kernel/fs/vfs.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "fs/vfs.h" #include "lock/lock.h" #include "lib/str.h"</code></p>
+<li><code>kernel/fs/fat32/fat32_dir.c:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>#include "fs/base_stat.h" #include "fs/fat32.h" #include "fs/vfs.h" #include "proc/cpu.h" #include "lib/str.h"</code></p>
+<li>与 2025 松蓝 在“中断与异常”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/plic.c:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>// // the riscv Platform Level Interrupt Controller (PLIC). //</code></p>
+<li><code>kernel/trap.c:L31-L35</code>：关键词命中</li>
+<p>代码片段：<code>// // handle an interrupt, exception, or system call from user space. // called from trampoline.S //</code></p>
+<li><code>kernel/dev/plic.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>// Platform-level interrupt controller #include "riscv.h"</code></p>
+<li><code>kernel/dev/timer.c:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>#include "sbi.h" #include "riscv.h" #include "dev/timer.h" #include "lib/print.h"</code></p>
+<li>与 2025 松蓝 在“内存管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/vm.c:L8-L12</code>：关键词命中</li>
+<p>代码片段：<code>/* * the kernel's page table. */ pagetable_t kernel_pagetable;</code></p>
+<li><code>kernel/kalloc.c:L36-L40</code>：关键词命中</li>
+<p>代码片段：<code>char *p; p = (char*)PGROUNDUP((uint64)pa_start); for(; p + PGSIZE &lt;= (char*)pa_end; p += PGSIZE) kfree(p); }</code></p>
+<li><code>kernel/mem/kvm.c:L16-L20</code>：关键词命中</li>
+<p>代码片段：<code>// 申请L2内核页表空间 kernel_pagetable = (pgtbl_t)pmem_alloc_pages(1, true); // printf("kernel pagetable = %p\n",kernel_pagetable); assert(kernel_pagetable != NULL, "kvm.c-&gt;kvm_init: 1\...</code></p>
+<li><code>kernel/mem/uvm.c:L11-L15</code>：关键词命中</li>
+<p>代码片段：<code>#include "common.h" // 用户态虚拟内存管理：静态vm_region池 + SV39页表 + COW/mmap 支持 #define N_VM_REGION 128</code></p>
+<li>与 2025 松蓝 在“调度与任务管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/proc.c:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>#include "riscv.h" #include "spinlock.h" #include "proc.h" #include "defs.h"</code></p>
+<li><code>kernel/proc.h:L23-L27</code>：关键词命中</li>
+<p>代码片段：<code>// Per-CPU state. struct cpu { struct proc *proc;          // The process running on this cpu, or null. struct context context;     // swtch() here to enter scheduler(). int nof...</code></p>
+<li><code>kernel/proc/cpu.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "proc/cpu.h" #include "lock/lock.h" #include "riscv.h"</code></p>
+<li><code>kernel/proc/exec.c:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>//exec.c #include "proc/elf.h" #include "proc/cpu.h" #include "mem/vmem.h"</code></p>
+<li>与 2025 松蓝 在“同步机制”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/fs.c:L15-L19</code>：关键词命中</li>
+<p>代码片段：<code>#include "param.h" #include "stat.h" #include "spinlock.h" #include "proc.h" #include "sleeplock.h"</code></p>
+<li><code>kernel/bio.c:L17-L21</code>：关键词命中</li>
+<p>代码片段：<code>#include "types.h" #include "param.h" #include "spinlock.h" #include "sleeplock.h" #include "riscv.h"</code></p>
+<li><code>kernel/lock/spinlock.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "lock/lock.h" #include "proc/cpu.h" #include "lib/print.h"</code></p>
+<li><code>kernel/lock/sleeplock.c:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>#include "proc/cpu.h" #include "lock/lock.h" void sleeplock_init(sleeplock_t* lock, char* name)</code></p>
+<li>与 2025 松蓝 在“系统调用”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/trap.c:L74-L78</code>：关键词命中</li>
+<p>代码片段：<code>exit(-1); // sepc points to the ecall instruction, // but we want to return to the next instruction. p-&gt;trapframe-&gt;epc += 4;</code></p>
+<li><code>kernel/syscall.c:L5-L9</code>：关键词命中</li>
+<p>代码片段：<code>#include "spinlock.h" #include "proc.h" #include "syscall.h" #include "defs.h"</code></p>
+<li><code>kernel/syscall/syscall.c:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>#include "proc/cpu.h"          // myproc #include "mem/vmem.h"          // uvm_copy #include "syscall/sysnum.h" #include "syscall/sysfile.h" #include "syscall/sysproc.h"</code></p>
+<li><code>kernel/syscall/sysfile.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "syscall/sysfile.h" #include "fs/vfs.h" #include "syscall/syscall.h"</code></p>
+</ul>
+<h2>代码级相似线索检测</h2>
+<p>本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。</p>
+<ul>
+<li>宏名重合：与 2025 松蓝 在“设备驱动”维度发现 4 个同名定义：BACKSPACE, INPUT_BUF_SIZE, CONSOLE, RHR。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/console.c:L25-L25</code>：macro BACKSPACE</li>
+<p>代码片段：<code>#define BACKSPACE 0x100</code></p>
+<li><code>kernel/dev/console.c:L9-L9</code>：macro BACKSPACE</li>
+<p>代码片段：<code>#define BACKSPACE 0x100</code></p>
+<li><code>kernel/console.c:L48-L48</code>：macro INPUT_BUF_SIZE</li>
+<p>代码片段：<code>#define INPUT_BUF_SIZE 128</code></p>
+<li><code>include/dev/console.h:L6-L6</code>：macro INPUT_BUF_SIZE</li>
+<p>代码片段：<code>#define INPUT_BUF_SIZE 128</code></p>
+<li>宏名重合：与 2025 松蓝 在“文件系统”维度发现 4 个同名定义：NOFILE, NFILE, NINODE, SYS_fstat。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/param.h:L4-L4</code>：macro NOFILE</li>
+<p>代码片段：<code>#define NOFILE       16  // open files per process</code></p>
+<li><code>include/common.h:L44-L44</code>：macro NOFILE</li>
+<p>代码片段：<code>#define NOFILE 128                 // 单个进程同时打开的最大文件数量</code></p>
+<li><code>kernel/param.h:L5-L5</code>：macro NFILE</li>
+<p>代码片段：<code>#define NFILE       100  // open files per system</code></p>
+<li><code>include/common.h:L43-L43</code>：macro NFILE</li>
+<p>代码片段：<code>#define NFILE  256                // 整个系统同时打开的最大文件数量</code></p>
+<li>宏名重合：与 2025 松蓝 在“中断与异常”维度发现 4 个同名定义：PLIC_PRIORITY, PLIC_PENDING, PLIC_SENABLE, PLIC_SPRIORITY。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/memlayout.h:L30-L30</code>：macro PLIC_PRIORITY</li>
+<p>代码片段：<code>#define PLIC_PRIORITY (PLIC + 0x0)</code></p>
+<li><code>include/memlayout.h:L7-L7</code>：macro PLIC_PRIORITY</li>
+<p>代码片段：<code>#define PLIC_PRIORITY(id) (PLIC_BASE + (id) * 4)</code></p>
+<li><code>kernel/memlayout.h:L31-L31</code>：macro PLIC_PENDING</li>
+<p>代码片段：<code>#define PLIC_PENDING (PLIC + 0x1000)</code></p>
+<li><code>include/memlayout.h:L8-L8</code>：macro PLIC_PENDING</li>
+<p>代码片段：<code>#define PLIC_PENDING (PLIC_BASE + 0x1000)</code></p>
+<li>宏名重合：与 2025 松蓝 在“内存管理”维度发现 4 个同名定义：TRAPFRAME, SATP_SV39, MAKE_SATP, PTE_V。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/memlayout.h:L59-L59</code>：macro TRAPFRAME</li>
+<p>代码片段：<code>#define TRAPFRAME (TRAMPOLINE - PGSIZE)</code></p>
+<li><code>include/memlayout.h:L45-L45</code>：macro TRAPFRAME</li>
+<p>代码片段：<code>#define TRAPFRAME (TRAMPOLINE - 4096)</code></p>
+<li><code>kernel/riscv.h:L225-L225</code>：macro SATP_SV39</li>
+<p>代码片段：<code>#define SATP_SV39 (8L &lt;&lt; 60)</code></p>
+<li><code>include/mem/vmem.h:L39-L39</code>：macro SATP_SV39</li>
+<p>代码片段：<code>#define SATP_SV39 (8L &lt;&lt; 60)  // MODE = SV39</code></p>
+<li>宏名重合：与 2025 松蓝 在“调度与任务管理”维度发现 3 个同名定义：NPROC, SIGSTOP, SYS_sched_yield。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/param.h:L1-L1</code>：macro NPROC</li>
+<p>代码片段：<code>#define NPROC        64  // maximum number of processes</code></p>
+<li><code>include/common.h:L26-L26</code>：macro NPROC</li>
+<p>代码片段：<code>#define NPROC 64                  // 进程最大数量</code></p>
+<li><code>kernel/signal.h:L16-L16</code>：macro SIGSTOP</li>
+<p>代码片段：<code>#define SIGSTOP      19    // Stop    Stop process</code></p>
+<li><code>include/signal/signal.h:L25-L25</code>：macro SIGSTOP</li>
+<p>代码片段：<code>#define SIGSTOP    19   // Stop process unblockable</code></p>
+<li>宏名重合：与 2025 松蓝 在“系统调用”维度发现 4 个同名定义：TRAPFRAME, SYS_exit, SYS_read, SYS_fstat。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/memlayout.h:L59-L59</code>：macro TRAPFRAME</li>
+<p>代码片段：<code>#define TRAPFRAME (TRAMPOLINE - PGSIZE)</code></p>
+<li><code>include/memlayout.h:L45-L45</code>：macro TRAPFRAME</li>
+<p>代码片段：<code>#define TRAPFRAME (TRAMPOLINE - 4096)</code></p>
+<li><code>kernel/syscall.h:L3-L3</code>：macro SYS_exit</li>
+<p>代码片段：<code>#define SYS_exit    2</code></p>
+<li><code>user/include/syscall_num.h:L27-L27</code>：macro SYS_exit</li>
+<p>代码片段：<code>#define SYS_exit        93</code></p>
+<li>结构体/类型重合：与 2025 松蓝 在“设备驱动”维度发现 4 个同名定义：virtq_desc, virtq_avail, virtq_used_elem, virtq_used。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/virtio.h:L53-L53</code>：struct virtq_desc</li>
+<p>代码片段：<code>struct virtq_desc {</code></p>
+<li><code>include/dev/virtio.h:L45-L45</code>：struct virtq_desc</li>
+<p>代码片段：<code>struct virtq_desc {</code></p>
+<li><code>kernel/virtio.h:L63-L63</code>：struct virtq_avail</li>
+<p>代码片段：<code>struct virtq_avail {</code></p>
+<li><code>include/dev/virtio.h:L55-L55</code>：struct virtq_avail</li>
+<p>代码片段：<code>struct virtq_avail {</code></p>
+<li>结构体/类型重合：与 2025 松蓝 在“调度与任务管理”维度发现 4 个同名定义：context, cpu, trapframe, procstate。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>kernel/proc.h:L4-L4</code>：struct context</li>
+<p>代码片段：<code>struct context {</code></p>
+<li><code>include/proc/proc.h:L55-L55</code>：struct context</li>
+<p>代码片段：<code>typedef struct context {</code></p>
+<li><code>kernel/proc.h:L24-L24</code>：struct cpu</li>
+<p>代码片段：<code>struct cpu {</code></p>
+<li><code>include/proc/cpu.h:L6-L6</code>：struct cpu</li>
+<p>代码片段：<code>typedef struct cpu {</code></p>
+<li>结构体/类型重合：与 2025 松蓝 在“中断与异常”维度发现 1 个同名定义：trapframe。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/proc.h:L45-L45</code>：struct trapframe</li>
+<p>代码片段：<code>struct trapframe {</code></p>
+<li><code>include/proc/proc.h:L15-L15</code>：struct trapframe</li>
+<p>代码片段：<code>typedef struct trapframe {</code></p>
+<li>结构体/类型重合：与 2025 松蓝 在“内存管理”维度发现 1 个同名定义：trapframe。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/proc.h:L45-L45</code>：struct trapframe</li>
+<p>代码片段：<code>struct trapframe {</code></p>
+<li><code>include/proc/proc.h:L15-L15</code>：struct trapframe</li>
+<p>代码片段：<code>typedef struct trapframe {</code></p>
+<li>结构体/类型重合：与 2025 松蓝 在“同步机制”维度发现 2 个同名定义：sleeplock, spinlock。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/sleeplock.h:L2-L2</code>：struct sleeplock</li>
+<p>代码片段：<code>struct sleeplock {</code></p>
+<li><code>include/lock/lock.h:L12-L12</code>：struct sleeplock</li>
+<p>代码片段：<code>typedef struct sleeplock {</code></p>
+<li><code>kernel/spinlock.h:L2-L2</code>：struct spinlock</li>
+<p>代码片段：<code>struct spinlock {</code></p>
+<li><code>include/lock/lock.h:L6-L6</code>：struct spinlock</li>
+<p>代码片段：<code>typedef struct spinlock {</code></p>
+<li>结构体/类型重合：与 2025 松蓝 在“系统调用”维度发现 1 个同名定义：trapframe。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/proc.h:L45-L45</code>：struct trapframe</li>
+<p>代码片段：<code>struct trapframe {</code></p>
+<li><code>include/proc/proc.h:L15-L15</code>：struct trapframe</li>
+<p>代码片段：<code>typedef struct trapframe {</code></p>
+<li>文件路径重合：与 2025 松蓝 在“设备驱动”维度出现同名文件源码路径 <code>kernel/uart.c</code> / <code>kernel/dev/uart.c</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/uart.c:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>// // low-level driver routines for 16550a UART. //</code></p>
+<li><code>kernel/dev/uart.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>// low-level driver routines for 16550a UART #include "memlayout.h" #include "dev/uart.h"</code></p>
+<li>文件路径重合：与 2025 松蓝 在“设备驱动”维度出现同名文件源码路径 <code>kernel/virtio.h</code> / <code>include/dev/virtio.h</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/virtio.h:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>// // virtio device definitions. // for both the mmio interface, and virtio descriptors. // only tested with qemu.</code></p>
+<li><code>include/dev/virtio.h:L6-L10</code>：macro VIRTIO_MMIO_MAGIC_VALUE</li>
+<p>代码片段：<code>// virtio mmio control registers, mapped starting at 0x10001000. // from qemu virtio_mmio.h #define VIRTIO_MMIO_MAGIC_VALUE 0x000 // 0x74726976 #define VIRTIO_MMIO_VERSION 0x004...</code></p>
+<li>文件路径重合：与 2025 松蓝 在“中断与异常”维度出现同名文件源码路径 <code>kernel/plic.c</code> / <code>kernel/dev/plic.c</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/plic.c:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>// // the riscv Platform Level Interrupt Controller (PLIC). //</code></p>
+<li><code>kernel/dev/plic.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>// Platform-level interrupt controller #include "riscv.h"</code></p>
+<li>文件路径重合：与 2025 松蓝 在“中断与异常”维度出现同名文件源码路径 <code>kernel/uart.c</code> / <code>kernel/dev/uart.c</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/uart.c:L28-L32</code>：macro ISR</li>
+<p>代码片段：<code>#define FCR_FIFO_ENABLE (1&lt;&lt;0) #define FCR_FIFO_CLEAR (3&lt;&lt;1) // clear the content of the two FIFOs #define ISR 2                 // interrupt status register #define LCR 3...</code></p>
+<li><code>kernel/dev/uart.c:L14-L18</code>：macro ISR</li>
+<p>代码片段：<code>#define FCR_FIFO_ENABLE (1&lt;&lt;0) #define FCR_FIFO_CLEAR  (3&lt;&lt;1) #define ISR  2      // interrupt status reg #define LCR  3      // line control reg #define LCR_EIGHT_BITS  (3&lt;&lt;0)...</code></p>
+<li>文件路径重合：与 2025 松蓝 在“调度与任务管理”维度出现同名文件源码路径 <code>kernel/proc.c</code> / <code>kernel/proc/proc.c</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/proc.c:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>#include "riscv.h" #include "spinlock.h" #include "proc.h" #include "defs.h"</code></p>
+<li><code>kernel/proc/proc.c:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>#include "lib/str.h" #include "lib/print.h" #include "proc/cpu.h" #include "proc/initcode.h" #include "mem/pmem.h"</code></p>
+<li>文件路径重合：与 2025 松蓝 在“系统调用”维度出现同名文件源码路径 <code>kernel/syscall.c</code> / <code>kernel/syscall/syscall.c</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/syscall.c:L5-L9</code>：关键词命中</li>
+<p>代码片段：<code>#include "spinlock.h" #include "proc.h" #include "syscall.h" #include "defs.h"</code></p>
+<li><code>kernel/syscall/syscall.c:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>#include "proc/cpu.h"          // myproc #include "mem/vmem.h"          // uvm_copy #include "syscall/sysnum.h" #include "syscall/sysfile.h" #include "syscall/sysproc.h"</code></p>
+</ul>
+<h2>相似点</h2>
+<ul>
+<li>与 2025 松蓝 在“设备驱动”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/uart.c:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>// // low-level driver routines for 16550a UART. //</code></p>
+<li><code>kernel/virtio.h:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>// // virtio device definitions. // for both the mmio interface, and virtio descriptors. // only tested with qemu.</code></p>
+<li>与 2025 松蓝 在“文件系统”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/fs.c:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>//   + Blocks: allocator for raw disk blocks. //   + Log: crash recovery for multi-step updates. //   + Files: inode allocator, reading, writing, metadata. //   + Directories: i...</code></p>
+<li><code>kernel/fs.h:L7-L11</code>：关键词命中</li>
+<p>代码片段：<code>// Disk layout: // [ boot block | super block | log | inode blocks | //                                          free bit map | data blocks] //</code></p>
+<li>与 2025 松蓝 在“中断与异常”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/plic.c:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>// // the riscv Platform Level Interrupt Controller (PLIC). //</code></p>
+<li><code>kernel/trap.c:L31-L35</code>：关键词命中</li>
+<p>代码片段：<code>// // handle an interrupt, exception, or system call from user space. // called from trampoline.S //</code></p>
+<li>与 2025 松蓝 在“内存管理”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/vm.c:L8-L12</code>：关键词命中</li>
+<p>代码片段：<code>/* * the kernel's page table. */ pagetable_t kernel_pagetable;</code></p>
+<li><code>kernel/kalloc.c:L36-L40</code>：关键词命中</li>
+<p>代码片段：<code>char *p; p = (char*)PGROUNDUP((uint64)pa_start); for(; p + PGSIZE &lt;= (char*)pa_end; p += PGSIZE) kfree(p); }</code></p>
+<li>与 2025 松蓝 在“调度与任务管理”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/proc.c:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>#include "riscv.h" #include "spinlock.h" #include "proc.h" #include "defs.h"</code></p>
+<li><code>kernel/proc.h:L23-L27</code>：关键词命中</li>
+<p>代码片段：<code>// Per-CPU state. struct cpu { struct proc *proc;          // The process running on this cpu, or null. struct context context;     // swtch() here to enter scheduler(). int nof...</code></p>
+<li>与 2025 松蓝 在“同步机制”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/fs.c:L15-L19</code>：关键词命中</li>
+<p>代码片段：<code>#include "param.h" #include "stat.h" #include "spinlock.h" #include "proc.h" #include "sleeplock.h"</code></p>
+<li><code>kernel/bio.c:L17-L21</code>：关键词命中</li>
+<p>代码片段：<code>#include "types.h" #include "param.h" #include "spinlock.h" #include "sleeplock.h" #include "riscv.h"</code></p>
+<li>与 2025 松蓝 在“系统调用”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/trap.c:L74-L78</code>：关键词命中</li>
+<p>代码片段：<code>exit(-1); // sepc points to the ecall instruction, // but we want to return to the next instruction. p-&gt;trapframe-&gt;epc += 4;</code></p>
+<li><code>kernel/syscall.c:L5-L9</code>：关键词命中</li>
+<p>代码片段：<code>#include "spinlock.h" #include "proc.h" #include "syscall.h" #include "defs.h"</code></p>
+<li>与 2025 松蓝 在 driver, filesystem, interrupt, memory, scheduler, sync, syscall 等维度均有可确认实现，可作为进一步人工复核重点。（置信度：medium）</li>
+</ul>
+<h2>差异点</h2>
+<ul>
+<li>与 2025 松蓝 的语言构成不同：新项目为 {'json': 18, 'markdown': 1725, 'build': 197, 'c': 13428, 'asm': 519}，历史项目为 {'json': 20, 'make': 30, 'build': 469, 'markdown': 39, 'c': 15277, 'asm': 340}。（置信度：medium）</li>
+</ul>
+<h2>可能创新点</h2>
+<ul>
+<li>未确认。</li>
+</ul>
+<h2>附录：核验摘要</h2>
+<ul>
+<li>关键结论数：32</li>
+<li>含证据关键结论数：32（100.0%）</li>
+<li>无效证据引用数：0</li>
+<li>未确认关键结论数：0</li>
+<li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>
+</ul></div>
+</body></html>

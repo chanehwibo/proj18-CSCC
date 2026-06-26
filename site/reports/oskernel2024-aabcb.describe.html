@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OSKernel2024-aabcb 描述报告</title>
+<style>
+:root{
+  --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc;
+  --brand:#0f766e; --brand-dark:#115e59; --brand-soft:#ccfbf1;
+  --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --bg:#eef2f6;
+  --chip:#eef2ff; --chip-ink:#3730a3;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;}
+a{color:var(--brand-dark);}
+header.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,var(--brand) 0%,var(--brand-dark) 100%);color:#fff;
+  padding:18px 28px;box-shadow:0 2px 10px rgba(15,23,42,.18);}
+.topbar h1{margin:0;font-size:24px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px;}
+.topbar .sub{margin-top:4px;font-size:13px;opacity:.85;}
+.topbar .nav{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.topbar .nav a{color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);transition:all .25s ease;
+  display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px;cursor:pointer;}
+.topbar .nav a:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7);
+  transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.topbar .nav a.active{background:#fff;color:var(--brand-dark);border-color:#fff;font-weight:800;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);transform:scale(1.02);}
+.topbar .nav a.active:hover{background:#f0fdfa;box-shadow:0 6px 22px rgba(0,0,0,.25);}
+.topbar .row{display:flex;align-items:flex-end;gap:18px;max-width:1320px;margin:0 auto;}
+main{max-width:1320px;margin:0 auto;padding:20px 24px 60px;}
+
+.tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
+.tab{padding:9px 22px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 2px 8px rgba(15,118,110,.3);}
+.tab .n{font-size:12px;opacity:.8;margin-left:6px;}
+.toolbar{margin-left:auto;display:flex;gap:10px;align-items:center;}
+.toolbar input{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;min-width:220px;}
+
+.year-meta{color:var(--muted);font-size:13px;margin:4px 0 14px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:18px;}
+.empty{padding:50px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px;}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px rgba(15,23,42,.06);transition:transform .12s ease,box-shadow .12s ease;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.12);}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);}
+.card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;}
+.card .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--chip-ink);font-weight:600;}
+.chip.ok{background:#dcfce7;color:var(--ok);} .chip.warn{background:#fef3c7;color:var(--warn);} .chip.bad{background:#fee2e2;color:var(--bad);}
+.chip.tier{background:#e0f2fe;color:#075985;}
+
+.card .info{padding:12px 18px;font-size:13.5px;}
+.card .info dl{display:grid;grid-template-columns:84px 1fr;gap:6px 10px;margin:0;}
+.card .info dt{color:var(--muted);}
+.card .info dd{margin:0;word-break:break-word;}
+.card .info dd a{word-break:break-all;}
+
+.card .reports{padding:12px 18px 16px;border-top:1px dashed var(--line);margin-top:auto;}
+.card .reports .grp{margin-bottom:10px;}
+.card .reports .grp:last-child{margin-bottom:0;}
+.card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:#fff;color:var(--brand-dark);
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;}
+.btn:hover{background:var(--brand);color:#fff;}
+.btn.solid{background:var(--brand);color:#fff;}
+.btn.solid:hover{background:var(--brand-dark);}
+.btn small{font-weight:500;opacity:.8;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:100;}
+.modal.open{display:flex;}
+.modal .panel{margin:auto;width:min(1040px,94vw);height:88vh;background:#fff;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.4);}
+.modal .mhd{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--panel);}
+.modal .mhd .t{font-weight:700;font-size:15px;}
+.modal .mhd .x{margin-left:auto;cursor:pointer;border:none;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:14px;}
+.modal iframe{flex:1;border:0;width:100%;}
+
+/* baseline + report pages */
+.doc{max-width:1040px;margin:0 auto;background:#fff;padding:30px 40px 60px;}
+.doc h1{font-size:26px;border-bottom:2px solid var(--brand);padding-bottom:8px;}
+.doc h2{font-size:20px;margin-top:28px;border-left:4px solid var(--brand);padding-left:10px;}
+.doc h3{font-size:16px;margin-top:20px;color:var(--brand-dark);}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+.doc th,.doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.doc th{background:#eef3f8;}
+.doc code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:.92em;}
+.doc blockquote{margin:10px 0;padding:8px 14px;background:#fffbeb;border-left:4px solid var(--warn);color:#78350f;}
+.doc ul{padding-left:22px;} .doc li.sub{list-style:circle;margin-left:18px;}
+.doc hr{border:none;border-top:1px solid var(--line);margin:18px 0;}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input{min-width:140px;}}
+</style>
+</head><body style="background:#fff">
+<div class="doc"><h1>OSKernel2024-aabcb 项目描述报告</h1>
+<h2>基本信息</h2>
+<ul>
+<li>仓库 ID：<code>oskernel2024-aabcb</code></li>
+<li>风格：independent</li>
+<li>架构：riscv64</li>
+<li>样本来源等级：比赛作品样本（获奖等级未核验）</li>
+<li>文件数：82</li>
+<li>代码/文本行数：7670</li>
+<li>主要语言：c 6835 LOC, asm 308 LOC, build 256 LOC, markdown 227 LOC, make 26 LOC</li>
+</ul>
+<h2>总览</h2>
+<p>OSKernel2024-aabcb 是一个 independent 风格的小型操作系统相关仓库，主要语言统计为 c: 6835 LOC, asm: 308 LOC, build: 256 LOC, markdown: 227 LOC。仓库包含 82 个已扫描文件、约 7670 行可分析文本，当前抽取到 338 个符号定义。</p>
+<h2>摘要评分</h2>
+<ul>
+<li>综合成熟度：A 级：机制完整、证据充分（100/100）</li>
+<li>已确认 OS 维度：7/7；高置信维度：7/7</li>
+<li>构建入口：已确认；证据健康度：100.0% 覆盖率；无效证据引用：0</li>
+<li>评分口径：该分数由本地静态分析、源码证据和 self-check 派生，不代表比赛官方评分，也不调用 LLM。</li>
+</ul>
+<table><thead><tr><th>评分项</th><th>得分</th><th>依据</th></tr></thead><tbody><tr><td>OS 机制覆盖</td><td>80/80</td><td>调度、内存、系统调用、文件系统、同步、中断、驱动等维度的确认情况</td></tr><tr><td>构建入口</td><td>10/10</td><td>是否识别到 Makefile、Cargo.toml、CMakeLists.txt 等构建入口</td></tr><tr><td>证据健康度</td><td>10/10</td><td>关键结论证据覆盖率与无效证据引用数</td></tr></tbody></table>
+<table><thead><tr><th>OS 维度</th><th>状态</th><th>置信度</th><th>证据数</th></tr></thead><tbody><tr><td>调度与任务管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>内存管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>系统调用</td><td>已确认</td><td>high</td><td>11</td></tr><tr><td>文件系统</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>同步机制</td><td>已确认</td><td>high</td><td>5</td></tr><tr><td>中断与异常</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>设备驱动</td><td>已确认</td><td>high</td><td>6</td></tr></tbody></table>
+<h2>构建系统</h2>
+<ul>
+<li>仓库包含构建入口：Makefile, kernel/Makefile, mkfs/Makefile, user/Makefile, kernel/boot/Makefile。（置信度：high）</li>
+<p>证据：</p>
+<li><code>Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>include common.mk KERN = kernel</code></p>
+<li><code>kernel/Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>include ../common.mk MOUDLES = $(shell ls -d */)</code></p>
+<li><code>mkfs/Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>.PHONY: clean build: mkfs.c</code></p>
+<li><code>user/Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>include ../common.mk init: initcode.c</code></p>
+<li><code>kernel/boot/Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code># 头文件 INLCUDES := ../../include</code></p>
+</ul>
+<h2>调度与任务管理</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>scheduler</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含任务/线程管理与调度相关实现。（置信度：high）</li>
+<li>相关符号包括：fn proc_alloc, fn proc_free, fn proc_init, fn proc_make_first, fn proc_fork。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/proc/cpu.c</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/proc/exec.c</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/proc/proc.c</code></td><td>L4-L8</td><td>关键词命中</td></tr><tr><td><code>kernel/proc/proc.c</code></td><td>L66-L70</td><td>fn proc_alloc</td></tr><tr><td><code>kernel/proc/proc.c</code></td><td>L113-L117</td><td>fn proc_free</td></tr><tr><td><code>kernel/proc/proc.c</code></td><td>L146-L150</td><td>fn proc_init</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/proc/cpu.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "proc/cpu.h" #include "riscv.h" #include "lib/lock.h"</code></p>
+<li><code>kernel/proc/exec.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "proc/cpu.h" #include "proc/elf.h" #include "mem/vmem.h"</code></p>
+<li><code>kernel/proc/proc.c:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>#include "mem/vmem.h" #include "mem/mmap.h" #include "proc/cpu.h" #include "proc/initcode.h" #include "memlayout.h"</code></p>
+<li><code>kernel/proc/proc.c:L66-L70</code>：fn proc_alloc</li>
+<p>代码片段：<code>// 设置pid + 设置上下文中的ra和sp // 申请tf和pgtbl使用的物理页 proc_t* proc_alloc() { proc_t *p;</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn proc_alloc</code> at <code>kernel/proc/proc.c:L66</code>、<code>fn proc_free</code> at <code>kernel/proc/proc.c:L113</code>、<code>fn proc_init</code> at <code>kernel/proc/proc.c:L146</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>内存管理</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>memory</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含页表、物理页、虚拟内存或堆分配等内存管理实现。（置信度：high）</li>
+<li>相关符号包括：fn vm_getpte, fn uvm_copy_pgtbl, fn uvm_heap_ungrow, macro PGSIZE, macro PGSIZE。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/mem/kvm.c</code></td><td>L12-L16</td><td>关键词命中</td></tr><tr><td><code>kernel/mem/uvm.c</code></td><td>L12-L16</td><td>关键词命中</td></tr><tr><td><code>kernel/mem/pmem.c</code></td><td>L24-L28</td><td>关键词命中</td></tr><tr><td><code>kernel/mem/kvm.c</code></td><td>L17-L21</td><td>fn vm_getpte</td></tr><tr><td><code>kernel/mem/uvm.c</code></td><td>L105-L109</td><td>fn uvm_copy_pgtbl</td></tr><tr><td><code>kernel/mem/uvm.c</code></td><td>L318-L322</td><td>fn uvm_heap_ungrow</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/mem/kvm.c:L12-L16</code>：关键词命中</li>
+<p>代码片段：<code>// 根据pagetable,找到va对应的pte // 若设置alloc=true 则在PTE无效时尝试申请一个物理页 // 成功返回PTE, 失败返回NULL</code></p>
+<li><code>kernel/mem/uvm.c:L12-L16</code>：关键词命中</li>
+<p>代码片段：<code>uint64 va, pa, page; int flags; pte_t* pte; for(va = begin; va &lt; end; va += PGSIZE)</code></p>
+<li><code>kernel/mem/pmem.c:L24-L28</code>：关键词命中</li>
+<p>代码片段：<code>#define KERN_PAGES 1024 // 内核可分配空间占1024个pages #define PGSIZE 4096  // 页面大小 #define PGROUNDUP(x) (((x) + PGSIZE - 1) &amp; ~(PGSIZE - 1))</code></p>
+<li><code>kernel/mem/kvm.c:L17-L21</code>：fn vm_getpte</li>
+<p>代码片段：<code>// 提示：使用 VA_TO_VPN PTE_TO_PA PA_TO_PTE // 定义用于获取或创建一个页表项 (PTE) 的函数 pte_t* vm_getpte(pgtbl_t pgtbl, uint64 va, bool alloc) { if (va &gt;= VA_MAX)  // 检查虚拟地址是否超出最大允许范围</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn vm_getpte</code> at <code>kernel/mem/kvm.c:L17</code>、<code>fn uvm_copy_pgtbl</code> at <code>kernel/mem/uvm.c:L105</code>、<code>fn uvm_heap_ungrow</code> at <code>kernel/mem/uvm.c:L318</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>系统调用</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>syscall</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含系统调用入口、编号或分发逻辑。（置信度：high）</li>
+<li>相关符号包括：fn kernel_vector, fn timer_vector, fn sys_brk, fn sys_mmap, fn sys_munmap。（置信度：medium）</li>
+<li>静态识别到 26 个系统调用相关符号。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/syscall/syscall.c</code></td><td>L3-L7</td><td>关键词命中</td></tr><tr><td><code>kernel/syscall/sysfile.c</code></td><td>L6-L10</td><td>关键词命中</td></tr><tr><td><code>kernel/syscall/sysproc.c</code></td><td>L6-L10</td><td>关键词命中</td></tr><tr><td><code>kernel/trap/trap.S</code></td><td>L6-L10</td><td>fn kernel_vector</td></tr><tr><td><code>kernel/trap/trap.S</code></td><td>L91-L95</td><td>fn timer_vector</td></tr><tr><td><code>kernel/syscall/sysproc.c</code></td><td>L19-L23</td><td>fn sys_brk</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/syscall/syscall.c:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>#include "mem/mmap.h" #include "mem/vmem.h" #include "syscall/syscall.h" #include "syscall/sysnum.h" #include "syscall/sysfunc.h"</code></p>
+<li><code>kernel/syscall/sysfile.c:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>#include "lib/str.h" #include "lib/print.h" #include "syscall/syscall.h" #include "syscall/sysfunc.h"</code></p>
+<li><code>kernel/syscall/sysproc.c:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>#include "lib/print.h" #include "dev/timer.h" #include "syscall/sysfunc.h" #include "syscall/syscall.h" #include "memlayout.h"</code></p>
+<li><code>kernel/trap/trap.S:L6-L10</code>：fn kernel_vector</li>
+<p>代码片段：<code>.globl kernel_vector .align 4 kernel_vector: # 准备空间给32个通用寄存器</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn kernel_vector</code> at <code>kernel/trap/trap.S:L6</code>、<code>fn timer_vector</code> at <code>kernel/trap/trap.S:L91</code>、<code>fn sys_brk</code> at <code>kernel/syscall/sysproc.c:L19</code>、<code>fn sys_brk</code> at <code>kernel/syscall/sysproc.c:L19</code>、<code>fn sys_mmap</code> at <code>kernel/syscall/sysproc.c:L46</code>、<code>fn sys_munmap</code> at <code>kernel/syscall/sysproc.c:L75</code>、<code>fn sys_fork</code> at <code>kernel/syscall/sysproc.c:L88</code>、<code>fn sys_wait</code> at <code>kernel/syscall/sysproc.c:L93</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>文件系统</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>filesystem</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含文件系统、VFS、inode、目录项或文件读写相关实现。（置信度：high）</li>
+<li>相关符号包括：struct buf_node, fn inode_init, struct buf, struct dirent, struct file。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/fs/fs.c</code></td><td>L2-L6</td><td>关键词命中</td></tr><tr><td><code>kernel/fs/dir.c</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>kernel/fs/file.c</code></td><td>L3-L7</td><td>关键词命中</td></tr><tr><td><code>kernel/fs/buf.c</code></td><td>L9-L13</td><td>struct buf_node</td></tr><tr><td><code>kernel/fs/inode.c</code></td><td>L16-L20</td><td>fn inode_init</td></tr><tr><td><code>include/fs/buf.h</code></td><td>L4-L8</td><td>struct buf</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/fs/fs.c:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>#include "fs/buf.h" #include "fs/bitmap.h" #include "fs/inode.h" #include "fs/dir.h" #include "lib/str.h"</code></p>
+<li><code>kernel/fs/dir.c:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>#include "fs/fs.h" #include "fs/buf.h" #include "fs/inode.h" #include "fs/dir.h" #include "fs/bitmap.h"</code></p>
+<li><code>kernel/fs/file.c:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>#include "fs/dir.h" #include "fs/bitmap.h" #include "fs/inode.h" #include "fs/file.h" #include "mem/vmem.h"</code></p>
+<li><code>kernel/fs/buf.c:L9-L13</code>：struct buf_node</li>
+<p>代码片段：<code>// 将buf包装成双向循环链表的node typedef struct buf_node { buf_t buf; struct buf_node* next;</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct buf_node</code> at <code>kernel/fs/buf.c:L9</code>、<code>fn inode_init</code> at <code>kernel/fs/inode.c:L16</code>、<code>struct buf</code> at <code>include/fs/buf.h:L4</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>同步机制</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>sync</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含锁、信号量或原子操作等同步机制。（置信度：high）</li>
+<li>相关符号包括：struct spinlock, struct sleeplock。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/lib/spinlock.c</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/lib/sleeplock.c</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>include/lib/lock.h</code></td><td>L4-L8</td><td>关键词命中</td></tr><tr><td><code>include/lib/lock.h</code></td><td>L4-L8</td><td>struct spinlock</td></tr><tr><td><code>include/lib/lock.h</code></td><td>L10-L14</td><td>struct sleeplock</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/lib/spinlock.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "lib/lock.h" #include "lib/print.h" #include "proc/cpu.h"</code></p>
+<li><code>kernel/lib/sleeplock.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include "lib/lock.h" #include "lib/print.h" #include "proc/cpu.h"</code></p>
+<li><code>include/lib/lock.h:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>#include "common.h" typedef struct spinlock { int locked; char* name;</code></p>
+<li><code>include/lib/lock.h:L4-L8</code>：struct spinlock</li>
+<p>代码片段：<code>#include "common.h" typedef struct spinlock { int locked; char* name;</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct spinlock</code> at <code>include/lib/lock.h:L4</code>、<code>struct sleeplock</code> at <code>include/lib/lock.h:L10</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>中断与异常</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>interrupt</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含 trap、中断、异常或定时器处理逻辑。（置信度：high）</li>
+<li>相关符号包括：fn timer_init, fn kernel_vector, fn timer_vector, fn trampoline, fn user_vector。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/dev/plic.c</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/dev/timer.c</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>kernel/trap/trap.S</code></td><td>L44-L48</td><td>关键词命中</td></tr><tr><td><code>kernel/dev/timer.c</code></td><td>L18-L22</td><td>fn timer_init</td></tr><tr><td><code>kernel/trap/trap.S</code></td><td>L6-L10</td><td>fn kernel_vector</td></tr><tr><td><code>kernel/trap/trap.S</code></td><td>L91-L95</td><td>fn timer_vector</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/dev/plic.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>// Platform-level interrupt controller #include "memlayout.h"</code></p>
+<li><code>kernel/dev/timer.c:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>#include "lib/lock.h" #include "lib/print.h" #include "dev/timer.h" #include "memlayout.h" #include "riscv.h"</code></p>
+<li><code>kernel/trap/trap.S:L44-L48</code>：关键词命中</li>
+<p>代码片段：<code>sd t6, 240(sp) # trap的处理过程 call trap_kernel_handler</code></p>
+<li><code>kernel/dev/timer.c:L18-L22</code>：fn timer_init</li>
+<p>代码片段：<code>// 时钟初始化 // called in start.c void timer_init() { int id = r_mhartid(); // 获取当前 CPU 的 ID</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn timer_init</code> at <code>kernel/dev/timer.c:L18</code>、<code>fn kernel_vector</code> at <code>kernel/trap/trap.S:L6</code>、<code>fn timer_vector</code> at <code>kernel/trap/trap.S:L91</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>设备驱动</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>driver</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含串口、块设备、控制台、中断控制器或 virtio 等设备驱动相关实现。（置信度：high）</li>
+<li>相关符号包括：fn uart_puts, macro VIRTIO_MMIO_MAGIC_VALUE, macro VIRTIO_MMIO_VERSION, macro VIRTIO_MMIO_DEVICE_ID, macro VIRTIO_MMIO_VENDOR_ID。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/dev/uart.c</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/dev/virtio.c</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>kernel/fs/buf.c</code></td><td>L133-L137</td><td>关键词命中</td></tr><tr><td><code>kernel/dev/uart.c</code></td><td>L71-L75</td><td>fn uart_puts</td></tr><tr><td><code>include/dev/virtio.h</code></td><td>L14-L18</td><td>macro VIRTIO_MMIO_MAGIC_VALUE</td></tr><tr><td><code>include/dev/virtio.h</code></td><td>L15-L19</td><td>macro VIRTIO_MMIO_VERSION</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/dev/uart.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>// low-level driver routines for 16550a UART. #include "memlayout.h"</code></p>
+<li><code>kernel/dev/virtio.c:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>/* QEMU提供的虚拟磁盘的驱动 QEMUOPTS = -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 这个文件最终提供三个重要函数: virtio_init() // 初始化函数</code></p>
+<li><code>kernel/fs/buf.c:L133-L137</code>：关键词命中</li>
+<p>代码片段：<code>// 从磁盘读取对应块的数据 virtio_disk_rw(&amp;b-&gt;buf, 0); return &amp;b-&gt;buf;</code></p>
+<li><code>kernel/dev/uart.c:L71-L75</code>：fn uart_puts</li>
+<p>代码片段：<code>} void uart_puts(const char *s) { while (*s != '\0') { uart_putc_sync(*s++);</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn uart_puts</code> at <code>kernel/dev/uart.c:L71</code>、<code>macro VIRTIO_MMIO_MAGIC_VALUE</code> at <code>include/dev/virtio.h:L14</code>、<code>macro VIRTIO_MMIO_VERSION</code> at <code>include/dev/virtio.h:L15</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>附录：核验摘要</h2>
+<ul>
+<li>关键结论数：16</li>
+<li>含证据关键结论数：16（100.0%）</li>
+<li>无效证据引用数：0</li>
+<li>未确认关键结论数：0</li>
+<li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>
+</ul></div>
+</body></html>

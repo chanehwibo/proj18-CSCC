@@ -215,6 +215,23 @@ class Reporter:
             return f"比赛作品样本（award_source_url 未填写，暂不作为获奖案例；标注奖项：{award}）"
         return label
 
+    def maturity(self, profile: KernelProfile) -> dict[str, int | str]:
+        """Public maturity summary reused by the web console and other consumers."""
+        score, details = self._maturity_score(profile)
+        return {
+            "score": score,
+            "level": self._maturity_level(score),
+            "level_short": self._maturity_level(score).split("：", 1)[0],
+            "dimension_score": details["dimension_score"],
+            "build_score": details["build_score"],
+            "evidence_score": details["evidence_score"],
+            "build": details["build"],
+            "evidence": details["evidence"],
+        }
+
+    def dimension_confidence(self, findings: list[Finding]) -> str:
+        return self._dimension_confidence(findings)
+
     def _maturity_summary(self, profile: KernelProfile) -> list[str]:
         score, details = self._maturity_score(profile)
         level = self._maturity_level(score)
