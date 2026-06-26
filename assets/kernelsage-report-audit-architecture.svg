@@ -86,10 +86,10 @@
 <line class="line" x1="365" y1="245" x2="428" y2="177"/>
 <line class="line" x1="365" y1="245" x2="428" y2="309"/>
 <line class="line-dash" x1="365" y1="520" x2="428" y2="450"/>
-<line class="line" x1="800" y1="222" x2="800" y2="755"/>
-<line class="line-soft" x1="800" y1="354" x2="800" y2="755"/>
-<line class="line-dash" x1="800" y1="504" x2="800" y2="545"/>
-<line class="line" x1="800" y1="650" x2="800" y2="755"/>
+<line class="line" x1="800" y1="222" x2="800" y2="264"/>
+<line class="line-soft" x1="800" y1="354" x2="800" y2="396"/>
+<line class="line-dash" x1="800" y1="504" x2="800" y2="546"/>
+<line class="line" x1="800" y1="650" x2="800" y2="760"/>
 <line class="line" x1="1165" y1="801" x2="1218" y2="270"/>
 <line class="line-dash" x1="1165" y1="598" x2="1218" y2="540"/>
 </svg>
