@@ -257,6 +257,10 @@ flowchart TD
 
 仓库扫描模块负责把输入 OS 仓库转成可分析的结构化快照。当前实现会读取源码文件、README/docs、构建入口和目录结构，并统计语言分布和文件规模。符号抽取模块进一步从 Rust/C/C++/Assembly 文件中抽取函数、结构体、宏和 impl 等信息，为后续 OS 机制画像提供候选证据。
 
+![KernelSage 仓库画像生成结构框图](assets/kernelsage-profile-architecture.svg)
+
+同名 PNG 位于 `assets/kernelsage-profile-architecture.png`；四张局部结构图汇总 PPTX 位于 `assets/kernelsage-module-architecture-slides.pptx`。
+
 核心能力如下：
 
 | 能力 | 当前实现 | 产出 |
@@ -272,6 +276,8 @@ flowchart TD
 ### 4.3 历史样本选择与对比
 
 比较流程首先为待分析仓库生成画像，再从历史样本库中选择最有代表性的 Top N 样本。选择策略综合考虑技术路线、架构、语言、OS 维度覆盖和规模相似度，避免只按目录顺序或样本登记顺序取样。
+
+![KernelSage 历史对比与相似线索结构框图](assets/kernelsage-compare-architecture.svg)
 
 对比报告输出以下内容：
 
@@ -291,6 +297,8 @@ KernelSage 不把“看起来像”直接写成结论。代码级相似线索只
 默认命令不会调用 LLM API，也不会产生费用。只有显式传入 `--use-llm` 才会请求在线模型。
 
 LLM 模块的定位是“受约束润色”和“结构化总结”，不是凭空生成判断。系统会把已有画像、证据和比较结果组织成 prompt，要求模型只能基于给定 evidence 写作；`--use-llm` 生成结果会先通过本地审计，出现越界引用或越权抄袭措辞时自动回退到规则版报告，也可通过 `audit-llm-report` 单独复核已有 prompt/report 文件。
+
+![KernelSage 报告生成与审计回退结构框图](assets/kernelsage-report-audit-architecture.svg)
 
 安全约定：
 
@@ -337,6 +345,8 @@ KernelSage 的报告末尾会输出 self-check 摘要，用于检查关键结论
 ### 4.6 参考库覆盖
 
 当前 `data/samples/manifest.json` 登记 141 个本地可复核样本仓库，其中 120 个来自赛事组提供的 `collected-data.xlsx` 并统一标记为赛事历史作品。样本库不是追求“大而全”，而是优先覆盖主要技术路线，降低未知输入仓库比较时的偏置。
+
+![KernelSage 历史样本库与画像缓存结构框图](assets/kernelsage-baseline-cache-architecture.svg)
 
 样本来源采用分级管理：没有获奖来源记录或可靠仓库来源时，不把任何样本硬标为“特奖/一等奖优秀案例”。当前 3 个一等奖样本的来源记录来自官方提供的 `os-funtion-winners.md`。
 
@@ -536,6 +546,9 @@ proj18-os-agent-compare/
 |-- .env.example
 |-- assets/
 |   |-- school-logo.png
+|   |-- kernelsage-architecture.svg / .png / -slide.pptx
+|   |-- kernelsage-*-architecture.svg / .png
+|   |-- kernelsage-module-architecture-slides.pptx
 |   `-- .gitkeep
 |-- docs/
 |   |-- PLAN.md

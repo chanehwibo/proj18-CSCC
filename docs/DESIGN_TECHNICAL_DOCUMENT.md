@@ -174,6 +174,10 @@ KernelSage 按分层方式设计，整体数据流如下：
 
 `parser.py` 负责从 Rust、C、C++ 和 Assembly 文件中抽取函数、结构体、类、宏、模块声明和汇编符号。小型 OS 仓库经常混合多种语言，尤其是启动、trap、驱动和平台适配代码中常见 C/ASM 混合，因此符号抽取不能只面向单一语言。
 
+![KernelSage 仓库画像生成结构框图](../assets/kernelsage-profile-architecture.svg)
+
+以下局部结构图均有同名 PNG 位于仓库根目录的 `assets/`，四页汇总 PPTX 位于 `assets/kernelsage-module-architecture-slides.pptx`，可直接用于答辩 PPT。
+
 `analyzer.py` 将采集结果转换为 `KernelProfile`。画像围绕 OS 机制组织，核心判断包括：
 
 | 维度 | 典型证据 |
@@ -198,11 +202,15 @@ KernelSage 按分层方式设计，整体数据流如下：
 - 代码规模和目录结构是否接近；
 - 样本来源是否可信，是否有明确 manifest 记录。
 
+![KernelSage 历史对比与相似线索结构框图](../assets/kernelsage-compare-architecture.svg)
+
 相似线索分为两层：功能相似和代码级相似。功能相似说明两个 OS 项目解决的问题或机制相近；代码级相似进一步检查路径、函数或符号、结构体/类型、宏和局部片段 token/结构相似度。报告会明确这些线索只是人工复核入口，不是自动裁定。
 
 ### 2.5 LLM 增强、报告审计与回退层
 
 `llm.py` 提供 DeepSeek/OpenAI-compatible API 调用能力，`llm_audit.py` 负责审计 LLM 输出。系统默认使用规则版报告，不消耗在线 API；启用 LLM 时，prompt 会包含已经抽取的证据、历史样本选择理由和边界要求。
+
+![KernelSage 报告生成与审计回退结构框图](../assets/kernelsage-report-audit-architecture.svg)
 
 为了避免幻觉，系统设置了四道约束：
 
@@ -590,6 +598,8 @@ return profile
 
 系统维护独立的历史样本 manifest 和画像缓存。每个历史样本都有自己的来源、类别、仓库地址和本地路径，不会把所有仓库混成一个不可解释的数据池。
 
+![KernelSage 历史样本库与画像缓存结构框图](../assets/kernelsage-baseline-cache-architecture.svg)
+
 当前参考库包含 141 个本地可复核样本，覆盖教学基线、赛事历史作品、比赛作品、RTOS、微内核、unikernel、不同语言和架构路线，并补入已核验代表案例。输入新作品时，系统根据画像相似度选择 Top 5 历史样本，输出相似点、差异点和代码级线索。
 
 代码印证：`src/os_agent/selector.py` 的历史样本选择不是目录顺序，而是综合风格、架构、语言、OS 维度和代码规模打分。
@@ -733,6 +743,7 @@ p = sub.add_parser("query-evidence", help="search local sample source evidence b
 | `docs/CODE_SIMILARITY_SOLUTION.md` | 代码相似线索设计说明。 |
 | `docs/COLLECTED_DATA_IMPORT.md` | 赛事组 collected-data 导入结果，记录成功样本和失败原因。 |
 | `docs/DESIGN_TECHNICAL_DOCUMENT.md` | 本设计技术文档，对初赛要求的 9 个章节进行集中整理。 |
+| `assets/kernelsage-*.svg` / `assets/kernelsage-*.png` / `assets/kernelsage-*-slides.pptx` | 架构结构图资产，供 README、设计文档和答辩 PPT 使用。 |
 
 ### 8.4 网站与公开展示目录
 

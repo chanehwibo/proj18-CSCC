@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">?????????????</title>
+<desc id="desc">???????HTML??? LLM????????????????????</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M2,2 L10,6 L2,10 Z" fill="#2f855a"/></marker>
+    <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.08"/></filter>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 36px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #0f172a; text-anchor: middle; }
+      .subtitle { font: 400 18px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #475569; text-anchor: middle; }
+      .section { font: 700 22px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #0f172a; }
+      .box-title { font: 700 19px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #0f172a; }
+      .body { font: 400 15px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #334155; }
+      .small { font: 400 13px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #475569; }
+      .tag { font: 700 13px "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .node { stroke-width: 1.6; rx: 8; filter: url(#soft-shadow); }
+      .panel { stroke-width: 1.6; rx: 10; filter: url(#soft-shadow); }
+      .line { fill: none; stroke: #334155; stroke-width: 2.4; marker-end: url(#arrow); }
+      .line-soft { fill: none; stroke: #64748b; stroke-width: 2; marker-end: url(#arrow); }
+      .line-dash { fill: none; stroke: #7c3aed; stroke-width: 2; stroke-dasharray: 7 7; marker-end: url(#arrow); }
+      .line-green { fill: none; stroke: #2f855a; stroke-width: 2.4; marker-end: url(#arrow-green); }
+    </style>
+  </defs>
+
+<rect class="bg" width="1600" height="900"/>
+<text class="title" x="800" y="54">?????????????</text>
+<text class="subtitle" x="800" y="84">??????????LLM ????????? evidence ????????????</text>
+<rect class="node" x="55" y="145" width="310" height="210" rx="8" fill="#e9f7ef" stroke="#8fc9a8"/>
+<text class="box-title" x="79" y="179">?????</text>
+<text class="body" x="79" y="207">
+<tspan x="79" dy="0">KernelProfile</tspan>
+<tspan x="79" dy="23">CompareResult</tspan>
+<tspan x="79" dy="23">Evidence path:Lx-Ly</tspan>
+<tspan x="79" dy="23">????????</tspan>
+</text>
+<rect class="node" x="55" y="425" width="310" height="190" rx="8" fill="#ecfeff" stroke="#67c7d4"/>
+<text class="box-title" x="79" y="459">????</text>
+<text class="body" x="79" y="487">
+<tspan x="79" dy="0">????? API</tspan>
+<tspan x="79" dy="23">--llm-dry-run ??? prompt</tspan>
+<tspan x="79" dy="23">--use-llm ???????</tspan>
+</text>
+<rect class="node" x="435" y="132" width="730" height="90" rx="8" fill="#ffffff" stroke="#8bb8e8"/>
+<text class="box-title" x="459" y="166">reporter.py ??? Markdown</text>
+<text class="body" x="459" y="194">
+<tspan x="459" dy="0">?????????????????? / ????</tspan>
+</text>
+<rect class="node" x="435" y="264" width="730" height="90" rx="8" fill="#ffffff" stroke="#8fc9a8"/>
+<text class="box-title" x="459" y="298">html_reporter.py ????</text>
+<text class="body" x="459" y="326">
+<tspan x="459" dy="0">HTML ??? profile/compare/self-check ???????? LLM ??</tspan>
+</text>
+<rect class="node" x="435" y="396" width="730" height="108" rx="8" fill="#ffffff" stroke="#b99be6"/>
+<text class="box-title" x="459" y="430">llm.py ????</text>
+<text class="body" x="459" y="458">
+<tspan x="459" dy="0">???? prompt??? dry-run?data/llm_cache/ ??</tspan>
+<tspan x="459" dy="23">?? OpenAI-compatible chat/completions ????</tspan>
+</text>
+<rect class="node" x="435" y="546" width="730" height="104" rx="8" fill="#ffffff" stroke="#f3a6ad"/>
+<text class="box-title" x="459" y="580">llm_audit.py ???????</text>
+<text class="body" x="459" y="608">
+<tspan x="459" dy="0">??????????????????/????</tspan>
+<tspan x="459" dy="23">????? API ??????????</tspan>
+</text>
+<rect class="node" x="435" y="760" width="730" height="82" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+<text class="box-title" x="459" y="794">selfcheck.py ????</text>
+<text class="body" x="459" y="822">
+<tspan x="459" dy="0">????????????????????????</tspan>
+</text>
+<rect class="node" x="1225" y="155" width="320" height="225" rx="8" fill="#fff7e8" stroke="#f0bd6a"/>
+<text class="box-title" x="1249" y="189">????</text>
+<text class="body" x="1249" y="217">
+<tspan x="1249" dy="0">data/reports/describe</tspan>
+<tspan x="1249" dy="23">data/reports/compare</tspan>
+<tspan x="1249" dy="23">data/reports/html</tspan>
+<tspan x="1249" dy="23">site/ ????</tspan>
+<tspan x="1249" dy="23">README / ???? / PPT</tspan>
+</text>
+<rect class="node" x="1225" y="455" width="320" height="175" rx="8" fill="#fff1f2" stroke="#f3a6ad"/>
+<text class="box-title" x="1249" y="489">????</text>
+<text class="body" x="1249" y="517">
+<tspan x="1249" dy="0">?????????</tspan>
+<tspan x="1249" dy="23">LLM ??????</tspan>
+<tspan x="1249" dy="23">??????????</tspan>
+</text>
+<line class="line" x1="365" y1="245" x2="428" y2="177"/>
+<line class="line" x1="365" y1="245" x2="428" y2="309"/>
+<line class="line-dash" x1="365" y1="520" x2="428" y2="450"/>
+<line class="line" x1="800" y1="222" x2="800" y2="755"/>
+<line class="line-soft" x1="800" y1="354" x2="800" y2="755"/>
+<line class="line-dash" x1="800" y1="504" x2="800" y2="545"/>
+<line class="line" x1="800" y1="650" x2="800" y2="755"/>
+<line class="line" x1="1165" y1="801" x2="1218" y2="270"/>
+<line class="line-dash" x1="1165" y1="598" x2="1218" y2="540"/>
+</svg>
