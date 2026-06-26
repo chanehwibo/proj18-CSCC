@@ -7,7 +7,7 @@
 <p align="center">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB">
   <img alt="Stage" src="https://img.shields.io/badge/Stage-V1%20MVP-brightgreen">
-  <img alt="Samples" src="https://img.shields.io/badge/Reference%20Library-21%20repos-blue">
+  <img alt="Samples" src="https://img.shields.io/badge/Reference%20Library-141%20repos-blue">
   <img alt="LLM" src="https://img.shields.io/badge/LLM-DeepSeek%20compatible-6A5ACD">
   <img alt="Evidence" src="https://img.shields.io/badge/Evidence-self--check-important">
 </p>
@@ -102,7 +102,7 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
     <tr>
       <td width="120" nowrap>演示材料</td>
       <td width="96" nowrap>已整理</td>
-      <td>见 <a href="BEGINNER_OPERATION_MANUAL1.md">BEGINNER_OPERATION_MANUAL1.md</a>、<a href="docs/DEMO.md">docs/DEMO.md</a>、<a href="docs/STAGE_REVIEW.md">docs/STAGE_REVIEW.md</a>、<a href="docs/HIGHLIGHTS.md">docs/HIGHLIGHTS.md</a>、<a href="docs/SHOWCASE_CASE.md">docs/SHOWCASE_CASE.md</a>、<a href="docs/GOLDEN_CASES.md">docs/GOLDEN_CASES.md</a> 和 <a href="docs/REPORT_AUDIT.md">docs/REPORT_AUDIT.md</a></td>
+      <td>见 <a href="BEGINNER_OPERATION_MANUAL1.md">BEGINNER_OPERATION_MANUAL1.md</a>、<a href="docs/DESIGN_TECHNICAL_DOCUMENT.md">docs/DESIGN_TECHNICAL_DOCUMENT.md</a>、<a href="docs/DEMO.md">docs/DEMO.md</a>、<a href="docs/STAGE_REVIEW.md">docs/STAGE_REVIEW.md</a>、<a href="docs/HIGHLIGHTS.md">docs/HIGHLIGHTS.md</a>、<a href="docs/SHOWCASE_CASE.md">docs/SHOWCASE_CASE.md</a>、<a href="docs/GOLDEN_CASES.md">docs/GOLDEN_CASES.md</a> 和 <a href="docs/REPORT_AUDIT.md">docs/REPORT_AUDIT.md</a></td>
     </tr>
     <tr>
       <td width="120" nowrap>下一重点</td>
@@ -398,6 +398,7 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py scripts\fe
 | --- | --- |
 | [docs/PLAN.md](docs/PLAN.md) | 三周半赛程下的 MVP 优先研发计划 |
 | [BEGINNER_OPERATION_MANUAL1.md](BEGINNER_OPERATION_MANUAL1.md) | 新手傻瓜式全流程操作手册、演示步骤和正确现象说明 |
+| [docs/DESIGN_TECHNICAL_DOCUMENT.md](docs/DESIGN_TECHNICAL_DOCUMENT.md) | 初赛要求的设计技术文档，按 9 个章节整理系统设计、过程、痛点解决和提交目录 |
 | [docs/DEMO.md](docs/DEMO.md) | 演示流程和命令说明 |
 | [docs/HIGHLIGHTS.md](docs/HIGHLIGHTS.md) | 项目特色与亮点说明 |
 | [docs/SHOWCASE_CASE.md](docs/SHOWCASE_CASE.md) | 固定展示样例链路 |
@@ -534,6 +535,7 @@ proj18-os-agent-compare/
 |   `-- .gitkeep
 |-- docs/
 |   |-- PLAN.md
+|   |-- DESIGN_TECHNICAL_DOCUMENT.md
 |   |-- DEMO.md
 |   |-- HIGHLIGHTS.md
 |   |-- SHOWCASE_CASE.md
