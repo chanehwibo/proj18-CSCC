@@ -257,9 +257,9 @@ flowchart TD
 
 仓库扫描模块负责把输入 OS 仓库转成可分析的结构化快照。当前实现会读取源码文件、README/docs、构建入口和目录结构，并统计语言分布和文件规模。符号抽取模块进一步从 Rust/C/C++/Assembly 文件中抽取函数、结构体、宏和 impl 等信息，为后续 OS 机制画像提供候选证据。
 
-![KernelSage 仓库画像生成结构框图](assets/kernelsage-profile-architecture.svg)
+![KernelSage 仓库画像生成结构框图](assets/kernelsage-profile-architecture.png)
 
-同名 PNG 位于 `assets/kernelsage-profile-architecture.png`；四张局部结构图汇总 PPTX 位于 `assets/kernelsage-module-architecture-slides.pptx`。
+该结构图位于 `assets/kernelsage-profile-architecture.png`；四张局部结构图汇总 PPTX 位于 `assets/kernelsage-module-architecture-slides.pptx`。
 
 核心能力如下：
 
