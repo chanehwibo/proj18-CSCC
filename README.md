@@ -102,7 +102,7 @@ KernelSage 是面向小型操作系统仓库的分析比对智能体系统。系
     <tr>
       <td width="120" nowrap>演示材料</td>
       <td width="96" nowrap>已整理</td>
-      <td>见 <a href="一定要以人类的身份赢啊_演示视频.mp4">演示视频 MP4</a>、<a href="BEGINNER_OPERATION_MANUAL1.md">BEGINNER_OPERATION_MANUAL1.md</a>、<a href="设计技术文档.pdf">设计技术文档.pdf</a>、<a href="docs/DESIGN_TECHNICAL_DOCUMENT.md">docs/DESIGN_TECHNICAL_DOCUMENT.md</a>、<a href="docs/DEMO.md">docs/DEMO.md</a>、<a href="docs/STAGE_REVIEW.md">docs/STAGE_REVIEW.md</a>、<a href="docs/HIGHLIGHTS.md">docs/HIGHLIGHTS.md</a>、<a href="docs/SHOWCASE_CASE.md">docs/SHOWCASE_CASE.md</a>、<a href="docs/GOLDEN_CASES.md">docs/GOLDEN_CASES.md</a> 和 <a href="docs/REPORT_AUDIT.md">docs/REPORT_AUDIT.md</a></td>
+      <td>见 <a href="KernelSage_答辩演示PPT.pptx">初赛答辩 PPT</a>、<a href="一定要以人类的身份赢啊_演示视频.mp4">演示视频 MP4</a>、<a href="BEGINNER_OPERATION_MANUAL1.md">BEGINNER_OPERATION_MANUAL1.md</a>、<a href="设计技术文档.pdf">设计技术文档.pdf</a>、<a href="docs/DESIGN_TECHNICAL_DOCUMENT.md">docs/DESIGN_TECHNICAL_DOCUMENT.md</a>、<a href="docs/DEMO.md">docs/DEMO.md</a>、<a href="docs/STAGE_REVIEW.md">docs/STAGE_REVIEW.md</a>、<a href="docs/HIGHLIGHTS.md">docs/HIGHLIGHTS.md</a>、<a href="docs/SHOWCASE_CASE.md">docs/SHOWCASE_CASE.md</a>、<a href="docs/GOLDEN_CASES.md">docs/GOLDEN_CASES.md</a> 和 <a href="docs/REPORT_AUDIT.md">docs/REPORT_AUDIT.md</a></td>
     </tr>
     <tr>
       <td width="120" nowrap>下一重点</td>
@@ -412,6 +412,7 @@ $env:PYTHONPATH='src'; python -m compileall src scripts\kernelsage.py scripts\fe
 | --- | --- |
 | [docs/PLAN.md](docs/PLAN.md) | 三周半赛程下的 MVP 优先研发计划 |
 | [BEGINNER_OPERATION_MANUAL1.md](BEGINNER_OPERATION_MANUAL1.md) | 新手傻瓜式全流程操作手册、演示步骤和正确现象说明 |
+| [KernelSage_答辩演示PPT.pptx](KernelSage_答辩演示PPT.pptx) | 初赛答辩演示 PPT，用于评审展示项目定位、架构、核心功能和演示流程 |
 | [一定要以人类的身份赢啊_演示视频.mp4](一定要以人类的身份赢啊_演示视频.mp4) | 项目演示视频，覆盖主要功能链路和答辩展示流程 |
 | [设计技术文档.pdf](设计技术文档.pdf) | 设计技术文档 PDF 版，由 `docs/DESIGN_TECHNICAL_DOCUMENT.md` 转换生成，适合直接下载、提交和评审阅读 |
 | [docs/DESIGN_TECHNICAL_DOCUMENT.md](docs/DESIGN_TECHNICAL_DOCUMENT.md) | 设计技术文档 Markdown 源文件，按 9 个章节整理系统设计、过程、痛点解决和提交目录，便于继续维护和重新导出 PDF |
@@ -543,6 +544,7 @@ proj18-os-agent-compare/
 |-- README.md
 |-- BEGINNER_OPERATION_MANUAL1.md
 |-- 设计技术文档.pdf
+|-- KernelSage_答辩演示PPT.pptx
 |-- 一定要以人类的身份赢啊_演示视频.mp4
 |-- DEVELOPMENT_LOG.md
 |-- LICENSE
