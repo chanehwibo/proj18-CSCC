@@ -847,7 +847,7 @@ class SiteRenderer:
 <header class="topbar"><div class="row">
   <div>
     <h1>🖥️ 操作系统竞赛作品展示</h1>
-    <div class="sub">{_esc(site_data.get('contest_name','操作系统大赛'))} · 内核实现赛道作品智能分析与比较 · 生成时间 {_esc(site_data.get('generated_at',''))}</div>
+    <div class="sub">{_esc(site_data.get('contest_name','操作系统大赛'))} · 内核实现赛道作品智能分析与比较 · 由一定要以人类的身份赢啊--火山灰技术支持</div>
   </div>
   <nav class="nav">{nav}</nav>
 </div></header>
