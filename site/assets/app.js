@@ -244,6 +244,21 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeReport(
 window.addEventListener('scroll',function(){var b=document.getElementById('toTop');if(b)b.classList.toggle('show',window.scrollY>400);});
 function toTop(){window.scrollTo({top:0,behavior:'smooth'});}
 
+function setupFloatTips(){
+  var tip=document.getElementById('ks-floattip');
+  if(!tip){tip=document.createElement('div');tip.id='ks-floattip';tip.className='ks-floattip';document.body.appendChild(tip);}
+  function show(el){var txt=el.getAttribute('data-tip');if(!txt)return;tip.textContent=txt;tip.classList.add('show');
+    var r=el.getBoundingClientRect(),pad=8,tw=tip.offsetWidth,th=tip.offsetHeight;
+    var left=Math.max(pad,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-pad));
+    var top=r.top-th-8;if(top<pad)top=r.bottom+8;
+    tip.style.left=left+'px';tip.style.top=top+'px';}
+  function hide(){tip.classList.remove('show');}
+  document.addEventListener('mouseover',function(e){var el=e.target.closest&&e.target.closest('.info-tip[data-tip]');if(el)show(el);});
+  document.addEventListener('mouseout',function(e){var el=e.target.closest&&e.target.closest('.info-tip[data-tip]');if(el)hide();});
+  document.addEventListener('focusin',function(e){var el=e.target.closest&&e.target.closest('.info-tip[data-tip]');if(el)show(el);});
+  document.addEventListener('focusout',hide);
+  window.addEventListener('scroll',hide,true);
+}
 document.addEventListener('DOMContentLoaded',function(){
   // theme
   var t=null;try{t=localStorage.getItem('ks-theme');}catch(e){}
@@ -257,4 +272,5 @@ document.addEventListener('DOMContentLoaded',function(){
   markScored();
   renderDashboard();
   applyHistoryFilters();
+  setupFloatTips();
 });
