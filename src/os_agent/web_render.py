@@ -387,6 +387,7 @@ function showYear(y){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active', t.dataset.year===y);});
   try{localStorage.setItem('ks-year', y);}catch(e){}
   applyFilters();
+  if(typeof renderDashboard==='function')renderDashboard();
 }
 
 /* ---- filter + sort + counter ---- */
@@ -403,12 +404,12 @@ function segVal(group){
   return on?on.dataset.val:'all';
 }
 function applyFilters(){
-  var panel=activePanel(); if(!panel)return;
+  var panel=activePanel(); if(!panel){if(typeof renderDashboard==='function')renderDashboard();return;}
   var q=(document.getElementById('q')||{}).value||''; q=q.trim().toLowerCase();
   var level=segVal('level'), risk=segVal('risk');
   var school=(document.getElementById('schoolSel')||{}).value||'all';
   var sortKey=(document.getElementById('sortSel')||{}).value||'maturity-desc';
-  var grid=panel.querySelector('.grid'); if(!grid)return;
+  var grid=panel.querySelector('.grid'); if(!grid){if(typeof renderDashboard==='function')renderDashboard();return;}
   var cards=Array.prototype.slice.call(grid.querySelectorAll('.card'));
   var shown=0;
   cards.forEach(function(c){
@@ -429,6 +430,7 @@ function applyFilters(){
   });
   vis.forEach(function(c){grid.appendChild(c);});
   var cnt=panel.querySelector('.count'); if(cnt)cnt.innerHTML='显示 <b>'+shown+'</b> / 共 '+cards.length+' 个';
+  if(typeof renderDashboard==='function')renderDashboard();
 }
 
 /* ---- report modal ---- */
