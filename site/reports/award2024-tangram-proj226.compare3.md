@@ -1,7 +1,7 @@
 # Tangram proj226 kernel components frameworks 比较报告
 
 - 对比历史仓库：zCore
-- 生成时间：2026-06-28T12:14:48.363807+00:00
+- 生成时间：2026-06-28T12:36:08.074410+00:00
 - 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。
 
 ## 历史样本选择
@@ -117,7 +117,7 @@
 
 ## 差异点
 
-- 与 zCore 的语言构成不同：新项目为 {'json': 33, 'build': 974, 'markdown': 5808, 'toml': 376, 'c': 10873, 'make': 596, 'rust': 5140, 'asm': 125, 'text': 53}，历史项目为 {'json': 91, 'build': 1519, 'markdown': 1927, 'toml': 60, 'rust': 50074, 'c': 694, 'asm': 109}。（置信度：medium）
+- 与 zCore 的语言构成不同：待测作品为 {'json': 33, 'build': 974, 'markdown': 5808, 'toml': 376, 'c': 10873, 'make': 596, 'rust': 5140, 'asm': 125, 'text': 53}，历史样本为 {'json': 91, 'build': 1519, 'markdown': 1927, 'toml': 60, 'rust': 50074, 'c': 694, 'asm': 109}。（置信度：medium）
 
 ## 可能创新点
 

@@ -1,7 +1,7 @@
 # OSKernel2024-HFUT666 比较报告
 
 - 对比历史仓库：rCore-Tutorial-v3
-- 生成时间：2026-06-28T12:14:44.698760+00:00
+- 生成时间：2026-06-28T12:36:04.545589+00:00
 - 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。
 
 ## 历史样本选择
@@ -274,7 +274,7 @@
 
 ## 差异点
 
-- 与 rCore-Tutorial-v3 的语言构成不同：新项目为 {'json': 18, 'build': 419, 'markdown': 6579, 'toml': 7, 'asm': 156, 'rust': 8127}，历史项目为 {'json': 39, 'markdown': 314, 'build': 269, 'toml': 20, 'rust': 11081, 'asm': 150}。（置信度：medium）
+- 与 rCore-Tutorial-v3 的语言构成不同：待测作品为 {'json': 18, 'build': 419, 'markdown': 6579, 'toml': 7, 'asm': 156, 'rust': 8127}，历史样本为 {'json': 39, 'markdown': 314, 'build': 269, 'toml': 20, 'rust': 11081, 'asm': 150}。（置信度：medium）
 
 ## 可能创新点
 

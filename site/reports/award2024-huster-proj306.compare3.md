@@ -1,7 +1,7 @@
 # HUSTer proj306 Rust OS for framekernel architecture 比较报告
 
 - 对比历史仓库：zCore
-- 生成时间：2026-06-28T12:14:47.084083+00:00
+- 生成时间：2026-06-28T12:36:06.842460+00:00
 - 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。
 
 ## 历史样本选择
@@ -176,7 +176,7 @@
 
 ## 差异点
 
-- 与 zCore 的语言构成不同：新项目为 {'json': 381, 'markdown': 3324, 'yaml': 49, 'build': 2417, 'toml': 215, 'make': 66, 'c': 7549, 'asm': 1515, 'rust': 112841}，历史项目为 {'json': 91, 'build': 1519, 'markdown': 1927, 'toml': 60, 'rust': 50074, 'c': 694, 'asm': 109}。（置信度：medium）
+- 与 zCore 的语言构成不同：待测作品为 {'json': 381, 'markdown': 3324, 'yaml': 49, 'build': 2417, 'toml': 215, 'make': 66, 'c': 7549, 'asm': 1515, 'rust': 112841}，历史样本为 {'json': 91, 'build': 1519, 'markdown': 1927, 'toml': 60, 'rust': 50074, 'c': 694, 'asm': 109}。（置信度：medium）
 
 ## 可能创新点
 

@@ -102,20 +102,20 @@ class CompareAgent:
             if new_finding and not hist_finding:
                 dim_title = DIMENSIONS.get(dim, {}).get("title", dim)
                 result.unique_points.append(Finding(
-                    f"新项目在“{dim_title}”维度有可确认实现，而历史样本 {history.meta.name} 当前未确认该维度。",
+                    f"待测作品在“{dim_title}”维度有可确认实现，而历史样本 {history.meta.name} 当前未确认该维度。",
                     confidence="low",
                     evidence=self._tag_evidence_list(new_finding.evidence[:2], new_profile),
                 ))
 
         for dim in sorted(new_dims - hist_dims):
             result.unique_points.append(Finding(
-                f"新项目包含历史样本 {history.meta.name} 中未建模的维度：{dim}。",
+                f"待测作品包含历史样本 {history.meta.name} 中未建模的维度：{dim}。",
                 confidence="low",
             ))
 
         if new_profile.meta.languages != history.meta.languages:
             result.differences.append(Finding(
-                f"与 {history.meta.name} 的语言构成不同：新项目为 {new_profile.meta.languages}，历史项目为 {history.meta.languages}。",
+                f"与 {history.meta.name} 的语言构成不同：待测作品为 {new_profile.meta.languages}，历史样本为 {history.meta.languages}。",
                 confidence="medium",
             ))
 
