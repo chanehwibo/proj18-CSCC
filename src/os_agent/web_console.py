@@ -170,6 +170,7 @@ class WebConsoleBuilder:
             "contest_name": CONTEST_NAME,
             "years": years_payload,
             "baseline": self._baseline_payload(history_root, history_profiles),
+            "insights": self._insights_payload(all_cards, history_root),
         }
 
     def _history_profiles(self, history_root: Path, *, exclude: set[Path]) -> list[KernelProfile]:
@@ -405,4 +406,115 @@ class WebConsoleBuilder:
         out = dict(summary)
         if "coverage" in out:
             out["coverage"] = round(float(out["coverage"]), 1)
+        return out
+
+    # ---- insights (查重矩阵 / 关系图 / 跨年份 / 学校聚合) ------------------
+    def _insights_payload(
+        self,
+        all_cards: list[dict[str, Any]],
+        history_root: Path,
+    ) -> dict[str, Any]:
+        return {
+            "matrix": self._similarity_matrix(all_cards),
+            "year_evolution": self._year_evolution(history_root, all_cards),
+            "schools": self._school_aggregate(history_root, all_cards),
+        }
+
+    def _pair_similarity(self, a: KernelProfile, b: KernelProfile) -> float:
+        """Lightweight symmetric profile similarity 0-100 (reuses HistorySelector)."""
+        ranked = self.selector.rank_one(a, b)
+        return round(min(100.0, ranked.score / 12.0 * 100.0), 1)
+
+    def _similarity_matrix(self, all_cards: list[dict[str, Any]]) -> dict[str, Any]:
+        profiles = [self._profile_cache.get(c["repo_id"]) for c in all_cards]
+        labels = [
+            {"repo_id": c["repo_id"], "entry_no": c["entry_no"], "name": c["name"], "year": c["year"]}
+            for c in all_cards
+        ]
+        n = len(profiles)
+        rows: list[list[float]] = [[0.0] * n for _ in range(n)]
+        links: list[dict[str, Any]] = []
+        for i in range(n):
+            for j in range(i + 1, n):
+                if profiles[i] is None or profiles[j] is None:
+                    continue
+                score = self._pair_similarity(profiles[i], profiles[j])
+                rows[i][j] = score
+                rows[j][i] = score
+                if score >= 40:
+                    links.append({"source": i, "target": j, "score": score})
+        for i in range(n):
+            rows[i][i] = 100.0
+        return {"labels": labels, "rows": rows, "links": links}
+
+    def _year_evolution(self, history_root: Path, all_cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        manifest = load_manifest(Path(history_root))
+        agg: dict[str, dict[str, Any]] = {}
+
+        def bucket(year: str) -> dict[str, Any]:
+            return agg.setdefault(str(year), {"year": str(year), "count": 0, "awards": 0, "langs": {}})
+
+        for _rid, m in manifest.items():
+            yr = m.get("year")
+            if not yr:
+                continue
+            b = bucket(str(yr))
+            b["count"] += 1
+            if m.get("award_level"):
+                b["awards"] += 1
+            lang = (m.get("language_primary") or "其他").lower()
+            b["langs"][lang] = b["langs"].get(lang, 0) + 1
+        # include this-year input works
+        for c in all_cards:
+            b = bucket(c["year"])
+            b["count"] += 1
+            langs = c.get("languages") or {}
+            primary = max(langs, key=langs.get).lower() if langs else "其他"
+            b["langs"][primary] = b["langs"].get(primary, 0) + 1
+
+        out = []
+        for yr in sorted(agg.keys()):
+            b = agg[yr]
+            total = sum(b["langs"].values()) or 1
+            rust = b["langs"].get("rust", 0)
+            c_lang = b["langs"].get("c", 0) + b["langs"].get("cpp", 0)
+            out.append({
+                "year": b["year"],
+                "count": b["count"],
+                "awards": b["awards"],
+                "rust_ratio": round(rust / total * 100, 1),
+                "c_ratio": round(c_lang / total * 100, 1),
+                "langs": b["langs"],
+            })
+        return out
+
+    def _school_aggregate(self, history_root: Path, all_cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        manifest = load_manifest(Path(history_root))
+        agg: dict[str, dict[str, Any]] = {}
+
+        def bucket(school: str) -> dict[str, Any]:
+            return agg.setdefault(school, {"school": school, "count": 0, "awards": 0, "years": set()})
+
+        for _rid, m in manifest.items():
+            school = m.get("school")
+            if not school:
+                continue
+            b = bucket(school)
+            b["count"] += 1
+            if m.get("award_level"):
+                b["awards"] += 1
+            if m.get("year"):
+                b["years"].add(str(m["year"]))
+        for c in all_cards:
+            school = c.get("school")
+            if school and school != "未提供":
+                b = bucket(school)
+                b["count"] += 1
+                b["years"].add(c["year"])
+
+        out = [
+            {"school": b["school"], "count": b["count"], "awards": b["awards"], "years": sorted(b["years"])}
+            for b in agg.values()
+        ]
+        out.sort(key=lambda x: (-x["count"], x["school"]))
         return out

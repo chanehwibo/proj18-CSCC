@@ -640,6 +640,7 @@ class SiteRenderer:
 
         (out_dir / "index.html").write_text(self._index_page(site_data), encoding="utf-8")
         (out_dir / "baseline.html").write_text(self._baseline_page(site_data), encoding="utf-8")
+        (out_dir / "insights.html").write_text(self._insights_page(site_data), encoding="utf-8")
 
     # ---- report files -----------------------------------------------------
     def _write_reports(self, out_dir: Path, project: dict[str, Any]) -> None:
@@ -1014,11 +1015,190 @@ class SiteRenderer:
         return self._shell(site_data, body, active="baseline")
 
     # ---- shared shell / report doc ---------------------------------------
+    def _insights_page(self, site_data: dict[str, Any]) -> str:
+        import math
+        ins = site_data.get("insights", {})
+        matrix = ins.get("matrix", {"labels": [], "rows": [], "links": []})
+        labels = matrix.get("labels", [])
+        rows = matrix.get("rows", [])
+        evolution = ins.get("year_evolution", [])
+        schools = ins.get("schools", [])
+
+        # works summary for the JS (人机评分对照 / 汇总导出)
+        works = []
+        for y in site_data.get("years", []):
+            for p in y["projects"]:
+                works.append({
+                    "repo_id": p["repo_id"], "entry_no": p["entry_no"], "name": p["name"],
+                    "year": p["year"], "school": p.get("school", ""),
+                    "maturity": p["maturity"]["score"], "grade": _grade(p["maturity"]["score"]),
+                    "risk": p.get("risk_level", "none"), "overlap": p.get("top_overlap", 0),
+                })
+
+        # ---- 1) 重复检测热力矩阵 ----
+        def cell_color(v: float) -> str:
+            a = max(0.0, min(1.0, v / 100.0))
+            return f"background:rgba(220,38,38,{a*0.82:.2f});" + ("color:#fff;" if a > 0.55 else "")
+        if labels:
+            head = "<th class=\"corner\">作品</th>" + "".join(
+                f'<th class="vh"><span>{_esc(l["entry_no"])}</span></th>' for l in labels)
+            body_rows = []
+            for i, l in enumerate(labels):
+                tds = "".join(
+                    f'<td style="{cell_color(rows[i][j]) if i!=j else "background:var(--panel);color:var(--muted);"}">{("—" if i==j else rows[i][j])}</td>'
+                    for j in range(len(labels)))
+                body_rows.append(f'<tr><th class="rh">{_esc(l["entry_no"])}<small>{_esc(l["name"])}</small></th>{tds}</tr>')
+            matrix_html = f'<table class="heat"><thead><tr>{head}</tr></thead><tbody>{"".join(body_rows)}</tbody></table>'
+        else:
+            matrix_html = '<p class="muted">本批作品不足，无法生成两两重合度矩阵。</p>'
+
+        # ---- 2) 相似度关系图 (circular layout SVG) ----
+        n = len(labels)
+        graph_svg = ""
+        if n >= 2:
+            cx, cy, r = 430, 300, 215
+            pos = []
+            for i in range(n):
+                ang = -math.pi / 2 + 2 * math.pi * i / n
+                pos.append((cx + r * math.cos(ang), cy + r * math.sin(ang)))
+            link_svg = ""
+            for lk in matrix.get("links", []):
+                s, t, sc = lk["source"], lk["target"], lk["score"]
+                x1, y1 = pos[s]; x2, y2 = pos[t]
+                op = min(0.9, sc / 100 + 0.15); w = 1 + sc / 22
+                col = "#dc2626" if sc >= 60 else ("#d97706" if sc >= 45 else "#94a3b8")
+                link_svg += f'<line x1="{x1:.0f}" y1="{y1:.0f}" x2="{x2:.0f}" y2="{y2:.0f}" stroke="{col}" stroke-width="{w:.1f}" stroke-opacity="{op:.2f}"/>'
+            node_svg = ""
+            ycolors = {"2021": "#0ea5e9", "2022": "#10b981", "2023": "#f59e0b", "2024": "#8b5cf6", "2025": "#ec4899", "2026": "#ef4444"}
+            for i, l in enumerate(labels):
+                x, yy = pos[i]
+                c = ycolors.get(l["year"], "#0f766e")
+                anchor = "start" if x >= cx else "end"
+                tx = x + (12 if x >= cx else -12)
+                node_svg += f'<circle cx="{x:.0f}" cy="{yy:.0f}" r="9" fill="{c}"/>'
+                node_svg += f'<text x="{tx:.0f}" y="{yy+4:.0f}" text-anchor="{anchor}" font-size="12" fill="var(--ink)">{_esc(l["entry_no"])}</text>'
+            graph_svg = (f'<svg viewBox="0 0 860 600" class="graph">{link_svg}{node_svg}</svg>'
+                         '<p class="muted">节点=作品（颜色按年份），连线=画像相似度≥40；红≥60 / 橙≥45 / 灰≥40。仅作复核入口，不裁定抄袭。</p>')
+        else:
+            graph_svg = '<p class="muted">作品不足，无法生成关系图。</p>'
+
+        # ---- 3) 跨年份技术演进 ----
+        evo_max = max((e["count"] for e in evolution), default=1)
+        evo_rows = "".join(
+            f'<div class="evo"><span class="yr">{_esc(e["year"])}</span>'
+            f'<div class="ebar"><span style="width:{e["count"]/evo_max*100:.0f}%"></span></div>'
+            f'<span class="en">{e["count"]} 个</span>'
+            f'<span class="etag">Rust {e["rust_ratio"]}% · C/C++ {e["c_ratio"]}% · 获奖 {e["awards"]}</span></div>'
+            for e in evolution)
+
+        # ---- 4) 学校/队伍聚合 ----
+        smax = max((s["count"] for s in schools), default=1)
+        school_rows = "".join(
+            f'<div class="evo"><span class="yr sc">{_esc(s["school"])}</span>'
+            f'<div class="ebar"><span style="width:{s["count"]/smax*100:.0f}%"></span></div>'
+            f'<span class="en">{s["count"]} 个{("·获奖"+str(s["awards"])) if s["awards"] else ""}</span></div>'
+            for s in schools[:15])
+
+        data_script = "<script>window.__INSIGHT_WORKS__=" + json.dumps(works, ensure_ascii=False) + ";</script>"
+        body = f"""
+{data_script}
+<main>
+<style>
+  .ins-sec{{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0;box-shadow:0 1px 3px var(--shadow);}}
+  .ins-sec h2{{margin:0 0 4px;font-size:19px;}}
+  .ins-sec .hint{{color:var(--muted);font-size:13px;margin:0 0 14px;}}
+  .muted{{color:var(--muted);font-size:13px;}}
+  .ins-grid{{display:grid;grid-template-columns:1fr 1fr;gap:16px;}}
+  @media(max-width:900px){{.ins-grid{{grid-template-columns:1fr;}}}}
+  table.heat{{border-collapse:collapse;font-size:12px;}}
+  table.heat td,table.heat th{{border:1px solid var(--line);padding:5px 7px;text-align:center;min-width:34px;}}
+  table.heat th.rh{{text-align:left;white-space:nowrap;}}
+  table.heat th.rh small{{display:block;color:var(--muted);font-weight:400;font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;}}
+  table.heat th.vh{{height:88px;}}
+  table.heat th.vh span{{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;font-weight:600;}}
+  .heatwrap{{overflow:auto;}}
+  svg.graph{{width:100%;max-width:860px;height:auto;display:block;margin:0 auto;}}
+  .evo{{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px;}}
+  .evo .yr{{width:64px;font-weight:700;color:var(--brand-dark);}}
+  .evo .yr.sc{{width:150px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}}
+  .evo .ebar{{flex:1;height:14px;background:var(--line);border-radius:999px;overflow:hidden;}}
+  .evo .ebar>span{{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#0f766e);}}
+  .evo .en{{width:120px;color:var(--muted);}}
+  .evo .etag{{color:var(--muted);font-size:12px;}}
+  table.review{{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px;}}
+  table.review th,table.review td{{border:1px solid var(--line);padding:7px 9px;text-align:left;}}
+  table.review th{{background:var(--panel);}}
+  .rev-btn{{border:1px solid var(--brand);background:var(--brand);color:#fff;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer;}}
+</style>
+
+<div class="ins-sec">
+  <h2>🔥 重复检测热力矩阵</h2>
+  <p class="hint">本批 {n} 个作品两两画像相似度（0-100，越红越相似）。这是“查重”的总览入口；具体证据请在作品卡片的比较报告中逐行复核，系统不直接裁定抄袭。</p>
+  <div class="heatwrap">{matrix_html}</div>
+</div>
+
+<div class="ins-grid">
+  <div class="ins-sec">
+    <h2>🕸️ 相似度关系图</h2>
+    <p class="hint">作品相似度网络，自动浮现“抱团”线索。</p>
+    {graph_svg}
+  </div>
+  <div class="ins-sec">
+    <h2>📈 跨年份技术演进</h2>
+    <p class="hint">基于 {site_data.get('baseline',{}).get('count',0)} 个历史基线 + 本批作品，观察规模与语言路线演进。</p>
+    {evo_rows or '<p class="muted">暂无数据。</p>'}
+    <h2 style="margin-top:18px">🏫 学校 / 队伍聚合</h2>
+    <p class="hint">参赛活跃度 Top 15。</p>
+    {school_rows or '<p class="muted">暂无数据。</p>'}
+  </div>
+</div>
+
+<div class="ins-sec">
+  <h2>🧮 评审汇总 · 人机评分对照</h2>
+  <p class="hint">对照系统成熟度（机制+证据）与评委本地打分，并可一键导出整体评审汇总 CSV。评委打分存于本浏览器。</p>
+  <button class="rev-btn" onclick="exportReview()">⬇ 导出评审汇总 CSV</button>
+  <div id="review-table"></div>
+</div>
+</main>
+<div id="toast"></div>
+<script>
+function rk(r){{return r==='high'?'高':r==='medium'?'中':r==='low'?'低':'无';}}
+function loadJudge(repo){{try{{return JSON.parse(localStorage.getItem('ks-score-'+repo)||'null');}}catch(e){{return null;}}}}
+function buildReview(){{
+  var w=window.__INSIGHT_WORKS__||[];
+  var h='<table class="review"><thead><tr><th>参赛编号</th><th>作品</th><th>年份</th><th>系统成熟度</th><th>重合风险</th><th>评委打分</th><th>差值(评委-成熟度)</th></tr></thead><tbody>';
+  w.forEach(function(x){{
+    var j=loadJudge(x.repo_id); var js=j?j.total:null;
+    var diff=(js!=null)?(js-x.maturity):null;
+    h+='<tr><td>'+x.entry_no+'</td><td>'+x.name+'</td><td>'+x.year+'</td>'
+      +'<td>'+x.maturity+' ('+x.grade+')</td><td>'+rk(x.risk)+' '+x.overlap+'</td>'
+      +'<td>'+(js!=null?js:'<span style=\"color:var(--muted)\">未评</span>')+'</td>'
+      +'<td>'+(diff!=null?(diff>0?'+':'')+diff:'-')+'</td></tr>';
+  }});
+  h+='</tbody></table>';
+  document.getElementById('review-table').innerHTML=h;
+}}
+function exportReview(){{
+  var w=window.__INSIGHT_WORKS__||[];
+  var rows=[['参赛编号','作品','年份','学校','系统成熟度','等级','重合风险','最高重合度','评委打分','差值']];
+  w.forEach(function(x){{var j=loadJudge(x.repo_id);var js=j?j.total:'';
+    rows.push([x.entry_no,x.name,x.year,x.school,x.maturity,x.grade,rk(x.risk),x.overlap,js,(js!==''?js-x.maturity:'')]);}});
+  var csv='﻿'+rows.map(function(r){{return r.map(function(c){{return '"'+String(c).replace(/"/g,'""')+'"';}}).join(',');}}).join('\\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{{type:'text/csv;charset=utf-8'}}));a.download='kernelsage_review_summary.csv';a.click();
+  var t=document.getElementById('toast');if(t){{t.textContent='已导出评审汇总';t.classList.add('show');setTimeout(function(){{t.classList.remove('show');}},1600);}}
+}}
+document.addEventListener('DOMContentLoaded',buildReview);
+</script>
+"""
+        return self._shell(site_data, body, active="insights")
+
     def _shell(self, site_data: dict[str, Any], body: str, *, active: str) -> str:
         works_cls = "active" if active == "works" else ""
         base_cls = "active" if active == "baseline" else ""
+        insights_cls = "active" if active == "insights" else ""
         nav = (
             f'<a href="index.html" class="{works_cls}">📋 作品展示</a>'
+            f'<a href="insights.html" class="{insights_cls}">📊 分析洞察</a>'
             f'<a href="baseline.html" class="{base_cls}">📚 基线库</a>'
             f'<a class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="深色/浅色模式">🌙</a>'
         )
