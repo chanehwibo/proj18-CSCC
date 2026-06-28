@@ -1,6 +1,7 @@
 
 var WORKS = window.__WORKS__ || {};
 var CRITERIA = window.__CRITERIA__ || [];
+var BASELINE = window.__BASELINE__ || [];
 
 function toast(msg){
   var t=document.getElementById('toast'); if(!t)return;
@@ -152,7 +153,7 @@ function riskLabel(r){return r==='high'?'高':r==='medium'?'中':r==='low'?'低'
 function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
 
 /* restore iframe view when reopening normal reports */
-function openReport2(src,title){document.getElementById('modal-frame').style.display='';var c=document.getElementById('modal-cmp');if(c)c.style.display='none';openReport(src,title);}
+function openReport2(src,title){document.getElementById('modal-frame').style.display='';var c=document.getElementById('modal-cmp');if(c)c.style.display='none';var h=document.getElementById('modal-html');if(h)h.style.display='none';var sc=document.getElementById('modal-score');if(sc)sc.style.display='none';openReport(src,title);}
 
 /* ---- scoring ---- */
 function scoreKey(repo){return 'ks-score-'+repo;}
@@ -212,6 +213,21 @@ function exportScores(){
   toast('已导出 '+(rows.length-1)+' 条评分');
 }
 
+
+/* ---- overview dashboard + history tools ---- */
+function activeWorks(){var p=activePanel();var a=[];if(p){p.querySelectorAll('.card').forEach(function(c){if(c.style.display!=='none'&&WORKS[c.dataset.repo])a.push(WORKS[c.dataset.repo]);});return a;}return Object.keys(WORKS).map(function(k){return WORKS[k];});}
+function topLanguage(w){var l=w.languages||{},b='-',n=-1;Object.keys(l).forEach(function(k){if(l[k]>n){b=k;n=l[k];}});return b;}
+function dimScore(ws,i){if(!ws.length)return 0;var ok=0;ws.forEach(function(w){var d=(w.dimensions||[])[i];if(d&&d.status==='confirmed')ok++;});return Math.round(ok*100/ws.length);}
+function radarSvg(ws){var ds=(ws[0]&&ws[0].dimensions)||[];if(!ds.length)return '<div class="hint">当前筛选结果没有可绘制的能力维度。</div>';var cx=95,cy=95,r=72,pts=[],axis='';ds.forEach(function(d,i){var a=-Math.PI/2+i*2*Math.PI/ds.length,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r,sc=dimScore(ws,i),rx=cx+Math.cos(a)*r*sc/100,ry=cy+Math.sin(a)*r*sc/100,label=String(d.title||d.key||'').slice(0,4);pts.push(rx+','+ry);axis+='<line x1="95" y1="95" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="var(--line)"/><text x="'+(cx+Math.cos(a)*(r+15)).toFixed(1)+'" y="'+(cy+Math.sin(a)*(r+15)).toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="var(--muted)">'+esc(label)+'</text>';});return '<svg viewBox="0 0 190 190" role="img" aria-label="当前作品能力雷达图"><circle cx="95" cy="95" r="72" fill="none" stroke="var(--line)"/><circle cx="95" cy="95" r="48" fill="none" stroke="var(--line)"/>'+axis+'<polygon points="'+pts.join(' ')+'" fill="rgba(15,118,110,.22)" stroke="var(--brand)" stroke-width="2"/></svg>';}
+function renderDashboard(){var ws=activeWorks(),loc=0,langs={},ok=0,total=0;ws.forEach(function(w){loc+=w.loc||0;Object.keys(w.languages||{}).forEach(function(k){langs[k]=(langs[k]||0)+(w.languages[k]||0);});(w.dimensions||[]).forEach(function(d){total++;if(d.status==='confirmed')ok++;});});var top='-',v=-1;Object.keys(langs).forEach(function(k){if(langs[k]>v){top=k;v=langs[k];}});function set(id,val){var e=document.getElementById(id);if(e)e.textContent=val;}set('ov-current',ws.length);set('ov-loc',loc.toLocaleString());set('ov-lang',top);set('ov-cover',total?Math.round(ok*100/total)+'%':'-');var r=document.getElementById('abilityRadar');if(r)r.innerHTML=radarSvg(ws);var l=document.getElementById('abilityLegend'),ds=(ws[0]&&ws[0].dimensions)||[];if(l)l.innerHTML=ds.map(function(d,i){return '<div><b>'+esc(d.title||d.key)+'</b>：'+dimScore(ws,i)+'% 作品有可追溯实现证据</div>';}).join('')||'<div>暂无维度数据</div>';applyHistoryFilters();}
+function baselineScore(w,tr){if(!w)return 0;var sc=0;if((tr.dataset.lang||'')&&topLanguage(w)===tr.dataset.lang)sc+=38;var loc=parseInt(tr.dataset.loc||'0'),wl=w.loc||0;if(loc>0&&wl>0)sc+=Math.max(0,32-Math.abs(Math.log((wl+1)/(loc+1)))*18);if((tr.dataset.tier||'').indexOf('获奖')>=0)sc+=12;if((tr.dataset.text||'').indexOf((w.arch||[])[0]||'')>=0)sc+=10;return Math.max(0,Math.min(100,Math.round(sc)));}
+function applyHistoryFilters(){var rows=document.querySelectorAll('#historyRows tr');if(!rows.length)return;var q=((document.getElementById('histQ')||{}).value||'').trim().toLowerCase(),year=(document.getElementById('histYear')||{}).value||'all',award=(document.getElementById('histAward')||{}).value||'all',lang=(document.getElementById('histLang')||{}).value||'all',dim=(document.getElementById('histDim')||{}).value||'all',sim=(document.getElementById('histSim')||{}).value||'all',w=activeWorks()[0]||WORKS[Object.keys(WORKS)[0]],shown=0;rows.forEach(function(tr){var score=baselineScore(w,tr),se=tr.querySelector('.simscore');if(se)se.textContent=score;var ok=(!q||(tr.dataset.text||'').indexOf(q)>=0)&&(year==='all'||tr.dataset.year===year)&&(award==='all'||(tr.dataset.award||'').indexOf(award)>=0)&&(lang==='all'||tr.dataset.lang===lang)&&(dim==='all'||(tr.dataset.dims||'').indexOf(dim)>=0)&&(sim==='all'||(sim==='high'&&score>=70)||(sim==='medium'&&score>=40&&score<70)||(sim==='low'&&score<40));tr.style.display=ok?'':'none';if(ok)shown++;});var c=document.getElementById('histCount');if(c)c.textContent='显示 '+shown+' / 共 '+rows.length+' 个历史样本';}
+function openHistoryCompare(repo,idx){var w=WORKS[repo]||{},cmp=(w.compares||[]).filter(function(c){return String(c.index)===String(idx);})[0]||{},target=cmp.target_name||'历史样本',b=BASELINE.filter(function(x){return x.repo_id===cmp.target_repo_id;})[0]||{},dims=(w.dimensions||[]).map(function(d){return '<span class="dim '+(d.status==='confirmed'?'ok':'no')+'">'+esc(d.title||d.key)+'</span>';}).join('');var html='<div class="split-compare"><div class="side"><h3>当前作品</h3>'+workSummary(w,1,cmp)+'<div class="dims" style="padding:8px 0 0">'+dims+'</div></div><div class="side"><h3>历史作品</h3>'+workSummary(b,0,cmp)+'<div class="hint">重合维度 '+(cmp.overlap_dimensions||0)+' / 7，代码级线索 '+(cmp.code_similarity_count||0)+' 条。完整源码路径、行号与片段请点击比较报告核验。</div><button class="btn solid" onclick="openReport2(&quot;reports/'+esc(repo)+'.compare'+esc(idx)+'.html&quot;,&quot;'+esc(w.name||repo)+' vs '+esc(target)+'&quot;)">查看完整证据报告</button></div></div>';showHtmlModal('当前作品 vs 历史作品',html);}
+function workSummary(w,cur,cmp){if(cur)return '<dl><dt>名称</dt><dd>'+esc(w.name||'-')+'</dd><dt>编号</dt><dd>'+esc(w.entry_no||'-')+'</dd><dt>学校</dt><dd>'+esc(w.school||'-')+'</dd><dt>主语言</dt><dd>'+esc(topLanguage(w))+'</dd><dt>代码规模</dt><dd>'+((w.loc||0).toLocaleString())+' LOC</dd><dt>成熟度</dt><dd>'+esc(w.maturity_score||0)+'/100</dd><dt>重合风险</dt><dd>'+riskLabel(w.risk_level)+'</dd></dl>';return '<dl><dt>名称</dt><dd>'+esc((cmp&&cmp.target_name)||w.name||'-')+'</dd><dt>来源</dt><dd>'+esc((cmp&&cmp.target_tier_label)||w.source_tier_label||'-')+'</dd><dt>年份</dt><dd>'+esc(w.year||'-')+'</dd><dt>学校</dt><dd>'+esc(w.school||'-')+'</dd><dt>主语言</dt><dd>'+esc(w.language_primary||'-')+'</dd><dt>代码规模</dt><dd>'+esc(w.loc||'-')+'</dd><dt>仓库 ID</dt><dd>'+esc(w.repo_id||'-')+'</dd></dl>';}
+function showHtmlModal(title,htmlc){var m=document.getElementById('modal');document.getElementById('modal-title').textContent=title||'详情';document.getElementById('modal-frame').style.display='none';var c=document.getElementById('modal-cmp');if(c)c.style.display='none';var sc=document.getElementById('modal-score');if(sc)sc.style.display='none';var body=document.getElementById('modal-body'),box=document.getElementById('modal-html');if(!box){box=document.createElement('div');box.id='modal-html';box.style.cssText='position:absolute;inset:0;overflow:auto;';body.appendChild(box);}box.innerHTML=htmlc;box.style.display='block';var sp=document.getElementById('modal-spin');if(sp)sp.style.display='none';m.dataset.src='';m.classList.add('open');}
+function saveBlob(name,content,type){var blob=new Blob([content],{type:type||'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},500);}
+function downloadReport(repo,kind,idx){var w=WORKS[repo]||{};saveBlob((repo||'work')+'-'+kind+'.json',JSON.stringify({work:w,kind:kind,compare_index:idx||null},null,2),'application/json;charset=utf-8');}
+
 /* ---- baseline search ---- */
 function filterBaseline(q){
   q=(q||'').trim().toLowerCase();var shown=0,total=0;
@@ -236,4 +252,6 @@ document.addEventListener('DOMContentLoaded',function(){
   if(first)showYear(first);
   var m=document.getElementById('modal');if(m)m.addEventListener('click',function(e){if(e.target===m)closeReport();});
   markScored();
+  renderDashboard();
+  applyHistoryFilters();
 });

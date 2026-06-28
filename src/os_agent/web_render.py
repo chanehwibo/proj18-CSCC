@@ -169,6 +169,21 @@ main{max-width:1320px;margin:0 auto;padding:20px 24px 70px;}
 .kpi .k{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
 .kpi .v{font-size:30px;font-weight:800;color:var(--brand-dark);margin-top:6px;line-height:1;}
 .kpi .v small{font-size:14px;color:var(--muted);font-weight:600;margin-left:4px;}
+.overview{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;margin:18px 0;}
+.overview .panel,.history-filter{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px var(--shadow);}
+.overview h2,.history-filter h2{margin:0 0 12px;font-size:17px;color:var(--brand-dark);}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.overview-item{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--panel);}
+.overview-item .k{font-size:12px;color:var(--muted);}
+.overview-item .v{font-size:22px;font-weight:800;color:var(--ink);margin-top:3px;}
+.overview-item .s{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.radar-wrap{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center;}
+.radar-wrap svg{width:190px;height:190px;display:block;}
+.radar-legend{display:grid;gap:6px;font-size:12px;color:var(--muted);}
+.radar-legend b{color:var(--ink);}
+.quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.quick-links a{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--card);text-decoration:none;font-size:13px;font-weight:650;color:var(--brand-dark);}
+.quick-links a:hover{border-color:var(--brand);background:var(--brand);color:#fff;}
 
 .tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
 .tab{padding:9px 22px;border:1px solid var(--line);background:var(--card);border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);transition:all .2s;}
@@ -236,6 +251,25 @@ html[data-theme="dark"] .chip.tier{background:#0c4a6e;color:#7dd3fc;}
 .card .reports .grp{margin-bottom:10px;}
 .card .reports .grp:last-child{margin-bottom:0;}
 .card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.dims{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;}
+.dim{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;background:var(--panel);color:var(--muted);}
+.dim.ok{border-color:#bbf7d0;background:#f0fdf4;color:#166534;}
+.dim.no{border-color:#fecaca;background:#fef2f2;color:#991b1b;}
+html[data-theme="dark"] .dim.ok{background:#052e16;color:#86efac;border-color:#166534;}
+html[data-theme="dark"] .dim.no{background:#450a0a;color:#fca5a5;border-color:#7f1d1d;}
+.explain{border-top:1px dashed var(--line);padding:10px 18px 2px;}
+.explain summary{cursor:pointer;font-size:13px;font-weight:800;color:var(--brand-dark);list-style:none;}
+.explain summary::-webkit-details-marker{display:none;}
+.explain summary::after{content:"展开";float:right;font-size:12px;color:var(--muted);font-weight:600;}
+.explain[open] summary::after{content:"收起";}
+.explain-list{display:grid;gap:8px;margin-top:10px;}
+.explain-item{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px 10px;}
+.explain-item .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;font-size:13px;font-weight:800;}
+.explain-item .meta{font-size:12px;color:var(--muted);margin-top:4px;}
+.explain-item .why{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.explain-item .why span{font-size:11.5px;border-radius:999px;padding:2px 7px;background:var(--chip);color:var(--chip-ink);}
+.explain-item .acts{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
+.download-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);
   border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;transition:all .15s;}
 .btn:hover{background:var(--brand);color:#fff;transform:translateY(-1px);}
@@ -299,6 +333,23 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 .bsearch{margin:14px 0;display:flex;gap:10px;flex-wrap:wrap;}
 .bsearch input{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
 .bsearch .count{align-self:center;font-size:13px;color:var(--muted);}
+.history-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.history-controls input,.history-controls select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.history-controls input{min-width:220px;flex:1;}
+.history-table-wrap{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px;}
+.history-table{width:100%;border-collapse:collapse;font-size:13px;}
+.history-table th,.history-table td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+.history-table th{position:sticky;top:0;background:var(--panel);z-index:1;}
+.history-table td small{color:var(--muted);}
+.split-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;}
+.split-compare .side{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px;}
+.split-compare h3{margin:0 0 10px;color:var(--brand-dark);font-size:16px;}
+.split-compare dl{display:grid;grid-template-columns:96px 1fr;gap:7px 10px;margin:0;font-size:13px;}
+.split-compare dt{color:var(--muted);}.split-compare dd{margin:0;word-break:break-word;}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;}
+.evidence-mini{margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;font-size:12px;color:var(--muted);}
+.evidence-mini summary{cursor:pointer;color:var(--brand-dark);font-weight:700;}
+.evidence-mini ul{margin:6px 0 0;padding-left:18px;}
 
 #toTop{position:fixed;right:22px;bottom:22px;z-index:55;width:46px;height:46px;border-radius:50%;border:0;background:var(--brand);color:#fff;
   font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25);display:none;}
@@ -306,12 +357,14 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 #toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:opacity .25s;pointer-events:none;}
 #toast.show{opacity:1;}
 .footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
-@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input[type=text]{min-width:140px;}}
+@media(max-width:920px){.overview{grid-template-columns:1fr;}.radar-wrap{grid-template-columns:1fr;}.radar-wrap svg{margin:auto;}.split-compare{grid-template-columns:1fr;}}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input[type=text]{min-width:140px;}.history-table-wrap{max-height:420px;}.overview-grid{grid-template-columns:1fr 1fr;}}
 """
 
 APP_JS = r"""
 var WORKS = window.__WORKS__ || {};
 var CRITERIA = window.__CRITERIA__ || [];
+var BASELINE = window.__BASELINE__ || [];
 
 function toast(msg){
   var t=document.getElementById('toast'); if(!t)return;
@@ -463,7 +516,7 @@ function riskLabel(r){return r==='high'?'高':r==='medium'?'中':r==='low'?'低'
 function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
 
 /* restore iframe view when reopening normal reports */
-function openReport2(src,title){document.getElementById('modal-frame').style.display='';var c=document.getElementById('modal-cmp');if(c)c.style.display='none';openReport(src,title);}
+function openReport2(src,title){document.getElementById('modal-frame').style.display='';var c=document.getElementById('modal-cmp');if(c)c.style.display='none';var h=document.getElementById('modal-html');if(h)h.style.display='none';var sc=document.getElementById('modal-score');if(sc)sc.style.display='none';openReport(src,title);}
 
 /* ---- scoring ---- */
 function scoreKey(repo){return 'ks-score-'+repo;}
@@ -523,6 +576,21 @@ function exportScores(){
   toast('已导出 '+(rows.length-1)+' 条评分');
 }
 
+
+/* ---- overview dashboard + history tools ---- */
+function activeWorks(){var p=activePanel();var a=[];if(p){p.querySelectorAll('.card').forEach(function(c){if(c.style.display!=='none'&&WORKS[c.dataset.repo])a.push(WORKS[c.dataset.repo]);});return a;}return Object.keys(WORKS).map(function(k){return WORKS[k];});}
+function topLanguage(w){var l=w.languages||{},b='-',n=-1;Object.keys(l).forEach(function(k){if(l[k]>n){b=k;n=l[k];}});return b;}
+function dimScore(ws,i){if(!ws.length)return 0;var ok=0;ws.forEach(function(w){var d=(w.dimensions||[])[i];if(d&&d.status==='confirmed')ok++;});return Math.round(ok*100/ws.length);}
+function radarSvg(ws){var ds=(ws[0]&&ws[0].dimensions)||[];if(!ds.length)return '<div class="hint">当前筛选结果没有可绘制的能力维度。</div>';var cx=95,cy=95,r=72,pts=[],axis='';ds.forEach(function(d,i){var a=-Math.PI/2+i*2*Math.PI/ds.length,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r,sc=dimScore(ws,i),rx=cx+Math.cos(a)*r*sc/100,ry=cy+Math.sin(a)*r*sc/100,label=String(d.title||d.key||'').slice(0,4);pts.push(rx+','+ry);axis+='<line x1="95" y1="95" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="var(--line)"/><text x="'+(cx+Math.cos(a)*(r+15)).toFixed(1)+'" y="'+(cy+Math.sin(a)*(r+15)).toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="var(--muted)">'+esc(label)+'</text>';});return '<svg viewBox="0 0 190 190" role="img" aria-label="当前作品能力雷达图"><circle cx="95" cy="95" r="72" fill="none" stroke="var(--line)"/><circle cx="95" cy="95" r="48" fill="none" stroke="var(--line)"/>'+axis+'<polygon points="'+pts.join(' ')+'" fill="rgba(15,118,110,.22)" stroke="var(--brand)" stroke-width="2"/></svg>';}
+function renderDashboard(){var ws=activeWorks(),loc=0,langs={},ok=0,total=0;ws.forEach(function(w){loc+=w.loc||0;Object.keys(w.languages||{}).forEach(function(k){langs[k]=(langs[k]||0)+(w.languages[k]||0);});(w.dimensions||[]).forEach(function(d){total++;if(d.status==='confirmed')ok++;});});var top='-',v=-1;Object.keys(langs).forEach(function(k){if(langs[k]>v){top=k;v=langs[k];}});function set(id,val){var e=document.getElementById(id);if(e)e.textContent=val;}set('ov-current',ws.length);set('ov-loc',loc.toLocaleString());set('ov-lang',top);set('ov-cover',total?Math.round(ok*100/total)+'%':'-');var r=document.getElementById('abilityRadar');if(r)r.innerHTML=radarSvg(ws);var l=document.getElementById('abilityLegend'),ds=(ws[0]&&ws[0].dimensions)||[];if(l)l.innerHTML=ds.map(function(d,i){return '<div><b>'+esc(d.title||d.key)+'</b>：'+dimScore(ws,i)+'% 作品有可追溯实现证据</div>';}).join('')||'<div>暂无维度数据</div>';applyHistoryFilters();}
+function baselineScore(w,tr){if(!w)return 0;var sc=0;if((tr.dataset.lang||'')&&topLanguage(w)===tr.dataset.lang)sc+=38;var loc=parseInt(tr.dataset.loc||'0'),wl=w.loc||0;if(loc>0&&wl>0)sc+=Math.max(0,32-Math.abs(Math.log((wl+1)/(loc+1)))*18);if((tr.dataset.tier||'').indexOf('获奖')>=0)sc+=12;if((tr.dataset.text||'').indexOf((w.arch||[])[0]||'')>=0)sc+=10;return Math.max(0,Math.min(100,Math.round(sc)));}
+function applyHistoryFilters(){var rows=document.querySelectorAll('#historyRows tr');if(!rows.length)return;var q=((document.getElementById('histQ')||{}).value||'').trim().toLowerCase(),year=(document.getElementById('histYear')||{}).value||'all',award=(document.getElementById('histAward')||{}).value||'all',lang=(document.getElementById('histLang')||{}).value||'all',dim=(document.getElementById('histDim')||{}).value||'all',sim=(document.getElementById('histSim')||{}).value||'all',w=activeWorks()[0]||WORKS[Object.keys(WORKS)[0]],shown=0;rows.forEach(function(tr){var score=baselineScore(w,tr),se=tr.querySelector('.simscore');if(se)se.textContent=score;var ok=(!q||(tr.dataset.text||'').indexOf(q)>=0)&&(year==='all'||tr.dataset.year===year)&&(award==='all'||(tr.dataset.award||'').indexOf(award)>=0)&&(lang==='all'||tr.dataset.lang===lang)&&(dim==='all'||(tr.dataset.dims||'').indexOf(dim)>=0)&&(sim==='all'||(sim==='high'&&score>=70)||(sim==='medium'&&score>=40&&score<70)||(sim==='low'&&score<40));tr.style.display=ok?'':'none';if(ok)shown++;});var c=document.getElementById('histCount');if(c)c.textContent='显示 '+shown+' / 共 '+rows.length+' 个历史样本';}
+function openHistoryCompare(repo,idx){var w=WORKS[repo]||{},cmp=(w.compares||[]).filter(function(c){return String(c.index)===String(idx);})[0]||{},target=cmp.target_name||'历史样本',b=BASELINE.filter(function(x){return x.repo_id===cmp.target_repo_id;})[0]||{},dims=(w.dimensions||[]).map(function(d){return '<span class="dim '+(d.status==='confirmed'?'ok':'no')+'">'+esc(d.title||d.key)+'</span>';}).join('');var html='<div class="split-compare"><div class="side"><h3>当前作品</h3>'+workSummary(w,1,cmp)+'<div class="dims" style="padding:8px 0 0">'+dims+'</div></div><div class="side"><h3>历史作品</h3>'+workSummary(b,0,cmp)+'<div class="hint">重合维度 '+(cmp.overlap_dimensions||0)+' / 7，代码级线索 '+(cmp.code_similarity_count||0)+' 条。完整源码路径、行号与片段请点击比较报告核验。</div><button class="btn solid" onclick="openReport2(&quot;reports/'+esc(repo)+'.compare'+esc(idx)+'.html&quot;,&quot;'+esc(w.name||repo)+' vs '+esc(target)+'&quot;)">查看完整证据报告</button></div></div>';showHtmlModal('当前作品 vs 历史作品',html);}
+function workSummary(w,cur,cmp){if(cur)return '<dl><dt>名称</dt><dd>'+esc(w.name||'-')+'</dd><dt>编号</dt><dd>'+esc(w.entry_no||'-')+'</dd><dt>学校</dt><dd>'+esc(w.school||'-')+'</dd><dt>主语言</dt><dd>'+esc(topLanguage(w))+'</dd><dt>代码规模</dt><dd>'+((w.loc||0).toLocaleString())+' LOC</dd><dt>成熟度</dt><dd>'+esc(w.maturity_score||0)+'/100</dd><dt>重合风险</dt><dd>'+riskLabel(w.risk_level)+'</dd></dl>';return '<dl><dt>名称</dt><dd>'+esc((cmp&&cmp.target_name)||w.name||'-')+'</dd><dt>来源</dt><dd>'+esc((cmp&&cmp.target_tier_label)||w.source_tier_label||'-')+'</dd><dt>年份</dt><dd>'+esc(w.year||'-')+'</dd><dt>学校</dt><dd>'+esc(w.school||'-')+'</dd><dt>主语言</dt><dd>'+esc(w.language_primary||'-')+'</dd><dt>代码规模</dt><dd>'+esc(w.loc||'-')+'</dd><dt>仓库 ID</dt><dd>'+esc(w.repo_id||'-')+'</dd></dl>';}
+function showHtmlModal(title,htmlc){var m=document.getElementById('modal');document.getElementById('modal-title').textContent=title||'详情';document.getElementById('modal-frame').style.display='none';var c=document.getElementById('modal-cmp');if(c)c.style.display='none';var sc=document.getElementById('modal-score');if(sc)sc.style.display='none';var body=document.getElementById('modal-body'),box=document.getElementById('modal-html');if(!box){box=document.createElement('div');box.id='modal-html';box.style.cssText='position:absolute;inset:0;overflow:auto;';body.appendChild(box);}box.innerHTML=htmlc;box.style.display='block';var sp=document.getElementById('modal-spin');if(sp)sp.style.display='none';m.dataset.src='';m.classList.add('open');}
+function saveBlob(name,content,type){var blob=new Blob([content],{type:type||'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},500);}
+function downloadReport(repo,kind,idx){var w=WORKS[repo]||{};saveBlob((repo||'work')+'-'+kind+'.json',JSON.stringify({work:w,kind:kind,compare_index:idx||null},null,2),'application/json;charset=utf-8');}
+
 /* ---- baseline search ---- */
 function filterBaseline(q){
   q=(q||'').trim().toLowerCase();var shown=0,total=0;
@@ -547,6 +615,8 @@ document.addEventListener('DOMContentLoaded',function(){
   if(first)showYear(first);
   var m=document.getElementById('modal');if(m)m.addEventListener('click',function(e){if(e.target===m)closeReport();});
   markScored();
+  renderDashboard();
+  applyHistoryFilters();
 });
 """
 
@@ -578,12 +648,16 @@ class SiteRenderer:
         rdir = out_dir / "reports"
         rdir.joinpath(f"{rid}.describe.html").write_text(
             self._doc_page(f"{project['name']} 描述报告", markdown_to_html(reports["describe_md"])), encoding="utf-8")
+        rdir.joinpath(f"{rid}.describe.md").write_text(reports["describe_md"], encoding="utf-8")
         rdir.joinpath(f"{rid}.devhistory.html").write_text(
             self._doc_page(f"{project['name']} 开发历史报告", markdown_to_html(reports["dev_history_md"])), encoding="utf-8")
+        rdir.joinpath(f"{rid}.devhistory.md").write_text(reports["dev_history_md"], encoding="utf-8")
+        rdir.joinpath(f"{rid}.json").write_text(json.dumps(project, ensure_ascii=False, indent=2), encoding="utf-8")
         for cmp in reports["compares"]:
             rdir.joinpath(f"{rid}.compare{cmp['index']}.html").write_text(
                 self._doc_page(f"{project['name']} vs {cmp['target_name']} 比较报告", markdown_to_html(cmp["report_md"])),
                 encoding="utf-8")
+            rdir.joinpath(f"{rid}.compare{cmp['index']}.md").write_text(cmp["report_md"], encoding="utf-8")
 
     # ---- index ------------------------------------------------------------
     def _index_page(self, site_data: dict[str, Any]) -> str:
@@ -596,13 +670,16 @@ class SiteRenderer:
         panels = "".join(self._year_panel(y) for y in years)
         works = self._works_json(years)
         criteria = site_data.get("criteria") or self._default_criteria()
+        baseline = site_data.get("baseline", {}).get("repos", [])
         data_script = (
             "<script>window.__WORKS__=" + json.dumps(works, ensure_ascii=False)
-            + ";window.__CRITERIA__=" + json.dumps(criteria, ensure_ascii=False) + ";</script>"
+            + ";window.__CRITERIA__=" + json.dumps(criteria, ensure_ascii=False)
+            + ";window.__BASELINE__=" + json.dumps(baseline, ensure_ascii=False) + ";</script>"
         )
         body = f"""
 {data_script}
 <main>
+{self._overview_panel(site_data, years)}
   <div class="tabs">{tabs}</div>
   <div class="toolbar">
     <input type="text" id="q" placeholder="🔍 搜索 编号 / 学校 / 队伍 / 作品…" oninput="applyFilters()">
@@ -633,7 +710,8 @@ class SiteRenderer:
     <button class="btn-mini exp" onclick="exportScores()">⬇ 导出评分CSV</button>
     <span class="count"></span>
   </div>
-  {panels}
+{self._history_filter_panel(site_data, years)}
+{panels}
 </main>
 {self._modal()}
 {self._compare_bar()}
@@ -641,6 +719,82 @@ class SiteRenderer:
 <div id="toast"></div>
 """
         return self._shell(site_data, body, active="works")
+
+
+    def _overview_panel(self, site_data: dict[str, Any], years: list[dict[str, Any]]) -> str:
+        projects = [p for y in years for p in y.get("projects", [])]
+        baseline = site_data.get("baseline", {})
+        repos = baseline.get("repos", [])
+        covered_years = sorted({str(y.get("year")) for y in years if y.get("year")} | {str(r.get("year")) for r in repos if r.get("year")})
+        verified_awards = sum(1 for r in repos if "获奖" in str(r.get("source_tier_label", "")) or r.get("award_level"))
+        loc = sum(int(p.get("loc") or 0) for p in projects)
+        langs: dict[str, int] = {}
+        for p in projects:
+            for k, v in (p.get("languages") or {}).items():
+                langs[k] = langs.get(k, 0) + int(v or 0)
+        top_lang = max(langs.items(), key=lambda kv: kv[1])[0] if langs else "-"
+        total_dims = sum(len(p.get("dimensions", [])) for p in projects)
+        ok_dims = sum(1 for p in projects for d in p.get("dimensions", []) if d.get("status") == "confirmed")
+        cover = f"{round(ok_dims * 100 / total_dims)}%" if total_dims else "-"
+        cards = [("历史样本", baseline.get("count", len(repos)), "用于相似性与获奖样本参考"),("覆盖年份", len(covered_years), " / ".join(covered_years[:6]) + (" ..." if len(covered_years) > 6 else "")),("已核验获奖作品", verified_awards, "只按带来源的获奖样本统计"),("当前作品数", f'<span id="ov-current">{len(projects)}</span>', "随筛选动态变化"),("当前代码规模", f'<span id="ov-loc">{loc:,}</span>', "LOC，可分析源码/文本行数"),("主要语言", f'<span id="ov-lang">{_esc(top_lang)}</span>', "按当前筛选作品聚合"),("核心 OS 覆盖", f'<span id="ov-cover">{cover}</span>', "七类能力的源码证据覆盖")]
+        grid = "".join(f'<div class="overview-item"><div class="k">{k}</div><div class="v">{v}</div><div class="s">{_esc(s)}</div></div>' for k, v, s in cards)
+        links = [("README", "https://github.com/chanehwibo/proj18-CSCC/blob/main/README.md"),("设计技术文档", "https://github.com/chanehwibo/proj18-CSCC/blob/main/docs/DESIGN_TECHNICAL_DOCUMENT.md"),("操作手册", "https://github.com/chanehwibo/proj18-CSCC/blob/main/BEGINNER_OPERATION_MANUAL1.md"),("答辩 PPT", "https://github.com/chanehwibo/proj18-CSCC/blob/main/KernelSage_%E7%AD%94%E8%BE%A9%E6%BC%94%E7%A4%BAPPT.pptx"),("演示视频", "https://github.com/chanehwibo/proj18-CSCC/blob/main/%E4%B8%80%E5%AE%9A%E8%A6%81%E4%BB%A5%E4%BA%BA%E7%B1%BB%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%B5%A2%E5%95%8A_%E6%BC%94%E7%A4%BA%E8%A7%86%E9%A2%91.mp4"),("历史基线库", "baseline.html")]
+        quick = "".join(f'<a href="{href}" target="_blank" rel="noopener">{_esc(label)}</a>' for label, href in links)
+        return f'''\n  <section class="overview" aria-label="作品总览仪表盘">\n    <div class="panel"><h2>作品总览仪表盘</h2><div class="overview-grid">{grid}</div><div class="quick-links">{quick}</div></div>\n    <div class="panel"><h2>当前作品能力雷达图</h2><div class="radar-wrap"><div id="abilityRadar"></div><div class="radar-legend" id="abilityLegend"></div></div></div>\n  </section>'''
+
+    def _history_filter_panel(self, site_data: dict[str, Any], years: list[dict[str, Any]]) -> str:
+        repos = site_data.get("baseline", {}).get("repos", [])
+        year_opts = '<option value="all">全部年份</option>' + "".join(f'<option value="{_esc(y)}">{_esc(y)}</option>' for y in sorted({str(r.get("year")) for r in repos if r.get("year")}))
+        awards = sorted({str(r.get("award_level") or r.get("source_tier_label") or "未标注") for r in repos})
+        award_opts = '<option value="all">全部奖项/来源</option>' + "".join(f'<option value="{_esc(a)}">{_esc(a)}</option>' for a in awards)
+        langs = sorted({str(r.get("language_primary")) for r in repos if r.get("language_primary")})
+        lang_opts = '<option value="all">全部语言</option>' + "".join(f'<option value="{_esc(a)}">{_esc(a)}</option>' for a in langs)
+        dims = sorted({d.get("title", d.get("key", "")) for y in years for p in y.get("projects", []) for d in p.get("dimensions", []) if d.get("title") or d.get("key")})
+        dim_opts = '<option value="all">全部功能维度</option>' + "".join(f'<option value="{_esc(d)}">{_esc(d)}</option>' for d in dims)
+        rows = []
+        for r in repos:
+            text = " ".join(str(r.get(k) or "") for k in ["repo_id", "name", "source_tier_label", "language_primary", "school", "award_level", "note"]).lower()
+            award = str(r.get("award_level") or r.get("source_tier_label") or "未标注")
+            rows.append(f'<tr data-text="{_esc(text)}" data-dims="{_esc(text)}" data-year="{_esc(r.get("year") or "")}" data-award="{_esc(award)}" data-lang="{_esc(r.get("language_primary") or "")}" data-loc="{_esc(r.get("loc") or 0)}" data-tier="{_esc(r.get("source_tier_label") or "")}"><td><code>{_esc(r.get("repo_id") or "-")}</code><br><small>{_esc(r.get("source_tier_label") or "-")}</small></td><td>{_esc(r.get("name") or "-")}<br><small>{_esc(r.get("school") or "-")}</small></td><td>{_esc(r.get("year") or "-")}</td><td>{_esc(award)}</td><td>{_esc(r.get("language_primary") or "-")}</td><td>{_esc(r.get("loc") if r.get("loc") is not None else "-")}</td><td><b class="simscore">-</b></td></tr>')
+        return f'''\n  <section class="history-filter"><h2>历史作品对比筛选器</h2>\n    <div class="history-controls"><input id="histQ" type="text" placeholder="搜索历史项目 / 学校 / 来源 / 语言..." oninput="applyHistoryFilters()"><select id="histYear" onchange="applyHistoryFilters()">{year_opts}</select><select id="histAward" onchange="applyHistoryFilters()">{award_opts}</select><select id="histLang" onchange="applyHistoryFilters()">{lang_opts}</select><select id="histDim" onchange="applyHistoryFilters()">{dim_opts}</select><select id="histSim" onchange="applyHistoryFilters()"><option value="all">全部相似度</option><option value="high">高相似</option><option value="medium">中相似</option><option value="low">低相似</option></select><span class="count" id="histCount"></span></div>\n    <div class="history-table-wrap"><table class="history-table"><thead><tr><th>仓库</th><th>名称</th><th>年份</th><th>奖项/来源</th><th>主语言</th><th>LOC</th><th>相似参考</th></tr></thead><tbody id="historyRows">{"".join(rows)}</tbody></table></div><div class="hint">相似参考分根据当前筛选作品与历史样本的语言、代码规模、架构和来源信息估算，用于快速定位复核对象。</div>\n  </section>'''
+
+    def _dimension_tags(self, p: dict[str, Any]) -> str:
+        tags = [f'<span class="dim {"ok" if d.get("status") == "confirmed" else "no"}">{_esc(d.get("title") or d.get("key") or "-")}</span>' for d in p.get("dimensions", [])]
+        return '<div class="dims">' + "".join(tags) + '</div>' if tags else ""
+
+    def _evidence_lines(self, report_md: str, limit: int = 4) -> list[str]:
+        out: list[str] = []
+        for line in report_md.splitlines():
+            s = line.strip()
+            if s.startswith("- `") and (":L" in s or "代码片段" in s):
+                out.append(s)
+            if len(out) >= limit:
+                break
+        return out
+
+
+    def _explain_panel(self, p: dict[str, Any]) -> str:
+        items = []
+        for c in p.get("reports", {}).get("compares", [])[:3]:
+            reasons = ["语言构成", "目录/结构", "功能维度"]
+            if int(c.get("code_similarity_count") or 0) > 0:
+                reasons.extend(["符号/路径", "证据片段"])
+            why = "".join(f"<span>{_esc(r)}</span>" for r in reasons)
+            ev = self._evidence_lines(c.get("report_md", ""))
+            ev_html = "".join(f"<li>{_inline(e)}</li>" for e in ev) or "<li>完整源码路径、行号和代码片段见比较报告。</li>"
+            idx = int(c.get("index") or 0)
+            items.append(f'''<div class="explain-item"><div class="top"><span>{_esc(c.get("target_name") or "历史样本")}</span><span>{_esc(c.get("overlap_score") or 0)}</span></div><div class="meta">来源：{_esc(c.get("target_tier_label") or "-")}；重合维度 {int(c.get("overlap_dimensions") or 0)} / 7；代码级线索 {int(c.get("code_similarity_count") or 0)} 条</div><div class="why">{why}</div><details class="evidence-mini"><summary>查看证据摘要</summary><ul>{ev_html}</ul></details><div class="acts"><button class="btn" onclick="openReport2('reports/{_esc(p["repo_id"])}.compare{idx}.html','{_esc(p["name"])} vs {_esc(c.get("target_name") or "历史样本")}')">完整证据报告</button><button class="btn" onclick="openHistoryCompare('{_esc(p["repo_id"])}','{idx}')">双栏对比</button></div></div>''')
+        return f'<details class="explain"><summary>相似度解释面板</summary><div class="explain-list">{"".join(items)}</div></details>' if items else ""
+
+
+    def _downloads(self, p: dict[str, Any]) -> str:
+        rid = _esc(p["repo_id"])
+        comps = p.get("reports", {}).get("compares", [])
+        cmp_links = ""
+        if comps:
+            idx = int(comps[0].get("index") or 0)
+            cmp_links = f'<a class="btn" href="reports/{rid}.compare{idx}.html" download>HTML 对比</a><a class="btn" href="reports/{rid}.compare{idx}.md" download>Markdown 对比</a>'
+        return f'<div class="download-row"><a class="btn" href="reports/{rid}.describe.md" download>Markdown 描述</a><a class="btn" href="reports/{rid}.describe.html" download>HTML 描述</a>{cmp_links}<a class="btn" href="reports/{rid}.json" download>JSON 数据</a></div>'
 
     def _year_panel(self, year: dict[str, Any]) -> str:
         projects = year["projects"]
@@ -714,6 +868,8 @@ class SiteRenderer:
       <dt>镜像克隆</dt><dd class="clone"><code>{clone}</code><button class="copybtn" onclick="copyText('{clone}')">复制</button></dd>
     </dl>
   </div>
+  {self._dimension_tags(p)}
+  {self._explain_panel(p)}
   <div class="reports">
     <div class="grp">
       <div class="gt">作品描述报告</div>
@@ -726,6 +882,10 @@ class SiteRenderer:
     <div class="grp">
       <div class="gt">比较报告（与重合/重复率最高的仓库）</div>
       {cmp_btns}
+    </div>
+    <div class="grp">
+      <div class="gt">一键下载报告</div>
+      {self._downloads(p)}
     </div>
     <div class="grp">
       <div class="gt">评审打分</div>
@@ -777,7 +937,25 @@ class SiteRenderer:
                     "risk_level": p.get("risk_level", "none"),
                     "loc": p.get("loc", 0),
                     "file_count": p.get("file_count", 0),
+                    "symbol_count": p.get("symbol_count", 0),
+                    "arch": p.get("arch", []),
+                    "languages": p.get("languages", {}),
+                    "source_tier_label": p.get("source_tier_label", ""),
+                    "selfcheck": p.get("selfcheck", {}),
                     "dimensions": p.get("dimensions", []),
+                    "compares": [
+                        {
+                            "index": c.get("index"),
+                            "label": c.get("label"),
+                            "target_repo_id": c.get("target_repo_id"),
+                            "target_name": c.get("target_name"),
+                            "target_tier_label": c.get("target_tier_label"),
+                            "overlap_dimensions": c.get("overlap_dimensions"),
+                            "code_similarity_count": c.get("code_similarity_count"),
+                            "overlap_score": c.get("overlap_score"),
+                        }
+                        for c in p.get("reports", {}).get("compares", [])
+                    ],
                 }
         return out
 
