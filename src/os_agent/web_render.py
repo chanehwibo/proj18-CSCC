@@ -211,6 +211,11 @@ html[data-theme="dark"] .chip.tier{background:#0c4a6e;color:#7dd3fc;}
 
 .meters{margin-top:10px;display:grid;gap:7px;}
 .meter{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.metric-label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.info-tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border:1px solid var(--muted);border-radius:50%;font-size:10px;font-weight:800;line-height:1;color:var(--muted);cursor:help;background:var(--card);}
+.info-tip::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);z-index:40;width:max-content;max-width:260px;transform:translateX(-50%);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;line-height:1.45;white-space:normal;box-shadow:0 10px 24px var(--shadow);opacity:0;pointer-events:none;visibility:hidden;transition:opacity .12s ease,visibility .12s ease;}
+.info-tip::before{content:"";position:absolute;left:50%;bottom:calc(100% + 3px);z-index:41;transform:translateX(-50%) rotate(45deg);width:8px;height:8px;background:var(--ink);opacity:0;visibility:hidden;transition:opacity .12s ease,visibility .12s ease;}
+.info-tip:hover::after,.info-tip:hover::before,.info-tip:focus::after,.info-tip:focus::before{opacity:1;visibility:visible;}
 .meter .bar{height:9px;border-radius:999px;background:var(--line);overflow:hidden;}
 .meter .bar>span{display:block;height:100%;border-radius:999px;}
 .meter .bar.mat>span{background:linear-gradient(90deg,#22c55e,#0f766e);}
@@ -424,12 +429,13 @@ function openCompare(){
   var rows=[['维度']];
   var works=picked.map(function(r){return WORKS[r];});
   var head='<tr><th class="rowhead">对比项</th>'+works.map(function(w){return '<th>'+esc(w.entry_no)+'<br><small>'+esc(w.name)+'</small></th>';}).join('')+'</tr>';
+  function metricLabel(label,tip){return '<span class="metric-label">'+label+'<span class="info-tip" tabindex="0" data-tip="'+esc(tip)+'" aria-label="'+esc(tip)+'">!</span></span>';}
   function row(label, fn, cls){
     return '<tr><td class="rowhead">'+label+'</td>'+works.map(function(w){var v=fn(w);return '<td class="'+(cls?cls(w):'')+'">'+v+'</td>';}).join('')+'</tr>';
   }
   var body='';
-  body+=row('成熟度', function(w){return w.maturity_score+'/100 ('+w.grade+'级)';});
-  body+=row('最高重合度', function(w){return w.top_overlap+' ('+riskLabel(w.risk_level)+')';});
+  body+=row(metricLabel('成熟度','基于七类 OS 核心机制覆盖、源码证据可信度、工程质量、创新性和相似风险折算的参考分，不等同于赛题官方完成度。'), function(w){return w.maturity_score+'/100 ('+w.grade+'级)';});
+  body+=row(metricLabel('最高重合度','表示当前作品与历史基线中最接近样本的功能、结构、语言和代码线索重合程度，只提示复核优先级，不直接判定抄袭。'), function(w){return w.top_overlap+' ('+riskLabel(w.risk_level)+')';});
   body+=row('代码行数', function(w){return (w.loc||0).toLocaleString();});
   body+=row('文件数', function(w){return w.file_count||0;});
   body+=row('学校', function(w){return esc(w.school||'-');});
@@ -693,8 +699,8 @@ class SiteRenderer:
       {risk_chip}
     </div>
     <div class="meters">
-      <div class="meter"><span>成熟度</span><div class="bar mat"><span style="width:{score}%"></span></div><span class="val">{score}</span></div>
-      <div class="meter"><span>重合度</span><div class="bar risk"><span style="width:{risk_pct}%"></span></div><span class="val">{overlap}</span></div>
+      <div class="meter"><span class="metric-label">成熟度<span class="info-tip" tabindex="0" data-tip="基于七类 OS 核心机制覆盖、源码证据可信度、工程质量、创新性和相似风险折算的参考分，不等同于赛题官方完成度。" aria-label="成熟度说明">!</span></span><div class="bar mat"><span style="width:{score}%"></span></div><span class="val">{score}</span></div>
+      <div class="meter"><span class="metric-label">重合度<span class="info-tip" tabindex="0" data-tip="表示当前作品与历史基线中最接近样本的功能、结构、语言和代码线索重合程度，只提示复核优先级，不直接判定抄袭。" aria-label="重合度说明">!</span></span><div class="bar risk"><span style="width:{risk_pct}%"></span></div><span class="val">{overlap}</span></div>
     </div>
   </div>
   <div class="info">

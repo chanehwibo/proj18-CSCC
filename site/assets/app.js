@@ -118,12 +118,13 @@ function openCompare(){
   var rows=[['维度']];
   var works=picked.map(function(r){return WORKS[r];});
   var head='<tr><th class="rowhead">对比项</th>'+works.map(function(w){return '<th>'+esc(w.entry_no)+'<br><small>'+esc(w.name)+'</small></th>';}).join('')+'</tr>';
+  function metricLabel(label,tip){return '<span class="metric-label">'+label+'<span class="info-tip" tabindex="0" data-tip="'+esc(tip)+'" aria-label="'+esc(tip)+'">!</span></span>';}
   function row(label, fn, cls){
     return '<tr><td class="rowhead">'+label+'</td>'+works.map(function(w){var v=fn(w);return '<td class="'+(cls?cls(w):'')+'">'+v+'</td>';}).join('')+'</tr>';
   }
   var body='';
-  body+=row('成熟度', function(w){return w.maturity_score+'/100 ('+w.grade+'级)';});
-  body+=row('最高重合度', function(w){return w.top_overlap+' ('+riskLabel(w.risk_level)+')';});
+  body+=row(metricLabel('成熟度','基于七类 OS 核心机制覆盖、源码证据可信度、工程质量、创新性和相似风险折算的参考分，不等同于赛题官方完成度。'), function(w){return w.maturity_score+'/100 ('+w.grade+'级)';});
+  body+=row(metricLabel('最高重合度','表示当前作品与历史基线中最接近样本的功能、结构、语言和代码线索重合程度，只提示复核优先级，不直接判定抄袭。'), function(w){return w.top_overlap+' ('+riskLabel(w.risk_level)+')';});
   body+=row('代码行数', function(w){return (w.loc||0).toLocaleString();});
   body+=row('文件数', function(w){return w.file_count||0;});
   body+=row('学校', function(w){return esc(w.school||'-');});
