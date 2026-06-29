@@ -211,7 +211,9 @@ main{max-width:1320px;margin:0 auto;padding:20px 24px 70px;}
   box-shadow:0 1px 3px var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s;position:relative;}
 .card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 12px 28px var(--shadow);border-color:var(--brand-soft);z-index:20;}
 .card.picked{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft);}
-.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;display:flex;gap:12px;}
+.card .hd-left{flex:1;min-width:0;}
+.card .mini-radar{width:100px;height:100px;flex-shrink:0;align-self:center;}
 .card .pick{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
 .card .pick input{width:16px;height:16px;cursor:pointer;accent-color:var(--brand);}
 .card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;padding-right:54px;}
@@ -840,6 +842,31 @@ class SiteRenderer:
         cards = "".join(f'<div class="kpi"><div class="k">{k}</div><div class="v">{v}</div></div>' for k, v in items)
         return f'<div class="kpis">{cards}</div>'
 
+    def _mini_radar(self, p: dict[str, Any]) -> str:
+        import math
+        dims = p.get("dimensions", [])
+        if not dims:
+            return '<svg class="mini-radar" viewBox="0 0 100 100"></svg>'
+        n = len(dims)
+        cx, cy, r = 50, 50, 38
+        axis = ""
+        pts = []
+        for i, d in enumerate(dims):
+            ang = -math.pi / 2 + 2 * math.pi * i / n
+            ex, ey = cx + math.cos(ang) * r, cy + math.sin(ang) * r
+            v = r if d.get("status") == "confirmed" else 0
+            px, py = cx + math.cos(ang) * v, cy + math.sin(ang) * v
+            pts.append(f"{px:.1f},{py:.1f}")
+            lx = cx + math.cos(ang) * (r + 11)
+            ly = cy + math.sin(ang) * (r + 11)
+            label = (d.get("title") or d.get("key", ""))[:2]
+            axis += f'<line x1="{cx}" y1="{cy}" x2="{ex:.1f}" y2="{ey:.1f}" stroke="var(--line)" stroke-width="0.8"/>'
+            axis += f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="middle" dominant-baseline="middle" font-size="7" fill="var(--muted)">{_esc(label)}</text>'
+        poly = f'<polygon points="{" ".join(pts)}" fill="rgba(15,118,110,.25)" stroke="var(--brand)" stroke-width="1.5"/>'
+        bg = f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="var(--line)" stroke-width="0.6"/>'
+        bg += f'<circle cx="{cx}" cy="{cy}" r="{r * 0.5}" fill="none" stroke="var(--line)" stroke-width="0.4"/>'
+        return f'<svg class="mini-radar" viewBox="0 0 100 100" role="img" aria-label="七维能力覆盖">{bg}{axis}{poly}</svg>'
+
     def _card(self, p: dict[str, Any]) -> str:
         search = " ".join(str(x).lower() for x in [p["entry_no"], p["name"], p["school"], p["team_name"], p["year"]])
         score = p["maturity"]["score"]
@@ -867,16 +894,19 @@ class SiteRenderer:
   data-risk="{risk}" data-maturity="{score}" data-overlap="{overlap}" data-school="{_esc(p["school"])}" data-name="{_esc(p["name"])}">
   <label class="pick"><input type="checkbox" onchange="togglePick('{_esc(p["repo_id"])}',this)">对比</label>
   <div class="hd">
-    <div class="entry">{_esc(p["entry_no"])}</div>
-    <div class="chips">
-      <span class="chip tier">{_esc(p["source_tier_label"])}</span>
-      <span class="chip">{grade} 级</span>
-      {risk_chip}
+    <div class="hd-left">
+      <div class="entry">{_esc(p["entry_no"])}</div>
+      <div class="chips">
+        <span class="chip tier">{_esc(p["source_tier_label"])}</span>
+        <span class="chip">{grade} 级</span>
+        {risk_chip}
+      </div>
+      <div class="meters">
+        <div class="meter"><span class="metric-label">成熟度<span class="info-tip" tabindex="0" data-tip="基于七类 OS 核心机制覆盖、源码证据可信度、工程质量、创新性和相似风险折算的参考分，不等同于赛题官方完成度。" aria-label="成熟度说明">!</span></span><div class="bar mat"><span style="width:{score}%"></span></div><span class="val">{score}</span></div>
+        <div class="meter"><span class="metric-label">重合度<span class="info-tip" tabindex="0" data-tip="表示待测作品与历史基线中最接近样本的功能、结构、语言和代码线索重合程度，只提示复核优先级，不直接判定抄袭。" aria-label="重合度说明">!</span></span><div class="bar risk"><span style="width:{risk_pct}%"></span></div><span class="val">{overlap}</span></div>
+      </div>
     </div>
-    <div class="meters">
-      <div class="meter"><span class="metric-label">成熟度<span class="info-tip" tabindex="0" data-tip="基于七类 OS 核心机制覆盖、源码证据可信度、工程质量、创新性和相似风险折算的参考分，不等同于赛题官方完成度。" aria-label="成熟度说明">!</span></span><div class="bar mat"><span style="width:{score}%"></span></div><span class="val">{score}</span></div>
-      <div class="meter"><span class="metric-label">重合度<span class="info-tip" tabindex="0" data-tip="表示待测作品与历史基线中最接近样本的功能、结构、语言和代码线索重合程度，只提示复核优先级，不直接判定抄袭。" aria-label="重合度说明">!</span></span><div class="bar risk"><span style="width:{risk_pct}%"></span></div><span class="val">{overlap}</span></div>
-    </div>
+    {self._mini_radar(p)}
   </div>
   <div class="info">
     <dl>

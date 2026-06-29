@@ -80,7 +80,9 @@ main{max-width:1320px;margin:0 auto;padding:20px 24px 70px;}
   box-shadow:0 1px 3px var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s;position:relative;}
 .card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 12px 28px var(--shadow);border-color:var(--brand-soft);z-index:20;}
 .card.picked{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft);}
-.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;display:flex;gap:12px;}
+.card .hd-left{flex:1;min-width:0;}
+.card .mini-radar{width:100px;height:100px;flex-shrink:0;align-self:center;}
 .card .pick{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
 .card .pick input{width:16px;height:16px;cursor:pointer;accent-color:var(--brand);}
 .card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;padding-right:54px;}
@@ -234,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>OSKernel2024-HFUT666 比较报告</h1>
 <ul>
 <li>对比历史仓库：2025 只编译了一次</li>
-<li>生成时间：2026-06-28T12:59:31.355212+00:00</li>
+<li>生成时间：2026-06-29T08:13:59.751362+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
