@@ -1086,52 +1086,92 @@ class SiteRenderer:
                     "risk": p.get("risk_level", "none"), "overlap": p.get("top_overlap", 0),
                 })
 
-        # ---- 1) 重复检测热力矩阵 ----
-        def cell_color(v: float) -> str:
+        # ---- 1) 高相似配对排行榜（主，任意规模都好用） ----
+        pairs = matrix.get("pairs", [])
+        if pairs:
+            pr = []
+            for idx, p in enumerate(pairs[:80], 1):
+                sc = p["score"]
+                col = "#dc2626" if sc >= 60 else ("#d97706" if sc >= 45 else "#0f766e")
+                pr.append(
+                    f'<tr><td class="rank">{idx}</td>'
+                    f'<td><span class="simbadge" style="background:{col}">{sc}</span></td>'
+                    f'<td>{_esc(p["a_entry"])}<small>{_esc(p["a_name"])}</small></td>'
+                    f'<td>{_esc(p["b_entry"])}<small>{_esc(p["b_name"])}</small></td></tr>')
+            pairs_html = (
+                f'<div class="pairs-meta">共 {len(pairs)} 对相似度≥25 的可疑配对，按相似度降序'
+                f'{"（仅列前 80 对）" if len(pairs) > 80 else ""}。红≥60 / 橙≥45 / 绿 25-44。</div>'
+                '<div class="pairwrap"><table class="pairtbl"><thead><tr><th>#</th><th>相似度</th><th>作品 A</th><th>作品 B</th></tr></thead>'
+                f'<tbody>{"".join(pr)}</tbody></table></div>')
+        else:
+            pairs_html = '<p class="muted">未发现相似度 ≥ 25 的可疑配对（本批作品彼此差异较大）。</p>'
+
+        # ---- 2) 重复检测热力矩阵（自适应：小N数字表 / 大N色块图） ----
+        n = len(labels)
+
+        def cell_rgba(v: float) -> str:
             a = max(0.0, min(1.0, v / 100.0))
-            return f"background:rgba(220,38,38,{a*0.82:.2f});" + ("color:#fff;" if a > 0.55 else "")
-        if labels:
+            return f"rgba(220,38,38,{a*0.85:.2f})"
+        if not labels:
+            matrix_html = '<p class="muted">本批作品不足，无法生成两两重合度矩阵。</p>'
+        elif n <= 12:
             head = "<th class=\"corner\">作品</th>" + "".join(
                 f'<th class="vh"><span>{_esc(l["entry_no"])}</span></th>' for l in labels)
             body_rows = []
             for i, l in enumerate(labels):
                 tds = "".join(
-                    f'<td style="{cell_color(rows[i][j]) if i!=j else "background:var(--panel);color:var(--muted);"}">{("—" if i==j else rows[i][j])}</td>'
-                    for j in range(len(labels)))
+                    f'<td style="{("background:"+cell_rgba(rows[i][j])+";"+("color:#fff;" if rows[i][j]>=65 else "")) if i!=j else "background:var(--panel);color:var(--muted);"}">{("—" if i==j else rows[i][j])}</td>'
+                    for j in range(n))
                 body_rows.append(f'<tr><th class="rh">{_esc(l["entry_no"])}<small>{_esc(l["name"])}</small></th>{tds}</tr>')
             matrix_html = f'<table class="heat"><thead><tr>{head}</tr></thead><tbody>{"".join(body_rows)}</tbody></table>'
         else:
-            matrix_html = '<p class="muted">本批作品不足，无法生成两两重合度矩阵。</p>'
-
-        # ---- 2) 相似度关系图 (circular layout SVG) ----
-        n = len(labels)
-        graph_svg = ""
-        if n >= 2:
-            cx, cy, r = 430, 300, 215
-            pos = []
+            cell = max(6, min(18, int(640 / n)))
+            sz = cell * n
+            rects = []
             for i in range(n):
-                ang = -math.pi / 2 + 2 * math.pi * i / n
-                pos.append((cx + r * math.cos(ang), cy + r * math.sin(ang)))
+                for j in range(n):
+                    v = 100.0 if i == j else rows[i][j]
+                    fill = "var(--line)" if i == j else cell_rgba(v)
+                    title = f'<title>{_esc(labels[i]["entry_no"])} × {_esc(labels[j]["entry_no"])} = {v}</title>' if (i != j and v >= 40) else ""
+                    rects.append(f'<rect x="{j*cell}" y="{i*cell}" width="{cell}" height="{cell}" fill="{fill}">{title}</rect>')
+            matrix_html = (
+                f'<div class="heatmini-note">作品较多（{n} 件），已切换为紧凑色块热力图：每格一对作品，越红越相似，悬停可看数值。精确配对见上方排行榜。</div>'
+                f'<div class="heatmini"><svg width="{sz}" height="{sz}" viewBox="0 0 {sz} {sz}" shape-rendering="crispEdges">{"".join(rects)}</svg></div>')
+
+        # ---- 3) 相似度关系图（仅画有高相似连线的节点，限连线数防毛线团） ----
+        all_links = sorted(matrix.get("links", []), key=lambda x: -x["score"])[:80]
+        linked_idx = sorted({lk["source"] for lk in all_links} | {lk["target"] for lk in all_links})
+        gn = len(linked_idx)
+        graph_svg = ""
+        if gn >= 2:
+            posmap = {}
+            cx, cy, r = 430, 300, 215
+            for k, idx in enumerate(linked_idx):
+                ang = -math.pi / 2 + 2 * math.pi * k / gn
+                posmap[idx] = (cx + r * math.cos(ang), cy + r * math.sin(ang))
             link_svg = ""
-            for lk in matrix.get("links", []):
+            for lk in all_links:
                 s, t, sc = lk["source"], lk["target"], lk["score"]
-                x1, y1 = pos[s]; x2, y2 = pos[t]
+                x1, y1 = posmap[s]; x2, y2 = posmap[t]
                 op = min(0.9, sc / 100 + 0.15); w = 1 + sc / 22
                 col = "#dc2626" if sc >= 60 else ("#d97706" if sc >= 45 else "#94a3b8")
                 link_svg += f'<line x1="{x1:.0f}" y1="{y1:.0f}" x2="{x2:.0f}" y2="{y2:.0f}" stroke="{col}" stroke-width="{w:.1f}" stroke-opacity="{op:.2f}"/>'
             node_svg = ""
             ycolors = {"2021": "#0ea5e9", "2022": "#10b981", "2023": "#f59e0b", "2024": "#8b5cf6", "2025": "#ec4899", "2026": "#ef4444"}
-            for i, l in enumerate(labels):
-                x, yy = pos[i]
+            show_label = gn <= 30
+            for idx in linked_idx:
+                l = labels[idx]
+                x, yy = posmap[idx]
                 c = ycolors.get(l["year"], "#0f766e")
-                anchor = "start" if x >= cx else "end"
-                tx = x + (12 if x >= cx else -12)
-                node_svg += f'<circle cx="{x:.0f}" cy="{yy:.0f}" r="9" fill="{c}"/>'
-                node_svg += f'<text x="{tx:.0f}" y="{yy+4:.0f}" text-anchor="{anchor}" font-size="12" fill="var(--ink)">{_esc(l["entry_no"])}</text>'
-            graph_svg = (f'<svg viewBox="0 0 860 600" class="graph">{link_svg}{node_svg}</svg>'
-                         '<p class="muted">节点=作品（颜色按年份），连线=画像相似度≥40；红≥60 / 橙≥45 / 灰≥40。仅作复核入口，不裁定抄袭。</p>')
+                node_svg += f'<circle cx="{x:.0f}" cy="{yy:.0f}" r="9" fill="{c}"><title>{_esc(l["entry_no"])} {_esc(l["name"])}</title></circle>'
+                if show_label:
+                    anchor = "start" if x >= cx else "end"
+                    tx = x + (12 if x >= cx else -12)
+                    node_svg += f'<text x="{tx:.0f}" y="{yy+4:.0f}" text-anchor="{anchor}" font-size="12" fill="var(--ink)">{_esc(l["entry_no"])}</text>'
+            note = f'仅显示有相似连线(≥40)的 {gn} 个作品' + ('（连线过多已取最高 80 条）' if len(matrix.get("links", [])) > 80 else '') + ('；节点过多已隐藏文字标签，悬停查看。' if not show_label else '。') + '红≥60 / 橙≥45 / 灰≥40，仅作复核入口，不裁定抄袭。'
+            graph_svg = f'<svg viewBox="0 0 860 600" class="graph">{link_svg}{node_svg}</svg><p class="muted">{note}</p>'
         else:
-            graph_svg = '<p class="muted">作品不足，无法生成关系图。</p>'
+            graph_svg = '<p class="muted">未发现相似度 ≥ 40 的作品连线，无需展示关系图。</p>'
 
         # ---- 3) 跨年份技术演进 ----
         evo_max = max((e["count"] for e in evolution), default=1)
@@ -1168,6 +1208,17 @@ class SiteRenderer:
   table.heat th.vh{{height:88px;}}
   table.heat th.vh span{{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;font-weight:600;}}
   .heatwrap{{overflow:auto;}}
+  .pairs-meta{{color:var(--muted);font-size:12.5px;margin-bottom:8px;}}
+  .pairwrap{{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:10px;}}
+  table.pairtbl{{width:100%;border-collapse:collapse;font-size:13px;}}
+  table.pairtbl th,table.pairtbl td{{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:middle;}}
+  table.pairtbl th{{position:sticky;top:0;background:var(--panel);z-index:1;}}
+  table.pairtbl td.rank{{color:var(--muted);width:36px;}}
+  table.pairtbl td small{{display:block;color:var(--muted);font-size:11px;}}
+  .simbadge{{display:inline-block;min-width:34px;text-align:center;color:#fff;font-weight:700;border-radius:999px;padding:2px 9px;font-size:12px;}}
+  .heatmini-note{{color:var(--muted);font-size:12.5px;margin-bottom:8px;}}
+  .heatmini{{overflow:auto;max-width:100%;}}
+  .heatmini svg{{display:block;}}
   svg.graph{{width:100%;max-width:860px;height:auto;display:block;margin:0 auto;}}
   .evo{{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px;}}
   .evo .yr{{width:64px;font-weight:700;color:var(--brand-dark);}}
@@ -1183,8 +1234,14 @@ class SiteRenderer:
 </style>
 
 <div class="ins-sec">
+  <h2>🏆 高相似配对排行榜</h2>
+  <p class="hint">查重主入口：直接列出彼此最相似的作品配对（任意规模都清晰）。这是画像级快速估算，红/橙为重点复核对象；精确逐行证据见作品卡片的比较报告，系统不裁定抄袭。</p>
+  {pairs_html}
+</div>
+
+<div class="ins-sec">
   <h2>🔥 重复检测热力矩阵</h2>
-  <p class="hint">本批 {n} 个作品两两画像相似度（0-100，越红越相似）。这是“查重”的总览入口；具体证据请在作品卡片的比较报告中逐行复核，系统不直接裁定抄袭。</p>
+  <p class="hint">本批 {n} 个作品两两画像相似度总览（越红越相似）。作品 ≤12 件显示数值矩阵，更多时自动切换为紧凑色块热力图。</p>
   <div class="heatwrap">{matrix_html}</div>
 </div>
 

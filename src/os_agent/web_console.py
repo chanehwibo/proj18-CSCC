@@ -434,6 +434,7 @@ class WebConsoleBuilder:
         n = len(profiles)
         rows: list[list[float]] = [[0.0] * n for _ in range(n)]
         links: list[dict[str, Any]] = []
+        pairs: list[dict[str, Any]] = []
         for i in range(n):
             for j in range(i + 1, n):
                 if profiles[i] is None or profiles[j] is None:
@@ -443,9 +444,18 @@ class WebConsoleBuilder:
                 rows[j][i] = score
                 if score >= 40:
                     links.append({"source": i, "target": j, "score": score})
+                pairs.append({
+                    "i": i, "j": j, "score": score,
+                    "a_repo": labels[i]["repo_id"], "a_entry": labels[i]["entry_no"], "a_name": labels[i]["name"], "a_year": labels[i]["year"],
+                    "b_repo": labels[j]["repo_id"], "b_entry": labels[j]["entry_no"], "b_name": labels[j]["name"], "b_year": labels[j]["year"],
+                })
         for i in range(n):
             rows[i][i] = 100.0
-        return {"labels": labels, "rows": rows, "links": links}
+        # keep only meaningful pairs (>=25), sorted desc, capped for payload size
+        pairs = [p for p in pairs if p["score"] >= 25]
+        pairs.sort(key=lambda p: -p["score"])
+        pairs = pairs[:300]
+        return {"labels": labels, "rows": rows, "links": links, "pairs": pairs}
 
     def _year_evolution(self, history_root: Path, all_cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
         manifest = load_manifest(Path(history_root))
