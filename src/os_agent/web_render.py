@@ -1066,28 +1066,12 @@ class SiteRenderer:
         return self._shell(site_data, body, active="baseline")
 
     # ---- shared shell / report doc ---------------------------------------
-    def _insights_page(self, site_data: dict[str, Any]) -> str:
+    def _dup_render(self, labels: list, rows: list, pairs: list, links: list) -> tuple[str, str, str]:
+        """Render (pairs_html, matrix_html, graph_svg) for one subset of works.
+        labels/rows are local (indices align); links use local source/target."""
         import math
-        ins = site_data.get("insights", {})
-        matrix = ins.get("matrix", {"labels": [], "rows": [], "links": []})
-        labels = matrix.get("labels", [])
-        rows = matrix.get("rows", [])
-        evolution = ins.get("year_evolution", [])
-        schools = ins.get("schools", [])
 
-        # works summary for the JS (人机评分对照 / 汇总导出)
-        works = []
-        for y in site_data.get("years", []):
-            for p in y["projects"]:
-                works.append({
-                    "repo_id": p["repo_id"], "entry_no": p["entry_no"], "name": p["name"],
-                    "year": p["year"], "school": p.get("school", ""),
-                    "maturity": p["maturity"]["score"], "grade": _grade(p["maturity"]["score"]),
-                    "risk": p.get("risk_level", "none"), "overlap": p.get("top_overlap", 0),
-                })
-
-        # ---- 1) 高相似配对排行榜（主，任意规模都好用） ----
-        pairs = matrix.get("pairs", [])
+        # 1) 高相似配对排行榜
         if pairs:
             pr = []
             for idx, p in enumerate(pairs[:80], 1):
@@ -1104,16 +1088,16 @@ class SiteRenderer:
                 '<div class="pairwrap"><table class="pairtbl"><thead><tr><th>#</th><th>相似度</th><th>作品 A</th><th>作品 B</th></tr></thead>'
                 f'<tbody>{"".join(pr)}</tbody></table></div>')
         else:
-            pairs_html = '<p class="muted">未发现相似度 ≥ 25 的可疑配对（本批作品彼此差异较大）。</p>'
+            pairs_html = '<p class="muted">未发现相似度 ≥ 25 的可疑配对（该范围作品彼此差异较大）。</p>'
 
-        # ---- 2) 重复检测热力矩阵（自适应：小N数字表 / 大N色块图） ----
+        # 2) 重复检测热力矩阵（自适应）
         n = len(labels)
 
         def cell_rgba(v: float) -> str:
             a = max(0.0, min(1.0, v / 100.0))
             return f"rgba(220,38,38,{a*0.85:.2f})"
         if not labels:
-            matrix_html = '<p class="muted">本批作品不足，无法生成两两重合度矩阵。</p>'
+            matrix_html = '<p class="muted">该范围暂无作品。</p>'
         elif n <= 12:
             head = "<th class=\"corner\">作品</th>" + "".join(
                 f'<th class="vh"><span>{_esc(l["entry_no"])}</span></th>' for l in labels)
@@ -1138,11 +1122,10 @@ class SiteRenderer:
                 f'<div class="heatmini-note">作品较多（{n} 件），已切换为紧凑色块热力图：每格一对作品，越红越相似，悬停可看数值。精确配对见上方排行榜。</div>'
                 f'<div class="heatmini"><svg width="{sz}" height="{sz}" viewBox="0 0 {sz} {sz}" shape-rendering="crispEdges">{"".join(rects)}</svg></div>')
 
-        # ---- 3) 相似度关系图（仅画有高相似连线的节点，限连线数防毛线团） ----
-        all_links = sorted(matrix.get("links", []), key=lambda x: -x["score"])[:80]
-        linked_idx = sorted({lk["source"] for lk in all_links} | {lk["target"] for lk in all_links})
+        # 3) 相似度关系图（过滤孤立节点 + 限连线数）
+        capped = sorted(links, key=lambda x: -x["score"])[:80]
+        linked_idx = sorted({lk["source"] for lk in capped} | {lk["target"] for lk in capped})
         gn = len(linked_idx)
-        graph_svg = ""
         if gn >= 2:
             posmap = {}
             cx, cy, r = 430, 300, 215
@@ -1150,7 +1133,7 @@ class SiteRenderer:
                 ang = -math.pi / 2 + 2 * math.pi * k / gn
                 posmap[idx] = (cx + r * math.cos(ang), cy + r * math.sin(ang))
             link_svg = ""
-            for lk in all_links:
+            for lk in capped:
                 s, t, sc = lk["source"], lk["target"], lk["score"]
                 x1, y1 = posmap[s]; x2, y2 = posmap[t]
                 op = min(0.9, sc / 100 + 0.15); w = 1 + sc / 22
@@ -1168,10 +1151,83 @@ class SiteRenderer:
                     anchor = "start" if x >= cx else "end"
                     tx = x + (12 if x >= cx else -12)
                     node_svg += f'<text x="{tx:.0f}" y="{yy+4:.0f}" text-anchor="{anchor}" font-size="12" fill="var(--ink)">{_esc(l["entry_no"])}</text>'
-            note = f'仅显示有相似连线(≥40)的 {gn} 个作品' + ('（连线过多已取最高 80 条）' if len(matrix.get("links", [])) > 80 else '') + ('；节点过多已隐藏文字标签，悬停查看。' if not show_label else '。') + '红≥60 / 橙≥45 / 灰≥40，仅作复核入口，不裁定抄袭。'
+            note = f'仅显示有相似连线(≥40)的 {gn} 个作品' + ('（连线过多已取最高 80 条）' if len(links) > 80 else '') + ('；节点过多已隐藏文字标签，悬停查看。' if not show_label else '。') + '红≥60 / 橙≥45 / 灰≥40，仅作复核入口，不裁定抄袭。'
             graph_svg = f'<svg viewBox="0 0 860 600" class="graph">{link_svg}{node_svg}</svg><p class="muted">{note}</p>'
         else:
-            graph_svg = '<p class="muted">未发现相似度 ≥ 40 的作品连线，无需展示关系图。</p>'
+            graph_svg = '<p class="muted">该范围未发现相似度 ≥ 40 的作品连线，无需展示关系图。</p>'
+        return pairs_html, matrix_html, graph_svg
+
+    def _insights_page(self, site_data: dict[str, Any]) -> str:
+        import math
+        ins = site_data.get("insights", {})
+        matrix = ins.get("matrix", {"labels": [], "rows": [], "links": []})
+        labels = matrix.get("labels", [])
+        rows = matrix.get("rows", [])
+        evolution = ins.get("year_evolution", [])
+        schools = ins.get("schools", [])
+
+        # works summary for the JS (人机评分对照 / 汇总导出)
+        works = []
+        for y in site_data.get("years", []):
+            for p in y["projects"]:
+                works.append({
+                    "repo_id": p["repo_id"], "entry_no": p["entry_no"], "name": p["name"],
+                    "year": p["year"], "school": p.get("school", ""),
+                    "maturity": p["maturity"]["score"], "grade": _grade(p["maturity"]["score"]),
+                    "risk": p.get("risk_level", "none"), "overlap": p.get("top_overlap", 0),
+                })
+
+
+        # ---- 查重三件套：按年份分组预渲染 + 下拉切换 ----
+        idx_by_year: dict[str, list[int]] = {}
+        for i, l in enumerate(labels):
+            idx_by_year.setdefault(l["year"], []).append(i)
+        years_sorted = sorted(idx_by_year.keys())
+        all_pairs = matrix.get("pairs", [])
+        all_links = matrix.get("links", [])
+
+        def _slice(sel: list[int]):
+            pos = {g: k for k, g in enumerate(sel)}
+            sub_labels = [labels[g] for g in sel]
+            sub_rows = [[rows[a][b] for b in sel] for a in sel]
+            sub_pairs = [p for p in all_pairs if p["i"] in pos and p["j"] in pos]
+            sub_links = [{"source": pos[lk["source"]], "target": pos[lk["target"]], "score": lk["score"]}
+                         for lk in all_links if lk["source"] in pos and lk["target"] in pos]
+            return sub_labels, sub_rows, sub_pairs, sub_links
+
+        ins_options = []
+        if len(years_sorted) > 1:
+            ins_options.append(("all", "全部年份", list(range(len(labels)))))
+        for yr in years_sorted:
+            ins_options.append((yr, f"{yr} 年", idx_by_year[yr]))
+        default_key = years_sorted[-1] if years_sorted else "all"
+
+        yblocks = ""
+        if not ins_options:
+            yblocks = '<div class="ins-sec"><p class="muted">暂无输入作品，导入今年的参赛仓库后这里会显示查重分析。</p></div>'
+        for key, _label, sel in ins_options:
+            ph, mh, gs = self._dup_render(*_slice(sel))
+            disp = "block" if key == default_key else "none"
+            yblocks += (
+                f'<div class="ins-yblock" data-yr="{_esc(key)}" style="display:{disp}">'
+                '<div class="ins-sec"><h2>🏆 高相似配对排行榜</h2>'
+                '<p class="hint">查重主入口：直接列出彼此最相似的作品配对（任意规模都清晰）。画像级快速估算，红/橙为重点复核对象；精确逐行证据见作品卡片比较报告，系统不裁定抄袭。</p>'
+                f'{ph}</div>'
+                '<div class="ins-sec"><h2>🔥 重复检测热力矩阵</h2>'
+                '<p class="hint">两两画像相似度总览（越红越相似）。作品 ≤12 件显示数值矩阵，更多时自动切换为紧凑色块热力图。</p>'
+                f'<div class="heatwrap">{mh}</div></div>'
+                '<div class="ins-sec"><h2>🕸️ 相似度关系图</h2>'
+                '<p class="hint">作品相似度网络，自动浮现“抱团”线索。</p>'
+                f'{gs}</div>'
+                '</div>')
+        opt_html = "".join(
+            f'<option value="{_esc(k)}"{" selected" if k==default_key else ""}>{_esc(lb)}</option>'
+            for k, lb, _ in ins_options)
+        year_select = (
+            '<div class="ins-toolbar"><span class="ins-tl-label">🗓️ 年份范围</span>'
+            f'<select id="insYear" onchange="showInsYear(this.value)">{opt_html}</select>'
+            '<span class="muted ins-tl-note">查重三件套（排行榜 / 矩阵 / 关系图）按所选年份统计；下方“跨年份演进 / 学校聚合”为全局视角</span></div>'
+        ) if ins_options else ""
 
         # ---- 3) 跨年份技术演进 ----
         evo_max = max((e["count"] for e in evolution), default=1)
@@ -1201,6 +1257,10 @@ class SiteRenderer:
   .muted{{color:var(--muted);font-size:13px;}}
   .ins-grid{{display:grid;grid-template-columns:1fr 1fr;gap:16px;}}
   @media(max-width:900px){{.ins-grid{{grid-template-columns:1fr;}}}}
+  .ins-toolbar{{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:16px 0 0;box-shadow:0 1px 3px var(--shadow);}}
+  .ins-toolbar .ins-tl-label{{font-weight:700;color:var(--brand-dark);}}
+  .ins-toolbar select{{padding:7px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);font-weight:600;}}
+  .ins-toolbar .ins-tl-note{{font-size:12px;}}
   table.heat{{border-collapse:collapse;font-size:12px;}}
   table.heat td,table.heat th{{border:1px solid var(--line);padding:5px 7px;text-align:center;min-width:34px;}}
   table.heat th.rh{{text-align:left;white-space:nowrap;}}
@@ -1233,30 +1293,18 @@ class SiteRenderer:
   .rev-btn{{border:1px solid var(--brand);background:var(--brand);color:#fff;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer;}}
 </style>
 
-<div class="ins-sec">
-  <h2>🏆 高相似配对排行榜</h2>
-  <p class="hint">查重主入口：直接列出彼此最相似的作品配对（任意规模都清晰）。这是画像级快速估算，红/橙为重点复核对象；精确逐行证据见作品卡片的比较报告，系统不裁定抄袭。</p>
-  {pairs_html}
-</div>
-
-<div class="ins-sec">
-  <h2>🔥 重复检测热力矩阵</h2>
-  <p class="hint">本批 {n} 个作品两两画像相似度总览（越红越相似）。作品 ≤12 件显示数值矩阵，更多时自动切换为紧凑色块热力图。</p>
-  <div class="heatwrap">{matrix_html}</div>
-</div>
+{year_select}
+{yblocks}
 
 <div class="ins-grid">
   <div class="ins-sec">
-    <h2>🕸️ 相似度关系图</h2>
-    <p class="hint">作品相似度网络，自动浮现“抱团”线索。</p>
-    {graph_svg}
+    <h2>📈 跨年份技术演进</h2>
+    <p class="hint">基于 {site_data.get('baseline',{}).get('count',0)} 个历史基线 + 本批作品，观察规模与语言路线演进（全局视角）。</p>
+    {evo_rows or '<p class="muted">暂无数据。</p>'}
   </div>
   <div class="ins-sec">
-    <h2>📈 跨年份技术演进</h2>
-    <p class="hint">基于 {site_data.get('baseline',{}).get('count',0)} 个历史基线 + 本批作品，观察规模与语言路线演进。</p>
-    {evo_rows or '<p class="muted">暂无数据。</p>'}
-    <h2 style="margin-top:18px">🏫 学校 / 队伍聚合</h2>
-    <p class="hint">参赛活跃度 Top 15。</p>
+    <h2>🏫 学校 / 队伍聚合</h2>
+    <p class="hint">参赛活跃度 Top 15（全局视角）。</p>
     {school_rows or '<p class="muted">暂无数据。</p>'}
   </div>
 </div>
@@ -1295,6 +1343,7 @@ function exportReview(){{
   var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{{type:'text/csv;charset=utf-8'}}));a.download='kernelsage_review_summary.csv';a.click();
   var t=document.getElementById('toast');if(t){{t.textContent='已导出评审汇总';t.classList.add('show');setTimeout(function(){{t.classList.remove('show');}},1600);}}
 }}
+function showInsYear(y){{document.querySelectorAll('.ins-yblock').forEach(function(b){{b.style.display=(b.dataset.yr===y)?'block':'none';}});}}
 document.addEventListener('DOMContentLoaded',buildReview);
 </script>
 """
