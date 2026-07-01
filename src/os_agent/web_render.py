@@ -761,7 +761,7 @@ class SiteRenderer:
         cover = f"{round(ok_dims * 100 / total_dims)}%" if total_dims else "-"
         cards = [("历史样本", baseline.get("count", len(repos)), "用于相似性与获奖样本参考"),("覆盖年份", len(covered_years), " / ".join(covered_years[:6]) + (" ..." if len(covered_years) > 6 else "")),("已核验获奖作品", verified_awards, "只按带来源的获奖样本统计"),("本年度作品数", f'<span id="ov-current">{len(projects)}</span>', "当前年份/筛选下的作品总数"),("本年度代码总规模", f'<span id="ov-loc">{loc:,}</span>', "全部作品 LOC 之和"),("主要语言", f'<span id="ov-lang">{_esc(top_lang)}</span>', "按当前筛选作品聚合"),("核心 OS 覆盖", f'<span id="ov-cover">{cover}</span>', "全部作品×七维已确认占比")]
         grid = "".join(f'<div class="overview-item"><div class="k">{k}</div><div class="v">{v}</div><div class="s">{_esc(s)}</div></div>' for k, v, s in cards)
-        links = [("README", "https://github.com/chanehwibo/proj18-CSCC/blob/main/README.md"),("设计技术文档", "https://github.com/chanehwibo/proj18-CSCC/blob/main/docs/DESIGN_TECHNICAL_DOCUMENT.md"),("操作手册", "https://github.com/chanehwibo/proj18-CSCC/blob/main/BEGINNER_OPERATION_MANUAL1.md"),("答辩 PPT", "https://github.com/chanehwibo/proj18-CSCC/blob/main/KernelSage_%E7%AD%94%E8%BE%A9%E6%BC%94%E7%A4%BAPPT.pptx"),("演示视频", "https://github.com/chanehwibo/proj18-CSCC/blob/main/%E4%B8%80%E5%AE%9A%E8%A6%81%E4%BB%A5%E4%BA%BA%E7%B1%BB%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%B5%A2%E5%95%8A_%E6%BC%94%E7%A4%BA%E8%A7%86%E9%A2%91.mp4"),("历史基线库", "baseline.html")]
+        links = [("历史基线库", "baseline.html")]
         quick = "".join(f'<a href="{href}" target="_blank" rel="noopener">{_esc(label)}</a>' for label, href in links)
         return f'''\n  <section class="overview" aria-label="作品总览仪表盘">\n    <div class="panel"><h2>作品总览仪表盘</h2><div class="overview-grid">{grid}</div><div class="quick-links">{quick}</div></div>\n    <div class="panel"><h2>本年度作品能力覆盖雷达图</h2><div class="radar-wrap"><div id="abilityRadar"></div><div class="radar-legend" id="abilityLegend"></div></div></div>\n  </section>'''
 
@@ -1368,7 +1368,7 @@ document.addEventListener('DOMContentLoaded',buildReview);
 <header class="topbar"><div class="row">
   <div>
     <h1>🖥️ 操作系统竞赛作品展示</h1>
-    <div class="sub">{_esc(site_data.get('contest_name','操作系统大赛'))} · 内核实现赛道作品智能分析与比较 · 由一定要以人类的身份赢啊--火山灰技术支持</div>
+    <div class="sub">{_esc(site_data.get('contest_name','操作系统大赛'))} · 内核实现赛道作品智能分析与比较</div>
   </div>
   <nav class="nav">{nav}</nav>
 </div></header>
