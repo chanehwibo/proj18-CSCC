@@ -92,7 +92,13 @@ class Reporter:
         lines.extend(["", "## 差异点", ""])
         lines.extend(self._render_findings_or_empty(result.differences))
         lines.extend(["", "## 可能创新点", ""])
-        lines.extend(self._render_findings_or_empty(result.unique_points))
+        if result.unique_points:
+            lines.extend(self._render_findings_or_empty(result.unique_points))
+        else:
+            lines.extend([
+                '- 双方均实现七维核心 OS 机制，当前维度级比较未发现"你有我无"的差异。',
+                '- 创新性差异（如算法选择、调度策略、内存分配方案、独特驱动设计等）超出静态维度比较的能力边界，需结合源码语义和设计文档人工评估。',
+            ])
         lines.extend(["", "## 附录：核验摘要", ""])
         summary = self.checker.compare_summary(result)
         lines.extend(self._summary_lines(summary))

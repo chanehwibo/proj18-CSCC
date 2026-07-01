@@ -113,10 +113,50 @@ class CompareAgent:
                 confidence="low",
             ))
 
+        self._append_depth_innovation(result, new_profile, history, shared_dims)
+
         if new_profile.meta.languages != history.meta.languages:
             result.differences.append(Finding(
                 f"与 {history.meta.name} 的语言构成不同：待测作品为 {new_profile.meta.languages}，历史样本为 {history.meta.languages}。",
                 confidence="medium",
+            ))
+
+    def _append_depth_innovation(self, result, new_profile, history, shared_dims):
+        for dim in shared_dims:
+            new_ev = self._dimension_evidence(new_profile, dim, limit=30)
+            hist_ev = self._dimension_evidence(history, dim, limit=30)
+            if len(new_ev) >= 4 and len(new_ev) >= len(hist_ev) * 2:
+                dim_title = DIMENSIONS.get(dim, {}).get("title", dim)
+                result.unique_points.append(Finding(
+                    f"待测作品在“{dim_title}”维度的实现深度显著高于历史样本 {history.meta.name}"
+                    f"（{len(new_ev)} 条证据 vs {len(hist_ev)} 条），可能存在更完整或更精细的实现。",
+                    confidence="low",
+                    evidence=self._tag_evidence_list(new_ev[:2], new_profile),
+                ))
+        new_syms = {s.name.lower(): s for s in new_profile.symbols
+                    if s.kind in {"fn", "struct", "enum", "trait"}
+                    and not self._is_low_value_symbol(s.name.lower()) and len(s.name) >= 4}
+        hist_syms = {s.name.lower() for s in history.symbols
+                     if s.kind in {"fn", "struct", "enum", "trait"}}
+        unique_syms = [(name, sym) for name, sym in new_syms.items() if name not in hist_syms]
+        if len(unique_syms) >= 3:
+            top = sorted(unique_syms, key=lambda x: (-len(x[1].signature), x[0]))[:6]
+            names = ", ".join(f"`{sym.name}`" for _n, sym in top)
+            evidence = [self._symbol_evidence(sym, new_profile) for _n, sym in top[:2]]
+            result.unique_points.append(Finding(
+                f"待测作品包含 {len(unique_syms)} 个历史样本 {history.meta.name} 中未见的独特函数/类型定义"
+                f"（如 {names}），可能体现独立设计或扩展实现。"
+                "这是命名级线索，需结合源码语义确认是否构成创新。",
+                confidence="low",
+                evidence=evidence,
+            ))
+        new_loc = new_profile.meta.loc_total
+        hist_loc = history.meta.loc_total
+        if new_loc > 0 and hist_loc > 0 and new_loc >= hist_loc * 3:
+            result.unique_points.append(Finding(
+                f"待测作品代码规模（{new_loc:,} LOC）显著大于历史样本 {history.meta.name}（{hist_loc:,} LOC），"
+                "可能包含更多功能模块或更完整的实现，但也可能包含非内核代码，需人工确认。",
+                confidence="low",
             ))
 
     def _append_code_similarity(
