@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 T2026103369910012 vs 2022 Maturin 比较报告</title>
+<style>
+:root{
+  --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
+  --brand:#0f766e; --brand-dark:#115e59; --brand-soft:#ccfbf1;
+  --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --bg:#eef2f6;
+  --chip:#eef2ff; --chip-ink:#3730a3; --shadow:rgba(15,23,42,.10);
+}
+html[data-theme="dark"]{
+  --ink:#e6edf3; --muted:#9aa7b4; --line:#2b3440; --panel:#161b22; --card:#1c232c;
+  --brand:#2dd4bf; --brand-dark:#5eead4; --brand-soft:#134e4a;
+  --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; --bg:#0d1117;
+  --chip:#1e293b; --chip-ink:#a5b4fc; --shadow:rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;transition:background .25s,color .25s;}
+a{color:var(--brand-dark);}
+header.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,var(--brand) 0%,var(--brand-dark) 100%);color:#fff;
+  padding:18px 28px;box-shadow:0 2px 10px rgba(15,23,42,.18);}
+.topbar h1{margin:0;font-size:24px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px;}
+.topbar .sub{margin-top:4px;font-size:13px;opacity:.85;}
+.topbar .nav{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.topbar .nav a{color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);transition:all .25s ease;
+  display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px;cursor:pointer;}
+.topbar .nav a:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.topbar .nav a.active{background:#fff;color:var(--brand-dark);border-color:#fff;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.2);transform:scale(1.02);}
+.topbar .nav .iconbtn{font-size:18px;padding:11px 14px;cursor:pointer;}
+.topbar .row{display:flex;align-items:flex-end;gap:18px;max-width:1320px;margin:0 auto;}
+main{max-width:1320px;margin:0 auto;padding:20px 24px 70px;}
+
+/* KPI panel */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0 6px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px var(--shadow);}
+.kpi .k{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.kpi .v{font-size:30px;font-weight:800;color:var(--brand-dark);margin-top:6px;line-height:1;}
+.kpi .v small{font-size:14px;color:var(--muted);font-weight:600;margin-left:4px;}
+.overview{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;margin:18px 0;}
+.overview .panel,.history-filter{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px var(--shadow);}
+.overview h2,.history-filter h2{margin:0 0 12px;font-size:17px;color:var(--brand-dark);}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.overview-item{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--panel);}
+.overview-item .k{font-size:12px;color:var(--muted);}
+.overview-item .v{font-size:22px;font-weight:800;color:var(--ink);margin-top:3px;}
+.overview-item .s{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.radar-wrap{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center;}
+.radar-wrap svg{width:190px;height:190px;display:block;}
+.radar-legend{display:grid;gap:6px;font-size:12px;color:var(--muted);}
+.radar-legend b{color:var(--ink);}
+.quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.quick-links a{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--card);text-decoration:none;font-size:13px;font-weight:650;color:var(--brand-dark);}
+.quick-links a:hover{border-color:var(--brand);background:var(--brand);color:#fff;}
+
+.tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
+.tab{padding:9px 22px;border:1px solid var(--line);background:var(--card);border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);transition:all .2s;}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 2px 8px rgba(15,118,110,.3);}
+.tab .n{font-size:12px;opacity:.8;margin-left:6px;}
+
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0 4px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;}
+.toolbar input,.toolbar select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.toolbar input[type=text]{min-width:240px;flex:1;}
+.toolbar .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.toolbar .seg button{border:0;background:var(--card);color:var(--muted);padding:7px 12px;font-size:13px;cursor:pointer;border-right:1px solid var(--line);}
+.toolbar .seg button:last-child{border-right:0;}
+.toolbar .seg button.on{background:var(--brand);color:#fff;font-weight:700;}
+.toolbar .lbl{font-size:12.5px;color:var(--muted);margin-right:-4px;}
+.toolbar .count{margin-left:auto;font-size:13px;color:var(--muted);}
+.toolbar .count b{color:var(--brand-dark);font-size:15px;}
+.toolbar .exp{margin-left:8px;}
+.btn-mini{border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-mini:hover{background:var(--brand);color:#fff;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(370px,1fr));gap:18px;margin-top:14px;}
+.empty{padding:50px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:12px;}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:visible;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s;position:relative;}
+.card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 12px 28px var(--shadow);border-color:var(--brand-soft);z-index:20;}
+.card.picked{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft);}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;display:flex;gap:12px;}
+.card .hd-left{flex:1;min-width:0;}
+.card .mini-radar{width:100px;height:100px;flex-shrink:0;align-self:center;}
+.card .pick{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
+.card .pick input{width:16px;height:16px;cursor:pointer;accent-color:var(--brand);}
+.card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;padding-right:54px;}
+.card .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--chip-ink);font-weight:600;}
+.chip.ok{background:#dcfce7;color:#166534;} .chip.warn{background:#fef3c7;color:#92400e;} .chip.bad{background:#fee2e2;color:#991b1b;}
+.chip.tier{background:#e0f2fe;color:#075985;}
+html[data-theme="dark"] .chip.ok{background:#14532d;color:#86efac;}
+html[data-theme="dark"] .chip.warn{background:#451a03;color:#fcd34d;}
+html[data-theme="dark"] .chip.bad{background:#450a0a;color:#fca5a5;}
+html[data-theme="dark"] .chip.tier{background:#0c4a6e;color:#7dd3fc;}
+
+.meters{margin-top:10px;display:grid;gap:7px;}
+.meter{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.metric-label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.info-tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border:1px solid var(--muted);border-radius:50%;font-size:10px;font-weight:800;line-height:1;color:var(--muted);cursor:help;background:var(--card);}
+.ks-floattip{position:fixed;z-index:9999;max-width:300px;padding:9px 12px;border-radius:8px;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;line-height:1.5;box-shadow:0 10px 28px rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:opacity .12s ease;pointer-events:none;}
+.ks-floattip.show{opacity:1;visibility:visible;}
+.meter .bar{height:9px;border-radius:999px;background:var(--line);overflow:hidden;}
+.meter .bar>span{display:block;height:100%;border-radius:999px;}
+.meter .bar.mat>span{background:linear-gradient(90deg,#22c55e,#0f766e);}
+.meter .bar.risk>span{background:linear-gradient(90deg,#f59e0b,#dc2626);}
+.meter .val{text-align:right;font-weight:700;color:var(--ink);}
+
+.card .info{padding:12px 18px;font-size:13.5px;}
+.card .info dl{display:grid;grid-template-columns:78px 1fr;gap:6px 10px;margin:0;}
+.card .info dt{color:var(--muted);}
+.card .info dd{margin:0;word-break:break-word;}
+.card .info dd a{word-break:break-all;}
+.clone{display:flex;align-items:center;gap:6px;}
+.clone code{flex:1;background:var(--panel);padding:3px 7px;border-radius:5px;font-size:12px;word-break:break-all;}
+.copybtn{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;}
+.copybtn:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+
+.card .reports{padding:12px 18px 16px;border-top:1px dashed var(--line);margin-top:auto;}
+.card .reports .grp{margin-bottom:10px;}
+.card .reports .grp:last-child{margin-bottom:0;}
+.card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.dims{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;}
+.dim{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;background:var(--panel);color:var(--muted);}
+.dim.ok{border-color:#bbf7d0;background:#f0fdf4;color:#166534;}
+.dim.no{border-color:#fecaca;background:#fef2f2;color:#991b1b;}
+html[data-theme="dark"] .dim.ok{background:#052e16;color:#86efac;border-color:#166534;}
+html[data-theme="dark"] .dim.no{background:#450a0a;color:#fca5a5;border-color:#7f1d1d;}
+.explain{border-top:1px dashed var(--line);padding:10px 18px 2px;}
+.explain summary{cursor:pointer;font-size:13px;font-weight:800;color:var(--brand-dark);list-style:none;}
+.explain summary::-webkit-details-marker{display:none;}
+.explain summary::after{content:"展开";float:right;font-size:12px;color:var(--muted);font-weight:600;}
+.explain[open] summary::after{content:"收起";}
+.explain-list{display:grid;gap:8px;margin-top:10px;}
+.explain-item{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px 10px;}
+.explain-item .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;font-size:13px;font-weight:800;}
+.explain-item .meta{font-size:12px;color:var(--muted);margin-top:4px;}
+.explain-item .why{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.explain-item .why span{font-size:11.5px;border-radius:999px;padding:2px 7px;background:var(--chip);color:var(--chip-ink);}
+.explain-item .acts{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
+.download-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;transition:all .15s;}
+.btn:hover{background:var(--brand);color:#fff;transform:translateY(-1px);}
+.btn.solid{background:var(--brand);color:#fff;}
+.btn.solid:hover{background:var(--brand-dark);}
+.btn.score{border-color:#7c3aed;color:#7c3aed;}
+.btn.score:hover{background:#7c3aed;color:#fff;}
+.btn small{font-weight:500;opacity:.8;}
+.scored-badge{font-size:11px;background:#7c3aed;color:#fff;padding:1px 7px;border-radius:999px;margin-left:6px;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:100;}
+.modal.open{display:flex;}
+.modal .panel{margin:auto;width:min(1060px,94vw);height:88vh;background:var(--card);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.4);}
+.modal .panel.full{width:100vw;height:100vh;border-radius:0;}
+.modal .mhd{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel);}
+.modal .mhd .t{font-weight:700;font-size:15px;flex:1;color:var(--ink);}
+.modal .mhd button{cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:13px;color:var(--ink);}
+.modal .mhd button:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+.modal .body{flex:1;position:relative;}
+.modal iframe{position:absolute;inset:0;border:0;width:100%;height:100%;background:#fff;}
+.modal .spin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* compare drawer */
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:60;background:var(--brand-dark);color:#fff;
+  padding:10px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:none;align-items:center;gap:14px;font-size:14px;}
+.cmpbar.show{display:flex;}
+.cmpbar button{background:#fff;color:var(--brand-dark);border:0;border-radius:999px;padding:7px 16px;font-weight:700;cursor:pointer;}
+.cmpbar .clear{background:transparent;color:#fff;text-decoration:underline;padding:4px 6px;}
+.cmptable{width:100%;border-collapse:collapse;font-size:13.5px;}
+.cmptable th,.cmptable td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;}
+.cmptable th{background:var(--panel);}
+.cmptable td.yes{color:var(--ok);font-weight:700;} .cmptable td.no{color:var(--muted);}
+.cmptable .rowhead{background:var(--panel);font-weight:700;color:var(--muted);width:130px;}
+
+/* scoring */
+.scorebox{padding:4px 2px;}
+.scorebox .crit{margin:12px 0;}
+.scorebox .crit .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px;}
+.scorebox .crit .top b{color:var(--brand-dark);}
+.scorebox .crit .desc{font-size:12px;color:var(--muted);margin-bottom:6px;}
+.scorebox input[type=range]{width:100%;accent-color:var(--brand);}
+.scorebox .total{font-size:16px;font-weight:800;color:var(--brand-dark);text-align:right;margin-top:6px;}
+.scorebox textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:13px;background:var(--card);color:var(--ink);resize:vertical;}
+.scorebox .acts{display:flex;gap:10px;margin-top:12px;}
+
+/* doc/baseline */
+.doc{max-width:1040px;margin:0 auto;background:var(--card);padding:30px 40px 60px;}
+.doc h1{font-size:26px;border-bottom:2px solid var(--brand);padding-bottom:8px;}
+.doc h2{font-size:20px;margin-top:28px;border-left:4px solid var(--brand);padding-left:10px;}
+.doc h3{font-size:16px;margin-top:20px;color:var(--brand-dark);}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+.doc th,.doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.doc th{background:var(--panel);}
+.doc code{background:var(--panel);padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:.92em;}
+.doc blockquote{margin:10px 0;padding:8px 14px;background:#fffbeb;border-left:4px solid var(--warn);color:#78350f;}
+html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
+.doc ul{padding-left:22px;} .doc li.sub{list-style:circle;margin-left:18px;}
+.bsearch{margin:14px 0;display:flex;gap:10px;flex-wrap:wrap;}
+.bsearch input{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.bsearch .count{align-self:center;font-size:13px;color:var(--muted);}
+.history-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.history-controls input,.history-controls select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.history-controls input{min-width:220px;flex:1;}
+.basework-lbl{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--brand-dark);font-weight:600;background:var(--brand-soft);border-radius:8px;padding:2px 10px 2px 12px;}
+.basework-lbl select{font-weight:600;}
+.history-table-wrap{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px;}
+.history-table{width:100%;border-collapse:collapse;font-size:13px;}
+.history-table th,.history-table td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+.history-table th{position:sticky;top:0;background:var(--panel);z-index:1;}
+.history-table td small{color:var(--muted);}
+.split-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;}
+.split-compare .side{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px;}
+.split-compare h3{margin:0 0 10px;color:var(--brand-dark);font-size:16px;}
+.split-compare dl{display:grid;grid-template-columns:96px 1fr;gap:7px 10px;margin:0;font-size:13px;}
+.split-compare dt{color:var(--muted);}.split-compare dd{margin:0;word-break:break-word;}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;}
+.evidence-mini{margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;font-size:12px;color:var(--muted);}
+.evidence-mini summary{cursor:pointer;color:var(--brand-dark);font-weight:700;}
+.evidence-mini ul{margin:6px 0 0;padding-left:18px;}
+
+#toTop{position:fixed;right:22px;bottom:22px;z-index:55;width:46px;height:46px;border-radius:50%;border:0;background:var(--brand);color:#fff;
+  font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25);display:none;}
+#toTop.show{display:block;}
+#toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:opacity .25s;pointer-events:none;}
+#toast.show{opacity:1;}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
+@media(max-width:920px){.overview{grid-template-columns:1fr;}.radar-wrap{grid-template-columns:1fr;}.radar-wrap svg{margin:auto;}.split-compare{grid-template-columns:1fr;}}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input[type=text]{min-width:140px;}.history-table-wrap{max-height:420px;}.overview-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head><body style="background:#fff">
+<div class="doc"><h1>2026 T2026103369910012 比较报告</h1>
+<ul>
+<li>对比历史仓库：2022 Maturin</li>
+<li>生成时间：2026-07-01T20:57:37.758815+00:00</li>
+<li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
+</ul>
+<h2>历史样本选择</h2>
+<ul>
+<li>2022 Maturin（来源：赛事历史作品）：画像相似度 score=8.78；同属 ucore-variant 风格; 语言构成相似度 0.50; OS 维度重合度 1.00; 代码规模接近度 0.78</li>
+</ul>
+<h2>功能重合与疑似重复证据</h2>
+<p>本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。</p>
+<ul>
+<li>与 2022 Maturin 在“设备驱动”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/pseudofs/device.rs:L14-L18</code>：enum DeviceMmap</li>
+<p>代码片段：<code>/// Mmap behavior for devices. pub enum DeviceMmap { /// The device is not mappable. None,</code></p>
+<li><code>kernel/src/pseudofs/device.rs:L26-L30</code>：trait DeviceOps</li>
+<p>代码片段：<code>/// Trait for device operations. pub trait DeviceOps: Send + Sync { /// Reads data from the device at the specified offset. fn read_at(&amp;self, buf: &amp;mut [u8], offset: u64) -&gt; Vfs...</code></p>
+<li><code>kernel/src/console.rs:L21-L25</code>：关键词命中</li>
+<p>代码片段：<code>#[macro_export] macro_rules! info { () =&gt; ($crate::console::info(core::format_args!("\n"));); ($($arg:tt)*) =&gt; { $crate::console::info(core::format_args!($($arg)*));</code></p>
+<li><code>kernel/src/drivers/block/mod.rs:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>use alloc::sync::Arc; mod virtio_block; mod block_device; pub use virtio_block::VirtIOBlock;</code></p>
+<li>与 2022 Maturin 在“文件系统”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/file/fs.rs:L101-L105</code>：关键词命中</li>
+<p>代码片段：<code>Kstat { dev: metadata.device, ino: metadata.inode, mode, nlink: nlink as _,</code></p>
+<li><code>kernel/src/pseudofs/fs.rs:L98-L102</code>：关键词命中</li>
+<p>代码片段：<code>let metadata = Metadata { device: 0, inode: ino, nlink: 1, mode,</code></p>
+<li><code>rust-fatfs/src/fs.rs:L21-L25</code>：关键词命中</li>
+<p>代码片段：<code>use crate::time::{DefaultTimeProvider, TimeProvider}; // FAT implementation based on: //   http://wiki.osdev.org/FAT //   https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html</code></p>
+<li><code>kernel/src/file/mod.rs:L9-L13</code>：关键词命中</li>
+<p>代码片段：<code>mod socket; mod stdio; mod vfs; use crate::timer::TimeSpec;</code></p>
+<li>与 2022 Maturin 在“中断与异常”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/task/timer.rs:L49-L53</code>：关键词命中</li>
+<p>代码片段：<code>} /// The type of interval timer. #[repr(i32)] #[allow(non_camel_case_types)]</code></p>
+<li><code>kernel/src/task/mod.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>mod signal; mod stat; mod timer; mod user;</code></p>
+<li><code>kernel/src/trap/mod.rs:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>//! 中断异常处理 //! //! 所有中断和异常的入口在 trap.S 中的 __alltraps，它会在保存上下文信息后跳转到本文件中的 trap_handler 函数 //! //! 在这个模块中，程序的执行流不一定正常。主要有三种可能：</code></p>
+<li><code>kernel/src/trap/trap.S:L14-L18</code>：关键词命中</li>
+<p>代码片段：<code>bgtz sp, __user_trap_start # here is prework before kernel trap entry # in "__real_trap_entry", tp will be replaced by 34*8(sp), where we assumed is saved by __restore before. #...</code></p>
+<li>与 2022 Maturin 在“内存管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/mm/access.rs:L87-L91</code>：关键词命中</li>
+<p>代码片段：<code>// TODO: this is inefficient, but we have to do this instead of // querying the page table since the page might has not been // allocated yet. let curr = current();</code></p>
+<li><code>kernel/src/mm/loader.rs:L40-L44</code>：关键词命中</li>
+<p>代码片段：<code>#[cfg(not(any(target_arch = "aarch64", target_arch = "loongarch64")))] { // ARMv8 (aarch64) and LoongArch64 use separate page tables for user space // (aarch64: TTBR0_EL1, Loong...</code></p>
+<li><code>kernel/src/memory/mod.rs:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>mod allocator; mod areas; mod page_table; mod user; mod vmm;</code></p>
+<li><code>kernel/src/memory/vmm.rs:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>addr_to_page_id, align_down, align_up, cross_page, get_phys_memory_regions, page_count, page_id_to_addr, virt_to_phys, DiffSet, CutSet, PTEFlags, PageTable, PmAreaLazy, VirtAddr...</code></p>
+<li>与 2022 Maturin 在“调度与任务管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/task/mod.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! User task management. mod futex;</code></p>
+<li><code>kernel/src/task/ops.rs:L28-L32</code>：关键词命中</li>
+<p>代码片段：<code>static SESSION_TABLE: RwLock&lt;WeakMap&lt;Pid, Weak&lt;Session&gt;&gt;&gt; = RwLock::new(WeakMap::new()); /// Cleanup expired entries in the task tables. /// /// This function is intended to be...</code></p>
+<li><code>kernel/src/task/mod.rs:L9-L13</code>：关键词命中</li>
+<p>代码片段：<code>mod cpu_local; mod kernel_stack; mod scheduler; mod switch; mod task;</code></p>
+<li><code>kernel/src/task/task.rs:L25-L29</code>：关键词命中</li>
+<p>代码片段：<code>/// /// 目前来说，TCB外层可能是调度器或者 CpuLocal： /// 1. 如果它在调度器里，则 Scheduler 内部不会修改它，且从 Scheduler 里取出或者放入 TCB 是由调度器外部的 Mutex 保护的； /// 2. 如果它在 CpuLocal 里，则同时只会有一个核可以访问它，也不会冲突。 pub struct Tas...</code></p>
+<li>与 2022 Maturin 在“同步机制”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/syscall/sync/membarrier.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>use core::sync::atomic::{Ordering, compiler_fence}; use axerrno::{AxError, AxResult};</code></p>
+<li><code>kernel/src/entry.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>use axfs::FS_CONTEXT; use axhal::uspace::UserContext; use axsync::Mutex; use axtask::{AxTaskExt, spawn_task}; use starry_process::{Pid, Process};</code></p>
+<li><code>rust-fatfs/src/fs.rs:L8-L12</code>：关键词命中</li>
+<p>代码片段：<code>use core::marker::PhantomData; use core::u32; use lock::Mutex; use crate::boot_sector::{format_boot_sector, BiosParameterBlock, BootSector};</code></p>
+<li><code>kernel/src/console.rs:L36-L40</code>：关键词命中</li>
+<p>代码片段：<code>} /// 打印格式字串，使用与 print 不同的 Mutex 锁 #[macro_export] macro_rules! eprint {</code></p>
+<li>与 2022 Maturin 在“系统调用”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/syscall/mod.rs:L20-L24</code>：关键词命中</li>
+<p>代码片段：<code>}; pub fn handle_syscall(uctx: &amp;mut UserContext) { let Some(sysno) = Sysno::new(uctx.sysno()) else { warn!("Invalid syscall number: {}", uctx.sysno());</code></p>
+<li><code>kernel/src/syscall/fs/ctl.rs:L133-L137</code>：关键词命中</li>
+<p>代码片段：<code>let mode = mode &amp; !current().as_thread().proc_data.umask(); let mode = NodePermission::from_bits_truncate(mode as u16); let uid = crate::syscall::sys::sys_geteuid()? as u32; let...</code></p>
+<li><code>kernel/src/syscall/fs.rs:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>//! 与读写、文件相关的系统调用 //! //! 注意获取 current_task 的时候都使用了 unwrap()，这意味着默认只有用户程序才会调用 syscall 模块进行操作。 //! 如果内核态异常中断需要处理， trap 只能利用其他模块，如 MemorySet::handle_kernel_page_fault 等</code></p>
+<li><code>kernel/src/syscall/mod.rs:L43-L47</code>：关键词命中</li>
+<p>代码片段：<code>/// 处理系统调用 pub fn syscall(syscall_id: usize, args: [usize; 6]) -&gt; isize { let syscall_id = if let Ok(id) = SyscallNo::try_from(syscall_id) { id</code></p>
+</ul>
+<h2>代码级相似线索检测</h2>
+<p>本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。</p>
+<ul>
+<li>函数/符号名重合：与 2022 Maturin 在“文件系统”维度发现 4 个同名定义：new, flush, len, set_len。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>axfs-ng-local/src/fs/ext4/fs.rs:L24-L24</code>：fn new</li>
+<p>代码片段：<code>pub fn new(dev: AxBlockDevice) -&gt; VfsResult&lt;Filesystem&gt; {</code></p>
+<li><code>rust-fatfs/src/dir.rs:L114-L114</code>：fn new</li>
+<p>代码片段：<code>pub(crate) fn new(stream: DirRawStream&lt;'a, IO, TP, OCC&gt;, fs: &amp;'a FileSystem&lt;IO, TP, OCC&gt;) -&gt; Self {</code></p>
+<li><code>axfs-ng-local/src/fs/ext4/fs.rs:L81-L81</code>：fn flush</li>
+<p>代码片段：<code>fn flush(&amp;self) -&gt; VfsResult&lt;()&gt; {</code></p>
+<li><code>rust-fatfs/src/dir.rs:L75-L75</code>：fn flush</li>
+<p>代码片段：<code>fn flush(&amp;mut self) -&gt; Result&lt;(), Self::Error&gt; {</code></p>
+<li>函数/符号名重合：与 2022 Maturin 在“同步机制”维度发现 3 个同名定义：new, read, write。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<p>证据：</p>
+<li><code>axfs-ng-local/src/fs/ext4/fs.rs:L24-L24</code>：fn new</li>
+<p>代码片段：<code>pub fn new(dev: AxBlockDevice) -&gt; VfsResult&lt;Filesystem&gt; {</code></p>
+<li><code>rust-fatfs/src/fs.rs:L248-L248</code>：fn new</li>
+<p>代码片段：<code>pub fn new() -&gt; Self {</code></p>
+<li><code>kernel/src/file/fs.rs:L147-L147</code>：fn read</li>
+<p>代码片段：<code>fn read(&amp;self, dst: &amp;mut IoDst) -&gt; AxResult&lt;usize&gt; {</code></p>
+<li><code>rust-fatfs/src/fs.rs:L703-L703</code>：fn read</li>
+<p>代码片段：<code>fn read(&amp;mut self, buf: &amp;mut [u8]) -&gt; Result&lt;usize, Self::Error&gt; {</code></p>
+<li>函数/符号名重合：与 2022 Maturin 在“系统调用”维度发现 1 个同名定义：new。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>axfs-ng-local/src/fs/ext4/fs.rs:L24-L24</code>：fn new</li>
+<p>代码片段：<code>pub fn new(dev: AxBlockDevice) -&gt; VfsResult&lt;Filesystem&gt; {</code></p>
+<li><code>rust-fatfs/src/dir.rs:L114-L114</code>：fn new</li>
+<p>代码片段：<code>pub(crate) fn new(stream: DirRawStream&lt;'a, IO, TP, OCC&gt;, fs: &amp;'a FileSystem&lt;IO, TP, OCC&gt;) -&gt; Self {</code></p>
+<li>结构体/类型重合：与 2022 Maturin 在“文件系统”维度发现 1 个同名定义：File。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>axfs-ng-local/src/highlevel/file.rs:L856-L856</code>：struct File</li>
+<p>代码片段：<code>pub struct File {</code></p>
+<li><code>rust-fatfs/src/file.rs:L15-L15</code>：struct File</li>
+<p>代码片段：<code>pub struct File&lt;'a, IO: ReadWriteSeek, TP, OCC&gt; {</code></p>
+<li>文件路径重合：与 2022 Maturin 在“文件系统”维度出现同名文件源码路径 <code>kernel/src/file/fs.rs</code> / <code>rust-fatfs/src/fs.rs</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/file/fs.rs:L101-L105</code>：关键词命中</li>
+<p>代码片段：<code>Kstat { dev: metadata.device, ino: metadata.inode, mode, nlink: nlink as _,</code></p>
+<li><code>rust-fatfs/src/fs.rs:L21-L25</code>：关键词命中</li>
+<p>代码片段：<code>use crate::time::{DefaultTimeProvider, TimeProvider}; // FAT implementation based on: //   http://wiki.osdev.org/FAT //   https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html</code></p>
+<li>文件路径重合：与 2022 Maturin 在“文件系统”维度出现同名文件源码路径 <code>kernel/src/pseudofs/fs.rs</code> / <code>rust-fatfs/src/fs.rs</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/pseudofs/fs.rs:L98-L102</code>：关键词命中</li>
+<p>代码片段：<code>let metadata = Metadata { device: 0, inode: ino, nlink: 1, mode,</code></p>
+<li><code>rust-fatfs/src/fs.rs:L21-L25</code>：关键词命中</li>
+<p>代码片段：<code>use crate::time::{DefaultTimeProvider, TimeProvider}; // FAT implementation based on: //   http://wiki.osdev.org/FAT //   https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html</code></p>
+<li>文件路径重合：与 2022 Maturin 在“中断与异常”维度出现同名文件源码路径 <code>kernel/src/task/timer.rs</code> / <code>kernel/src/timer.rs</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/task/timer.rs:L49-L53</code>：关键词命中</li>
+<p>代码片段：<code>} /// The type of interval timer. #[repr(i32)] #[allow(non_camel_case_types)]</code></p>
+<li><code>kernel/src/timer.rs:L23-L27</code>：fn get_time</li>
+<p>代码片段：<code>/// 读 mtime 计时器的值 pub fn get_time() -&gt; usize { time::read() }</code></p>
+<li>文件路径重合：与 2022 Maturin 在“同步机制”维度出现同名文件源码路径 <code>kernel/src/file/fs.rs</code> / <code>rust-fatfs/src/fs.rs</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/file/fs.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>ffi::c_int, hint::likely, sync::atomic::{AtomicBool, Ordering}, task::Context, };</code></p>
+<li><code>rust-fatfs/src/fs.rs:L8-L12</code>：关键词命中</li>
+<p>代码片段：<code>use core::marker::PhantomData; use core::u32; use lock::Mutex; use crate::boot_sector::{format_boot_sector, BiosParameterBlock, BootSector};</code></p>
+</ul>
+<h2>相似点</h2>
+<ul>
+<li>与 2022 Maturin 同属 ucore-variant 风格。（置信度：medium）</li>
+<li>与 2022 Maturin 在“设备驱动”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/pseudofs/device.rs:L14-L18</code>：enum DeviceMmap</li>
+<p>代码片段：<code>/// Mmap behavior for devices. pub enum DeviceMmap { /// The device is not mappable. None,</code></p>
+<li><code>kernel/src/pseudofs/device.rs:L26-L30</code>：trait DeviceOps</li>
+<p>代码片段：<code>/// Trait for device operations. pub trait DeviceOps: Send + Sync { /// Reads data from the device at the specified offset. fn read_at(&amp;self, buf: &amp;mut [u8], offset: u64) -&gt; Vfs...</code></p>
+<li>与 2022 Maturin 在“文件系统”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/file/fs.rs:L101-L105</code>：关键词命中</li>
+<p>代码片段：<code>Kstat { dev: metadata.device, ino: metadata.inode, mode, nlink: nlink as _,</code></p>
+<li><code>kernel/src/pseudofs/fs.rs:L98-L102</code>：关键词命中</li>
+<p>代码片段：<code>let metadata = Metadata { device: 0, inode: ino, nlink: 1, mode,</code></p>
+<li>与 2022 Maturin 在“中断与异常”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/task/timer.rs:L49-L53</code>：关键词命中</li>
+<p>代码片段：<code>} /// The type of interval timer. #[repr(i32)] #[allow(non_camel_case_types)]</code></p>
+<li><code>kernel/src/task/mod.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>mod signal; mod stat; mod timer; mod user;</code></p>
+<li>与 2022 Maturin 在“内存管理”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/mm/access.rs:L87-L91</code>：关键词命中</li>
+<p>代码片段：<code>// TODO: this is inefficient, but we have to do this instead of // querying the page table since the page might has not been // allocated yet. let curr = current();</code></p>
+<li><code>kernel/src/mm/loader.rs:L40-L44</code>：关键词命中</li>
+<p>代码片段：<code>#[cfg(not(any(target_arch = "aarch64", target_arch = "loongarch64")))] { // ARMv8 (aarch64) and LoongArch64 use separate page tables for user space // (aarch64: TTBR0_EL1, Loong...</code></p>
+<li>与 2022 Maturin 在“调度与任务管理”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/task/mod.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! User task management. mod futex;</code></p>
+<li><code>kernel/src/task/ops.rs:L28-L32</code>：关键词命中</li>
+<p>代码片段：<code>static SESSION_TABLE: RwLock&lt;WeakMap&lt;Pid, Weak&lt;Session&gt;&gt;&gt; = RwLock::new(WeakMap::new()); /// Cleanup expired entries in the task tables. /// /// This function is intended to be...</code></p>
+<li>与 2022 Maturin 在“同步机制”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/syscall/sync/membarrier.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>use core::sync::atomic::{Ordering, compiler_fence}; use axerrno::{AxError, AxResult};</code></p>
+<li><code>kernel/src/entry.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>use axfs::FS_CONTEXT; use axhal::uspace::UserContext; use axsync::Mutex; use axtask::{AxTaskExt, spawn_task}; use starry_process::{Pid, Process};</code></p>
+<li>与 2022 Maturin 在“系统调用”维度均有可确认实现。（置信度：medium）</li>
+<p>证据：</p>
+<li><code>kernel/src/syscall/mod.rs:L20-L24</code>：关键词命中</li>
+<p>代码片段：<code>}; pub fn handle_syscall(uctx: &amp;mut UserContext) { let Some(sysno) = Sysno::new(uctx.sysno()) else { warn!("Invalid syscall number: {}", uctx.sysno());</code></p>
+<li><code>kernel/src/syscall/fs/ctl.rs:L133-L137</code>：关键词命中</li>
+<p>代码片段：<code>let mode = mode &amp; !current().as_thread().proc_data.umask(); let mode = NodePermission::from_bits_truncate(mode as u16); let uid = crate::syscall::sys::sys_geteuid()? as u32; let...</code></p>
+<li>与 2022 Maturin 在 driver, filesystem, interrupt, memory, scheduler, sync, syscall 等维度均有可确认实现，可作为进一步人工复核重点。（置信度：medium）</li>
+</ul>
+<h2>差异点</h2>
+<ul>
+<li>与 2022 Maturin 的语言构成不同：待测作品为 {'markdown': 3582, 'build': 697, 'rust': 23154, 'text': 25110, 'make': 467, 'toml': 35}，历史样本为 {'json': 30, 'build': 508, 'markdown': 1713, 'toml': 9, 'yaml': 18, 'text': 394, 'rust': 27639, 'c': 9309, 'make': 29, 'asm': 177}。（置信度：medium）</li>
+</ul>
+<h2>可能创新点</h2>
+<ul>
+<li>未确认。</li>
+</ul>
+<h2>附录：核验摘要</h2>
+<ul>
+<li>关键结论数：22</li>
+<li>含证据关键结论数：22（100.0%）</li>
+<li>无效证据引用数：0</li>
+<li>未确认关键结论数：0</li>
+<li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>
+</ul></div>
+</body></html>

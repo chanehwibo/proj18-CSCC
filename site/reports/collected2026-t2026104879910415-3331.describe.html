@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 T2026104879910415 描述报告</title>
+<style>
+:root{
+  --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
+  --brand:#0f766e; --brand-dark:#115e59; --brand-soft:#ccfbf1;
+  --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --bg:#eef2f6;
+  --chip:#eef2ff; --chip-ink:#3730a3; --shadow:rgba(15,23,42,.10);
+}
+html[data-theme="dark"]{
+  --ink:#e6edf3; --muted:#9aa7b4; --line:#2b3440; --panel:#161b22; --card:#1c232c;
+  --brand:#2dd4bf; --brand-dark:#5eead4; --brand-soft:#134e4a;
+  --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; --bg:#0d1117;
+  --chip:#1e293b; --chip-ink:#a5b4fc; --shadow:rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;transition:background .25s,color .25s;}
+a{color:var(--brand-dark);}
+header.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,var(--brand) 0%,var(--brand-dark) 100%);color:#fff;
+  padding:18px 28px;box-shadow:0 2px 10px rgba(15,23,42,.18);}
+.topbar h1{margin:0;font-size:24px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px;}
+.topbar .sub{margin-top:4px;font-size:13px;opacity:.85;}
+.topbar .nav{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.topbar .nav a{color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);transition:all .25s ease;
+  display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px;cursor:pointer;}
+.topbar .nav a:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.topbar .nav a.active{background:#fff;color:var(--brand-dark);border-color:#fff;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.2);transform:scale(1.02);}
+.topbar .nav .iconbtn{font-size:18px;padding:11px 14px;cursor:pointer;}
+.topbar .row{display:flex;align-items:flex-end;gap:18px;max-width:1320px;margin:0 auto;}
+main{max-width:1320px;margin:0 auto;padding:20px 24px 70px;}
+
+/* KPI panel */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0 6px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px var(--shadow);}
+.kpi .k{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.kpi .v{font-size:30px;font-weight:800;color:var(--brand-dark);margin-top:6px;line-height:1;}
+.kpi .v small{font-size:14px;color:var(--muted);font-weight:600;margin-left:4px;}
+.overview{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;margin:18px 0;}
+.overview .panel,.history-filter{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px var(--shadow);}
+.overview h2,.history-filter h2{margin:0 0 12px;font-size:17px;color:var(--brand-dark);}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.overview-item{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--panel);}
+.overview-item .k{font-size:12px;color:var(--muted);}
+.overview-item .v{font-size:22px;font-weight:800;color:var(--ink);margin-top:3px;}
+.overview-item .s{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.radar-wrap{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center;}
+.radar-wrap svg{width:190px;height:190px;display:block;}
+.radar-legend{display:grid;gap:6px;font-size:12px;color:var(--muted);}
+.radar-legend b{color:var(--ink);}
+.quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.quick-links a{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--card);text-decoration:none;font-size:13px;font-weight:650;color:var(--brand-dark);}
+.quick-links a:hover{border-color:var(--brand);background:var(--brand);color:#fff;}
+
+.tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
+.tab{padding:9px 22px;border:1px solid var(--line);background:var(--card);border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);transition:all .2s;}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 2px 8px rgba(15,118,110,.3);}
+.tab .n{font-size:12px;opacity:.8;margin-left:6px;}
+
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0 4px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;}
+.toolbar input,.toolbar select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.toolbar input[type=text]{min-width:240px;flex:1;}
+.toolbar .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.toolbar .seg button{border:0;background:var(--card);color:var(--muted);padding:7px 12px;font-size:13px;cursor:pointer;border-right:1px solid var(--line);}
+.toolbar .seg button:last-child{border-right:0;}
+.toolbar .seg button.on{background:var(--brand);color:#fff;font-weight:700;}
+.toolbar .lbl{font-size:12.5px;color:var(--muted);margin-right:-4px;}
+.toolbar .count{margin-left:auto;font-size:13px;color:var(--muted);}
+.toolbar .count b{color:var(--brand-dark);font-size:15px;}
+.toolbar .exp{margin-left:8px;}
+.btn-mini{border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-mini:hover{background:var(--brand);color:#fff;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(370px,1fr));gap:18px;margin-top:14px;}
+.empty{padding:50px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:12px;}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:visible;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s;position:relative;}
+.card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 12px 28px var(--shadow);border-color:var(--brand-soft);z-index:20;}
+.card.picked{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft);}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;display:flex;gap:12px;}
+.card .hd-left{flex:1;min-width:0;}
+.card .mini-radar{width:100px;height:100px;flex-shrink:0;align-self:center;}
+.card .pick{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
+.card .pick input{width:16px;height:16px;cursor:pointer;accent-color:var(--brand);}
+.card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;padding-right:54px;}
+.card .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--chip-ink);font-weight:600;}
+.chip.ok{background:#dcfce7;color:#166534;} .chip.warn{background:#fef3c7;color:#92400e;} .chip.bad{background:#fee2e2;color:#991b1b;}
+.chip.tier{background:#e0f2fe;color:#075985;}
+html[data-theme="dark"] .chip.ok{background:#14532d;color:#86efac;}
+html[data-theme="dark"] .chip.warn{background:#451a03;color:#fcd34d;}
+html[data-theme="dark"] .chip.bad{background:#450a0a;color:#fca5a5;}
+html[data-theme="dark"] .chip.tier{background:#0c4a6e;color:#7dd3fc;}
+
+.meters{margin-top:10px;display:grid;gap:7px;}
+.meter{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.metric-label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.info-tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border:1px solid var(--muted);border-radius:50%;font-size:10px;font-weight:800;line-height:1;color:var(--muted);cursor:help;background:var(--card);}
+.ks-floattip{position:fixed;z-index:9999;max-width:300px;padding:9px 12px;border-radius:8px;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;line-height:1.5;box-shadow:0 10px 28px rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:opacity .12s ease;pointer-events:none;}
+.ks-floattip.show{opacity:1;visibility:visible;}
+.meter .bar{height:9px;border-radius:999px;background:var(--line);overflow:hidden;}
+.meter .bar>span{display:block;height:100%;border-radius:999px;}
+.meter .bar.mat>span{background:linear-gradient(90deg,#22c55e,#0f766e);}
+.meter .bar.risk>span{background:linear-gradient(90deg,#f59e0b,#dc2626);}
+.meter .val{text-align:right;font-weight:700;color:var(--ink);}
+
+.card .info{padding:12px 18px;font-size:13.5px;}
+.card .info dl{display:grid;grid-template-columns:78px 1fr;gap:6px 10px;margin:0;}
+.card .info dt{color:var(--muted);}
+.card .info dd{margin:0;word-break:break-word;}
+.card .info dd a{word-break:break-all;}
+.clone{display:flex;align-items:center;gap:6px;}
+.clone code{flex:1;background:var(--panel);padding:3px 7px;border-radius:5px;font-size:12px;word-break:break-all;}
+.copybtn{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;}
+.copybtn:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+
+.card .reports{padding:12px 18px 16px;border-top:1px dashed var(--line);margin-top:auto;}
+.card .reports .grp{margin-bottom:10px;}
+.card .reports .grp:last-child{margin-bottom:0;}
+.card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.dims{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;}
+.dim{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;background:var(--panel);color:var(--muted);}
+.dim.ok{border-color:#bbf7d0;background:#f0fdf4;color:#166534;}
+.dim.no{border-color:#fecaca;background:#fef2f2;color:#991b1b;}
+html[data-theme="dark"] .dim.ok{background:#052e16;color:#86efac;border-color:#166534;}
+html[data-theme="dark"] .dim.no{background:#450a0a;color:#fca5a5;border-color:#7f1d1d;}
+.explain{border-top:1px dashed var(--line);padding:10px 18px 2px;}
+.explain summary{cursor:pointer;font-size:13px;font-weight:800;color:var(--brand-dark);list-style:none;}
+.explain summary::-webkit-details-marker{display:none;}
+.explain summary::after{content:"展开";float:right;font-size:12px;color:var(--muted);font-weight:600;}
+.explain[open] summary::after{content:"收起";}
+.explain-list{display:grid;gap:8px;margin-top:10px;}
+.explain-item{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px 10px;}
+.explain-item .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;font-size:13px;font-weight:800;}
+.explain-item .meta{font-size:12px;color:var(--muted);margin-top:4px;}
+.explain-item .why{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.explain-item .why span{font-size:11.5px;border-radius:999px;padding:2px 7px;background:var(--chip);color:var(--chip-ink);}
+.explain-item .acts{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
+.download-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;transition:all .15s;}
+.btn:hover{background:var(--brand);color:#fff;transform:translateY(-1px);}
+.btn.solid{background:var(--brand);color:#fff;}
+.btn.solid:hover{background:var(--brand-dark);}
+.btn.score{border-color:#7c3aed;color:#7c3aed;}
+.btn.score:hover{background:#7c3aed;color:#fff;}
+.btn small{font-weight:500;opacity:.8;}
+.scored-badge{font-size:11px;background:#7c3aed;color:#fff;padding:1px 7px;border-radius:999px;margin-left:6px;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:100;}
+.modal.open{display:flex;}
+.modal .panel{margin:auto;width:min(1060px,94vw);height:88vh;background:var(--card);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.4);}
+.modal .panel.full{width:100vw;height:100vh;border-radius:0;}
+.modal .mhd{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel);}
+.modal .mhd .t{font-weight:700;font-size:15px;flex:1;color:var(--ink);}
+.modal .mhd button{cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:13px;color:var(--ink);}
+.modal .mhd button:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+.modal .body{flex:1;position:relative;}
+.modal iframe{position:absolute;inset:0;border:0;width:100%;height:100%;background:#fff;}
+.modal .spin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* compare drawer */
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:60;background:var(--brand-dark);color:#fff;
+  padding:10px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:none;align-items:center;gap:14px;font-size:14px;}
+.cmpbar.show{display:flex;}
+.cmpbar button{background:#fff;color:var(--brand-dark);border:0;border-radius:999px;padding:7px 16px;font-weight:700;cursor:pointer;}
+.cmpbar .clear{background:transparent;color:#fff;text-decoration:underline;padding:4px 6px;}
+.cmptable{width:100%;border-collapse:collapse;font-size:13.5px;}
+.cmptable th,.cmptable td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;}
+.cmptable th{background:var(--panel);}
+.cmptable td.yes{color:var(--ok);font-weight:700;} .cmptable td.no{color:var(--muted);}
+.cmptable .rowhead{background:var(--panel);font-weight:700;color:var(--muted);width:130px;}
+
+/* scoring */
+.scorebox{padding:4px 2px;}
+.scorebox .crit{margin:12px 0;}
+.scorebox .crit .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px;}
+.scorebox .crit .top b{color:var(--brand-dark);}
+.scorebox .crit .desc{font-size:12px;color:var(--muted);margin-bottom:6px;}
+.scorebox input[type=range]{width:100%;accent-color:var(--brand);}
+.scorebox .total{font-size:16px;font-weight:800;color:var(--brand-dark);text-align:right;margin-top:6px;}
+.scorebox textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:13px;background:var(--card);color:var(--ink);resize:vertical;}
+.scorebox .acts{display:flex;gap:10px;margin-top:12px;}
+
+/* doc/baseline */
+.doc{max-width:1040px;margin:0 auto;background:var(--card);padding:30px 40px 60px;}
+.doc h1{font-size:26px;border-bottom:2px solid var(--brand);padding-bottom:8px;}
+.doc h2{font-size:20px;margin-top:28px;border-left:4px solid var(--brand);padding-left:10px;}
+.doc h3{font-size:16px;margin-top:20px;color:var(--brand-dark);}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+.doc th,.doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.doc th{background:var(--panel);}
+.doc code{background:var(--panel);padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:.92em;}
+.doc blockquote{margin:10px 0;padding:8px 14px;background:#fffbeb;border-left:4px solid var(--warn);color:#78350f;}
+html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
+.doc ul{padding-left:22px;} .doc li.sub{list-style:circle;margin-left:18px;}
+.bsearch{margin:14px 0;display:flex;gap:10px;flex-wrap:wrap;}
+.bsearch input{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.bsearch .count{align-self:center;font-size:13px;color:var(--muted);}
+.history-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.history-controls input,.history-controls select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.history-controls input{min-width:220px;flex:1;}
+.basework-lbl{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--brand-dark);font-weight:600;background:var(--brand-soft);border-radius:8px;padding:2px 10px 2px 12px;}
+.basework-lbl select{font-weight:600;}
+.history-table-wrap{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px;}
+.history-table{width:100%;border-collapse:collapse;font-size:13px;}
+.history-table th,.history-table td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+.history-table th{position:sticky;top:0;background:var(--panel);z-index:1;}
+.history-table td small{color:var(--muted);}
+.split-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;}
+.split-compare .side{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px;}
+.split-compare h3{margin:0 0 10px;color:var(--brand-dark);font-size:16px;}
+.split-compare dl{display:grid;grid-template-columns:96px 1fr;gap:7px 10px;margin:0;font-size:13px;}
+.split-compare dt{color:var(--muted);}.split-compare dd{margin:0;word-break:break-word;}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;}
+.evidence-mini{margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;font-size:12px;color:var(--muted);}
+.evidence-mini summary{cursor:pointer;color:var(--brand-dark);font-weight:700;}
+.evidence-mini ul{margin:6px 0 0;padding-left:18px;}
+
+#toTop{position:fixed;right:22px;bottom:22px;z-index:55;width:46px;height:46px;border-radius:50%;border:0;background:var(--brand);color:#fff;
+  font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25);display:none;}
+#toTop.show{display:block;}
+#toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:opacity .25s;pointer-events:none;}
+#toast.show{opacity:1;}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
+@media(max-width:920px){.overview{grid-template-columns:1fr;}.radar-wrap{grid-template-columns:1fr;}.radar-wrap svg{margin:auto;}.split-compare{grid-template-columns:1fr;}}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input[type=text]{min-width:140px;}.history-table-wrap{max-height:420px;}.overview-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head><body style="background:#fff">
+<div class="doc"><h1>2026 T2026104879910415 项目描述报告</h1>
+<h2>基本信息</h2>
+<ul>
+<li>仓库 ID：<code>collected2026-t2026104879910415-3331</code></li>
+<li>风格：ucore-variant</li>
+<li>架构：未确认</li>
+<li>样本来源等级：current_contest_case</li>
+<li>文件数：7375</li>
+<li>代码/文本行数：2492873</li>
+<li>主要语言：rust 2018257 LOC, json 294026 LOC, markdown 118891 LOC, build 28805 LOC, c 10544 LOC</li>
+</ul>
+<h2>总览</h2>
+<p>2026 T2026104879910415 是一个 ucore-variant 风格的小型操作系统相关仓库，主要语言统计为 rust: 2018257 LOC, json: 294026 LOC, markdown: 118891 LOC, build: 28805 LOC。仓库包含 7375 个已扫描文件、约 2492873 行可分析文本，当前抽取到 147878 个符号定义。</p>
+<h2>摘要评分</h2>
+<ul>
+<li>综合成熟度：A 级：机制完整、证据充分（100/100）</li>
+<li>已确认 OS 维度：7/7；高置信维度：7/7</li>
+<li>构建入口：已确认；证据健康度：100.0% 覆盖率；无效证据引用：0</li>
+<li>评分口径：该分数由本地静态分析、源码证据和 self-check 派生，不代表比赛官方评分，也不调用 LLM。</li>
+</ul>
+<table><thead><tr><th>评分项</th><th>得分</th><th>依据</th></tr></thead><tbody><tr><td>OS 机制覆盖</td><td>80/80</td><td>调度、内存、系统调用、文件系统、同步、中断、驱动等维度的确认情况</td></tr><tr><td>构建入口</td><td>10/10</td><td>是否识别到 Makefile、Cargo.toml、CMakeLists.txt 等构建入口</td></tr><tr><td>证据健康度</td><td>10/10</td><td>关键结论证据覆盖率与无效证据引用数</td></tr></tbody></table>
+<table><thead><tr><th>OS 维度</th><th>状态</th><th>置信度</th><th>证据数</th></tr></thead><tbody><tr><td>调度与任务管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>内存管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>系统调用</td><td>已确认</td><td>high</td><td>11</td></tr><tr><td>文件系统</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>同步机制</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>中断与异常</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>设备驱动</td><td>已确认</td><td>high</td><td>6</td></tr></tbody></table>
+<h2>构建系统</h2>
+<ul>
+<li>仓库包含构建入口：Makefile, arceos/Cargo.toml, arceos/Makefile, arceos/api/arceos_api/Cargo.toml, arceos/api/arceos_posix_api/Cargo.toml。（置信度：high）</li>
+<p>证据：</p>
+<li><code>Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code># 根级比赛交付入口。 # # 设计目标：</code></p>
+<li><code>arceos/Cargo.toml:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>[workspace] resolver = "2"</code></p>
+<li><code>arceos/Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code># Available arguments: # * General options: #     - 'ARCH': Target architecture: x86_64, riscv64, aarch64, loongarch64, arm</code></p>
+<li><code>arceos/api/arceos_api/Cargo.toml:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>[package] name = "arceos_api" version.workspace = true</code></p>
+<li><code>arceos/api/arceos_posix_api/Cargo.toml:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>[package] name = "arceos_posix_api" version.workspace = true</code></p>
+</ul>
+<h2>调度与任务管理</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>scheduler</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含任务/线程管理与调度相关实现。（置信度：high）</li>
+<li>相关符号包括：fn stdio_fd_kind, fn canonical_stdio_fd, fn flush_stdio_line_buffer_locked, fn append_stdio_line_bytes, fn flush_stdio_line_buffer_for。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/src/task/fd.rs</code></td><td>L23-L27</td><td>关键词命中</td></tr><tr><td><code>kernel/src/task/mod.rs</code></td><td>L3-L7</td><td>关键词命中</td></tr><tr><td><code>kernel/src/task/path.rs</code></td><td>L13-L17</td><td>关键词命中</td></tr><tr><td><code>kernel/src/task/fd.rs</code></td><td>L47-L51</td><td>fn stdio_fd_kind</td></tr><tr><td><code>kernel/src/task/fd.rs</code></td><td>L55-L59</td><td>fn canonical_stdio_fd</td></tr><tr><td><code>kernel/src/task/fd.rs</code></td><td>L63-L67</td><td>fn flush_stdio_line_buffer_locked</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/src/task/fd.rs:L23-L27</code>：关键词命中</li>
+<p>代码片段：<code>use crate::fs::{CapacityLimitedRamfsWriteGuard, FileTimestamp, LOOP0_SIZE_BYTES}; use super::{Pid, Process, Thread, TimeNsCompatState}; /// Linux 标准输入 fd 编号。</code></p>
+<li><code>kernel/src/task/mod.rs:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>//! 当前处于 'process-runtime-core' 的前两步之间： //! 1. 先把运行时状态从 'user.rs' 收拢到独立模块； //! 2. 再把一次性的 'MinimalThread' 状态升级成真正的 'Process/Thread/FdTable/ExitState' //!    形状。 //!</code></p>
+<li><code>kernel/src/task/path.rs:L13-L17</code>：关键词命中</li>
+<p>代码片段：<code>use axstd::vec::Vec; use super::{Thread, fd::OpenResource}; /// Linux 'AT_FDCWD' 的语义值，表示“相对当前工作目录解析”。</code></p>
+<li><code>kernel/src/task/fd.rs:L47-L51</code>：fn stdio_fd_kind</li>
+<p>代码片段：<code>const STDIO_LINE_BUFFER_LIMIT: usize = PAGE_SIZE_4K; fn stdio_fd_kind(fd: i32) -&gt; Option&lt;StdioKind&gt; { match fd { 1 =&gt; Some(StdioKind::Stdout),</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn stdio_fd_kind</code> at <code>kernel/src/task/fd.rs:L47</code>、<code>fn canonical_stdio_fd</code> at <code>kernel/src/task/fd.rs:L55</code>、<code>fn flush_stdio_line_buffer_locked</code> at <code>kernel/src/task/fd.rs:L63</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>内存管理</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>memory</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含页表、物理页、虚拟内存或堆分配等内存管理实现。（置信度：high）</li>
+<li>相关符号包括：struct UserVmLayout, fn new, struct BrkState, fn from_layout, fn accepts。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/src/task/memory.rs</code></td><td>L22-L26</td><td>关键词命中</td></tr><tr><td><code>kernel/src/syscall/memory.rs</code></td><td>L253-L257</td><td>关键词命中</td></tr><tr><td><code>arceos/modules/axmm/src/backend/alloc.rs</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>kernel/src/task/memory.rs</code></td><td>L20-L24</td><td>struct UserVmLayout</td></tr><tr><td><code>kernel/src/task/memory.rs</code></td><td>L30-L34</td><td>fn new</td></tr><tr><td><code>kernel/src/task/memory.rs</code></td><td>L63-L67</td><td>struct BrkState</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/src/task/memory.rs:L22-L26</code>：关键词命中</li>
+<p>代码片段：<code>pub struct UserVmLayout { pub image_end: usize, pub heap_base: usize, pub mmap_base: usize, pub stack_bottom: usize,</code></p>
+<li><code>kernel/src/syscall/memory.rs:L253-L257</code>：关键词命中</li>
+<p>代码片段：<code>} fn heap_mapping_flags() -&gt; MappingFlags { MappingFlags::READ | MappingFlags::WRITE | MappingFlags::USER }</code></p>
+<li><code>arceos/modules/axmm/src/backend/alloc.rs:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>use axalloc::global_allocator; use axhal::mem::{phys_to_virt, virt_to_phys}; use axhal::paging::{MappingFlags, PageSize, PageTable, PagingError}; use memory_addr::{MemoryAddr, P...</code></p>
+<li><code>kernel/src/task/memory.rs:L20-L24</code>：struct UserVmLayout</li>
+<p>代码片段：<code>/// exec 安装后用户地址空间里后续运行时会继续依赖的稳定地标。 #[derive(Clone, Copy, Debug)] pub struct UserVmLayout { pub image_end: usize, pub heap_base: usize,</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct UserVmLayout</code> at <code>kernel/src/task/memory.rs:L20</code>、<code>fn new</code> at <code>kernel/src/task/memory.rs:L30</code>、<code>struct BrkState</code> at <code>kernel/src/task/memory.rs:L63</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>系统调用</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>syscall</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含系统调用入口、编号或分发逻辑。（置信度：high）</li>
+<li>相关符号包括：fn _stext, fn _etext, fn _srodata, fn _erodata, fn _sdata。（置信度：medium）</li>
+<li>静态识别到 471 个系统调用相关符号。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/src/syscall/fs.rs</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/src/syscall/io.rs</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/src/syscall/mod.rs</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/src/trap.rs</code></td><td>L33-L37</td><td>fn _stext</td></tr><tr><td><code>kernel/src/trap.rs</code></td><td>L34-L38</td><td>fn _etext</td></tr><tr><td><code>kernel/src/trap.rs</code></td><td>L35-L39</td><td>fn _srodata</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/src/syscall/fs.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! 最小文件、目录与 fd syscall 子集。 //! //! 这一层承接 'busybox-fs-time-ioctl' 的第 3 步：</code></p>
+<li><code>kernel/src/syscall/io.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! 最小 vector I/O 与 sendfile syscall 入口。 //! //! 当前承接 'network-perf-suite' 第 3 步：</code></p>
+<li><code>kernel/src/syscall/mod.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! 第 5 步最小 Linux syscall 分发层。 //! //! 这一层负责两件事：</code></p>
+<li><code>kernel/src/trap.rs:L33-L37</code>：fn _stext</li>
+<p>代码片段：<code>#[cfg(target_arch = "riscv64")] unsafe extern "C" { fn _stext(); fn _etext(); fn _srodata();</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn _stext</code> at <code>kernel/src/trap.rs:L33</code>、<code>fn _etext</code> at <code>kernel/src/trap.rs:L34</code>、<code>fn _srodata</code> at <code>kernel/src/trap.rs:L35</code>、<code>fn handle_minimal_syscall</code> at <code>kernel/src/trap.rs:L63</code>、<code>fn resume_syscall_thread</code> at <code>kernel/src/trap.rs:L403</code>、<code>fn syscall_vos_musl_pathconf</code> at <code>kernel/src/syscall/fs.rs:L1159</code>、<code>fn syscall_faccessat</code> at <code>kernel/src/syscall/fs.rs:L1314</code>、<code>fn syscall_faccessat2</code> at <code>kernel/src/syscall/fs.rs:L1319</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>文件系统</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>filesystem</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含文件系统、VFS、inode、目录项或文件读写相关实现。（置信度：high）</li>
+<li>相关符号包括：struct RootDirEntry, struct RootFsMetadata, struct DiskReader, struct DiskReadError, fn fmt。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/src/fs/mod.rs</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>kernel/src/fs/ext4.rs</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>kernel/src/fs/myfs.rs</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>kernel/src/fs/ext4.rs</code></td><td>L26-L30</td><td>struct RootDirEntry</td></tr><tr><td><code>kernel/src/fs/ext4.rs</code></td><td>L35-L39</td><td>struct RootFsMetadata</td></tr><tr><td><code>kernel/src/fs/ext4.rs</code></td><td>L43-L47</td><td>struct DiskReader</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/src/fs/mod.rs:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>//! 文件系统相关的最小封装层。 //! //! 当前 feature 不把 ext4 接到 ArceOS 的全局 rootfs 协议里做完整 VFS 适配，而是： //! - 用 'myfs.rs' 提供一个最薄的内存根文件系统，避免启动期默认 FAT rootfs 直接失败； //! - 用 'ext4.rs' 在 bring-up 逻辑里直接读...</code></p>
+<li><code>kernel/src/fs/ext4.rs:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>//! ext4 只读访问封装。 //! //! 第 3 到第 6 步的目标不是把 ext4 正式并入 ArceOS VFS，而是先证明评测盘内容可读， //! 并支撑最小测试驱动，因此这里直接： //! 1. 复用启动阶段传给 'myfs' 的真实块设备；</code></p>
+<li><code>kernel/src/fs/myfs.rs:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>//! ArceOS 自定义根文件系统接入点。 //! //! 启动早期如果仍让 ArceOS 走默认 FAT rootfs 路线，会在真正进入我们自己的 //! 'run_minimal_loop()' 之前就因为评测盘格式不匹配而失败。因此这里先用最薄的 //! 'RamFileSystem' 接住系统 rootfs 初始化，让后续 ext4 br...</code></p>
+<li><code>kernel/src/fs/ext4.rs:L26-L30</code>：struct RootDirEntry</li>
+<p>代码片段：<code>/// 的细节直接散落到 init 编排逻辑中。 #[derive(Clone, Debug)] pub struct RootDirEntry { pub name: String, pub path: String,</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct RootDirEntry</code> at <code>kernel/src/fs/ext4.rs:L26</code>、<code>struct RootFsMetadata</code> at <code>kernel/src/fs/ext4.rs:L35</code>、<code>struct DiskReader</code> at <code>kernel/src/fs/ext4.rs:L43</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>同步机制</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>sync</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含锁、信号量或原子操作等同步机制。（置信度：high）</li>
+<li>相关符号包括：struct OnceLock, fn get, fn get_mut, fn set, fn get_or_init。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/src/init.rs</code></td><td>L15-L19</td><td>关键词命中</td></tr><tr><td><code>kernel/src/user.rs</code></td><td>L10-L14</td><td>关键词命中</td></tr><tr><td><code>kernel/src/fs/ext4.rs</code></td><td>L11-L15</td><td>关键词命中</td></tr><tr><td><code>third_party/rust/vendor/once_cell_polyfill/src/sync/mod.rs</code></td><td>L1-L4</td><td>struct OnceLock</td></tr><tr><td><code>third_party/rust/vendor/once_cell_polyfill/src/sync/mod.rs</code></td><td>L7-L11</td><td>fn get</td></tr><tr><td><code>third_party/rust/vendor/once_cell_polyfill/src/sync/mod.rs</code></td><td>L11-L15</td><td>fn get_mut</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/src/init.rs:L15-L19</code>：关键词命中</li>
+<p>代码片段：<code>use axstd::sync::Arc; use axstd::vec::Vec; use axsync::Mutex; use core::fmt::Write; use memory_addr::{MemoryAddr, PAGE_SIZE_4K, va};</code></p>
+<li><code>kernel/src/user.rs:L10-L14</code>：关键词命中</li>
+<p>代码片段：<code>use memory_addr::{VirtAddr, va}; #[cfg(target_arch = "riscv64")] use core::sync::atomic::{AtomicBool, Ordering}; /// Linux RISC-V 'exit' syscall 号。</code></p>
+<li><code>kernel/src/fs/ext4.rs:L11-L15</code>：关键词命中</li>
+<p>代码片段：<code>use axstd::string::{String, ToString}; use axstd::sync::Arc; use axstd::sync::Mutex; use axstd::vec::Vec; use core::fmt;</code></p>
+<li><code>third_party/rust/vendor/once_cell_polyfill/src/sync/mod.rs:L1-L4</code>：struct OnceLock</li>
+<p>代码片段：<code>#[derive(Debug, Clone, Default, Eq, PartialEq)] pub struct OnceLock&lt;T&gt;(std::sync::OnceLock&lt;T&gt;); impl&lt;T&gt; OnceLock&lt;T&gt; {</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct OnceLock</code> at <code>third_party/rust/vendor/once_cell_polyfill/src/sync/mod.rs:L1</code>、<code>fn get</code> at <code>third_party/rust/vendor/once_cell_polyfill/src/sync/mod.rs:L7</code>、<code>fn get_mut</code> at <code>third_party/rust/vendor/once_cell_polyfill/src/sync/mod.rs:L11</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>中断与异常</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>interrupt</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含 trap、中断、异常或定时器处理逻辑。（置信度：high）</li>
+<li>相关符号包括：fn _stext, fn _etext, fn _srodata, fn _erodata, fn _sdata。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>kernel/src/trap.rs</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>arceos/modules/axhal/src/irq.rs</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>third_party/rust/vendor/axcpu/src/trap.rs</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>kernel/src/trap.rs</code></td><td>L33-L37</td><td>fn _stext</td></tr><tr><td><code>kernel/src/trap.rs</code></td><td>L34-L38</td><td>fn _etext</td></tr><tr><td><code>kernel/src/trap.rs</code></td><td>L35-L39</td><td>fn _srodata</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>kernel/src/trap.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! trap/syscall 接入点。 //! //! 这里负责把架构 trap 入口和 'kernel/src/syscall/' 的 Linux syscall 分发层接起来，</code></p>
+<li><code>arceos/modules/axhal/src/irq.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! Interrupt management. use axcpu::{</code></p>
+<li><code>third_party/rust/vendor/axcpu/src/trap.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>//! Trap handling. use core::sync::atomic::{AtomicUsize, Ordering};</code></p>
+<li><code>kernel/src/trap.rs:L33-L37</code>：fn _stext</li>
+<p>代码片段：<code>#[cfg(target_arch = "riscv64")] unsafe extern "C" { fn _stext(); fn _etext(); fn _srodata();</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn _stext</code> at <code>kernel/src/trap.rs:L33</code>、<code>fn _etext</code> at <code>kernel/src/trap.rs:L34</code>、<code>fn _srodata</code> at <code>kernel/src/trap.rs:L35</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>设备驱动</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>driver</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含串口、块设备、控制台、中断控制器或 virtio 等设备驱动相关实现。（置信度：high）</li>
+<li>相关符号包括：trait VirtIoDevMeta, fn try_new, struct VirtIoNet, struct VirtIoBlk, struct VirtIoGpu。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>arceos/modules/axdriver/src/virtio.rs</code></td><td>L21-L25</td><td>关键词命中</td></tr><tr><td><code>arceos/modules/axdriver/src/drivers.rs</code></td><td>L6-L10</td><td>关键词命中</td></tr><tr><td><code>third_party/rust/vendor/uart_16550/src/mmio.rs</code></td><td>L6-L10</td><td>关键词命中</td></tr><tr><td><code>arceos/modules/axdriver/src/virtio.rs</code></td><td>L22-L26</td><td>trait VirtIoDevMeta</td></tr><tr><td><code>arceos/modules/axdriver/src/virtio.rs</code></td><td>L28-L32</td><td>fn try_new</td></tr><tr><td><code>arceos/modules/axdriver/src/virtio.rs</code></td><td>L33-L37</td><td>struct VirtIoNet</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>arceos/modules/axdriver/src/virtio.rs:L21-L25</code>：关键词命中</li>
+<p>代码片段：<code>} /// A trait for VirtIO device meta information. pub trait VirtIoDevMeta { const DEVICE_TYPE: DeviceType;</code></p>
+<li><code>arceos/modules/axdriver/src/drivers.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>use axdriver_base::DeviceType; #[cfg(feature = "virtio")] use crate::virtio::{self, VirtIoDevMeta};</code></p>
+<li><code>third_party/rust/vendor/uart_16550/src/mmio.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>use crate::{LineStsFlags, WouldBlockError}; /// A memory-mapped UART. #[derive(Debug)] pub struct MmioSerialPort {</code></p>
+<li><code>arceos/modules/axdriver/src/virtio.rs:L22-L26</code>：trait VirtIoDevMeta</li>
+<p>代码片段：<code>/// A trait for VirtIO device meta information. pub trait VirtIoDevMeta { const DEVICE_TYPE: DeviceType;</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>trait VirtIoDevMeta</code> at <code>arceos/modules/axdriver/src/virtio.rs:L22</code>、<code>fn try_new</code> at <code>arceos/modules/axdriver/src/virtio.rs:L28</code>、<code>struct VirtIoNet</code> at <code>arceos/modules/axdriver/src/virtio.rs:L33</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>附录：核验摘要</h2>
+<ul>
+<li>关键结论数：16</li>
+<li>含证据关键结论数：16（100.0%）</li>
+<li>无效证据引用数：0</li>
+<li>未确认关键结论数：0</li>
+<li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>
+</ul></div>
+</body></html>

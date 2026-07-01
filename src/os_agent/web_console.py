@@ -176,8 +176,12 @@ class WebConsoleBuilder:
     def _history_profiles(self, history_root: Path, *, exclude: set[Path]) -> list[KernelProfile]:
         history_root = Path(history_root)
         profiles: list[KernelProfile] = []
+        manifest = load_manifest(history_root)
+        manifest_ids = set(manifest)
         for repo_dir in sorted(history_root.iterdir(), key=lambda p: p.name.lower()):
             if not repo_dir.is_dir() or repo_dir.name.startswith("."):
+                continue
+            if manifest_ids and repo_dir.name not in manifest_ids:
                 continue
             if repo_dir.resolve() in exclude:
                 continue

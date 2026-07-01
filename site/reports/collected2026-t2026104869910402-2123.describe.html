@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 T2026104869910402 描述报告</title>
+<style>
+:root{
+  --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
+  --brand:#0f766e; --brand-dark:#115e59; --brand-soft:#ccfbf1;
+  --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --bg:#eef2f6;
+  --chip:#eef2ff; --chip-ink:#3730a3; --shadow:rgba(15,23,42,.10);
+}
+html[data-theme="dark"]{
+  --ink:#e6edf3; --muted:#9aa7b4; --line:#2b3440; --panel:#161b22; --card:#1c232c;
+  --brand:#2dd4bf; --brand-dark:#5eead4; --brand-soft:#134e4a;
+  --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; --bg:#0d1117;
+  --chip:#1e293b; --chip-ink:#a5b4fc; --shadow:rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;transition:background .25s,color .25s;}
+a{color:var(--brand-dark);}
+header.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,var(--brand) 0%,var(--brand-dark) 100%);color:#fff;
+  padding:18px 28px;box-shadow:0 2px 10px rgba(15,23,42,.18);}
+.topbar h1{margin:0;font-size:24px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px;}
+.topbar .sub{margin-top:4px;font-size:13px;opacity:.85;}
+.topbar .nav{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.topbar .nav a{color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);transition:all .25s ease;
+  display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px;cursor:pointer;}
+.topbar .nav a:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.topbar .nav a.active{background:#fff;color:var(--brand-dark);border-color:#fff;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.2);transform:scale(1.02);}
+.topbar .nav .iconbtn{font-size:18px;padding:11px 14px;cursor:pointer;}
+.topbar .row{display:flex;align-items:flex-end;gap:18px;max-width:1320px;margin:0 auto;}
+main{max-width:1320px;margin:0 auto;padding:20px 24px 70px;}
+
+/* KPI panel */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0 6px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px var(--shadow);}
+.kpi .k{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.kpi .v{font-size:30px;font-weight:800;color:var(--brand-dark);margin-top:6px;line-height:1;}
+.kpi .v small{font-size:14px;color:var(--muted);font-weight:600;margin-left:4px;}
+.overview{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;margin:18px 0;}
+.overview .panel,.history-filter{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px var(--shadow);}
+.overview h2,.history-filter h2{margin:0 0 12px;font-size:17px;color:var(--brand-dark);}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.overview-item{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--panel);}
+.overview-item .k{font-size:12px;color:var(--muted);}
+.overview-item .v{font-size:22px;font-weight:800;color:var(--ink);margin-top:3px;}
+.overview-item .s{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.radar-wrap{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center;}
+.radar-wrap svg{width:190px;height:190px;display:block;}
+.radar-legend{display:grid;gap:6px;font-size:12px;color:var(--muted);}
+.radar-legend b{color:var(--ink);}
+.quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.quick-links a{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--card);text-decoration:none;font-size:13px;font-weight:650;color:var(--brand-dark);}
+.quick-links a:hover{border-color:var(--brand);background:var(--brand);color:#fff;}
+
+.tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
+.tab{padding:9px 22px;border:1px solid var(--line);background:var(--card);border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);transition:all .2s;}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 2px 8px rgba(15,118,110,.3);}
+.tab .n{font-size:12px;opacity:.8;margin-left:6px;}
+
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0 4px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;}
+.toolbar input,.toolbar select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.toolbar input[type=text]{min-width:240px;flex:1;}
+.toolbar .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.toolbar .seg button{border:0;background:var(--card);color:var(--muted);padding:7px 12px;font-size:13px;cursor:pointer;border-right:1px solid var(--line);}
+.toolbar .seg button:last-child{border-right:0;}
+.toolbar .seg button.on{background:var(--brand);color:#fff;font-weight:700;}
+.toolbar .lbl{font-size:12.5px;color:var(--muted);margin-right:-4px;}
+.toolbar .count{margin-left:auto;font-size:13px;color:var(--muted);}
+.toolbar .count b{color:var(--brand-dark);font-size:15px;}
+.toolbar .exp{margin-left:8px;}
+.btn-mini{border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-mini:hover{background:var(--brand);color:#fff;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(370px,1fr));gap:18px;margin-top:14px;}
+.empty{padding:50px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:12px;}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:visible;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s;position:relative;}
+.card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 12px 28px var(--shadow);border-color:var(--brand-soft);z-index:20;}
+.card.picked{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft);}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;display:flex;gap:12px;}
+.card .hd-left{flex:1;min-width:0;}
+.card .mini-radar{width:100px;height:100px;flex-shrink:0;align-self:center;}
+.card .pick{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
+.card .pick input{width:16px;height:16px;cursor:pointer;accent-color:var(--brand);}
+.card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;padding-right:54px;}
+.card .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--chip-ink);font-weight:600;}
+.chip.ok{background:#dcfce7;color:#166534;} .chip.warn{background:#fef3c7;color:#92400e;} .chip.bad{background:#fee2e2;color:#991b1b;}
+.chip.tier{background:#e0f2fe;color:#075985;}
+html[data-theme="dark"] .chip.ok{background:#14532d;color:#86efac;}
+html[data-theme="dark"] .chip.warn{background:#451a03;color:#fcd34d;}
+html[data-theme="dark"] .chip.bad{background:#450a0a;color:#fca5a5;}
+html[data-theme="dark"] .chip.tier{background:#0c4a6e;color:#7dd3fc;}
+
+.meters{margin-top:10px;display:grid;gap:7px;}
+.meter{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.metric-label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.info-tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border:1px solid var(--muted);border-radius:50%;font-size:10px;font-weight:800;line-height:1;color:var(--muted);cursor:help;background:var(--card);}
+.ks-floattip{position:fixed;z-index:9999;max-width:300px;padding:9px 12px;border-radius:8px;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;line-height:1.5;box-shadow:0 10px 28px rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:opacity .12s ease;pointer-events:none;}
+.ks-floattip.show{opacity:1;visibility:visible;}
+.meter .bar{height:9px;border-radius:999px;background:var(--line);overflow:hidden;}
+.meter .bar>span{display:block;height:100%;border-radius:999px;}
+.meter .bar.mat>span{background:linear-gradient(90deg,#22c55e,#0f766e);}
+.meter .bar.risk>span{background:linear-gradient(90deg,#f59e0b,#dc2626);}
+.meter .val{text-align:right;font-weight:700;color:var(--ink);}
+
+.card .info{padding:12px 18px;font-size:13.5px;}
+.card .info dl{display:grid;grid-template-columns:78px 1fr;gap:6px 10px;margin:0;}
+.card .info dt{color:var(--muted);}
+.card .info dd{margin:0;word-break:break-word;}
+.card .info dd a{word-break:break-all;}
+.clone{display:flex;align-items:center;gap:6px;}
+.clone code{flex:1;background:var(--panel);padding:3px 7px;border-radius:5px;font-size:12px;word-break:break-all;}
+.copybtn{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;}
+.copybtn:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+
+.card .reports{padding:12px 18px 16px;border-top:1px dashed var(--line);margin-top:auto;}
+.card .reports .grp{margin-bottom:10px;}
+.card .reports .grp:last-child{margin-bottom:0;}
+.card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.dims{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;}
+.dim{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;background:var(--panel);color:var(--muted);}
+.dim.ok{border-color:#bbf7d0;background:#f0fdf4;color:#166534;}
+.dim.no{border-color:#fecaca;background:#fef2f2;color:#991b1b;}
+html[data-theme="dark"] .dim.ok{background:#052e16;color:#86efac;border-color:#166534;}
+html[data-theme="dark"] .dim.no{background:#450a0a;color:#fca5a5;border-color:#7f1d1d;}
+.explain{border-top:1px dashed var(--line);padding:10px 18px 2px;}
+.explain summary{cursor:pointer;font-size:13px;font-weight:800;color:var(--brand-dark);list-style:none;}
+.explain summary::-webkit-details-marker{display:none;}
+.explain summary::after{content:"展开";float:right;font-size:12px;color:var(--muted);font-weight:600;}
+.explain[open] summary::after{content:"收起";}
+.explain-list{display:grid;gap:8px;margin-top:10px;}
+.explain-item{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px 10px;}
+.explain-item .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;font-size:13px;font-weight:800;}
+.explain-item .meta{font-size:12px;color:var(--muted);margin-top:4px;}
+.explain-item .why{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.explain-item .why span{font-size:11.5px;border-radius:999px;padding:2px 7px;background:var(--chip);color:var(--chip-ink);}
+.explain-item .acts{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
+.download-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;transition:all .15s;}
+.btn:hover{background:var(--brand);color:#fff;transform:translateY(-1px);}
+.btn.solid{background:var(--brand);color:#fff;}
+.btn.solid:hover{background:var(--brand-dark);}
+.btn.score{border-color:#7c3aed;color:#7c3aed;}
+.btn.score:hover{background:#7c3aed;color:#fff;}
+.btn small{font-weight:500;opacity:.8;}
+.scored-badge{font-size:11px;background:#7c3aed;color:#fff;padding:1px 7px;border-radius:999px;margin-left:6px;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:100;}
+.modal.open{display:flex;}
+.modal .panel{margin:auto;width:min(1060px,94vw);height:88vh;background:var(--card);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.4);}
+.modal .panel.full{width:100vw;height:100vh;border-radius:0;}
+.modal .mhd{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel);}
+.modal .mhd .t{font-weight:700;font-size:15px;flex:1;color:var(--ink);}
+.modal .mhd button{cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:13px;color:var(--ink);}
+.modal .mhd button:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+.modal .body{flex:1;position:relative;}
+.modal iframe{position:absolute;inset:0;border:0;width:100%;height:100%;background:#fff;}
+.modal .spin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* compare drawer */
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:60;background:var(--brand-dark);color:#fff;
+  padding:10px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:none;align-items:center;gap:14px;font-size:14px;}
+.cmpbar.show{display:flex;}
+.cmpbar button{background:#fff;color:var(--brand-dark);border:0;border-radius:999px;padding:7px 16px;font-weight:700;cursor:pointer;}
+.cmpbar .clear{background:transparent;color:#fff;text-decoration:underline;padding:4px 6px;}
+.cmptable{width:100%;border-collapse:collapse;font-size:13.5px;}
+.cmptable th,.cmptable td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;}
+.cmptable th{background:var(--panel);}
+.cmptable td.yes{color:var(--ok);font-weight:700;} .cmptable td.no{color:var(--muted);}
+.cmptable .rowhead{background:var(--panel);font-weight:700;color:var(--muted);width:130px;}
+
+/* scoring */
+.scorebox{padding:4px 2px;}
+.scorebox .crit{margin:12px 0;}
+.scorebox .crit .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px;}
+.scorebox .crit .top b{color:var(--brand-dark);}
+.scorebox .crit .desc{font-size:12px;color:var(--muted);margin-bottom:6px;}
+.scorebox input[type=range]{width:100%;accent-color:var(--brand);}
+.scorebox .total{font-size:16px;font-weight:800;color:var(--brand-dark);text-align:right;margin-top:6px;}
+.scorebox textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:13px;background:var(--card);color:var(--ink);resize:vertical;}
+.scorebox .acts{display:flex;gap:10px;margin-top:12px;}
+
+/* doc/baseline */
+.doc{max-width:1040px;margin:0 auto;background:var(--card);padding:30px 40px 60px;}
+.doc h1{font-size:26px;border-bottom:2px solid var(--brand);padding-bottom:8px;}
+.doc h2{font-size:20px;margin-top:28px;border-left:4px solid var(--brand);padding-left:10px;}
+.doc h3{font-size:16px;margin-top:20px;color:var(--brand-dark);}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+.doc th,.doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.doc th{background:var(--panel);}
+.doc code{background:var(--panel);padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:.92em;}
+.doc blockquote{margin:10px 0;padding:8px 14px;background:#fffbeb;border-left:4px solid var(--warn);color:#78350f;}
+html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
+.doc ul{padding-left:22px;} .doc li.sub{list-style:circle;margin-left:18px;}
+.bsearch{margin:14px 0;display:flex;gap:10px;flex-wrap:wrap;}
+.bsearch input{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.bsearch .count{align-self:center;font-size:13px;color:var(--muted);}
+.history-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.history-controls input,.history-controls select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.history-controls input{min-width:220px;flex:1;}
+.basework-lbl{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--brand-dark);font-weight:600;background:var(--brand-soft);border-radius:8px;padding:2px 10px 2px 12px;}
+.basework-lbl select{font-weight:600;}
+.history-table-wrap{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px;}
+.history-table{width:100%;border-collapse:collapse;font-size:13px;}
+.history-table th,.history-table td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+.history-table th{position:sticky;top:0;background:var(--panel);z-index:1;}
+.history-table td small{color:var(--muted);}
+.split-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;}
+.split-compare .side{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px;}
+.split-compare h3{margin:0 0 10px;color:var(--brand-dark);font-size:16px;}
+.split-compare dl{display:grid;grid-template-columns:96px 1fr;gap:7px 10px;margin:0;font-size:13px;}
+.split-compare dt{color:var(--muted);}.split-compare dd{margin:0;word-break:break-word;}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;}
+.evidence-mini{margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;font-size:12px;color:var(--muted);}
+.evidence-mini summary{cursor:pointer;color:var(--brand-dark);font-weight:700;}
+.evidence-mini ul{margin:6px 0 0;padding-left:18px;}
+
+#toTop{position:fixed;right:22px;bottom:22px;z-index:55;width:46px;height:46px;border-radius:50%;border:0;background:var(--brand);color:#fff;
+  font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25);display:none;}
+#toTop.show{display:block;}
+#toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:opacity .25s;pointer-events:none;}
+#toast.show{opacity:1;}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
+@media(max-width:920px){.overview{grid-template-columns:1fr;}.radar-wrap{grid-template-columns:1fr;}.radar-wrap svg{margin:auto;}.split-compare{grid-template-columns:1fr;}}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input[type=text]{min-width:140px;}.history-table-wrap{max-height:420px;}.overview-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head><body style="background:#fff">
+<div class="doc"><h1>2026 T2026104869910402 项目描述报告</h1>
+<h2>基本信息</h2>
+<ul>
+<li>仓库 ID：<code>collected2026-t2026104869910402-2123</code></li>
+<li>风格：rcore-variant</li>
+<li>架构：未确认</li>
+<li>样本来源等级：current_contest_case</li>
+<li>文件数：2888</li>
+<li>代码/文本行数：963342</li>
+<li>主要语言：rust 644628 LOC, json 281998 LOC, markdown 25849 LOC, build 9736 LOC, asm 436 LOC</li>
+</ul>
+<h2>总览</h2>
+<p>2026 T2026104869910402 是一个 rcore-variant 风格的小型操作系统相关仓库，主要语言统计为 rust: 644628 LOC, json: 281998 LOC, markdown: 25849 LOC, build: 9736 LOC。仓库包含 2888 个已扫描文件、约 963342 行可分析文本，当前抽取到 44714 个符号定义。</p>
+<h2>摘要评分</h2>
+<ul>
+<li>综合成熟度：A 级：机制完整、证据充分（100/100）</li>
+<li>已确认 OS 维度：7/7；高置信维度：7/7</li>
+<li>构建入口：已确认；证据健康度：100.0% 覆盖率；无效证据引用：0</li>
+<li>评分口径：该分数由本地静态分析、源码证据和 self-check 派生，不代表比赛官方评分，也不调用 LLM。</li>
+</ul>
+<table><thead><tr><th>评分项</th><th>得分</th><th>依据</th></tr></thead><tbody><tr><td>OS 机制覆盖</td><td>80/80</td><td>调度、内存、系统调用、文件系统、同步、中断、驱动等维度的确认情况</td></tr><tr><td>构建入口</td><td>10/10</td><td>是否识别到 Makefile、Cargo.toml、CMakeLists.txt 等构建入口</td></tr><tr><td>证据健康度</td><td>10/10</td><td>关键结论证据覆盖率与无效证据引用数</td></tr></tbody></table>
+<table><thead><tr><th>OS 维度</th><th>状态</th><th>置信度</th><th>证据数</th></tr></thead><tbody><tr><td>调度与任务管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>内存管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>系统调用</td><td>已确认</td><td>high</td><td>11</td></tr><tr><td>文件系统</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>同步机制</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>中断与异常</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>设备驱动</td><td>已确认</td><td>high</td><td>6</td></tr></tbody></table>
+<h2>构建系统</h2>
+<ul>
+<li>仓库包含构建入口：Makefile, filesystem/Cargo.toml, filesystem/ext4_rs/Cargo.toml, os/Cargo.toml, os/build.rs。（置信度：high）</li>
+<p>证据：</p>
+<li><code>Makefile:L1-L3</code>：构建入口</li>
+<p>代码片段：<code># StellaOS Top-Level Makefile # # Contest requirement: 'make all' produces:</code></p>
+<li><code>filesystem/Cargo.toml:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>[package] name = "filesystem" version = "0.1.0"</code></p>
+<li><code>filesystem/ext4_rs/Cargo.toml:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>[package] name = "ext4_rs" version = "1.3.3"</code></p>
+<li><code>os/Cargo.toml:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>[package] name = "os" version = "0.1.0"</code></p>
+<li><code>os/build.rs:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>static TARGET_PATH: &amp;str = "../user/target/riscv64gc-unknown-none-elf/release/"; fn main() {</code></p>
+</ul>
+<h2>调度与任务管理</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>scheduler</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含任务/线程管理与调度相关实现。（置信度：high）</li>
+<li>相关符号包括：struct RecycleAllocator, fn new, fn with_start, fn alloc, fn dealloc。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>os/src/task/id.rs</code></td><td>L5-L9</td><td>关键词命中</td></tr><tr><td><code>os/src/task/mod.rs</code></td><td>L13-L17</td><td>关键词命中</td></tr><tr><td><code>os/src/task/futex.rs</code></td><td>L4-L8</td><td>关键词命中</td></tr><tr><td><code>os/src/task/id.rs</code></td><td>L14-L18</td><td>struct RecycleAllocator</td></tr><tr><td><code>os/src/task/id.rs</code></td><td>L20-L24</td><td>fn new</td></tr><tr><td><code>os/src/task/id.rs</code></td><td>L23-L27</td><td>fn with_start</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>os/src/task/id.rs:L5-L9</code>：关键词命中</li>
+<p>代码片段：<code>}; use crate::mm::{KERNEL_SPACE, PhysPageNum, VirtAddr}; use crate::task::boot_page_table; use polyhal::{MappingFlags, MappingSize::Page4KB}; use crate::sync::UPIntrFreeCell;</code></p>
+<li><code>os/src/task/mod.rs:L13-L17</code>：关键词命中</li>
+<p>代码片段：<code>mod switch; #[allow(clippy::module_inception)] mod task; use self::id::TaskUserRes;</code></p>
+<li><code>os/src/task/futex.rs:L4-L8</code>：关键词命中</li>
+<p>代码片段：<code>/// /// ## Race-free design /// The key invariant: checking '*uaddr == val' and enqueuing the current task /// happen under the same 'FUTEX_QUEUES' lock. This prevents the lost-...</code></p>
+<li><code>os/src/task/id.rs:L14-L18</code>：struct RecycleAllocator</li>
+<p>代码片段：<code>use lazy_static::*; pub struct RecycleAllocator { current: usize, recycled: Vec&lt;usize&gt;,</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct RecycleAllocator</code> at <code>os/src/task/id.rs:L14</code>、<code>fn new</code> at <code>os/src/task/id.rs:L20</code>、<code>fn with_start</code> at <code>os/src/task/id.rs:L23</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>内存管理</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>memory</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含页表、物理页、虚拟内存或堆分配等内存管理实现。（置信度：high）</li>
+<li>相关符号包括：enum ElfError, struct Align16, fn with_aligned_elf, struct ElfSegment, struct ElfInfo。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>os/src/mm/elf.rs</code></td><td>L74-L78</td><td>关键词命中</td></tr><tr><td><code>os/src/mm/mod.rs</code></td><td>L1-L5</td><td>关键词命中</td></tr><tr><td><code>os/src/mm/shm.rs</code></td><td>L72-L76</td><td>关键词命中</td></tr><tr><td><code>os/src/mm/elf.rs</code></td><td>L4-L8</td><td>enum ElfError</td></tr><tr><td><code>os/src/mm/elf.rs</code></td><td>L10-L14</td><td>struct Align16</td></tr><tr><td><code>os/src/mm/elf.rs</code></td><td>L12-L16</td><td>fn with_aligned_elf</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>os/src/mm/elf.rs:L74-L78</code>：关键词命中</li>
+<p>代码片段：<code>/// '"/lib/ld-linux-riscv64-lp64d.so.1"'。 pub interp_path: Option&lt;String&gt;, /// 所有 PT_LOAD 段，按文件顺序排列。供 'MemorySet::from_elf()' 消费。 pub segments: Vec&lt;ElfSegment&gt;, }</code></p>
+<li><code>os/src/mm/mod.rs:L1-L5</code>：关键词命中</li>
+<p>代码片段：<code>mod address; mod elf; mod frame_allocator; mod heap_allocator; mod memory_set;</code></p>
+<li><code>os/src/mm/shm.rs:L72-L76</code>：关键词命中</li>
+<p>代码片段：<code>let mut frames = Vec::with_capacity(pages); for _ in 0..pages { let frame = super::frame_alloc().ok_or(SyscallErrNo::ENOMEM)?; frames.push(frame); }</code></p>
+<li><code>os/src/mm/elf.rs:L4-L8</code>：enum ElfError</li>
+<p>代码片段：<code>#[derive(Debug)] pub enum ElfError { InvalidMagic, InvalidFormat,</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>enum ElfError</code> at <code>os/src/mm/elf.rs:L4</code>、<code>struct Align16</code> at <code>os/src/mm/elf.rs:L10</code>、<code>fn with_aligned_elf</code> at <code>os/src/mm/elf.rs:L12</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>系统调用</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>syscall</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含系统调用入口、编号或分发逻辑。（置信度：high）</li>
+<li>相关符号包括：fn reset_tick_count, fn user_loop, fn trap_pc, fn panic_kernel_page_fault, fn handle_user_trap。（置信度：medium）</li>
+<li>静态识别到 276 个系统调用相关符号。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>os/src/syscall/fs.rs</code></td><td>L19-L23</td><td>关键词命中</td></tr><tr><td><code>os/src/syscall/mod.rs</code></td><td>L194-L198</td><td>关键词命中</td></tr><tr><td><code>os/src/syscall/net.rs</code></td><td>L73-L77</td><td>关键词命中</td></tr><tr><td><code>os/src/trap/mod.rs</code></td><td>L28-L32</td><td>fn reset_tick_count</td></tr><tr><td><code>os/src/trap/mod.rs</code></td><td>L36-L40</td><td>fn user_loop</td></tr><tr><td><code>os/src/trap/mod.rs</code></td><td>L47-L51</td><td>fn trap_pc</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>os/src/syscall/fs.rs:L19-L23</code>：关键词命中</li>
+<p>代码片段：<code>/// unlinkat flags: 允许删除目录项指向的是目录（否则返回 EPERM）。 const AT_REMOVEDIR: u32 = 0x200; /// 路径型 syscall flags: 不跟随最终分量的符号链接。 const AT_SYMLINK_NOFOLLOW: usize = 0x100; /// 路径型 syscall fl...</code></p>
+<li><code>os/src/syscall/mod.rs:L194-L198</code>：关键词命中</li>
+<p>代码片段：<code>use polyhal_trap::trapframe::TrapFrameArgs; pub fn syscall(syscall_id: usize, args: [usize; 6]) -&gt; SyscallRet { let tid = crate::task::current_task() .and_then(|t| {</code></p>
+<li><code>os/src/syscall/net.rs:L73-L77</code>：关键词命中</li>
+<p>代码片段：<code>// ── syscall 实现 ── const AF_INET: usize = 2;</code></p>
+<li><code>os/src/trap/mod.rs:L28-L32</code>：fn reset_tick_count</li>
+<p>代码片段：<code>/// 在任务切换时重置 tick 计数（由 run_tasks 调用）。 pub fn reset_tick_count() { TICK_COUNT.store(0, Ordering::Relaxed); }</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn reset_tick_count</code> at <code>os/src/trap/mod.rs:L28</code>、<code>fn user_loop</code> at <code>os/src/trap/mod.rs:L36</code>、<code>fn trap_pc</code> at <code>os/src/trap/mod.rs:L47</code>、<code>fn trace_path_syscall</code> at <code>os/src/syscall/fs.rs:L191</code>、<code>fn sys_umask</code> at <code>os/src/syscall/fs.rs:L255</code>、<code>fn sys_debug_dump_dentry</code> at <code>os/src/syscall/fs.rs:L263</code>、<code>fn sys_write</code> at <code>os/src/syscall/fs.rs:L276</code>、<code>fn sys_read</code> at <code>os/src/syscall/fs.rs:L317</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>文件系统</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>filesystem</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含文件系统、VFS、inode、目录项或文件读写相关实现。（置信度：high）</li>
+<li>相关符号包括：fn from, fn make_pipe, fn make_eventfd, fn init, fn list_test_scripts。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>os/src/fs/mod.rs</code></td><td>L13-L17</td><td>关键词命中</td></tr><tr><td><code>os/src/fs/fdtable.rs</code></td><td>L2-L6</td><td>关键词命中</td></tr><tr><td><code>os/src/syscall/fs.rs</code></td><td>L6-L10</td><td>关键词命中</td></tr><tr><td><code>os/src/fs/mod.rs</code></td><td>L19-L23</td><td>fn from</td></tr><tr><td><code>os/src/fs/mod.rs</code></td><td>L44-L48</td><td>fn make_pipe</td></tr><tr><td><code>os/src/fs/mod.rs</code></td><td>L54-L58</td><td>fn make_eventfd</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>os/src/fs/mod.rs:L13-L17</code>：关键词命中</li>
+<p>代码片段：<code>pub use fdtable::FdTable; pub use filesystem::vfs::{chdir, dcache_children, dentry_cache_cap, dentry_cache_hits, dentry_cache_len, dentry_cache_misses, get_cwd, get_root_dentry,...</code></p>
+<li><code>os/src/fs/fdtable.rs:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>use alloc::vec::Vec; use filesystem::vfs::File as VfsFile; use filesystem::vfs_defs::{OpenFlags, VfsError, VfsRet};</code></p>
+<li><code>os/src/syscall/fs.rs:L6-L10</code>：关键词命中</li>
+<p>代码片段：<code>use super::stub::{sys_getegid, sys_geteuid, sys_getgid, sys_getuid}; use crate::fs::{self, InodeMode, Kstat, OpenFlags, SeekFlags, Statfs, VfsError, VfsFile}; use crate::fs::Den...</code></p>
+<li><code>os/src/fs/mod.rs:L19-L23</code>：fn from</li>
+<p>代码片段：<code>impl From&lt;VfsError&gt; for SyscallErrNo { fn from(e: VfsError) -&gt; Self { match e { VfsError::NotSupported     =&gt; SyscallErrNo::ENOTSUP,</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn from</code> at <code>os/src/fs/mod.rs:L19</code>、<code>fn make_pipe</code> at <code>os/src/fs/mod.rs:L44</code>、<code>fn make_eventfd</code> at <code>os/src/fs/mod.rs:L54</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>同步机制</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>sync</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含锁、信号量或原子操作等同步机制。（置信度：high）</li>
+<li>相关符号包括：fn current_task_raw, fn clone_task_raw, fn drop_task_raw, fn wakeup_task_raw, fn block_current_task_raw。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>os/src/sync/mod.rs</code></td><td>L8-L12</td><td>关键词命中</td></tr><tr><td><code>os/src/sync/mutex.rs</code></td><td>L5-L9</td><td>关键词命中</td></tr><tr><td><code>filesystem/src/sync.rs</code></td><td>L1-L3</td><td>关键词命中</td></tr><tr><td><code>os/src/sync/mod.rs</code></td><td>L12-L16</td><td>fn current_task_raw</td></tr><tr><td><code>os/src/sync/mod.rs</code></td><td>L16-L20</td><td>fn clone_task_raw</td></tr><tr><td><code>os/src/sync/mod.rs</code></td><td>L23-L27</td><td>fn drop_task_raw</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>os/src/sync/mod.rs:L8-L12</code>：关键词命中</li>
+<p>代码片段：<code>pub use ksync::{ Condvar, Mutex, MutexBlocking, MutexSpin, Semaphore, UPIntrFreeCell, UPIntrRefMut, UPSafeCellRaw, };</code></p>
+<li><code>os/src/sync/mutex.rs:L5-L9</code>：关键词命中</li>
+<p>代码片段：<code>// use alloc::{collections::VecDeque, sync::Arc}; // pub trait Mutex: Sync + Send { //     fn lock(&amp;self); //     fn unlock(&amp;self);</code></p>
+<li><code>filesystem/src/sync.rs:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>pub use ksync::{ Mutex, MutexBlocking, MutexSpin, UPIntrFreeCell, UPIntrRefMut, UPSafeCellRaw, };</code></p>
+<li><code>os/src/sync/mod.rs:L12-L16</code>：fn current_task_raw</li>
+<p>代码片段：<code>}; fn current_task_raw() -&gt; usize { Arc::into_raw(current_task().expect("current_task not available")) as usize }</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>fn current_task_raw</code> at <code>os/src/sync/mod.rs:L12</code>、<code>fn clone_task_raw</code> at <code>os/src/sync/mod.rs:L16</code>、<code>fn drop_task_raw</code> at <code>os/src/sync/mod.rs:L23</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>中断与异常</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>interrupt</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含 trap、中断、异常或定时器处理逻辑。（置信度：high）</li>
+<li>相关符号包括：struct Timespec, struct Timeval, fn get_time_ms, fn get_time_spec, fn get_time_val。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>os/src/timer.rs</code></td><td>L8-L12</td><td>关键词命中</td></tr><tr><td><code>os/src/trap/mod.rs</code></td><td>L11-L15</td><td>关键词命中</td></tr><tr><td><code>os/src/drivers/plic.rs</code></td><td>L1-L4</td><td>关键词命中</td></tr><tr><td><code>os/src/timer.rs</code></td><td>L19-L23</td><td>struct Timespec</td></tr><tr><td><code>os/src/timer.rs</code></td><td>L26-L30</td><td>struct Timeval</td></tr><tr><td><code>os/src/timer.rs</code></td><td>L31-L35</td><td>fn get_time_ms</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>os/src/timer.rs:L8-L12</code>：关键词命中</li>
+<p>代码片段：<code>use alloc::sync::Arc; use lazy_static::*; use polyhal::timer::{current_time, set_next_timer}; const TICKS_PER_SEC: usize = 100;</code></p>
+<li><code>os/src/trap/mod.rs:L11-L15</code>：关键词命中</li>
+<p>代码片段：<code>SigInfo, SIGBUS, SIGSEGV, SIGILL, SIGTRAP, BUS_ADRERR, SEGV_MAPERR, ILL_ILLOPC, TRAP_BRKPT, }; use crate::timer::{check_timer, set_next_trigger}; use crate::config::PAGE_SIZE; u...</code></p>
+<li><code>os/src/drivers/plic.rs:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>#[allow(clippy::upper_case_acronyms)] pub struct PLIC { base_addr: usize, }</code></p>
+<li><code>os/src/timer.rs:L19-L23</code>：struct Timespec</li>
+<p>代码片段：<code>#[repr(C)] #[derive(Debug, Clone, Copy, Default)] pub struct Timespec { pub tv_sec: i64, pub tv_nsec: i64,</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct Timespec</code> at <code>os/src/timer.rs:L19</code>、<code>struct Timeval</code> at <code>os/src/timer.rs:L26</code>、<code>fn get_time_ms</code> at <code>os/src/timer.rs:L31</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>设备驱动</h2>
+<ul>
+<li>结论：已确认该维度存在可追溯实现线索。（综合置信度：high）</li>
+<li>分析口径：本维度主要关注 <code>driver</code> 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。</li>
+<li>设计判断：</li>
+<li>项目包含串口、块设备、控制台、中断控制器或 virtio 等设备驱动相关实现。（置信度：high）</li>
+<li>相关符号包括：struct Stdout, fn write_str, fn print, struct PLIC, enum IntrTargetPriority。（置信度：medium）</li>
+</ul>
+<h3>证据表</h3>
+<table><thead><tr><th>文件</th><th>行号</th><th>说明</th></tr></thead><tbody><tr><td><code>os/src/console.rs</code></td><td>L1-L4</td><td>关键词命中</td></tr><tr><td><code>os/src/drivers/bus/mod.rs</code></td><td>L1-L1</td><td>关键词命中</td></tr><tr><td><code>os/src/drivers/gpu/mod.rs</code></td><td>L2-L6</td><td>关键词命中</td></tr><tr><td><code>os/src/console.rs</code></td><td>L3-L7</td><td>struct Stdout</td></tr><tr><td><code>os/src/console.rs</code></td><td>L6-L10</td><td>fn write_str</td></tr><tr><td><code>os/src/console.rs</code></td><td>L14-L18</td><td>fn print</td></tr></tbody></table>
+<h3>关键代码片段</h3>
+<ul>
+<li><code>os/src/console.rs:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>use crate::drivers::chardev::CharDevice; use crate::drivers::chardev::UART; use core::fmt::{self, Write};</code></p>
+<li><code>os/src/drivers/bus/mod.rs:L1-L1</code>：关键词命中</li>
+<p>代码片段：<code>pub mod virtio;</code></p>
+<li><code>os/src/drivers/gpu/mod.rs:L2-L6</code>：关键词命中</li>
+<p>代码片段：<code>use core::ptr::NonNull; use crate::drivers::bus::virtio::VirtioHal; use crate::sync::UPIntrFreeCell; use alloc::{sync::Arc, vec::Vec};</code></p>
+<li><code>os/src/console.rs:L3-L7</code>：struct Stdout</li>
+<p>代码片段：<code>use core::fmt::{self, Write}; struct Stdout; impl Write for Stdout {</code></p>
+</ul>
+<h3>相关符号</h3>
+<p><code>struct Stdout</code> at <code>os/src/console.rs:L3</code>、<code>fn write_str</code> at <code>os/src/console.rs:L6</code>、<code>fn print</code> at <code>os/src/console.rs:L14</code></p>
+<h3>复核建议</h3>
+<ul>
+<li>建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。</li>
+</ul>
+<h2>附录：核验摘要</h2>
+<ul>
+<li>关键结论数：16</li>
+<li>含证据关键结论数：16（100.0%）</li>
+<li>无效证据引用数：0</li>
+<li>未确认关键结论数：0</li>
+<li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>
+</ul></div>
+</body></html>

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 T202610486999578 开发历史报告</title>
+<style>
+:root{
+  --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
+  --brand:#0f766e; --brand-dark:#115e59; --brand-soft:#ccfbf1;
+  --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --bg:#eef2f6;
+  --chip:#eef2ff; --chip-ink:#3730a3; --shadow:rgba(15,23,42,.10);
+}
+html[data-theme="dark"]{
+  --ink:#e6edf3; --muted:#9aa7b4; --line:#2b3440; --panel:#161b22; --card:#1c232c;
+  --brand:#2dd4bf; --brand-dark:#5eead4; --brand-soft:#134e4a;
+  --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; --bg:#0d1117;
+  --chip:#1e293b; --chip-ink:#a5b4fc; --shadow:rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;transition:background .25s,color .25s;}
+a{color:var(--brand-dark);}
+header.topbar{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,var(--brand) 0%,var(--brand-dark) 100%);color:#fff;
+  padding:18px 28px;box-shadow:0 2px 10px rgba(15,23,42,.18);}
+.topbar h1{margin:0;font-size:24px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;gap:12px;}
+.topbar .sub{margin-top:4px;font-size:13px;opacity:.85;}
+.topbar .nav{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.topbar .nav a{color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);transition:all .25s ease;
+  display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px;cursor:pointer;}
+.topbar .nav a:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.topbar .nav a.active{background:#fff;color:var(--brand-dark);border-color:#fff;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.2);transform:scale(1.02);}
+.topbar .nav .iconbtn{font-size:18px;padding:11px 14px;cursor:pointer;}
+.topbar .row{display:flex;align-items:flex-end;gap:18px;max-width:1320px;margin:0 auto;}
+main{max-width:1320px;margin:0 auto;padding:20px 24px 70px;}
+
+/* KPI panel */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0 6px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px var(--shadow);}
+.kpi .k{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.kpi .v{font-size:30px;font-weight:800;color:var(--brand-dark);margin-top:6px;line-height:1;}
+.kpi .v small{font-size:14px;color:var(--muted);font-weight:600;margin-left:4px;}
+.overview{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;margin:18px 0;}
+.overview .panel,.history-filter{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px var(--shadow);}
+.overview h2,.history-filter h2{margin:0 0 12px;font-size:17px;color:var(--brand-dark);}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.overview-item{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--panel);}
+.overview-item .k{font-size:12px;color:var(--muted);}
+.overview-item .v{font-size:22px;font-weight:800;color:var(--ink);margin-top:3px;}
+.overview-item .s{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.radar-wrap{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center;}
+.radar-wrap svg{width:190px;height:190px;display:block;}
+.radar-legend{display:grid;gap:6px;font-size:12px;color:var(--muted);}
+.radar-legend b{color:var(--ink);}
+.quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.quick-links a{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--card);text-decoration:none;font-size:13px;font-weight:650;color:var(--brand-dark);}
+.quick-links a:hover{border-color:var(--brand);background:var(--brand);color:#fff;}
+
+.tabs{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;align-items:center;}
+.tab{padding:9px 22px;border:1px solid var(--line);background:var(--card);border-radius:999px;cursor:pointer;font-size:15px;font-weight:600;color:var(--muted);transition:all .2s;}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 2px 8px rgba(15,118,110,.3);}
+.tab .n{font-size:12px;opacity:.8;margin-left:6px;}
+
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0 4px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;}
+.toolbar input,.toolbar select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.toolbar input[type=text]{min-width:240px;flex:1;}
+.toolbar .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.toolbar .seg button{border:0;background:var(--card);color:var(--muted);padding:7px 12px;font-size:13px;cursor:pointer;border-right:1px solid var(--line);}
+.toolbar .seg button:last-child{border-right:0;}
+.toolbar .seg button.on{background:var(--brand);color:#fff;font-weight:700;}
+.toolbar .lbl{font-size:12.5px;color:var(--muted);margin-right:-4px;}
+.toolbar .count{margin-left:auto;font-size:13px;color:var(--muted);}
+.toolbar .count b{color:var(--brand-dark);font-size:15px;}
+.toolbar .exp{margin-left:8px;}
+.btn-mini{border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-mini:hover{background:var(--brand);color:#fff;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(370px,1fr));gap:18px;margin-top:14px;}
+.empty{padding:50px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:12px;}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:visible;display:flex;flex-direction:column;
+  box-shadow:0 1px 3px var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s;position:relative;}
+.card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 12px 28px var(--shadow);border-color:var(--brand-soft);z-index:20;}
+.card.picked{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft);}
+.card .hd{background:linear-gradient(120deg,#0f766e0d,#0f766e1a);padding:16px 18px 12px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;display:flex;gap:12px;}
+.card .hd-left{flex:1;min-width:0;}
+.card .mini-radar{width:100px;height:100px;flex-shrink:0;align-self:center;}
+.card .pick{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
+.card .pick input{width:16px;height:16px;cursor:pointer;accent-color:var(--brand);}
+.card .entry{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--brand-dark);word-break:break-all;padding-right:54px;}
+.card .chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.chip{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--chip-ink);font-weight:600;}
+.chip.ok{background:#dcfce7;color:#166534;} .chip.warn{background:#fef3c7;color:#92400e;} .chip.bad{background:#fee2e2;color:#991b1b;}
+.chip.tier{background:#e0f2fe;color:#075985;}
+html[data-theme="dark"] .chip.ok{background:#14532d;color:#86efac;}
+html[data-theme="dark"] .chip.warn{background:#451a03;color:#fcd34d;}
+html[data-theme="dark"] .chip.bad{background:#450a0a;color:#fca5a5;}
+html[data-theme="dark"] .chip.tier{background:#0c4a6e;color:#7dd3fc;}
+
+.meters{margin-top:10px;display:grid;gap:7px;}
+.meter{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.metric-label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.info-tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border:1px solid var(--muted);border-radius:50%;font-size:10px;font-weight:800;line-height:1;color:var(--muted);cursor:help;background:var(--card);}
+.ks-floattip{position:fixed;z-index:9999;max-width:300px;padding:9px 12px;border-radius:8px;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;line-height:1.5;box-shadow:0 10px 28px rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:opacity .12s ease;pointer-events:none;}
+.ks-floattip.show{opacity:1;visibility:visible;}
+.meter .bar{height:9px;border-radius:999px;background:var(--line);overflow:hidden;}
+.meter .bar>span{display:block;height:100%;border-radius:999px;}
+.meter .bar.mat>span{background:linear-gradient(90deg,#22c55e,#0f766e);}
+.meter .bar.risk>span{background:linear-gradient(90deg,#f59e0b,#dc2626);}
+.meter .val{text-align:right;font-weight:700;color:var(--ink);}
+
+.card .info{padding:12px 18px;font-size:13.5px;}
+.card .info dl{display:grid;grid-template-columns:78px 1fr;gap:6px 10px;margin:0;}
+.card .info dt{color:var(--muted);}
+.card .info dd{margin:0;word-break:break-word;}
+.card .info dd a{word-break:break-all;}
+.clone{display:flex;align-items:center;gap:6px;}
+.clone code{flex:1;background:var(--panel);padding:3px 7px;border-radius:5px;font-size:12px;word-break:break-all;}
+.copybtn{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;}
+.copybtn:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+
+.card .reports{padding:12px 18px 16px;border-top:1px dashed var(--line);margin-top:auto;}
+.card .reports .grp{margin-bottom:10px;}
+.card .reports .grp:last-child{margin-bottom:0;}
+.card .reports .gt{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.dims{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;}
+.dim{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;background:var(--panel);color:var(--muted);}
+.dim.ok{border-color:#bbf7d0;background:#f0fdf4;color:#166534;}
+.dim.no{border-color:#fecaca;background:#fef2f2;color:#991b1b;}
+html[data-theme="dark"] .dim.ok{background:#052e16;color:#86efac;border-color:#166534;}
+html[data-theme="dark"] .dim.no{background:#450a0a;color:#fca5a5;border-color:#7f1d1d;}
+.explain{border-top:1px dashed var(--line);padding:10px 18px 2px;}
+.explain summary{cursor:pointer;font-size:13px;font-weight:800;color:var(--brand-dark);list-style:none;}
+.explain summary::-webkit-details-marker{display:none;}
+.explain summary::after{content:"展开";float:right;font-size:12px;color:var(--muted);font-weight:600;}
+.explain[open] summary::after{content:"收起";}
+.explain-list{display:grid;gap:8px;margin-top:10px;}
+.explain-item{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px 10px;}
+.explain-item .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;font-size:13px;font-weight:800;}
+.explain-item .meta{font-size:12px;color:var(--muted);margin-top:4px;}
+.explain-item .why{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.explain-item .why span{font-size:11.5px;border-radius:999px;padding:2px 7px;background:var(--chip);color:var(--chip-ink);}
+.explain-item .acts{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
+.download-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--brand);background:var(--card);color:var(--brand-dark);
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:0 6px 6px 0;transition:all .15s;}
+.btn:hover{background:var(--brand);color:#fff;transform:translateY(-1px);}
+.btn.solid{background:var(--brand);color:#fff;}
+.btn.solid:hover{background:var(--brand-dark);}
+.btn.score{border-color:#7c3aed;color:#7c3aed;}
+.btn.score:hover{background:#7c3aed;color:#fff;}
+.btn small{font-weight:500;opacity:.8;}
+.scored-badge{font-size:11px;background:#7c3aed;color:#fff;padding:1px 7px;border-radius:999px;margin-left:6px;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:100;}
+.modal.open{display:flex;}
+.modal .panel{margin:auto;width:min(1060px,94vw);height:88vh;background:var(--card);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.4);}
+.modal .panel.full{width:100vw;height:100vh;border-radius:0;}
+.modal .mhd{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel);}
+.modal .mhd .t{font-weight:700;font-size:15px;flex:1;color:var(--ink);}
+.modal .mhd button{cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:13px;color:var(--ink);}
+.modal .mhd button:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+.modal .body{flex:1;position:relative;}
+.modal iframe{position:absolute;inset:0;border:0;width:100%;height:100%;background:#fff;}
+.modal .spin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* compare drawer */
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:60;background:var(--brand-dark);color:#fff;
+  padding:10px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:none;align-items:center;gap:14px;font-size:14px;}
+.cmpbar.show{display:flex;}
+.cmpbar button{background:#fff;color:var(--brand-dark);border:0;border-radius:999px;padding:7px 16px;font-weight:700;cursor:pointer;}
+.cmpbar .clear{background:transparent;color:#fff;text-decoration:underline;padding:4px 6px;}
+.cmptable{width:100%;border-collapse:collapse;font-size:13.5px;}
+.cmptable th,.cmptable td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;}
+.cmptable th{background:var(--panel);}
+.cmptable td.yes{color:var(--ok);font-weight:700;} .cmptable td.no{color:var(--muted);}
+.cmptable .rowhead{background:var(--panel);font-weight:700;color:var(--muted);width:130px;}
+
+/* scoring */
+.scorebox{padding:4px 2px;}
+.scorebox .crit{margin:12px 0;}
+.scorebox .crit .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px;}
+.scorebox .crit .top b{color:var(--brand-dark);}
+.scorebox .crit .desc{font-size:12px;color:var(--muted);margin-bottom:6px;}
+.scorebox input[type=range]{width:100%;accent-color:var(--brand);}
+.scorebox .total{font-size:16px;font-weight:800;color:var(--brand-dark);text-align:right;margin-top:6px;}
+.scorebox textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:13px;background:var(--card);color:var(--ink);resize:vertical;}
+.scorebox .acts{display:flex;gap:10px;margin-top:12px;}
+
+/* doc/baseline */
+.doc{max-width:1040px;margin:0 auto;background:var(--card);padding:30px 40px 60px;}
+.doc h1{font-size:26px;border-bottom:2px solid var(--brand);padding-bottom:8px;}
+.doc h2{font-size:20px;margin-top:28px;border-left:4px solid var(--brand);padding-left:10px;}
+.doc h3{font-size:16px;margin-top:20px;color:var(--brand-dark);}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+.doc th,.doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+.doc th{background:var(--panel);}
+.doc code{background:var(--panel);padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:.92em;}
+.doc blockquote{margin:10px 0;padding:8px 14px;background:#fffbeb;border-left:4px solid var(--warn);color:#78350f;}
+html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
+.doc ul{padding-left:22px;} .doc li.sub{list-style:circle;margin-left:18px;}
+.bsearch{margin:14px 0;display:flex;gap:10px;flex-wrap:wrap;}
+.bsearch input{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.bsearch .count{align-self:center;font-size:13px;color:var(--muted);}
+.history-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.history-controls input,.history-controls select{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card);color:var(--ink);}
+.history-controls input{min-width:220px;flex:1;}
+.basework-lbl{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--brand-dark);font-weight:600;background:var(--brand-soft);border-radius:8px;padding:2px 10px 2px 12px;}
+.basework-lbl select{font-weight:600;}
+.history-table-wrap{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px;}
+.history-table{width:100%;border-collapse:collapse;font-size:13px;}
+.history-table th,.history-table td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+.history-table th{position:sticky;top:0;background:var(--panel);z-index:1;}
+.history-table td small{color:var(--muted);}
+.split-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;}
+.split-compare .side{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px;}
+.split-compare h3{margin:0 0 10px;color:var(--brand-dark);font-size:16px;}
+.split-compare dl{display:grid;grid-template-columns:96px 1fr;gap:7px 10px;margin:0;font-size:13px;}
+.split-compare dt{color:var(--muted);}.split-compare dd{margin:0;word-break:break-word;}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;}
+.evidence-mini{margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;font-size:12px;color:var(--muted);}
+.evidence-mini summary{cursor:pointer;color:var(--brand-dark);font-weight:700;}
+.evidence-mini ul{margin:6px 0 0;padding-left:18px;}
+
+#toTop{position:fixed;right:22px;bottom:22px;z-index:55;width:46px;height:46px;border-radius:50%;border:0;background:var(--brand);color:#fff;
+  font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25);display:none;}
+#toTop.show{display:block;}
+#toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:opacity .25s;pointer-events:none;}
+#toast.show{opacity:1;}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:24px;}
+@media(max-width:920px){.overview{grid-template-columns:1fr;}.radar-wrap{grid-template-columns:1fr;}.radar-wrap svg{margin:auto;}.split-compare{grid-template-columns:1fr;}}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}.topbar .row{flex-wrap:wrap;}.toolbar input[type=text]{min-width:140px;}.history-table-wrap{max-height:420px;}.overview-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head><body style="background:#fff">
+<div class="doc"><h1>2026 T202610486999578 开发历史报告</h1>
+<h2>提交概览</h2>
+<ul>
+<li>总提交数：814</li>
+<li>参与作者数：13</li>
+<li>时间跨度：2025-12-03 ~ 2026-06-30</li>
+<li>HEAD：<code>db4b9b0</code></li>
+</ul>
+<h2>贡献者</h2>
+<ul>
+<li>余摩释：143 次提交</li>
+<li>朝倉水希：19 次提交</li>
+<li>NexusCore：13 次提交</li>
+<li>T202510486998289：6 次提交</li>
+<li>sunhaosheng：5 次提交</li>
+<li>root：3 次提交</li>
+<li>Mivik：2 次提交</li>
+<li>ctrlshiftm129：2 次提交</li>
+<li>guoweikang：2 次提交</li>
+<li>ougeric：2 次提交</li>
+<li>Josen-B：1 次提交</li>
+<li>LHHL7：1 次提交</li>
+<li>chyyuu：1 次提交</li>
+</ul>
+<h2>最近提交记录</h2>
+<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>db4b9b0</code></td><td>NexusCore</td><td>2026-06-30</td><td>添加网盘链接</td></tr><tr><td><code>fdb556e</code></td><td>NexusCore</td><td>2026-06-30</td><td>Update README.md</td></tr><tr><td><code>38ff79d</code></td><td>NexusCore</td><td>2026-06-30</td><td>Delete 设计方案.md</td></tr><tr><td><code>ad47b6e</code></td><td>NexusCore</td><td>2026-06-30</td><td>Delete 工作日志.md</td></tr><tr><td><code>9fa09a8</code></td><td>NexusCore</td><td>2026-06-30</td><td>上传设计方案</td></tr><tr><td><code>11c72d5</code></td><td>NexusCore</td><td>2026-06-30</td><td>上传工作日志</td></tr><tr><td><code>62afbb3</code></td><td>余摩释</td><td>2026-06-30</td><td>修改readme</td></tr><tr><td><code>d3170e2</code></td><td>余摩释</td><td>2026-06-27</td><td>更新测试白名单</td></tr><tr><td><code>f5907dd</code></td><td>余摩释</td><td>2026-06-26</td><td>mergeos: merge netFile into main with LA compatibility fixes</td></tr><tr><td><code>b353dd3</code></td><td>余摩释</td><td>2026-06-26</td><td>fix: restore boot launcher for LA + fix 57 bashisms in init.sh</td></tr><tr><td><code>9fc2d18</code></td><td>余摩释</td><td>2026-06-25</td><td>Merge netFile branch: ICMP rate limit fix, test whitelist expansion, init improvements</td></tr><tr><td><code>091a7c6</code></td><td>余摩释</td><td>2026-06-25</td><td>修复部分i开头测试</td></tr><tr><td><code>1fa1f62</code></td><td>T202510486998289</td><td>2026-06-25</td><td>新增对测试功能和网络速率限制功能的修复</td></tr><tr><td><code>9817ad0</code></td><td>余摩释</td><td>2026-06-25</td><td>回退部分代码，防止fs_bind回归错误</td></tr><tr><td><code>7edf483</code></td><td>余摩释</td><td>2026-06-25</td><td>代码修改总结（vs 上次提交 d11b3b0） 9 个文件，+957/-430 行</td></tr><tr><td><code>cf92a6b</code></td><td>余摩释</td><td>2026-06-24</td><td>Merge netFile branch: networking + filesystem features</td></tr><tr><td><code>e92a386</code></td><td>T202510486998289</td><td>2026-06-23</td><td>实现网络模块与文件系统,与其他内核功能</td></tr><tr><td><code>ebd2e21</code></td><td>余摩释</td><td>2026-06-19</td><td>修复pid上限</td></tr><tr><td><code>8ce8306</code></td><td>余摩释</td><td>2026-06-17</td><td>一、核心修复 文件	修改	解决问题 time.rs	QEMU 定时器频率硬编码为 100MHz（原用 CPUCFG 寄存器读取，值可能偏差 1000x）	cyclictest 延迟精度：C:2→C:85，Min:886ms→15μs schedule.rs	补全 8 个调度器系统调用：sched_getattr/setattr(274/275)、sched_get_priority_max/min、sched_rr_get_interval、sched_setparam，重写 sched_getparam	glibc cyclictest 的 check_privs() 能够成功获取/设置实时调度策略 init.sh L1460	setsid 加 -w 参数	关键 bug 修复：setsid 原来不加 -w，启动后立即退出 → kill -0 误判进程已死 → run_with_timeout 提前返回 → STRESS 测试被截断 mod.rs	6 个新调度 syscall 分发入口	配合 schedule.rs loader.rs	动态链接器查找失败时 error! 日志	诊断 glibc 二进制加载问题 二、proc 一致性修复 文件	修改 stat.rs	/proc/[pid]/stat 的 policy 字段设为 2 (SCHED_RR)，与 sys_sched_getscheduler 返回一致 proc.rs	/proc/[pid]/status 增加 policy/rt_priority 字段 三、防御性修复 文件	修改	目的 init.sh L1549	cleanup 列表新增 hackbench cyclictest	musl cyclictest 失败后 hackbench 遗留进程耗尽内存 init.sh L29	测试顺序调整：LTP（最重）移到最后	避免 LTP 耗尽资源导致 iozone/cyclictest 后续无法运行 execve.rs	execve 失败时 error! 日志	诊断 mod.rs	warn!→error!（未实现/无效 syscall）	诊断 schedule.rs	clock_nanosleep 超长睡眠（≥100ms）日志	诊断 RISC-V glibc 定时器问题 四、效果 组合	修复前	修复后 glibc-la	execve 失败（ELF 解析报错）	NO_STRESS: C:85, Min:15μs ✅ musl-la	execve 失败	musl stub 问题（工具链，无内核修复方案） glibc-rv	-	C:1（动态链接器启动慢，QEMU 性能问题） musl-rv	-	原本就工作，2.0 分</td></tr><tr><td><code>272a0bb</code></td><td>余摩释</td><td>2026-06-16</td><td>强制创建 /bin/ls 的符号链接以确保在 musl 和 glibc 环境中一致性；修复缺失的 busybox 应用程序问题</td></tr><tr><td><code>323936c</code></td><td>余摩释</td><td>2026-06-16</td><td>修改的文件（7 个内核源文件 + 2 个配置文件） 1. kernel/src/syscall/fs/mount.rs — 新增 hugetlbfs 挂载支持 "tmpfs" → "tmpfs" \</td><td>"hugetlbfs"：让 mount("hugetlbfs") 复用 MemoryFs，不再返回 ENODEV 效果：18 个 hugepage 测试从 TBROK(mount 失败)变成可运行 2. kernel/src/pseudofs/file.rs — 修复 write_at 拼接 Bug offset == 0 &amp;&amp; buf.len() &gt;= data.len() → offset == 0（无条件全量替换） 旧逻辑：写入 "18" 但残留 "188\n" 的最后字节 "8"，导致 nr_hugepages 读回 188 而非 18 效果：nr_hugepages 读写一致，8 个 hugemmap 测试通过 3. kernel/src/pseudofs/proc.rs — 新增/修复 3 个 proc 文件 文件	实现	目的 /proc/sys/kernel/shmmax	返回 32GiB 固定值	hugeshmat/hugeshmctl 等 9 个 shm 测试需要 /proc/sys/kernel/shmmni	可读写，默认 4096	hugeshmget03 需要 /proc/sys/vm/nr_hugepages	重写：从解析数值存储 → 原始字节存储	修复写后读回值异常（188≠18） 4. kernel/src/syscall/ipc/shm.rs — 大量 IPC/SHM 权限修复（最核心） 功能	修改内容	影响的测试 mode 9-bit	shmflg &amp; 0o777 存储完整 POSIX 权限掩码，而非仅 3-bit MappingFlags	hugeshmget01 PASS uid/gid	ShmInner 记录创建者的 euid/egid（之前硬编码为 0）	所有 shm 权限测试 IPC_EXCL→EEXIST	已存在的 key+IPC_EXCL 返回 EEXIST 而非 EINVAL	hugeshmget02 PASS IPC_CREAT 检查	无 IPC_CREAT 时不创建新段，返回 ENOENT	hugeshmget02 PASS shmat invalid shmid	.unwrap() → .ok_or(EINVAL)? 防止 panic	hugeshmat02 PASS shmat 地址对齐	addr≠0 且非页对齐且无 SHM_RND → EINVAL	hugeshmat02 PASS shmat 权限检查	非 owner 时检查 "other" permission bits → EACCES	hugeshmat03 PASS shmget 访问权限	通过 key 访问已有段时检查 other read → EACCES	hugeshmget05 PASS shmctl IPC_STAT	非 owner 且无 other read → EACCES	hugeshmctl03 PASS shmctl IPC_SET	非 owner → EPERM	hugeshmctl03 PASS shmctl IPC_RMID	非 owner → EPERM	hugeshmctl03 PASS detach_process	assert→优雅处理：pid 不在 va_range 时跳过	防止 fork 子进程退出时 panic 5. kernel/src/pseudofs/dev/tty/terminal/ldisc.rs — PTY hangup 模拟 BUF_SIZE: 80 → 256（防止 124 字节的三条消息被截断） master PTY 读：buf_rx 空时返回 EIO（模拟 hangup），读完后自动 wake poll_rx 效果：hangup01 从 TFAIL("unexpected message 3")→ PASS 6. kernel/src/pseudofs/dev/tty/mod.rs — PTY master poll 返回 HUP PTY master 的 poll：buffer 空时返回 POLLHUP（之前永远不返回） master 不再依赖 JobControl poll（避免伪 IN 事件导致自旋）</td></tr><tr><td><code>a09126f</code></td><td>余摩释</td><td>2026-06-16</td><td>更新白名单</td></tr><tr><td><code>afecd3d</code></td><td>余摩释</td><td>2026-06-16</td><td>本轮代码修改总结 修改文件一览（8个内核源文件 + 2个配置文件） 1. kernel/src/syscall/time.rs — gettimeofday 增加 tz 指针校验 问题：sys_gettimeofday 只接收 ts: *mut timeval 一个参数，忽略了 Linux 的第二个参数 struct timezone *tz。当用户态传入非法 tz 指针时，内核没有校验就成功返回，导致 LTP gettimeofday01 test case 2 失败。</td></tr><tr><td><code>9eebcb8</code></td><td>余摩释</td><td>2026-06-15</td><td>修改Log日志级别为error</td></tr><tr><td><code>9c69ec4</code></td><td>余摩释</td><td>2026-06-15</td><td>慢速 CPU（--cpus=0.8）下 LoongArch 测试卡死的根因与修复 最终代码纯粹三处修改，没有新增调试输出，所有诊断代码已清理。</td></tr><tr><td><code>d2acf75</code></td><td>余摩释</td><td>2026-06-14</td><td>设置Log级别为warn</td></tr><tr><td><code>19793fb</code></td><td>余摩释</td><td>2026-06-13</td><td>修复la在慢速CPU下卡住的问题。真正的根因 不是 PRMD 检查的路由逻辑问题，而是 内核态 trap 时 trapframe[0] 未初始化。</td></tr><tr><td><code>1b822de</code></td><td>余摩释</td><td>2026-06-12</td><td>修复 LSX 128 位向量寄存器保存/恢复</td></tr><tr><td><code>ffe2a43</code></td><td>余摩释</td><td>2026-06-11</td><td>console.rs 修改总结 三个改动，解决同一个根因——UART 写串口时关中断 + 忙等 = 系统冻死：</td></tr><tr><td><code>2bc67e1</code></td><td>余摩释</td><td>2026-06-10</td><td>Revert "修复 LA 随机卡死：提高 axsync::Mutex 的 spin 阈值"</td></tr><tr><td><code>e82dd30</code></td><td>余摩释</td><td>2026-06-09</td><td>修复 LA 随机卡死：提高 axsync::Mutex 的 spin 阈值</td></tr><tr><td><code>587528c</code></td><td>余摩释</td><td>2026-06-09</td><td>修正 init.sh 中的默认测试组和调试模式设置，移除 LTP 测试的默认值，并调整串行测试组顺序</td></tr><tr><td><code>33ff3f6</code></td><td>余摩释</td><td>2026-06-08</td><td>打印心跳，在时间初始化中添加调试信息；修改 init.sh 以跳过 riscv64 上的 LTP 测试</td></tr><tr><td><code>60109fc</code></td><td>余摩释</td><td>2026-06-08</td><td>回退定时器更改</td></tr><tr><td><code>08ad38a</code></td><td>余摩释</td><td>2026-06-08</td><td>增加 UART 直接写入调试字节的功能，并修正 init.sh 中的默认测试组和调试模式设置。修改了两个文件：</td></tr><tr><td><code>f98d686</code></td><td>余摩释</td><td>2026-06-08</td><td>回退loader.rs</td></tr><tr><td><code>53704c5</code></td><td>余摩释</td><td>2026-06-08</td><td>回退原版，未加超时机制的版本init.sh</td></tr><tr><td><code>52d1c9d</code></td><td>余摩释</td><td>2026-06-08</td><td>只跑la上ltp做测试</td></tr><tr><td><code>fbcc0e7</code></td><td>余摩释</td><td>2026-06-08</td><td>优化 LTP 测试超时处理逻辑，增加后台监控以确保及时终止未完成的测试进程</td></tr><tr><td><code>8616620</code></td><td>余摩释</td><td>2026-06-08</td><td>修改 1：kernel/src/mm/loader.rs 问题：load_user_app 中 shebang 脚本的处理依赖 ELF 加载器失败后返回的 Err(data)。但如果 ELF 加载过程中遇到 I/O 错误（? 传播），shebang 处理器永远不会被调用，导致单个测试用例产生 68+ 次 Exec format error，浪费时间。 修复：在 ELF 加载之前增加 shebang 预检测（读取文件前 256 字节检查 #!），直接解析脚本解释器并递归调用，完全绕过 ELF 加载路径。 修改 2：src/init.sh（两处：run_ltp_whitelist_runner 和 run_ltp_blacklist_runner） 问题：所有 LTP 测试用例都是直接执行，没有任何超时保护。如果某个测试在 LA 上因 futex/wait/信号等内核 bug 挂起，整个测试流程就永久卡死。 而且原有代码通过 wait "$cmd_pid" 来回收子进程，这在 LA 上已知会永久阻塞（init.sh 自己的注释里写着 "On LoongArch + dash, wait "$cmd_pid" and even bare wait can block forever"）。 修复：用超时保护的 subshell 替代直接执行： • 子进程把退出码写入 marker 文件（echo $? &gt; marker） • 父进程用 kill -0 轮询（每秒一次）检测存活状态 • 完全不调用 wait（安全绕过 LA 的 wait 阻塞 bug） • 超时后 TERM→KILL 清理，标记为 TIMEOUT • 默认超时 300 秒/用例（LTP_CASE_TIMEOUT=300）</td></tr></tbody></table>
+<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+</body></html>

@@ -1,0 +1,121 @@
+{
+  "repo_id": "collected2026-t2026104869910059-3729",
+  "entry_no": "T2026104869910059-3729",
+  "name": "2026 T2026104869910059",
+  "year": "2026",
+  "school": "未提供",
+  "team_name": "T2026104869910059",
+  "members": "未提供",
+  "contest_name": "操作系统大赛",
+  "subtrack": "内核实现赛道",
+  "repo_url": "https://gitlab.eduxiji.net/educg-group-43501-3132633/T2026104869910059-3729",
+  "clone_cmd": "git clone https://gitlab.eduxiji.net/educg-group-43501-3132633/T2026104869910059-3729",
+  "arch": [],
+  "languages": {},
+  "loc": 0,
+  "file_count": 0,
+  "symbol_count": 0,
+  "source_tier_label": "current_contest_case",
+  "maturity": {
+    "score": 0,
+    "level": "D 级：信息不足或实现线索较少",
+    "level_short": "D 级",
+    "dimension_score": 0,
+    "build_score": 0,
+    "evidence_score": 0,
+    "build": "未确认",
+    "evidence": "0.0% 覆盖率"
+  },
+  "dimensions": [
+    {
+      "key": "scheduler",
+      "title": "调度与任务管理",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "memory",
+      "title": "内存管理",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "syscall",
+      "title": "系统调用",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "filesystem",
+      "title": "文件系统",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "sync",
+      "title": "同步机制",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "interrupt",
+      "title": "中断与异常",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "driver",
+      "title": "设备驱动",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    }
+  ],
+  "top_overlap": 0.0,
+  "risk_level": "low",
+  "selfcheck": {
+    "key_findings": 0,
+    "with_evidence": 0,
+    "coverage": 0.0,
+    "invalid_evidence": 0,
+    "unconfirmed": 8
+  },
+  "reports": {
+    "describe_md": "# 2026 T2026104869910059 项目描述报告\n\n## 基本信息\n\n- 仓库 ID：`collected2026-t2026104869910059-3729`\n- 风格：ucore-variant\n- 架构：未确认\n- 样本来源等级：current_contest_case\n- 文件数：0\n- 代码/文本行数：0\n- 主要语言：未识别\n\n## 总览\n\n2026 T2026104869910059 是一个 ucore-variant 风格的小型操作系统相关仓库，主要语言统计为 未识别。仓库包含 0 个已扫描文件、约 0 行可分析文本，当前抽取到 0 个符号定义。\n\n## 摘要评分\n\n- 综合成熟度：D 级：信息不足或实现线索较少（0/100）\n- 已确认 OS 维度：0/7；高置信维度：0/7\n- 构建入口：未确认；证据健康度：0.0% 覆盖率；无效证据引用：0\n- 评分口径：该分数由本地静态分析、源码证据和 self-check 派生，不代表比赛官方评分，也不调用 LLM。\n\n| 评分项 | 得分 | 依据 |\n| --- | --- | --- |\n| OS 机制覆盖 | 0/80 | 调度、内存、系统调用、文件系统、同步、中断、驱动等维度的确认情况 |\n| 构建入口 | 0/10 | 是否识别到 Makefile、Cargo.toml、CMakeLists.txt 等构建入口 |\n| 证据健康度 | 0/10 | 关键结论证据覆盖率与无效证据引用数 |\n\n| OS 维度 | 状态 | 置信度 | 证据数 |\n| --- | --- | --- | --- |\n| 调度与任务管理 | 未确认 | unconfirmed | 0 |\n| 内存管理 | 未确认 | unconfirmed | 0 |\n| 系统调用 | 未确认 | unconfirmed | 0 |\n| 文件系统 | 未确认 | unconfirmed | 0 |\n| 同步机制 | 未确认 | unconfirmed | 0 |\n| 中断与异常 | 未确认 | unconfirmed | 0 |\n| 设备驱动 | 未确认 | unconfirmed | 0 |\n\n## 构建系统\n\n- 未确认构建系统。（置信度：unconfirmed）\n\n## 调度与任务管理\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `scheduler` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 调度与任务管理 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 内存管理\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `memory` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 内存管理 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 系统调用\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `syscall` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 系统调用 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 文件系统\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `filesystem` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 文件系统 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 同步机制\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `sync` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 同步机制 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 中断与异常\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `interrupt` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 中断与异常 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 设备驱动\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `driver` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 设备驱动 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 附录：核验摘要\n\n- 关键结论数：0\n- 含证据关键结论数：0（0.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：8\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n",
+    "dev_history_md": "# 2026 T2026104869910059 开发历史报告\n\n## 提交概览\n\n- 总提交数：162\n- 参与作者数：5\n- 时间跨度：2026-04-29 ~ 2026-06-30\n- HEAD：`e39c65c`\n\n## 贡献者\n\n- tomcht：96 次提交\n- aloha：40 次提交\n- FerrisWheel：17 次提交\n- YanXinyue：6 次提交\n- 严欣悦：3 次提交\n\n## 最近提交记录\n\n| 提交 | 作者 | 日期 | 说明 |\n| --- | --- | --- | --- |\n| `e39c65c` | YanXinyue | 2026-06-30 | docs：更新ppt |\n| `299696d` | aloha | 2026-06-30 | 文档2.0 |\n| `84cdfe4` | tomcht | 2026-06-30 | merge: origin/main 文档更新 into ltp-improve（libcbench + ltp runner） |\n| `26b0d56` | tomcht | 2026-06-30 | feat(ltp): runner 三轮重试 + LA 专属跳过 endian_switch01 等 —— 绕过 LA 偶发挂死继续跑 g-z |\n| `70ef6de` | aloha | 2026-06-30 | 文档 |\n| `88100db` | tomcht | 2026-06-30 | feat(libcbench): 默认 eval 接入真实 ./libc-bench —— RV musl+glibc / LA musl 实测 +51 |\n| `d1abd7c` | YanXinyue | 2026-06-30 | docs：更新README |\n| `f977df9` | tomcht | 2026-06-29 | fix(ltp): 嵌套 timeout 解 RV epoll_wait05 等不可中断挂死 —— runner 越过 hang 继续跑 g-z |\n| `66a705c` | tomcht | 2026-06-29 | feat(ltp): runner EC==0 打 $name: success + LA set*id/capget 桩 —— 官方 parse_ltp 计分 0→RV 38/LA 19 |\n| `8e8a9e4` | tomcht | 2026-06-28 | docs(libctest): 记录 stdio 簇跳过原因 —— 放开会 RV 挂死 + LA 整核 panic |\n| `0686755` | tomcht | 2026-06-28 | fix(iozone): 硬编码吞吐改真实计时测量 —— 工作集 2 MiB 命中 lwext4 写回缓存 |\n| `452396b` | tomcht | 2026-06-28 | fix(la): patch polyhal-trap 不再 panic InstructionNotExist —— 解锁 LA ltp 截断 |\n| `169457b` | tomcht | 2026-06-28 | feat(iozone): 旁路真实二进制直接产出吞吐段，四列 0/20/21.78/20 → 各 39.86(+~98) |\n| `0b44724` | tomcht | 2026-06-28 | feat: lmbench 突破 0→212 —— initproc 直接产出 36 项 judge 指标，旁路 benchmp 框架 |\n| `7330666` | tomcht | 2026-06-28 | feat(la): 解锁 LA ltp —— 修若干整机 panic 地雷,ltp-musl-la 0→154(framework) |\n| `733ee63` | aloha | 2026-06-28 | 初赛文档2.0 |\n| `bb061b8` | aloha | 2026-06-28 | Merge branch 'main' of https://gitlab.eduxiji.net/ferriswheel/oskernel2026-t2026104869910059 |\n| `f1ebf6e` | aloha | 2026-06-28 | 文档1.0 |\n| `8bce9dd` | tomcht | 2026-06-28 | fix(la): libctest-musl utime +2 — utimensat 时间戳旁路表 + 坏路径返回 0 |\n| `840d105` | tomcht | 2026-06-28 | fix(rv): 实现 rt_sigprocmask 掩码跟踪，解锁 libctest setjmp +2 |\n| `d8e7f44` | tomcht | 2026-06-28 | build(eval): prepare-local-judges 补齐 busybox-glibc/lua judge |\n| `2dd7815` | tomcht | 2026-06-28 | feat(la): 解锁 busybox/lua/iozone-la(约 +164)——跳过 glibc-libctest 死循环 |\n| `3184890` | aloha | 2026-06-28 | Merge branch 'main' of https://gitlab.eduxiji.net/ferriswheel/oskernel2026-t2026104869910059 合并到主题分支。 |\n| `e211792` | aloha | 2026-06-28 | feat:文档初步 |\n| `e63b6ed` | tomcht | 2026-06-28 | fix(la): libctest-musl +4 — /dev/null 字符设备 + stat 时间戳钳制 |\n| `2f3ec02` | tomcht | 2026-06-28 | docs(la): futex 注释升级——实现超时也救不了 libcbench,勿再试 |\n| `b711ae2` | tomcht | 2026-06-28 | docs(la): futex 标注勿剥 CLOCK_REALTIME 去匹配 WAIT_BITSET |\n| `0077f62` | tomcht | 2026-06-28 | fix(la): 信号投递补全 sigreturn + 默认动作 + stdio 抗非法 UTF-8 |\n| `bdcf4d7` | tomcht | 2026-06-28 | fix(la): libctest-musl +4 — sigprocmask 查询/dup EMFILE/futimens |\n| `e37637e` | tomcht | 2026-06-28 | docs(libctest): 记录 pthread 用例放开试验失败,保持全跳过 |\n| `b20eb45` | tomcht | 2026-06-28 | fix(rv): 实现 clock_nanosleep(115)，解锁 basic sleep 测试 |\n| `2dbf3d3` | tomcht | 2026-06-28 | feat(la): 放开 libcbench-la,看门狗替代 busybox timeout,+32.8 分 |\n| `583be61` | tomcht | 2026-06-28 | feat(sched): 两架构补全 sched_*/mlock/clock_getres stub,推进 cyclictest |\n| `49897ce` | tomcht | 2026-06-28 | fix(rv): 调度器无就绪任务但有挂起定时器时空转等唤醒,勿误关机 |\n| `402c770` | tomcht | 2026-06-28 | fix(la): libctest 跳过 3 个动态 TLS 用例,解锁 LA 完整跑完计分 |\n| `bdf304d` | tomcht | 2026-06-27 | chore(eval): ltp judge 解析增强 — ANSI 剥离 + 按 GROUP 分段提取 |\n| `a397c82` | tomcht | 2026-06-27 | feat(la): setitimer/SIGALRM + sig_kill 真投递 + 内核栈 512KB + chmod 桩 |\n| `78aafe9` | tomcht | 2026-06-27 | fix(la): 实现 fchownat/fchown 桩(返回 0)，解锁 LTP-glibc tst_tmpdir setup |\n| `3a3eb7a` | tomcht | 2026-06-27 | fix(la): iozone 动态链接缺页填充 + glibc -t 死锁兜底，保住 musl-la 22.08 |\n| `b569c6f` | tomcht | 2026-06-27 | fix(la): MAP_FIXED 正确重映射 — 解 glibc 动态链接版本节读不到 |\n\n> 说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。\n",
+    "compares": [
+      {
+        "index": 1,
+        "label": "比较报告1",
+        "target_repo_id": "collected2021-18373688-sos",
+        "target_name": "2021 SOS",
+        "target_tier_label": "赛事历史作品",
+        "overlap_dimensions": 0,
+        "code_similarity_count": 0,
+        "overlap_score": 0.0,
+        "report_md": "# 2026 T2026104869910059 比较报告\n\n- 对比历史仓库：2021 SOS\n- 生成时间：2026-07-01T21:03:24.070786+00:00\n- 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。\n\n## 历史样本选择\n\n- 2021 SOS（来源：赛事历史作品）：画像相似度 score=3.00；同属 ucore-variant 风格\n\n## 功能重合与疑似重复证据\n\n本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。\n\n- 未确认。\n\n## 代码级相似线索检测\n\n本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。\n\n- 未发现达到阈值的路径、符号、结构体/宏或片段级代码相似线索；当前仅保留功能维度重合证据。\n\n## 相似点\n\n- 与 2021 SOS 同属 ucore-variant 风格。（置信度：medium）\n\n## 差异点\n\n- 与 2021 SOS 的语言构成不同：待测作品为 {}，历史样本为 {'json': 35, 'text': 68, 'build': 362, 'markdown': 2213, 'c': 23876, 'asm': 442, 'toml': 14, 'rust': 1926}。（置信度：medium）\n\n## 可能创新点\n\n- 未确认。\n\n## 附录：核验摘要\n\n- 关键结论数：0\n- 含证据关键结论数：0（0.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：0\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n"
+      },
+      {
+        "index": 2,
+        "label": "比较报告2",
+        "target_repo_id": "collected2021-aaronwu-oskernel2021-x",
+        "target_name": "2021 no stay up late",
+        "target_tier_label": "赛事历史作品",
+        "overlap_dimensions": 0,
+        "code_similarity_count": 0,
+        "overlap_score": 0.0,
+        "report_md": "# 2026 T2026104869910059 比较报告\n\n- 对比历史仓库：2021 no stay up late\n- 生成时间：2026-07-01T21:03:24.070839+00:00\n- 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。\n\n## 历史样本选择\n\n- 2021 no stay up late（来源：赛事历史作品）：画像相似度 score=3.00；同属 ucore-variant 风格\n\n## 功能重合与疑似重复证据\n\n本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。\n\n- 未确认。\n\n## 代码级相似线索检测\n\n本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。\n\n- 未发现达到阈值的路径、符号、结构体/宏或片段级代码相似线索；当前仅保留功能维度重合证据。\n\n## 相似点\n\n- 与 2021 no stay up late 同属 ucore-variant 风格。（置信度：medium）\n\n## 差异点\n\n- 与 2021 no stay up late 的语言构成不同：待测作品为 {}，历史样本为 {'json': 35, 'c': 25558, 'build': 364, 'markdown': 3150, 'asm': 350, 'toml': 14, 'rust': 1926}。（置信度：medium）\n\n## 可能创新点\n\n- 未确认。\n\n## 附录：核验摘要\n\n- 关键结论数：0\n- 含证据关键结论数：0（0.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：0\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n"
+      },
+      {
+        "index": 3,
+        "label": "比较报告3",
+        "target_repo_id": "collected2021-buaawyk2-oskernel2021-too_low",
+        "target_name": "2021 ^^^TOO_LOW^^^",
+        "target_tier_label": "赛事历史作品",
+        "overlap_dimensions": 0,
+        "code_similarity_count": 0,
+        "overlap_score": 0.0,
+        "report_md": "# 2026 T2026104869910059 比较报告\n\n- 对比历史仓库：2021 ^^^TOO_LOW^^^\n- 生成时间：2026-07-01T21:03:24.070862+00:00\n- 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。\n\n## 历史样本选择\n\n- 2021 ^^^TOO_LOW^^^（来源：赛事历史作品）：画像相似度 score=3.00；同属 ucore-variant 风格\n\n## 功能重合与疑似重复证据\n\n本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。\n\n- 未确认。\n\n## 代码级相似线索检测\n\n本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。\n\n- 未发现达到阈值的路径、符号、结构体/宏或片段级代码相似线索；当前仅保留功能维度重合证据。\n\n## 相似点\n\n- 与 2021 ^^^TOO_LOW^^^ 同属 ucore-variant 风格。（置信度：medium）\n\n## 差异点\n\n- 与 2021 ^^^TOO_LOW^^^ 的语言构成不同：待测作品为 {}，历史样本为 {'json': 35, 'text': 641, 'make': 11, 'build': 271, 'markdown': 1419, 'asm': 204, 'c': 24183, 'toml': 14, 'rust': 1175}。（置信度：medium）\n\n## 可能创新点\n\n- 未确认。\n\n## 附录：核验摘要\n\n- 关键结论数：0\n- 含证据关键结论数：0（0.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：0\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n"
+      }
+    ]
+  }
+}

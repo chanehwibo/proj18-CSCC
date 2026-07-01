@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from pathlib import Path
 
 from .models import FileEntry, RepoMeta, RepoSnapshot
@@ -100,20 +101,60 @@ class RepoCollector:
 
     def _scan_files(self, root: Path) -> list[FileEntry]:
         entries: list[FileEntry] = []
+        for file in self._iter_candidate_files(root):
+            rel = file.relative_to(root)
+            try:
+                size = file.stat().st_size
+            except OSError:
+                continue
+            if size > 1_000_000:
+                continue
+            lang = self._detect_lang(file)
+            if lang == "unknown":
+                continue
+            loc = self._count_lines(file)
+            entries.append(FileEntry(path=rel.as_posix(), size=size, lang=lang, loc=loc))
+        return entries
+
+    def _iter_candidate_files(self, root: Path):
+        tracked = self._git_tracked_files(root)
+        if tracked is not None:
+            for rel in tracked:
+                if any(part in SKIP_DIRS for part in rel.parts):
+                    continue
+                file = root / rel
+                try:
+                    if file.is_file():
+                        yield file
+                except OSError:
+                    continue
+            return
+
         for file in root.rglob("*"):
             if not file.is_file():
                 continue
             rel = file.relative_to(root)
             if any(part in SKIP_DIRS for part in rel.parts):
                 continue
-            if file.stat().st_size > 1_000_000:
-                continue
-            lang = self._detect_lang(file)
-            if lang == "unknown":
-                continue
-            loc = self._count_lines(file)
-            entries.append(FileEntry(path=rel.as_posix(), size=file.stat().st_size, lang=lang, loc=loc))
-        return entries
+            yield file
+
+    def _git_tracked_files(self, root: Path) -> list[Path] | None:
+        if not (root / ".git").exists():
+            return None
+        try:
+            proc = subprocess.run(
+                ["git", "-C", str(root), "ls-files", "-z"],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                encoding="utf-8",
+                errors="replace",
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            return None
+        if proc.returncode != 0:
+            return None
+        return [Path(item) for item in proc.stdout.split("\0") if item]
 
     def _detect_lang(self, path: Path) -> str:
         if path.name in BUILD_FILES:

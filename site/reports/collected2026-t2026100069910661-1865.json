@@ -1,0 +1,128 @@
+{
+  "repo_id": "collected2026-t2026100069910661-1865",
+  "entry_no": "T2026100069910661-1865",
+  "name": "2026 T2026100069910661",
+  "year": "2026",
+  "school": "未提供",
+  "team_name": "T2026100069910661",
+  "members": "未提供",
+  "contest_name": "操作系统大赛",
+  "subtrack": "内核实现赛道",
+  "repo_url": "https://gitlab.eduxiji.net/educg-group-43501-3132633/T2026100069910661-1865",
+  "clone_cmd": "git clone https://gitlab.eduxiji.net/educg-group-43501-3132633/T2026100069910661-1865",
+  "arch": [],
+  "languages": {
+    "json": 20,
+    "make": 11,
+    "build": 69,
+    "markdown": 92,
+    "c": 66,
+    "asm": 15
+  },
+  "loc": 273,
+  "file_count": 8,
+  "symbol_count": 3,
+  "source_tier_label": "current_contest_case",
+  "maturity": {
+    "score": 46,
+    "level": "D 级：信息不足或实现线索较少",
+    "level_short": "D 级",
+    "dimension_score": 26,
+    "build_score": 10,
+    "evidence_score": 10,
+    "build": "已确认",
+    "evidence": "100.0% 覆盖率"
+  },
+  "dimensions": [
+    {
+      "key": "scheduler",
+      "title": "调度与任务管理",
+      "status": "confirmed",
+      "confidence": "high"
+    },
+    {
+      "key": "memory",
+      "title": "内存管理",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "syscall",
+      "title": "系统调用",
+      "status": "confirmed",
+      "confidence": "high"
+    },
+    {
+      "key": "filesystem",
+      "title": "文件系统",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "sync",
+      "title": "同步机制",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "interrupt",
+      "title": "中断与异常",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "key": "driver",
+      "title": "设备驱动",
+      "status": "unconfirmed",
+      "confidence": "unconfirmed"
+    }
+  ],
+  "top_overlap": 22.9,
+  "risk_level": "low",
+  "selfcheck": {
+    "key_findings": 3,
+    "with_evidence": 3,
+    "coverage": 100.0,
+    "invalid_evidence": 0,
+    "unconfirmed": 5
+  },
+  "reports": {
+    "describe_md": "# 2026 T2026100069910661 项目描述报告\n\n## 基本信息\n\n- 仓库 ID：`collected2026-t2026100069910661-1865`\n- 风格：ucore-variant\n- 架构：未确认\n- 样本来源等级：current_contest_case\n- 文件数：8\n- 代码/文本行数：273\n- 主要语言：markdown 92 LOC, build 69 LOC, c 66 LOC, json 20 LOC, asm 15 LOC\n\n## 总览\n\n2026 T2026100069910661 是一个 ucore-variant 风格的小型操作系统相关仓库，主要语言统计为 markdown: 92 LOC, build: 69 LOC, c: 66 LOC, json: 20 LOC。仓库包含 8 个已扫描文件、约 273 行可分析文本，当前抽取到 3 个符号定义。\n\n## 摘要评分\n\n- 综合成熟度：D 级：信息不足或实现线索较少（46/100）\n- 已确认 OS 维度：2/7；高置信维度：2/7\n- 构建入口：已确认；证据健康度：100.0% 覆盖率；无效证据引用：0\n- 评分口径：该分数由本地静态分析、源码证据和 self-check 派生，不代表比赛官方评分，也不调用 LLM。\n\n| 评分项 | 得分 | 依据 |\n| --- | --- | --- |\n| OS 机制覆盖 | 26/80 | 调度、内存、系统调用、文件系统、同步、中断、驱动等维度的确认情况 |\n| 构建入口 | 10/10 | 是否识别到 Makefile、Cargo.toml、CMakeLists.txt 等构建入口 |\n| 证据健康度 | 10/10 | 关键结论证据覆盖率与无效证据引用数 |\n\n| OS 维度 | 状态 | 置信度 | 证据数 |\n| --- | --- | --- | --- |\n| 调度与任务管理 | 已确认 | high | 1 |\n| 内存管理 | 未确认 | unconfirmed | 0 |\n| 系统调用 | 已确认 | high | 1 |\n| 文件系统 | 未确认 | unconfirmed | 0 |\n| 同步机制 | 未确认 | unconfirmed | 0 |\n| 中断与异常 | 未确认 | unconfirmed | 0 |\n| 设备驱动 | 未确认 | unconfirmed | 0 |\n\n## 构建系统\n\n- 仓库包含构建入口：Makefile, kernel/Makefile。（置信度：high）\n  证据：\n  - `Makefile:L1-L3`：构建入口\n    代码片段：`include include.mk target_dir\t\t\t\t:= target`\n  - `kernel/Makefile:L1-L3`：构建入口\n    代码片段：`INCLUDES    := -I../include/ %.o: %.c`\n\n## 调度与任务管理\n\n- 结论：已确认该维度存在可追溯实现线索。（综合置信度：high）\n- 分析口径：本维度主要关注 `scheduler` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：\n  - 项目包含任务/线程管理与调度相关实现。（置信度：high）\n\n### 证据表\n\n| 文件 | 行号 | 说明 |\n| --- | --- | --- |\n| `kernel/init.c` | L52-L56 | 关键词命中 |\n\n### 关键代码片段\n\n  - `kernel/init.c:L52-L56`：关键词命中\n    代码片段：`// 进程调度 // schedule(0); halt(); }`\n\n### 复核建议\n\n- 建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。\n\n## 内存管理\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `memory` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 内存管理 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 系统调用\n\n- 结论：已确认该维度存在可追溯实现线索。（综合置信度：high）\n- 分析口径：本维度主要关注 `syscall` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：\n  - 项目包含系统调用入口、编号或分发逻辑。（置信度：high）\n\n### 证据表\n\n| 文件 | 行号 | 说明 |\n| --- | --- | --- |\n| `include/purchar.h` | L3-L7 | 关键词命中 |\n\n### 关键代码片段\n\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n\n### 复核建议\n\n- 建议人工检查上述代码片段所在文件，确认关键词命中是否确实对应完整机制，而不是仅出现名称或注释。\n\n## 文件系统\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `filesystem` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 文件系统 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 同步机制\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `sync` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 同步机制 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 中断与异常\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `interrupt` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 中断与异常 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 设备驱动\n\n- 结论：未确认该维度存在可追溯实现线索。（综合置信度：unconfirmed）\n- 分析口径：本维度主要关注 `driver` 相关的源码路径、符号定义和关键词证据；文档命中不直接作为实现证据。\n- 设计判断：当前未在核心源码路径中确认 设备驱动 的实现证据。\n\n### 证据表\n\n| 证据 | 说明 |\n| --- | --- |\n| 未确认 | 当前未找到可引用的源码证据 |\n\n### 复核建议\n\n- 建议人工补查目录命名不典型的源码文件，或在后续版本中扩展该维度关键词。\n\n## 附录：核验摘要\n\n- 关键结论数：3\n- 含证据关键结论数：3（100.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：5\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n",
+    "dev_history_md": "# 2026 T2026100069910661 开发历史报告\n\n## 提交概览\n\n- 总提交数：25\n- 参与作者数：3\n- 时间跨度：2026-05-23 ~ 2026-06-01\n- HEAD：`91fcafc`\n\n## 贡献者\n\n- 崔明杰：18 次提交\n- qcloud：6 次提交\n- 被酱味的通灵人：1 次提交\n\n## 最近提交记录\n\n| 提交 | 作者 | 日期 | 说明 |\n| --- | --- | --- | --- |\n| `91fcafc` | qcloud | 2026-06-01 | 能够启动 |\n| `2027423` | qcloud | 2026-05-31 | 1 |\n| `477fa31` | qcloud | 2026-05-25 | 19 |\n| `093d508` | qcloud | 2026-05-25 | 18 |\n| `dd37ce7` | qcloud | 2026-05-25 | 17 |\n| `de492b9` | qcloud | 2026-05-24 | 17 |\n| `3d15b2c` | 崔明杰 | 2026-05-24 | 16 |\n| `bffa745` | 崔明杰 | 2026-05-24 | 15 |\n| `8016fe0` | 崔明杰 | 2026-05-24 | 14 |\n| `d5cba12` | 崔明杰 | 2026-05-24 | 13 |\n| `317005a` | 崔明杰 | 2026-05-24 | 12 |\n| `975cbab` | 崔明杰 | 2026-05-24 | 11 |\n| `103f7ff` | 崔明杰 | 2026-05-24 | 10 |\n| `7afd2aa` | 崔明杰 | 2026-05-24 | 9 |\n| `9120ce1` | 崔明杰 | 2026-05-23 | 8 |\n| `76e8aec` | 崔明杰 | 2026-05-23 | 7 |\n| `7d490f2` | 崔明杰 | 2026-05-23 | 7 |\n| `8e30243` | 崔明杰 | 2026-05-23 | 6 |\n| `6ed7d27` | 崔明杰 | 2026-05-23 | 5 |\n| `75205c4` | 崔明杰 | 2026-05-23 | 5 |\n| `32588aa` | 崔明杰 | 2026-05-23 | 4 |\n| `a467a58` | 崔明杰 | 2026-05-23 | 3 |\n| `d1712d7` | 崔明杰 | 2026-05-23 | 2 |\n| `6fcfb12` | 崔明杰 | 2026-05-23 | 第一次尝试 |\n| `926c08a` | 被酱味的通灵人 | 2026-05-23 | Initial commit |\n\n> 说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。\n",
+    "compares": [
+      {
+        "index": 1,
+        "label": "比较报告1",
+        "target_repo_id": "collected2023-202311664101068-oskernel2023-xupt-orz",
+        "target_name": "2023 你宁可空转也不愿被我抢占",
+        "target_tier_label": "赛事历史作品",
+        "overlap_dimensions": 2,
+        "code_similarity_count": 2,
+        "overlap_score": 22.9,
+        "report_md": "# 2026 T2026100069910661 比较报告\n\n- 对比历史仓库：2023 你宁可空转也不愿被我抢占\n- 生成时间：2026-07-01T20:55:33.856858+00:00\n- 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。\n\n## 历史样本选择\n\n- 2023 你宁可空转也不愿被我抢占（来源：赛事历史作品）：画像相似度 score=5.75；同属 ucore-variant 风格; 语言构成相似度 0.56; OS 维度重合度 0.33; 代码规模接近度 0.30\n\n## 功能重合与疑似重复证据\n\n本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。\n\n- 与 2023 你宁可空转也不愿被我抢占 在“调度与任务管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）\n  证据：\n  - `kernel/init.c:L52-L56`：关键词命中\n    代码片段：`// 进程调度 // schedule(0); halt(); }`\n  - `kernel/sched/context.S:L74-L78`：关键词命中\n    代码片段：`# Something to note about save/restore: # - We use mscratch to hold a pointer to context of current task # - We use t6 as the 'base' for reg_save/reg_restore, because it is the...`\n  - `kernel/sched/co_sched.c:L2-L6`：关键词命中\n    代码片段：`/* defined in entry.S */ extern void switch_to(struct context *next); #define MAX_TASKS 10    // 最大任务数量`\n- 与 2023 你宁可空转也不愿被我抢占 在“系统调用”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `kernel/trap/timer.c:L29-L33`：关键词命中\n    代码片段：`register reg_t a7 asm(\"a7\") = (reg_t)0x00UL; register reg_t a0 asm(\"a0\") = (reg_t)stime_value; asm volatile(\"ecall\" :\"+r\"(a0) :\"r\"(a7)`\n  - `include/driver.h:L29-L33`：关键词命中\n    代码片段：`register u64 a3 asm (\"a3\") = (u64)(arg3);\t\\ register u64 a7 asm (\"a7\") = (u64)(which);\t\\ asm volatile (\"ecall\"\t\t\t\t\t\\ : \"+r\" (a0)\t\t\t\t\\ : \"r\" (a1), \"r\" (a2), \"r\" (a3), \"r\" (a7)\t\\`\n\n## 代码级相似线索检测\n\n本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。\n\n- 与 2023 你宁可空转也不愿被我抢占 在“系统调用”维度发现片段级代码相似度 0.75 （token=0.61, structure=1.00）。这属于代码级相似线索，不等同于抄袭结论，需要人工结合完整文件和提交历史复核。 共同 token：a0, a7, asm, register, volatile。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `kernel/trap/timer.c:L29-L33`：关键词命中\n    代码片段：`register reg_t a7 asm(\"a7\") = (reg_t)0x00UL; register reg_t a0 asm(\"a0\") = (reg_t)stime_value; asm volatile(\"ecall\" :\"+r\"(a0) :\"r\"(a7)`\n- 与 2023 你宁可空转也不愿被我抢占 在“系统调用”维度发现片段级代码相似度 0.60 （token=0.52, structure=0.75）。这属于代码级相似线索，不等同于抄袭结论，需要人工结合完整文件和提交历史复核。 共同 token：a0, a7, asm, register, volatile。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `include/driver.h:L29-L33`：关键词命中\n    代码片段：`register u64 a3 asm (\"a3\") = (u64)(arg3);\t\\ register u64 a7 asm (\"a7\") = (u64)(which);\t\\ asm volatile (\"ecall\"\t\t\t\t\t\\ : \"+r\" (a0)\t\t\t\t\\ : \"r\" (a1), \"r\" (a2), \"r\" (a3), \"r\" (a7)\t\\`\n\n## 相似点\n\n- 与 2023 你宁可空转也不愿被我抢占 同属 ucore-variant 风格。（置信度：medium）\n- 与 2023 你宁可空转也不愿被我抢占 在“调度与任务管理”维度均有可确认实现。（置信度：medium）\n  证据：\n  - `kernel/init.c:L52-L56`：关键词命中\n    代码片段：`// 进程调度 // schedule(0); halt(); }`\n  - `kernel/sched/context.S:L74-L78`：关键词命中\n    代码片段：`# Something to note about save/restore: # - We use mscratch to hold a pointer to context of current task # - We use t6 as the 'base' for reg_save/reg_restore, because it is the...`\n- 与 2023 你宁可空转也不愿被我抢占 在“系统调用”维度均有可确认实现。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `kernel/trap/timer.c:L29-L33`：关键词命中\n    代码片段：`register reg_t a7 asm(\"a7\") = (reg_t)0x00UL; register reg_t a0 asm(\"a0\") = (reg_t)stime_value; asm volatile(\"ecall\" :\"+r\"(a0) :\"r\"(a7)`\n- 与 2023 你宁可空转也不愿被我抢占 在 scheduler, syscall 等维度均有可确认实现，可作为进一步人工复核重点。（置信度：medium）\n\n## 差异点\n\n- 与 2023 你宁可空转也不愿被我抢占 的语言构成不同：待测作品为 {'json': 20, 'make': 11, 'build': 69, 'markdown': 92, 'c': 66, 'asm': 15}，历史样本为 {'json': 20, 'make': 23, 'build': 217, 'markdown': 459, 'c': 1845, 'asm': 172}。（置信度：medium）\n\n## 可能创新点\n\n- 未确认。\n\n## 附录：核验摘要\n\n- 关键结论数：6\n- 含证据关键结论数：6（100.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：0\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n"
+      },
+      {
+        "index": 2,
+        "label": "比较报告2",
+        "target_repo_id": "collected2023-202310145101593-ender-v",
+        "target_name": "2023 终结者-FIVE",
+        "target_tier_label": "赛事历史作品",
+        "overlap_dimensions": 2,
+        "code_similarity_count": 1,
+        "overlap_score": 18.6,
+        "report_md": "# 2026 T2026100069910661 比较报告\n\n- 对比历史仓库：2023 终结者-FIVE\n- 生成时间：2026-07-01T20:55:33.861296+00:00\n- 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。\n\n## 历史样本选择\n\n- 2023 终结者-FIVE（来源：赛事历史作品）：画像相似度 score=5.49；同属 ucore-variant 风格; 语言构成相似度 0.41; OS 维度重合度 0.33; 代码规模接近度 0.34\n\n## 功能重合与疑似重复证据\n\n本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。\n\n- 与 2023 终结者-FIVE 在“调度与任务管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）\n  证据：\n  - `kernel/init.c:L52-L56`：关键词命中\n    代码片段：`// 进程调度 // schedule(0); halt(); }`\n  - `sched.c:L2-L6`：关键词命中\n    代码片段：`/* defined in entry.S */ extern void switch_to(struct context *next); #define MAX_TASKS 10`\n  - `os.h:L22-L26`：关键词命中\n    代码片段：`extern void page_free(void *p); /* task management */ struct context { /* ignore x0 */`\n- 与 2023 终结者-FIVE 在“系统调用”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `trap.c:L5-L9`：关键词命中\n    代码片段：`extern void timer_handler(void); extern void schedule(void); extern void do_syscall(struct context *cxt); void trap_init()`\n  - `syscall.c:L1-L4`：关键词命中\n    代码片段：`#include \"os.h\" #include \"syscall.h\" int sys_gethid(unsigned int *ptr_hid)`\n\n## 代码级相似线索检测\n\n本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。\n\n- 与 2023 终结者-FIVE 在“系统调用”维度发现片段级代码相似度 0.75 （token=0.61, structure=1.00）。这属于代码级相似线索，不等同于抄袭结论，需要人工结合完整文件和提交历史复核。 共同 token：a0, a7, asm, register, volatile。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `timer.c:L29-L33`：关键词命中\n    代码片段：`register reg_t a7 asm(\"a7\") = (reg_t)0x00UL; register reg_t a0 asm(\"a0\") = (reg_t)stime_value; asm volatile(\"ecall\" :\"+r\"(a0) :\"r\"(a7)`\n\n## 相似点\n\n- 与 2023 终结者-FIVE 同属 ucore-variant 风格。（置信度：medium）\n- 与 2023 终结者-FIVE 在“调度与任务管理”维度均有可确认实现。（置信度：medium）\n  证据：\n  - `kernel/init.c:L52-L56`：关键词命中\n    代码片段：`// 进程调度 // schedule(0); halt(); }`\n  - `sched.c:L2-L6`：关键词命中\n    代码片段：`/* defined in entry.S */ extern void switch_to(struct context *next); #define MAX_TASKS 10`\n- 与 2023 终结者-FIVE 在“系统调用”维度均有可确认实现。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `trap.c:L5-L9`：关键词命中\n    代码片段：`extern void timer_handler(void); extern void schedule(void); extern void do_syscall(struct context *cxt); void trap_init()`\n- 与 2023 终结者-FIVE 在 scheduler, syscall 等维度均有可确认实现，可作为进一步人工复核重点。（置信度：medium）\n\n## 差异点\n\n- 与 2023 终结者-FIVE 的语言构成不同：待测作品为 {'json': 20, 'make': 11, 'build': 69, 'markdown': 92, 'c': 66, 'asm': 15}，历史样本为 {'json': 20, 'make': 14, 'asm': 286, 'c': 1425, 'build': 87, 'markdown': 92}。（置信度：medium）\n\n## 可能创新点\n\n- 未确认。\n\n## 附录：核验摘要\n\n- 关键结论数：5\n- 含证据关键结论数：5（100.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：0\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n"
+      },
+      {
+        "index": 3,
+        "label": "比较报告3",
+        "target_repo_id": "collected2021-qq976243638-xos",
+        "target_name": "2021 TeamNameNotFound",
+        "target_tier_label": "赛事历史作品",
+        "overlap_dimensions": 2,
+        "code_similarity_count": 0,
+        "overlap_score": 14.3,
+        "report_md": "# 2026 T2026100069910661 比较报告\n\n- 对比历史仓库：2021 TeamNameNotFound\n- 生成时间：2026-07-01T20:55:33.855236+00:00\n- 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。\n\n## 历史样本选择\n\n- 2021 TeamNameNotFound（来源：赛事历史作品）：画像相似度 score=5.89；同属 ucore-variant 风格; 语言构成相似度 0.64; OS 维度重合度 0.33; 代码规模接近度 0.27\n\n## 功能重合与疑似重复证据\n\n本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。\n\n- 与 2021 TeamNameNotFound 在“调度与任务管理”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）\n  证据：\n  - `kernel/init.c:L52-L56`：关键词命中\n    代码片段：`// 进程调度 // schedule(0); halt(); }`\n  - `kernel/proc/proc.c:L1-L3`：关键词命中\n    代码片段：`#include \"proc.h\" #include \"panic.h\" #include \"page.h\"`\n  - `kernel/proc/proc.h:L12-L16`：关键词命中\n    代码片段：`// return address uint64 ra; // proc stack pointer uint64 sp; uint64 s0;`\n- 与 2021 TeamNameNotFound 在“系统调用”维度存在功能重合：双方均有可追溯源码证据，属于需要重点复核的相似实现线索。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `kernel/trap/syscall.c:L28-L32`：关键词命中\n    代码片段：`} /* @brief: syscall dispatcher */ void syscall(struct trapframe *tf_ptr) {`\n  - `kernel/libs/sbi.c:L13-L17`：关键词命中\n    代码片段：`\"mv a1, %[arg1]\\n\" \"mv a2, %[arg2]\\n\" \"ecall\\n\" \"mv %[ret], a7\" : [ret] \"=r\" (ret)`\n\n## 代码级相似线索检测\n\n本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。\n\n- 未发现达到阈值的路径、符号、结构体/宏或片段级代码相似线索；当前仅保留功能维度重合证据。\n\n## 相似点\n\n- 与 2021 TeamNameNotFound 同属 ucore-variant 风格。（置信度：medium）\n- 与 2021 TeamNameNotFound 在“调度与任务管理”维度均有可确认实现。（置信度：medium）\n  证据：\n  - `kernel/init.c:L52-L56`：关键词命中\n    代码片段：`// 进程调度 // schedule(0); halt(); }`\n  - `kernel/proc/proc.c:L1-L3`：关键词命中\n    代码片段：`#include \"proc.h\" #include \"panic.h\" #include \"page.h\"`\n- 与 2021 TeamNameNotFound 在“系统调用”维度均有可确认实现。（置信度：medium）\n  证据：\n  - `include/purchar.h:L3-L7`：关键词命中\n    代码片段：`register uint64_t a0 asm(\"a0\") = ch;  // 字符 register uint64_t a7 asm(\"a7\") = 0x1; // SBI_CONSOLE_PUTCHAR asm volatile(\"ecall\"                  // 发起SBI调用 : \"+r\"(a0) : \"r\"(a7)`\n  - `kernel/trap/syscall.c:L28-L32`：关键词命中\n    代码片段：`} /* @brief: syscall dispatcher */ void syscall(struct trapframe *tf_ptr) {`\n- 与 2021 TeamNameNotFound 在 scheduler, syscall 等维度均有可确认实现，可作为进一步人工复核重点。（置信度：medium）\n\n## 差异点\n\n- 与 2021 TeamNameNotFound 的语言构成不同：待测作品为 {'json': 20, 'make': 11, 'build': 69, 'markdown': 92, 'c': 66, 'asm': 15}，历史样本为 {'json': 20, 'build': 122, 'markdown': 1316, 'c': 2397, 'asm': 154, 'text': 3}。（置信度：medium）\n\n## 可能创新点\n\n- 未确认。\n\n## 附录：核验摘要\n\n- 关键结论数：4\n- 含证据关键结论数：4（100.0%）\n- 无效证据引用数：0\n- 未确认关键结论数：0\n- 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。\n"
+      }
+    ]
+  }
+}
