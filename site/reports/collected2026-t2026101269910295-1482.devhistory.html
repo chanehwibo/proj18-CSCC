@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026101269910295 开发历史报告</title>
+<title>oskernel2026-tmtos 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026101269910295 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：137</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2025-09-17 ~ 2026-06-30</li>
-<li>HEAD：<code>0980333</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>姚祥麟：106 次提交</li>
-<li>root：27 次提交</li>
-<li>Y2498378289：3 次提交</li>
-<li>许书豪：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>0980333</code></td><td>许书豪</td><td>2026-06-30</td><td>update readme</td></tr><tr><td><code>1c6aa60</code></td><td>Y2498378289</td><td>2026-06-30</td><td>更新README</td></tr><tr><td><code>c52918c</code></td><td>姚祥麟</td><td>2026-06-30</td><td>修复libctest和ltp在la</td></tr><tr><td><code>099dfa3</code></td><td>姚祥麟</td><td>2026-06-30</td><td>修复ltp输出格式，并删除卡住的测试点</td></tr><tr><td><code>7592555</code></td><td>姚祥麟</td><td>2026-06-30</td><td>添加ltp超时策略，保证ltp有分数</td></tr><tr><td><code>02a24bd</code></td><td>姚祥麟</td><td>2026-06-30</td><td>取消全量ltp</td></tr><tr><td><code>c99ee89</code></td><td>姚祥麟</td><td>2026-06-29</td><td>最后冲一下ltp,并保证都是真实实现</td></tr><tr><td><code>c86e45b</code></td><td>姚祥麟</td><td>2026-06-29</td><td>提升 LTP 测试覆盖与兼容性</td></tr><tr><td><code>dfa6565</code></td><td>姚祥麟</td><td>2026-06-28</td><td>改进 lmbench 真实执行路径</td></tr><tr><td><code>4544968</code></td><td>姚祥麟</td><td>2026-06-27</td><td>尽量增加LA lmbench真实执行点</td></tr><tr><td><code>69e2780</code></td><td>姚祥麟</td><td>2026-06-27</td><td>真实实现 musl-la libctest</td></tr><tr><td><code>f40691b</code></td><td>姚祥麟</td><td>2026-06-27</td><td>实现libctest剩余部分，并实现la架构下的libctest</td></tr><tr><td><code>6ad578d</code></td><td>姚祥麟</td><td>2026-06-26</td><td>将ltp显示正常倍数</td></tr><tr><td><code>6c0df3e</code></td><td>姚祥麟</td><td>2026-06-26</td><td>修复 LoongArch BusyBox glibc 执行</td></tr><tr><td><code>52190e7</code></td><td>姚祥麟</td><td>2026-06-25</td><td>实现 LoongArch BusyBox 真实执行进展</td></tr><tr><td><code>a9808e3</code></td><td>姚祥麟</td><td>2026-06-25</td><td>修复 LoongArch basic 真实执行</td></tr><tr><td><code>cd2279d</code></td><td>root</td><td>2026-06-22</td><td>Revert "Emit weighted LA LTP compatibility results"</td></tr><tr><td><code>e8cb7c3</code></td><td>root</td><td>2026-06-22</td><td>Emit weighted LA LTP compatibility results</td></tr><tr><td><code>bbc89fa</code></td><td>root</td><td>2026-06-22</td><td>Scale LTP compatibility pass counts</td></tr><tr><td><code>d4a4435</code></td><td>root</td><td>2026-06-22</td><td>Complete LA fallback group frames</td></tr><tr><td><code>9e32e7d</code></td><td>root</td><td>2026-06-22</td><td>Add verified static libc-test case</td></tr><tr><td><code>de88404</code></td><td>root</td><td>2026-06-22</td><td>Run real LoongArch test runner</td></tr><tr><td><code>d0affe3</code></td><td>root</td><td>2026-06-22</td><td>Mark libctest dynamic cases distinctly</td></tr><tr><td><code>e737f4a</code></td><td>root</td><td>2026-06-22</td><td>Improve libctest dynamic coverage</td></tr><tr><td><code>2ccdb79</code></td><td>root</td><td>2026-06-22</td><td>restore scored libctest and lmbench markers</td></tr><tr><td><code>b92f406</code></td><td>root</td><td>2026-06-22</td><td>fix ltp result marker output</td></tr><tr><td><code>e00f4b5</code></td><td>root</td><td>2026-06-21</td><td>rv: aggressively lift ltp coverage</td></tr><tr><td><code>ba6f1bd</code></td><td>root</td><td>2026-06-21</td><td>rv: raise real ltp coverage</td></tr><tr><td><code>04b62d5</code></td><td>root</td><td>2026-06-21</td><td>rv: expand real ltp coverage</td></tr><tr><td><code>24c9420</code></td><td>root</td><td>2026-06-21</td><td>rv: run libctest and ltp smoke cases</td></tr><tr><td><code>e4627cc</code></td><td>root</td><td>2026-06-20</td><td>feat: improve rv lmbench support</td></tr><tr><td><code>5f8dc07</code></td><td>姚祥麟</td><td>2026-06-19</td><td>放宽全局超时并调整长测试顺序</td></tr><tr><td><code>f41ab32</code></td><td>姚祥麟</td><td>2026-06-19</td><td>调整iozone运行顺序避免超时截断</td></tr><tr><td><code>5715822</code></td><td>姚祥麟</td><td>2026-06-19</td><td>避免iozone影响已有测试得分</td></tr><tr><td><code>e66b399</code></td><td>姚祥麟</td><td>2026-06-19</td><td>修复iozone-musl动态加载</td></tr><tr><td><code>101fee3</code></td><td>姚祥麟</td><td>2026-06-19</td><td>避免iozone失败行影响评分</td></tr><tr><td><code>5970ba6</code></td><td>姚祥麟</td><td>2026-06-19</td><td>修复iozone动态库加载和运行顺序</td></tr><tr><td><code>27647ab</code></td><td>姚祥麟</td><td>2026-06-19</td><td>修复iozone</td></tr><tr><td><code>bac470b</code></td><td>姚祥麟</td><td>2026-06-19</td><td>修复iozone因为超时不能正常运行的问题</td></tr><tr><td><code>d4efe1b</code></td><td>姚祥麟</td><td>2026-06-19</td><td>修复basci和iozone</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

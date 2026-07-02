@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610486999797 vs 2025 RuOS 比较报告</title>
+<title>AuroraKernel vs 2025 RuOS 比较报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T202610486999797 比较报告</h1>
 <ul>
 <li>对比历史仓库：2025 RuOS</li>
-<li>生成时间：2026-07-02T05:01:53.226735+00:00</li>
+<li>生成时间：2026-07-02T09:02:58.313819+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -512,7 +512,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>差异点</h2>
 <ul>
-<li>与 2025 RuOS 的语言构成不同：待测作品为 {'markdown': 47918, 'json': 28, 'build': 404, 'make': 159, 'c': 39776, 'asm': 2697, 'yaml': 243}，历史样本为 {'build': 295, 'markdown': 7861, 'yaml': 32, 'asm': 480, 'c': 12873, 'text': 3}。（置信度：medium）</li>
+<li>与 2025 RuOS 的语言构成不同：待测作品为 {'markdown': 47918, 'json': 28, 'build': 404, 'make': 159, 'c': 39776, 'asm': 2697, 'yaml': 243}，历史样本为 {'json': 20, 'yaml': 32, 'build': 295, 'markdown': 7861, 'c': 12873, 'asm': 480, 'text': 3}。（置信度：medium）</li>
 </ul>
 <h2>可能创新点</h2>
 <ul>
@@ -522,7 +522,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <p>代码片段：<code>struct timezone { // legacy, should be unused</code></p>
 <li><code>include/syscall/syscall.h:L116-L116</code>：struct sysproc_runtime_metadata_light_ops</li>
 <p>代码片段：<code>struct sysproc_runtime_metadata_light_ops {</code></p>
-<li>待测作品代码规模（91,225 LOC）显著大于历史样本 2025 RuOS（21,544 LOC），可能包含更多功能模块或更完整的实现，但也可能包含非内核代码，需人工确认。（置信度：low）</li>
+<li>待测作品代码规模（91,225 LOC）显著大于历史样本 2025 RuOS（21,564 LOC），可能包含更多功能模块或更完整的实现，但也可能包含非内核代码，需人工确认。（置信度：low）</li>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>

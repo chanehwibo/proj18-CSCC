@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610486999642 开发历史报告</title>
+<title>WHUSP 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610486999642 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：721</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-05-27 ~ 2026-06-30</li>
-<li>HEAD：<code>cedb8ef</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Nastem：200 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>cedb8ef</code></td><td>Nastem</td><td>2026-06-30</td><td>docs(final): update readme</td></tr><tr><td><code>c9b13bf</code></td><td>Nastem</td><td>2026-06-30</td><td>docs(final): ppt and videos</td></tr><tr><td><code>b52221b</code></td><td>Nastem</td><td>2026-06-30</td><td>docs(final): ppt, pdf</td></tr><tr><td><code>8ef3a8e</code></td><td>Nastem</td><td>2026-06-30</td><td>docs(readme): update docs</td></tr><tr><td><code>1284241</code></td><td>Nastem</td><td>2026-06-29</td><td>feat(interactive): move interactive mode out of rust source code so we could change modes without build again</td></tr><tr><td><code>4184ef7</code></td><td>Nastem</td><td>2026-06-29</td><td>chore(bench): run it</td></tr><tr><td><code>2834f97</code></td><td>Nastem</td><td>2026-06-25</td><td>feat(iozone): allow read dirty</td></tr><tr><td><code>1a11068</code></td><td>Nastem</td><td>2026-06-25</td><td>chore(iozone): why we suck at this...</td></tr><tr><td><code>ba53d67</code></td><td>Nastem</td><td>2026-06-19</td><td>chore(bench): run it</td></tr><tr><td><code>3de4279</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support recvmmsg syscall</td></tr><tr><td><code>2d3115d</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support sendmmsg syscall</td></tr><tr><td><code>59cfc8c</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support tee syscall</td></tr><tr><td><code>01431ec</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support vmsplice syscall</td></tr><tr><td><code>2d66827</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support adjtimex syscall</td></tr><tr><td><code>ad19399</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support settimeofday</td></tr><tr><td><code>9bb537d</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support vhangup</td></tr><tr><td><code>2b73197</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support kcmp</td></tr><tr><td><code>a8428fb</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support ioprio syscalls</td></tr><tr><td><code>fce2963</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support uts name setters</td></tr><tr><td><code>c7823ea</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support seccomp syscall</td></tr><tr><td><code>62432a9</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support rt sigqueueinfo</td></tr><tr><td><code>1f72115</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support timerfd</td></tr><tr><td><code>55faec1</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support pidfd_getfd syscalls</td></tr><tr><td><code>fd66387</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): support close_range syscall</td></tr><tr><td><code>3e9ac2c</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): add sync file range syscall</td></tr><tr><td><code>7812ec0</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): add fchmodat2 syscall</td></tr><tr><td><code>85eccbe</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): add rt sigpending syscall</td></tr><tr><td><code>a9749d9</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): add riscv hwprobe syscall</td></tr><tr><td><code>f9a96b1</code></td><td>Nastem</td><td>2026-06-19</td><td>fix(rustc): now it runs on rv</td></tr><tr><td><code>33583f9</code></td><td>Nastem</td><td>2026-06-19</td><td>feat(syscall): add riscv flush icache syscall</td></tr><tr><td><code>f67f8a9</code></td><td>Nastem</td><td>2026-06-18</td><td>chore(mod): i submit to the dark force, mod.rs is more readable</td></tr><tr><td><code>d8c2d0b</code></td><td>Nastem</td><td>2026-06-18</td><td>chore(bench): some small updates, but bench too</td></tr><tr><td><code>1b63551</code></td><td>Nastem</td><td>2026-06-15</td><td>chore(bench): vous etes pret</td></tr><tr><td><code>62569c1</code></td><td>Nastem</td><td>2026-06-14</td><td>chore(iozone): speed up my friend</td></tr><tr><td><code>e2dcd8c</code></td><td>Nastem</td><td>2026-06-14</td><td>fix(fanotify): close groups during fd teardown</td></tr><tr><td><code>1f8838e</code></td><td>Nastem</td><td>2026-06-13</td><td>fix(heap): fix a rare condition where heap gets stuck</td></tr><tr><td><code>ec7aa01</code></td><td>Nastem</td><td>2026-06-13</td><td>chore(bench): try again lala</td></tr><tr><td><code>9cb1a75</code></td><td>Nastem</td><td>2026-06-13</td><td>chore(bench): run the bench!</td></tr><tr><td><code>610ab8a</code></td><td>Nastem</td><td>2026-06-13</td><td>fix(syscall): report waitable sigchld to sigtimedwait</td></tr><tr><td><code>0662584</code></td><td>Nastem</td><td>2026-06-12</td><td>refactor(syscall): reuse context for read write usercopy</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

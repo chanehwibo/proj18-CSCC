@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869911108 开发历史报告</title>
+<title>OSKernel2026（基于 starry-next 的增量改进 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,33 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869911108 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：178</li>
-<li>参与作者数：16</li>
-<li>时间跨度：2024-07-23 ~ 2026-06-30</li>
-<li>HEAD：<code>6a7382c</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>OSKernel2026：76 次提交</li>
-<li>Youjie Zheng：40 次提交</li>
-<li>mivik：11 次提交</li>
-<li>Asakura Mizu：10 次提交</li>
-<li>Mivik：10 次提交</li>
-<li>OSKernel2026 Team：8 次提交</li>
-<li>Yuekai Jia：7 次提交</li>
-<li>Firefly：3 次提交</li>
-<li>yfblock：3 次提交</li>
-<li>Ressed：2 次提交</li>
-<li>Ticonderoga2017：2 次提交</li>
-<li>chyyuu：2 次提交</li>
-<li>Jiahua Wang：1 次提交</li>
-<li>Ran@Kyoto：1 次提交</li>
-<li>Wanderlust：1 次提交</li>
-<li>Zhihang Shao：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>6a7382c</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>docs: add final presentation and demo video</td></tr><tr><td><code>518ade2</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: resolve relative script interpreters</td></tr><tr><td><code>f15039b</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: enable full iozone coverage</td></tr><tr><td><code>4170c9a</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: restore iozone measurement modes</td></tr><tr><td><code>a5a24a8</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: map dynamic elf interpreters</td></tr><tr><td><code>dc62a9d</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: normalize libctest markers for scoring</td></tr><tr><td><code>39ed4d2</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: prioritize bounded performance probes</td></tr><tr><td><code>42cbba6</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: enable performance suites by default</td></tr><tr><td><code>0461d86</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: run lua tests without shell wrapper</td></tr><tr><td><code>9646f50</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: preserve riscv setitimer fallback</td></tr><tr><td><code>0d19e66</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: keep setitimer compatible for busybox</td></tr><tr><td><code>8c2c91a</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: reject unsupported active interval timers</td></tr><tr><td><code>07f7b6e</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: add interval timer stubs</td></tr><tr><td><code>5193423</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: add range copy syscalls</td></tr><tr><td><code>c085e8b</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: add unix socketpair compatibility</td></tr><tr><td><code>d97176e</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: add signalfd compatibility</td></tr><tr><td><code>2d3a182</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: extend pidfd signal helpers</td></tr><tr><td><code>68c455f</code></td><td>OSKernel2026</td><td>2026-06-30</td><td>fix: add pidfd wait compatibility</td></tr><tr><td><code>a8da792</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: add memfd compatibility fd</td></tr><tr><td><code>b5958f7</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: add readiness fd syscalls</td></tr><tr><td><code>bc1186f</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: cover long-tail compatibility syscalls</td></tr><tr><td><code>8421362</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: add syscall probes for perf suites</td></tr><tr><td><code>26f2328</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: keep oscomp runtime discovery on stable tests</td></tr><tr><td><code>7c77511</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: avoid hanging full libctest script</td></tr><tr><td><code>0e4a220</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: prioritize scored iozone subtests</td></tr><tr><td><code>54a4a35</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: add more busybox applet links</td></tr><tr><td><code>63296db</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: expose busybox applets to scripts</td></tr><tr><td><code>fe9b4e5</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: run libcbench after high value tests</td></tr><tr><td><code>25372bd</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: implement rusage and prioritize ltp</td></tr><tr><td><code>771d965</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: skip unscored glibc libctest</td></tr><tr><td><code>f943e79</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: run stable oscomp groups first</td></tr><tr><td><code>257700f</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: avoid unsupported iozone vector mode</td></tr><tr><td><code>a62debb</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: support iozone file sync paths</td></tr><tr><td><code>ea27127</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: avoid basic testcase log pollution</td></tr><tr><td><code>cc82e45</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: add socket message syscalls</td></tr><tr><td><code>2ad3566</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: support ppoll readiness checks</td></tr><tr><td><code>7394222</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>feat: add basic socket syscall layer</td></tr><tr><td><code>642eedb</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: broaden oscomp syscall compatibility</td></tr><tr><td><code>b8bac07</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: handle fcntl getfl</td></tr><tr><td><code>d7752a6</code></td><td>OSKernel2026</td><td>2026-06-29</td><td>fix: add vectored offset file syscalls</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

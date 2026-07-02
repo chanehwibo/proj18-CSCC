@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610486999570 开发历史报告</title>
+<title>rCore Lab 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610486999570 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：597</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-04-01 ~ 2026-06-29</li>
-<li>HEAD：<code>53f9f099</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>grl：104 次提交</li>
-<li>wurld：65 次提交</li>
-<li>Jinyao Zhou：29 次提交</li>
-<li>wurldwen：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>53f9f099</code></td><td>grl</td><td>2026-06-29</td><td>chore: update 演示视频链接</td></tr><tr><td><code>0b4f4aa8</code></td><td>grl</td><td>2026-06-29</td><td>chore:update README.md</td></tr><tr><td><code>11d528d9</code></td><td>grl</td><td>2026-06-29</td><td>docs:add 进展汇报.pdf</td></tr><tr><td><code>7485a959</code></td><td>grl</td><td>2026-06-29</td><td>chore:add iozone test</td></tr><tr><td><code>9fedcbb2</code></td><td>grl</td><td>2026-06-28</td><td>chore: add net tests</td></tr><tr><td><code>ac788640</code></td><td>grl</td><td>2026-06-28</td><td>docs:update 初赛文档</td></tr><tr><td><code>e3ce0af2</code></td><td>grl</td><td>2026-06-28</td><td>docs: update docs</td></tr><tr><td><code>56a02bee</code></td><td>grl</td><td>2026-06-28</td><td>Merge commit '16580d948e946ca052b426e2441654c10ee58537' into tests/all-except-net</td></tr><tr><td><code>9d7e98e5</code></td><td>grl</td><td>2026-06-28</td><td>docs: add 初赛文档</td></tr><tr><td><code>16580d94</code></td><td>grl</td><td>2026-06-26</td><td>docs:add ai usage</td></tr><tr><td><code>b1937c7b</code></td><td>grl</td><td>2026-06-15</td><td>test</td></tr><tr><td><code>3c3405a6</code></td><td>grl</td><td>2026-06-26</td><td>Merge branch 'feat/hwt' into hwt_with_docs</td></tr><tr><td><code>aec9baa4</code></td><td>wurldwen</td><td>2026-06-24</td><td>fix: 清理测试特判并恢复通用语义</td></tr><tr><td><code>98d39334</code></td><td>wurldwen</td><td>2026-06-24</td><td>docs: 补充HWT开发文档</td></tr><tr><td><code>3c056411</code></td><td>grl</td><td>2026-06-19</td><td>all docs</td></tr><tr><td><code>ae3bbe61</code></td><td>grl</td><td>2026-06-15</td><td>test</td></tr><tr><td><code>bfbe9c53</code></td><td>grl</td><td>2026-06-15</td><td>test</td></tr><tr><td><code>a66c98fd</code></td><td>wurld</td><td>2026-06-05</td><td>docs:更新脚本输出样式</td></tr><tr><td><code>2b1b3cc0</code></td><td>wurld</td><td>2026-06-05</td><td>docs:本地计分脚本和文档</td></tr><tr><td><code>65c8528e</code></td><td>wurld</td><td>2026-06-05</td><td>fix:跳过la交互</td></tr><tr><td><code>52cd8e3e</code></td><td>wurld</td><td>2026-06-05</td><td>docs：总结sched状态语义修复</td></tr><tr><td><code>203ce03b</code></td><td>wurld</td><td>2026-06-05</td><td>fix:补齐sched参数与策略状态语义</td></tr><tr><td><code>e5744619</code></td><td>wurld</td><td>2026-06-05</td><td>fix:收窄sched_attr错误路径语义</td></tr><tr><td><code>354a66cd</code></td><td>wurld</td><td>2026-06-05</td><td>docs：总结文件语义与getcpu修复</td></tr><tr><td><code>3051fd1d</code></td><td>wurld</td><td>2026-06-05</td><td>fix:实现单核getcpu语义</td></tr><tr><td><code>f294a03b</code></td><td>wurld</td><td>2026-06-05</td><td>fix:补齐文件打开与硬链接错误语义</td></tr><tr><td><code>149ef0f0</code></td><td>wurld</td><td>2026-06-05</td><td>docs：总结sched_setaffinity与卡点规避</td></tr><tr><td><code>352995f2</code></td><td>wurld</td><td>2026-06-05</td><td>fix:修复sched_setaffinity并跳过LTP卡点</td></tr><tr><td><code>a91da1a9</code></td><td>wurld</td><td>2026-06-05</td><td>docs：总结reboot修复</td></tr><tr><td><code>acc264c0</code></td><td>wurld</td><td>2026-06-05</td><td>fix:补齐reboot基础语义</td></tr><tr><td><code>e7644d85</code></td><td>wurld</td><td>2026-06-05</td><td>docs：总结sched_rr_get_interval修复</td></tr><tr><td><code>5b819224</code></td><td>wurld</td><td>2026-06-05</td><td>fix:补齐sched_rr_get_interval语义</td></tr><tr><td><code>7a008110</code></td><td>wurld</td><td>2026-06-05</td><td>docs：线上结果文档</td></tr><tr><td><code>7e8d843a</code></td><td>wurld</td><td>2026-06-05</td><td>fix: 跳过当前LTP卡死用例</td></tr><tr><td><code>3b25498e</code></td><td>wurld</td><td>2026-06-04</td><td>docs:6.4</td></tr><tr><td><code>99a96aef</code></td><td>wurld</td><td>2026-06-04</td><td>fix: 提供LTP内核配置探测文件</td></tr><tr><td><code>1b941794</code></td><td>wurld</td><td>2026-06-04</td><td>fix: 完善copy_file_range偏移语义</td></tr><tr><td><code>8ebdb078</code></td><td>wurld</td><td>2026-06-04</td><td>fix: 完善clock_adjtime和posix timer校验</td></tr><tr><td><code>ce7a9a24</code></td><td>wurld</td><td>2026-06-04</td><td>fix: 完善at2和pidfd基础语义</td></tr><tr><td><code>2668eb2e</code></td><td>wurld</td><td>2026-06-04</td><td>fix: 修复mkdir继承父目录setgid</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

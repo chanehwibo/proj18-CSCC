@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100109910171 开发历史报告</title>
+<title>Starry OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,40 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100109910171 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：727</li>
-<li>参与作者数：23</li>
-<li>时间跨度：2025-08-17 ~ 2026-06-30</li>
-<li>HEAD：<code>d1a9494</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>huieryyds：56 次提交</li>
-<li>Asakura Mizu：38 次提交</li>
-<li>朝倉水希：37 次提交</li>
-<li>袁鹏：17 次提交</li>
-<li>mivik：14 次提交</li>
-<li>huier：6 次提交</li>
-<li>sunhaosheng：6 次提交</li>
-<li>chyyuu：4 次提交</li>
-<li>guoweikang：3 次提交</li>
-<li>yoinspiration：3 次提交</li>
-<li>Daniel Blanke：2 次提交</li>
-<li>Mivik：2 次提交</li>
-<li>ctrlshiftm129：2 次提交</li>
-<li>727Hsj：1 次提交</li>
-<li>Josen-B：1 次提交</li>
-<li>LHHL7：1 次提交</li>
-<li>WitcherTheWhite：1 次提交</li>
-<li>linfeng：1 次提交</li>
-<li>lxh：1 次提交</li>
-<li>yining wang：1 次提交</li>
-<li>zgyxyd666：1 次提交</li>
-<li>zhangyx827：1 次提交</li>
-<li>双镜奇缘：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>d1a9494</code></td><td>huier</td><td>2026-06-30</td><td>Add submission presentation documents</td></tr><tr><td><code>ffe0abf</code></td><td>袁鹏</td><td>2026-06-30</td><td>Add demo video for OSKernel2026 submission</td></tr><tr><td><code>cb7ce42</code></td><td>huieryyds</td><td>2026-06-30</td><td>fix(init): run basic test script directly</td></tr><tr><td><code>9927721</code></td><td>huieryyds</td><td>2026-06-30</td><td>fix(loongarch): use raw boot image for kernel-la</td></tr><tr><td><code>5b75bfb</code></td><td>袁鹏</td><td>2026-06-29</td><td>Merge scheduler fix and auxv fix for dynamic ELF</td></tr><tr><td><code>254754a</code></td><td>huieryyds</td><td>2026-06-29</td><td>add scheduler syscall compatibility</td></tr><tr><td><code>59c106c</code></td><td>huieryyds</td><td>2026-06-29</td><td>test LoongArch kernel-la boot image selection</td></tr><tr><td><code>49617af</code></td><td>huieryyds</td><td>2026-06-29</td><td>fix COW page refcount overflow</td></tr><tr><td><code>a49d70d</code></td><td>huier</td><td>2026-06-29</td><td>fix dynamic ELF interpreter startup</td></tr><tr><td><code>223825a</code></td><td>袁鹏</td><td>2026-06-29</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T2026100109910171/oskernel2026-new1</td></tr><tr><td><code>a5d0831</code></td><td>袁鹏</td><td>2026-06-29</td><td>Merge teammate wait fix, compile with riscv64 lwext4 workaround</td></tr><tr><td><code>1fc30b7</code></td><td>huieryyds</td><td>2026-06-28</td><td>preserve suite bin busybox applets</td></tr><tr><td><code>6c45aa8</code></td><td>huier</td><td>2026-06-28</td><td>fix runner busybox applets and PATH</td></tr><tr><td><code>db8d430</code></td><td>huieryyds</td><td>2026-06-28</td><td>fix zombie child lifetime for waitpid</td></tr><tr><td><code>21b3e94</code></td><td>huieryyds</td><td>2026-06-27</td><td>Preserve signal handler context across sigreturn</td></tr><tr><td><code>a5f1b22</code></td><td>huieryyds</td><td>2026-06-27</td><td>Make WNOHANG wait compatible with busybox</td></tr><tr><td><code>0a9dc8b</code></td><td>huieryyds</td><td>2026-06-27</td><td>Fix wait child polling</td></tr><tr><td><code>e9dcae2</code></td><td>huieryyds</td><td>2026-06-27</td><td>Fix wait status encoding</td></tr><tr><td><code>5600aa4</code></td><td>huieryyds</td><td>2026-06-27</td><td>Fix zombie process wait and signal handling</td></tr><tr><td><code>3ff34ab</code></td><td>袁鹏</td><td>2026-06-28</td><td>Rollback to stable build 4947f62</td></tr><tr><td><code>201f07b</code></td><td>huieryyds</td><td>2026-06-27</td><td>add runner suite watchdog</td></tr><tr><td><code>67a4e59</code></td><td>huieryyds</td><td>2026-06-27</td><td>fix runner busybox selection and quiet exit logs</td></tr><tr><td><code>59e5a96</code></td><td>huieryyds</td><td>2026-06-27</td><td>Preserve signal handler context across sigreturn</td></tr><tr><td><code>a97a8f8</code></td><td>huieryyds</td><td>2026-06-27</td><td>Make WNOHANG wait compatible with busybox</td></tr><tr><td><code>f1d9c71</code></td><td>huieryyds</td><td>2026-06-27</td><td>Fix wait child polling</td></tr><tr><td><code>1cea1d4</code></td><td>huieryyds</td><td>2026-06-27</td><td>Fix wait status encoding</td></tr><tr><td><code>b5a1f81</code></td><td>huieryyds</td><td>2026-06-27</td><td>Fix zombie process wait and signal handling</td></tr><tr><td><code>4947f62</code></td><td>huieryyds</td><td>2026-06-25</td><td>Fix init test runner for suite-local applets</td></tr><tr><td><code>1c78045</code></td><td>huieryyds</td><td>2026-06-24</td><td>Fix basic runner to execute test cases</td></tr><tr><td><code>618f3fe</code></td><td>huieryyds</td><td>2026-06-24</td><td>Create busybox applet wrappers</td></tr><tr><td><code>bc1b67b</code></td><td>huieryyds</td><td>2026-06-24</td><td>Create missing basic run-all runner</td></tr><tr><td><code>5688d5c</code></td><td>huieryyds</td><td>2026-06-24</td><td>Run basic tests from suite cwd</td></tr><tr><td><code>8004766</code></td><td>袁鹏</td><td>2026-06-24</td><td>fix: remove all unstable feature flags for grader compatibility</td></tr><tr><td><code>48b561a</code></td><td>袁鹏</td><td>2026-06-24</td><td>fix: restore rust-toolchain.toml with compatible nightly version</td></tr><tr><td><code>87afa78</code></td><td>huieryyds</td><td>2026-06-23</td><td>Enable rust features needed by grader toolchain</td></tr><tr><td><code>c93d432</code></td><td>huieryyds</td><td>2026-06-23</td><td>Drop unsupported core_io rustflag</td></tr><tr><td><code>5cff937</code></td><td>huieryyds</td><td>2026-06-23</td><td>Use grader Rust toolchain without rustup</td></tr><tr><td><code>2d313e0</code></td><td>huieryyds</td><td>2026-06-23</td><td>Use grader Rust toolchain without downloading</td></tr><tr><td><code>6a09ae2</code></td><td>huieryyds</td><td>2026-06-23</td><td>Drop unused rust-src toolchain component</td></tr><tr><td><code>8f2f7e4</code></td><td>huieryyds</td><td>2026-06-23</td><td>Trim Rust toolchain components for oscomp builds</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

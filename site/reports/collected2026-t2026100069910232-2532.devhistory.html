@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100069910232 开发历史报告</title>
+<title>NOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100069910232 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：101</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-05-06 ~ 2026-06-29</li>
-<li>HEAD：<code>929455c</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>rippor：78 次提交</li>
-<li>haoyue：14 次提交</li>
-<li>ZQHtech：7 次提交</li>
-<li>rippor911：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>929455c</code></td><td>rippor</td><td>2026-06-29</td><td>docs(prel):提交初赛文档</td></tr><tr><td><code>e7baeb8</code></td><td>rippor</td><td>2026-06-29</td><td>fix(version):修改Cargo.lock版本以符合环境要求</td></tr><tr><td><code>cb8f64b</code></td><td>rippor</td><td>2026-06-29</td><td>perf(log):删除临时日志</td></tr><tr><td><code>3c4e931</code></td><td>rippor</td><td>2026-06-28</td><td>fix(compile):修复文件缺失</td></tr><tr><td><code>c870cc0</code></td><td>rippor</td><td>2026-06-28</td><td>fix(time):修复timer_settime错误路径</td></tr><tr><td><code>99394b6</code></td><td>rippor</td><td>2026-06-28</td><td>fix(build):修复版本异常</td></tr><tr><td><code>0f8ad05</code></td><td>rippor</td><td>2026-06-28</td><td>fix(build):回退工具链anstyle锁版本</td></tr><tr><td><code>4df6031</code></td><td>rippor</td><td>2026-06-27</td><td>fix(net):修复socketpair分配回滚</td></tr><tr><td><code>c6a6304</code></td><td>rippor</td><td>2026-06-27</td><td>fix(task):修复clone失败回滚</td></tr><tr><td><code>3e92d2d</code></td><td>rippor</td><td>2026-06-27</td><td>fix(ltp):修复safe runner卡住</td></tr><tr><td><code>9e14b08</code></td><td>rippor</td><td>2026-06-27</td><td>fix(ltp):隔离case标准输入</td></tr><tr><td><code>f9148b7</code></td><td>rippor</td><td>2026-06-24</td><td>refactor(ltp):精简列表调度与废弃profile</td></tr><tr><td><code>d6d69f3</code></td><td>rippor</td><td>2026-06-24</td><td>fix(init):将full-safe的cyclictest延后到LTP之后执行</td></tr><tr><td><code>c886be8</code></td><td>rippor</td><td>2026-06-24</td><td>fix(ltp):补充稳定白名单并修复ioctl06</td></tr><tr><td><code>25b5e60</code></td><td>rippor</td><td>2026-06-24</td><td>test(scripts):添加便用启动测试脚本</td></tr><tr><td><code>77221cc</code></td><td>rippor</td><td>2026-06-24</td><td>fix(test):修复单独列表测试机制</td></tr><tr><td><code>711a12b</code></td><td>rippor</td><td>2026-06-23</td><td>fix(settings):修改构建参数</td></tr><tr><td><code>e926efd</code></td><td>rippor</td><td>2026-06-23</td><td>test(ltp):允许传入测试点名称list实现单点修复</td></tr><tr><td><code>6352422</code></td><td>rippor</td><td>2026-06-23</td><td>fix(build):根目录make转发到src构建</td></tr><tr><td><code>59824a5</code></td><td>rippor</td><td>2026-06-23</td><td>fix(cleanup):修复清理脚本</td></tr><tr><td><code>eda98ed</code></td><td>rippor</td><td>2026-06-23</td><td>perf(cleanup):添加清理脚本，防止环境污染导致性能降低</td></tr><tr><td><code>9facd83</code></td><td>rippor</td><td>2026-06-22</td><td>test(fsbind): replay storage fsbind candidate list</td></tr><tr><td><code>50eeb46</code></td><td>rippor</td><td>2026-06-22</td><td>fix(fs): harden splice validation for LTP</td></tr><tr><td><code>6be20f4</code></td><td>rippor</td><td>2026-06-22</td><td>fix(fs): support file handle syscalls for LTP</td></tr><tr><td><code>721f02a</code></td><td>rippor</td><td>2026-06-22</td><td>fix(init): replay storage-safe busybox helper symlinks</td></tr><tr><td><code>0410761</code></td><td>rippor</td><td>2026-06-21</td><td>fix(storage):提升safe批次通过率</td></tr><tr><td><code>8dce006</code></td><td>rippor</td><td>2026-06-21</td><td>fix(syscall): implement BSD flock file locks</td></tr><tr><td><code>ee4730f</code></td><td>rippor</td><td>2026-06-21</td><td>fix(syscall): improve utime fallocate splice ioctl checks</td></tr><tr><td><code>18f65ea</code></td><td>rippor</td><td>2026-06-21</td><td>fix(syscall): improve storage ltp small syscall cases</td></tr><tr><td><code>c81b56e</code></td><td>rippor</td><td>2026-06-22</td><td>fix(init): replay storage-safe runtime setup</td></tr><tr><td><code>a54ea5e</code></td><td>rippor</td><td>2026-06-20</td><td>test(storage):初始化storage阶段测试脚本</td></tr><tr><td><code>f98b01a</code></td><td>rippor</td><td>2026-06-20</td><td>fix(init):修复 full-safe 基础测试环境</td></tr><tr><td><code>115e95d</code></td><td>rippor</td><td>2026-06-22</td><td>perf(iozone):优化iozone的速度，并且将ltp-mm部分的改动添加到ltp-safe中</td></tr><tr><td><code>365326e</code></td><td>rippor</td><td>2026-06-22</td><td>merge(mm):合并ltp-mm部分的修改</td></tr><tr><td><code>f484670</code></td><td>rippor</td><td>2026-06-21</td><td>test(profile): skip unscored tail tests after ltp</td></tr><tr><td><code>7276b7f</code></td><td>rippor</td><td>2026-06-21</td><td>test(profile): run ltp after short prelude</td></tr><tr><td><code>c17fd18</code></td><td>rippor</td><td>2026-06-20</td><td>perf(fs):只有在 RLIMIT_FSIZE 是有限值时，才做 stream_position() 和截断写入检查。默认 infinity 时完全走旧的快速路径。</td></tr><tr><td><code>10d11b8</code></td><td>rippor</td><td>2026-06-20</td><td>fix(basic):添加权限位使得basic脚本能跑</td></tr><tr><td><code>92c3dbc</code></td><td>rippor</td><td>2026-06-19</td><td>fix(compile):修复合并时遗留的同名函数错误</td></tr><tr><td><code>b95d574</code></td><td>rippor</td><td>2026-06-19</td><td>merge(process):合并ltp-process修改部分，并添加了full-safe测试模式</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026191459910624 开发历史报告</title>
+<title>Starryfix — StarryOS 内核改进项目 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,38 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026191459910624 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：682</li>
-<li>参与作者数：21</li>
-<li>时间跨度：2025-08-14 ~ 2026-06-30</li>
-<li>HEAD：<code>3f011c81</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Asakura Mizu：49 次提交</li>
-<li>mivik：48 次提交</li>
-<li>朝倉水希：37 次提交</li>
-<li>Erasemyself45：25 次提交</li>
-<li>BrendanTT：10 次提交</li>
-<li>sunhaosheng：6 次提交</li>
-<li>chyyuu：4 次提交</li>
-<li>guoweikang：3 次提交</li>
-<li>yoinspiration：3 次提交</li>
-<li>Daniel Blanke：2 次提交</li>
-<li>Mivik：2 次提交</li>
-<li>ctrlshiftm129：2 次提交</li>
-<li>727Hsj：1 次提交</li>
-<li>Josen-B：1 次提交</li>
-<li>LHHL7：1 次提交</li>
-<li>WitcherTheWhite：1 次提交</li>
-<li>linfeng：1 次提交</li>
-<li>lxh：1 次提交</li>
-<li>yining wang：1 次提交</li>
-<li>zgyxyd666：1 次提交</li>
-<li>zhangyx827：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>3f011c81</code></td><td>Erasemyself45</td><td>2026-06-30</td><td>moved to oscomp</td></tr><tr><td><code>2fff841a</code></td><td>Erasemyself45</td><td>2026-06-30</td><td>init.sh:increase ltp test samples to 100</td></tr><tr><td><code>eb99d401</code></td><td>Erasemyself45</td><td>2026-06-30</td><td>for_oscomp:auto run testbench</td></tr><tr><td><code>a6479ac3</code></td><td>Erasemyself45</td><td>2026-06-30</td><td>design_report:initial commit</td></tr><tr><td><code>678737a5</code></td><td>Erasemyself45</td><td>2026-06-30</td><td>README.md: final commit</td></tr><tr><td><code>2fd800ca</code></td><td>Erasemyself45</td><td>2026-06-29</td><td>Merge branch 'tempe' into removed_SA_RESTART</td></tr><tr><td><code>a90a2bae</code></td><td>BrendanTT</td><td>2026-06-29</td><td>上次commit：修改原子时钟、定时器中断，本次commit：继续删除misc</td></tr><tr><td><code>9ffce9d6</code></td><td>BrendanTT</td><td>2026-06-29</td><td>删除misc</td></tr><tr><td><code>df740fcd</code></td><td>Erasemyself45</td><td>2026-06-29</td><td>feat(init): bound generic testcode with GENERIC_CASE_TIMEOUT + widen LTP allowlist to first-75</td></tr><tr><td><code>43600cb8</code></td><td>Erasemyself45</td><td>2026-06-28</td><td>init.sh:updated_ltp</td></tr><tr><td><code>0d324b37</code></td><td>Erasemyself45</td><td>2026-06-28</td><td>fix(init): simplify dynamic linker symlinks to unconditional ln -sf</td></tr><tr><td><code>0be2270d</code></td><td>Erasemyself45</td><td>2026-06-28</td><td>fix(init): add musl dynamic linker symlinks (rv soft-float + LA)</td></tr><tr><td><code>d5a4dee7</code></td><td>Erasemyself45</td><td>2026-06-28</td><td>chore(init): skip LTP group on removed_SA_RESTART baseline</td></tr><tr><td><code>a41519ca</code></td><td>Erasemyself45</td><td>2026-06-28</td><td>diag(probe): disable diag-res-probe in Makefile APP_FEATURES (rv+la)</td></tr><tr><td><code>41974cda</code></td><td>Erasemyself45</td><td>2026-06-18</td><td>diag(probe): enable diag-res-probe in Makefile APP_FEATURES (rv+la)</td></tr><tr><td><code>e50d9532</code></td><td>Erasemyself45</td><td>2026-06-18</td><td>fix(init): run testcode to a file, not a pipe, to unblock sed on orphaned workers</td></tr><tr><td><code>18f0f627</code></td><td>Erasemyself45</td><td>2026-06-18</td><td>fix(wait): close lost-wakeup window in sys_waitpid (LTP TBROK EINTR)</td></tr><tr><td><code>d4354acb</code></td><td>Erasemyself45</td><td>2026-06-17</td><td>feat(ltp): unblock glibc loading + force color + expand allowlist to 176 (target 200+)</td></tr><tr><td><code>ddbebab0</code></td><td>Erasemyself45</td><td>2026-06-17</td><td>fix(ltp): emit allowlist one-name-per-line so each case runs separately</td></tr><tr><td><code>a2d62b07</code></td><td>Erasemyself45</td><td>2026-06-17</td><td>feat(ltp): add blocklist mode (Issue 03) + selection machinery</td></tr><tr><td><code>2c1e740c</code></td><td>Erasemyself45</td><td>2026-06-17</td><td>feat(ltp): re-enable LTP with per-case timeout isolation + curated allowlist</td></tr><tr><td><code>fac14e2c</code></td><td>Erasemyself45</td><td>2026-06-14</td><td>fix: deploy libctest LA zero-score fixes (LOG level + ANSI strip)</td></tr><tr><td><code>2d36b411</code></td><td>Erasemyself45</td><td>2026-06-11</td><td>fix(la): init.sh 修正 loongarch linker 文件名 (loongarch 非 loongarch64) 并补充 musl ld.so</td></tr><tr><td><code>48acf441</code></td><td>Erasemyself45</td><td>2026-06-11</td><td>chore: resolve .gitignore merge conflict</td></tr><tr><td><code>2a0b5aba</code></td><td>Erasemyself45</td><td>2026-06-01</td><td>fix(la): init.sh 补充 loongarch64 ld.so symlink</td></tr><tr><td><code>dfd6eb3d</code></td><td>Erasemyself45</td><td>2026-06-01</td><td>Revert "fix(la): make la 目标补充 BUS=pci 参数"</td></tr><tr><td><code>0fa8f2cc</code></td><td>Erasemyself45</td><td>2026-05-31</td><td>fix(la): make la 目标补充 BUS=pci 参数</td></tr><tr><td><code>a3a9b092</code></td><td>BrendanTT</td><td>2026-05-31</td><td>basic-rv全部通过，将几个仅比赛相关的脚本和文件放到了for_oscomp里</td></tr><tr><td><code>3064f0b9</code></td><td>BrendanTT</td><td>2026-05-29</td><td>2026/5/29</td></tr><tr><td><code>e8dd4427</code></td><td>BrendanTT</td><td>2026-05-20</td><td>修好vendor的checksum（改vendor即要修，否则跑不过编译），加了修改脚本</td></tr><tr><td><code>dd155452</code></td><td>BrendanTT</td><td>2026-05-20</td><td>完全本地化运行，工具链调为nightly-2025-05-20，纯Linux环境运行</td></tr><tr><td><code>1f341646</code></td><td>BrendanTT</td><td>2026-05-20</td><td>完全本地化运行，工具链调为nightly-2025-05-20</td></tr><tr><td><code>18f3ea50</code></td><td>BrendanTT</td><td>2026-05-18</td><td>更改Makefile以及cleanup.sh - no disk*.img</td></tr><tr><td><code>2dc3d069</code></td><td>BrendanTT</td><td>2026-05-16</td><td>2026/5/16</td></tr><tr><td><code>c20c5cb2</code></td><td>BrendanTT</td><td>2026-05-15</td><td>2026/5/15</td></tr><tr><td><code>2e075acc</code></td><td>chyyuu</td><td>2026-03-09</td><td>build: prepare for publish on crates.io (#128)</td></tr><tr><td><code>0f15bf48</code></td><td>Mivik</td><td>2026-03-06</td><td>feat(syscall): add clone3 support (#122)</td></tr><tr><td><code>31d0ea26</code></td><td>朝倉水希</td><td>2026-03-06</td><td>refactor: don't use arceos as submodule (#127)</td></tr><tr><td><code>e7bb3917</code></td><td>朝倉水希</td><td>2026-03-04</td><td>feat: update Rust toolchain to nightly-2026-02-25 (#126)</td></tr><tr><td><code>f16758c8</code></td><td>朝倉水希</td><td>2026-03-04</td><td>chore: update ci and deps (#125)</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

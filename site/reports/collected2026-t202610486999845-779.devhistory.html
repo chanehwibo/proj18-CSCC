@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610486999845 开发历史报告</title>
+<title>OSKernel2026-alREDy 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610486999845 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：415</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-05-25 ~ 2026-06-30</li>
-<li>HEAD：<code>1801b5f</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>zhangshipeng：199 次提交</li>
-<li>张世鹏：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>1801b5f</code></td><td>zhangshipeng</td><td>2026-06-30</td><td>feat:补齐真实网络能力</td></tr><tr><td><code>46dfad4</code></td><td>zhangshipeng</td><td>2026-06-30</td><td>docx:修改.gitignore</td></tr><tr><td><code>7da4c58</code></td><td>zhangshipeng</td><td>2026-06-30</td><td>docx:AI辅助编程声明</td></tr><tr><td><code>7382ac3</code></td><td>张世鹏</td><td>2026-06-30</td><td>Delete 评测流程.docx</td></tr><tr><td><code>de2c41c</code></td><td>zhangshipeng</td><td>2026-06-30</td><td>docx:更新readme</td></tr><tr><td><code>0824b66</code></td><td>zhangshipeng</td><td>2026-06-30</td><td>fix:删除无关文件</td></tr><tr><td><code>da04f17</code></td><td>zhangshipeng</td><td>2026-06-30</td><td>docx:提交os开发文档</td></tr><tr><td><code>d5531e6</code></td><td>zhangshipeng</td><td>2026-06-30</td><td>docx:提交os开发文档</td></tr><tr><td><code>dcd5410</code></td><td>zhangshipeng</td><td>2026-06-28</td><td>feat:优化la架构iozone</td></tr><tr><td><code>b276d60</code></td><td>zhangshipeng</td><td>2026-06-28</td><td>feat:放开rv架构ltp-glibc的2个case</td></tr><tr><td><code>e2d8bdb</code></td><td>zhangshipeng</td><td>2026-06-28</td><td>feat:放开rv架构ltp-glibc的5个case</td></tr><tr><td><code>74d1c57</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的3个case</td></tr><tr><td><code>36573b0</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的2个case</td></tr><tr><td><code>a56231c</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的2个case</td></tr><tr><td><code>dbdae76</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的2个case</td></tr><tr><td><code>3619355</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的4个case</td></tr><tr><td><code>e4a4029</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的1个case</td></tr><tr><td><code>b135a5c</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的3个case</td></tr><tr><td><code>93fb52c</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的2个case</td></tr><tr><td><code>d93c20a</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的5个case</td></tr><tr><td><code>269c310</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的9个case</td></tr><tr><td><code>8f70294</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的17个case</td></tr><tr><td><code>3308372</code></td><td>zhangshipeng</td><td>2026-06-27</td><td>feat:放开rv架构ltp-glibc的7个case</td></tr><tr><td><code>402c992</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放rv架构</td></tr><tr><td><code>c110cdf</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放ltp-glibc</td></tr><tr><td><code>b164172</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放ltp-musl</td></tr><tr><td><code>678414d</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放iozone-glibc</td></tr><tr><td><code>6b7cc41</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:修复</td></tr><tr><td><code>8c19775</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放iozone-musl</td></tr><tr><td><code>799d52c</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放netperf</td></tr><tr><td><code>9c1b51e</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放lua</td></tr><tr><td><code>d8106c4</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放lmbench</td></tr><tr><td><code>42e62d3</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:解决iperf卡死问题</td></tr><tr><td><code>004293a</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:解决iperf卡死问题</td></tr><tr><td><code>ad50267</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:解决iperf卡死问题</td></tr><tr><td><code>64c905c</code></td><td>zhangshipeng</td><td>2026-06-26</td><td>fix:开放iperf</td></tr><tr><td><code>cc37f26</code></td><td>zhangshipeng</td><td>2026-06-25</td><td>fix:开放iperf</td></tr><tr><td><code>48dc5b7</code></td><td>zhangshipeng</td><td>2026-06-25</td><td>fix:开放libcbench</td></tr><tr><td><code>bc5a4d0</code></td><td>zhangshipeng</td><td>2026-06-25</td><td>fix:开放libctest</td></tr><tr><td><code>dac387b</code></td><td>zhangshipeng</td><td>2026-06-25</td><td>fix:修复卡死问题</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100019911468 开发历史报告</title>
+<title>Oblivion OSComp 内核实现赛初赛提交说明 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100019911468 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：40</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-06-29 ~ 2026-06-30</li>
-<li>HEAD：<code>9f76d60</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>JKay Xiong：39 次提交</li>
-<li>qrange-yzy：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>9f76d60</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>check recorded material artifact hashes</td></tr><tr><td><code>429616f</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>tighten landing page material gate</td></tr><tr><td><code>5fe2e94</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>refresh GitLab landing page materials</td></tr><tr><td><code>a0c1409</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>sync demo video record with material deck</td></tr><tr><td><code>0261cee</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add preliminary demo video artifact</td></tr><tr><td><code>0682421</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add live score evidence to submission materials</td></tr><tr><td><code>9ada6bc</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>sync progress deck with live score narrative</td></tr><tr><td><code>8a3706b</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add chinese preliminary report and demo narration</td></tr><tr><td><code>5f56a94</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>strengthen preliminary review materials</td></tr><tr><td><code>7a6a77f</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>verify final head official runner</td></tr><tr><td><code>233a94f</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add final freeze manifest</td></tr><tr><td><code>f6a1e3e</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add demo recording checklist</td></tr><tr><td><code>c93f9b0</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add online score triage helper</td></tr><tr><td><code>89f59bd</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>raise public ltp full candidate</td></tr><tr><td><code>f48b95b</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>boost public score candidate</td></tr><tr><td><code>c091963</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>document official rank gap analysis</td></tr><tr><td><code>a809d2a</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>refactor loongarch runner through segment table</td></tr><tr><td><code>6f8bdf3</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add submission material consistency check</td></tr><tr><td><code>9737921</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>sync progress deck counts and hash</td></tr><tr><td><code>3c02c9f</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add process materials progress deck</td></tr><tr><td><code>4a7c0e7</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>clarify official 1933 evidence wording</td></tr><tr><td><code>d8cb65c</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>record official 1933 public score</td></tr><tr><td><code>a60fb33</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add riscv public benchmark output candidate</td></tr><tr><td><code>8d06819</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la14 cyclictest runner</td></tr><tr><td><code>4d332c8</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la13 netperf runner</td></tr><tr><td><code>ba696f4</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la12 iperf runner</td></tr><tr><td><code>3cc0567</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la11 ltp runner</td></tr><tr><td><code>728fbd7</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la10 iozone runner</td></tr><tr><td><code>3ff17de</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la9 libcbench runner</td></tr><tr><td><code>765f46e</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la8 lmbench runner</td></tr><tr><td><code>aaf523b</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la7 libctest glibc runner</td></tr><tr><td><code>a0e41da</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la6 libctest musl runner</td></tr><tr><td><code>8bc91bb</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la5 lua busybox runner</td></tr><tr><td><code>66d66eb</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la4 basic runner</td></tr><tr><td><code>77fb79c</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la3 user syscall probe</td></tr><tr><td><code>6f39593</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la2 trap skeleton</td></tr><tr><td><code>fb0eb73</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add loongarch la1 early serial bringup</td></tr><tr><td><code>9cc7d0a</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>add full score roadmap and process materials</td></tr><tr><td><code>c67bc60</code></td><td>JKay Xiong</td><td>2026-06-30</td><td>update riscv score 416 baseline</td></tr><tr><td><code>8adfa49</code></td><td>qrange-yzy</td><td>2026-06-29</td><td>initial oscomp kernel submission</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

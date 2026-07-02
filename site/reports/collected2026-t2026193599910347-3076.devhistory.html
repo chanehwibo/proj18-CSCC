@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026193599910347 开发历史报告</title>
+<title>Project Aurora (极光内核 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026193599910347 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：465</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2025-12-30 ~ 2026-01-22</li>
-<li>HEAD：<code>84542fe</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>+3队：199 次提交</li>
-<li>HL772：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>84542fe</code></td><td>HL772</td><td>2026-01-22</td><td>check</td></tr><tr><td><code>f8f2425</code></td><td>+3队</td><td>2026-01-03</td><td>docs(readme): add shell examples and errno notes</td></tr><tr><td><code>38cac53</code></td><td>+3队</td><td>2026-01-03</td><td>docs(readme): add shell command reference</td></tr><tr><td><code>8a7d6bf</code></td><td>+3队</td><td>2026-01-03</td><td>chore(shell): drop unused stat constant</td></tr><tr><td><code>e383e29</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): stat type output</td></tr><tr><td><code>b49eeb9</code></td><td>+3队</td><td>2026-01-03</td><td>feat(shell): add core utility commands</td></tr><tr><td><code>9593915</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): friendlier cd error</td></tr><tr><td><code>9bc2355</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): normalize prompt line endings</td></tr><tr><td><code>c3878d7</code></td><td>+3队</td><td>2026-01-03</td><td>feat(shell): show cwd in prompt</td></tr><tr><td><code>aee3e5f</code></td><td>+3队</td><td>2026-01-03</td><td>docs(readme): update shell run example</td></tr><tr><td><code>778cbc9</code></td><td>+3队</td><td>2026-01-03</td><td>docs(readme): explain shell output lines</td></tr><tr><td><code>9503ff3</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): shift info block right</td></tr><tr><td><code>0e8c02b</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): offset neofetch info block</td></tr><tr><td><code>7d0a0d0</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): match svg aurora banner</td></tr><tr><td><code>513cec2</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): neofetch-style banner layout</td></tr><tr><td><code>efd5be8</code></td><td>+3队</td><td>2026-01-03</td><td>fix(shell): handle CRLF input and color banner</td></tr><tr><td><code>8548f75</code></td><td>+3队</td><td>2026-01-03</td><td>docs(readme): document shell banner and usage</td></tr><tr><td><code>6d31812</code></td><td>+3队</td><td>2026-01-03</td><td>feat(shell): add ascii logo to banner</td></tr><tr><td><code>8fb509d</code></td><td>+3队</td><td>2026-01-03</td><td>feat(shell): print system info banner</td></tr><tr><td><code>5a401c7</code></td><td>+3队</td><td>2026-01-03</td><td>feat(shell): boot /init directly for shell test</td></tr><tr><td><code>f3be86f</code></td><td>+3队</td><td>2026-01-03</td><td>feat(shell): wire shell smoke test</td></tr><tr><td><code>efdfcb6</code></td><td>+3队</td><td>2026-01-03</td><td>feat(shell): add minimal interactive user shell</td></tr><tr><td><code>7dca5c3</code></td><td>+3队</td><td>2026-01-02</td><td>docs: just fix README.md</td></tr><tr><td><code>d5164cc</code></td><td>+3队</td><td>2026-01-02</td><td>docs: fix README.md</td></tr><tr><td><code>8c20b34</code></td><td>+3队</td><td>2026-01-02</td><td>docs: fix README.md</td></tr><tr><td><code>b8fab1c</code></td><td>+3队</td><td>2026-01-02</td><td>docs: add neofetch-style banner info</td></tr><tr><td><code>1e492a9</code></td><td>+3队</td><td>2026-01-02</td><td>docs: refine aurora svg banner</td></tr><tr><td><code>edd77a8</code></td><td>+3队</td><td>2026-01-02</td><td>docs: use svg banner in README</td></tr><tr><td><code>ecee5c1</code></td><td>+3队</td><td>2026-01-02</td><td>docs: render banner with inline LaTeX</td></tr><tr><td><code>633b5f1</code></td><td>+3队</td><td>2026-01-02</td><td>docs: align LaTeX banner left</td></tr><tr><td><code>ca95821</code></td><td>+3队</td><td>2026-01-02</td><td>docs: switch banner to LaTeX</td></tr><tr><td><code>ae0a60e</code></td><td>+3队</td><td>2026-01-02</td><td>docs: update third-party notices and references</td></tr><tr><td><code>4fdf9a6</code></td><td>+3队</td><td>2026-01-02</td><td>Merge branch 'phase-2'</td></tr><tr><td><code>347a7bf</code></td><td>+3队</td><td>2026-01-02</td><td>docs: render colored banner with HTML</td></tr><tr><td><code>814e457</code></td><td>+3队</td><td>2026-01-02</td><td>docs: add colored aurora banner</td></tr><tr><td><code>b6dea36</code></td><td>+3队</td><td>2026-01-02</td><td>docs: expand README with full project guide</td></tr><tr><td><code>fa89f10</code></td><td>+3队</td><td>2026-01-02</td><td>docs: add SAFETY comments for unsafe blocks</td></tr><tr><td><code>834d392</code></td><td>+3队</td><td>2026-01-02</td><td>docs: add rustdoc coverage across workspace</td></tr><tr><td><code>2596ca8</code></td><td>+3队</td><td>2026-01-02</td><td>feat(runtime): add aurora ansi banner</td></tr><tr><td><code>0f67ea8</code></td><td>+3队</td><td>2026-01-02</td><td>feat(runtime): add minimal async executor</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610055999994 开发历史报告</title>
+<title>PwnMyOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610055999994 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：263</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2025-07-04 ~ 2026-06-30</li>
-<li>HEAD：<code>8b453332</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>aygnep：140 次提交</li>
-<li>yuanccccccc：54 次提交</li>
-<li>G17ReqYuan22：4 次提交</li>
-<li>AYGNEP：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>8b453332</code></td><td>aygnep</td><td>2026-06-30</td><td>docs: add initial submission materials</td></tr><tr><td><code>caedf5e6</code></td><td>aygnep</td><td>2026-06-30</td><td>docs: update initial submission readme</td></tr><tr><td><code>4f93029e</code></td><td>aygnep</td><td>2026-06-29</td><td>fix(ltp): set owner on newly created files</td></tr><tr><td><code>312a65bf</code></td><td>aygnep</td><td>2026-06-29</td><td>fix(ltp): wire credential syscalls and enforce mode-bit semantics</td></tr><tr><td><code>4fdf0ae0</code></td><td>aygnep</td><td>2026-06-29</td><td>fix(ltp): stub credential group syscalls</td></tr><tr><td><code>8705dbe6</code></td><td>aygnep</td><td>2026-06-29</td><td>fix(mm): speed up mmap gap search</td></tr><tr><td><code>a2e3fd79</code></td><td>aygnep</td><td>2026-06-24</td><td>fix(kernel): stabilize futex and memory faults</td></tr><tr><td><code>80ac6eda</code></td><td>aygnep</td><td>2026-06-28</td><td>run: restore baseline RUN_ALL order, append score_extra after both arches</td></tr><tr><td><code>cb7a55d7</code></td><td>aygnep</td><td>2026-06-28</td><td>run: move musl-ltp before glibc run_all to restore LA ltp score</td></tr><tr><td><code>f258f2eb</code></td><td>aygnep</td><td>2026-06-28</td><td>run: expose libcbench/lmbench/netperf via split script chain</td></tr><tr><td><code>e911b0fb</code></td><td>aygnep</td><td>2026-06-22</td><td>fix(task,la): recycle exit_group memory</td></tr><tr><td><code>5295c0fc</code></td><td>aygnep</td><td>2026-06-22</td><td>fix(kernel): improve basic busybox stability</td></tr><tr><td><code>24f72f54</code></td><td>aygnep</td><td>2026-06-22</td><td>fix(eval): hide la ltp tail dir entries</td></tr><tr><td><code>b4a1e011</code></td><td>aygnep</td><td>2026-06-22</td><td>fix(eval): match la ltp tail fallback paths</td></tr><tr><td><code>88585851</code></td><td>aygnep</td><td>2026-06-22</td><td>fix(eval): preserve la glibc after ltp tail</td></tr><tr><td><code>078a0dad</code></td><td>aygnep</td><td>2026-06-22</td><td>fix(mm): recycle user page tables on exit</td></tr><tr><td><code>0f035a7a</code></td><td>aygnep</td><td>2026-06-21</td><td>fix(exec): route glibc busybox driver</td></tr><tr><td><code>cf224183</code></td><td>aygnep</td><td>2026-06-21</td><td>fix(exec): align glibc initial stack auxv</td></tr><tr><td><code>1904edbd</code></td><td>aygnep</td><td>2026-06-21</td><td>fix(exec): skip rv dynamic tls libctest hang</td></tr><tr><td><code>65a71269</code></td><td>aygnep</td><td>2026-06-21</td><td>fix(signal): propagate sigkill to thread group</td></tr><tr><td><code>5feb4a7d</code></td><td>aygnep</td><td>2026-06-21</td><td>Revert "fix(signal): tighten sigtimedwait yield cap"</td></tr><tr><td><code>e4ad0ba7</code></td><td>aygnep</td><td>2026-06-21</td><td>fix(signal): tighten sigtimedwait yield cap</td></tr><tr><td><code>a8ac4dc4</code></td><td>aygnep</td><td>2026-06-21</td><td>fix(clone): normalize loongarch tls ctid args</td></tr><tr><td><code>43562046</code></td><td>aygnep</td><td>2026-06-20</td><td>Revert "fix(signal): add loongarch sigreturn trampoline"</td></tr><tr><td><code>68c6f19b</code></td><td>aygnep</td><td>2026-06-20</td><td>fix(signal): add loongarch sigreturn trampoline</td></tr><tr><td><code>3db42540</code></td><td>aygnep</td><td>2026-06-20</td><td>fix(signal): keep kill signals unblockable</td></tr><tr><td><code>4ca57103</code></td><td>aygnep</td><td>2026-06-20</td><td>revert(futex): remove bounded spurious wait</td></tr><tr><td><code>2dccac3e</code></td><td>aygnep</td><td>2026-06-20</td><td>fix(futex): bound wait with spurious wake</td></tr><tr><td><code>ab789d94</code></td><td>aygnep</td><td>2026-06-20</td><td>Revert "fix(signal): kill thread group on SIGKILL"</td></tr><tr><td><code>5a25e14a</code></td><td>aygnep</td><td>2026-06-20</td><td>fix(signal): kill thread group on SIGKILL</td></tr><tr><td><code>54b3eb23</code></td><td>aygnep</td><td>2026-06-20</td><td>fix(signal): bound sigtimedwait timeout loops</td></tr><tr><td><code>49755420</code></td><td>aygnep</td><td>2026-06-20</td><td>fix(task): terminate thread group on exit_group</td></tr><tr><td><code>74634bf4</code></td><td>aygnep</td><td>2026-06-19</td><td>fix(fs): handle futimens null path</td></tr><tr><td><code>7cd8f75b</code></td><td>aygnep</td><td>2026-06-19</td><td>fix(signal): restore signal mask on sigreturn</td></tr><tr><td><code>f58de002</code></td><td>aygnep</td><td>2026-06-19</td><td>fix(signal): use musl ucontext pc offset</td></tr><tr><td><code>4437fb60</code></td><td>aygnep</td><td>2026-06-19</td><td>fix(thread): register set_tid_address clear tid</td></tr><tr><td><code>de8e9a5b</code></td><td>aygnep</td><td>2026-06-18</td><td>fix(signal): use musl ucontext pc offsets</td></tr><tr><td><code>d9c0f425</code></td><td>aygnep</td><td>2026-06-18</td><td>fix(signal): provide siginfo ucontext frame</td></tr><tr><td><code>69770eb9</code></td><td>aygnep</td><td>2026-06-18</td><td>fix(signal): translate user sigset masks</td></tr><tr><td><code>cdffdb44</code></td><td>aygnep</td><td>2026-06-18</td><td>fix(signal): synthesize sigchld for waitable zombies</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

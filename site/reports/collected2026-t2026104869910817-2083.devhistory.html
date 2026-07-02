@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869910817 开发历史报告</title>
+<title>XNN OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869910817 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：154</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-06-01 ~ 2026-06-30</li>
-<li>HEAD：<code>8073a79</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>XiaoShu Yang：138 次提交</li>
-<li>T2026104869910817：6 次提交</li>
-<li>hykyuanduanvv：5 次提交</li>
-<li>笑南梁队：5 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>8073a79</code></td><td>笑南梁队</td><td>2026-06-30</td><td>初赛开发文档、ppt与演示视频</td></tr><tr><td><code>ca03c4c</code></td><td>XiaoShu Yang</td><td>2026-06-30</td><td>Avoid lost wakeups in waitpid</td></tr><tr><td><code>be0a61a</code></td><td>XiaoShu Yang</td><td>2026-06-30</td><td>Harden mmap unmap range and LTP timeouts</td></tr><tr><td><code>8ef226a</code></td><td>XiaoShu Yang</td><td>2026-06-30</td><td>Return errors instead of panicking in syscalls</td></tr><tr><td><code>9f5ceff</code></td><td>XiaoShu Yang</td><td>2026-06-30</td><td>Avoid kernel panic on stale spin lock owner</td></tr><tr><td><code>12ad729</code></td><td>XiaoShu Yang</td><td>2026-06-29</td><td>Handle unsupported user traps without kernel panic</td></tr><tr><td><code>c584da3</code></td><td>XiaoShu Yang</td><td>2026-06-29</td><td>Improve LTP case scheduling</td></tr><tr><td><code>103cbc7</code></td><td>hykyuanduanvv</td><td>2026-06-28</td><td>docs: sync README with 1489c386</td></tr><tr><td><code>19dc05a</code></td><td>hykyuanduanvv</td><td>2026-06-28</td><td>revert: restore 04856bc code state with current README and logo</td></tr><tr><td><code>0017b26</code></td><td>XiaoShu Yang</td><td>2026-06-28</td><td>Restore code state to 7b257684</td></tr><tr><td><code>1489c38</code></td><td>笑南梁队</td><td>2026-06-28</td><td>msg 补充</td></tr><tr><td><code>02126bb</code></td><td>hykyuanduanvv</td><td>2026-06-28</td><td>docs: rewrite README and add logo</td></tr><tr><td><code>06fbb78</code></td><td>XiaoShu Yang</td><td>2026-06-28</td><td>restore local code state</td></tr><tr><td><code>0639272</code></td><td>hykyuanduanvv</td><td>2026-06-27</td><td>Revert to 7b257684</td></tr><tr><td><code>f2ca4a7</code></td><td>T2026104869910817</td><td>2026-06-27</td><td>Fix iozone LA loader aliases</td></tr><tr><td><code>6fb5c52</code></td><td>T2026104869910817</td><td>2026-06-27</td><td>Revert "调整runner顺序"</td></tr><tr><td><code>d0588c3</code></td><td>T2026104869910817</td><td>2026-06-27</td><td>Revert "watchdog delete"</td></tr><tr><td><code>834d3a2</code></td><td>T2026104869910817</td><td>2026-06-27</td><td>Revert "delete ltp timeout"</td></tr><tr><td><code>33728cf</code></td><td>T2026104869910817</td><td>2026-06-27</td><td>Revert "Guard embedded LTP runner budget"</td></tr><tr><td><code>27eda30</code></td><td>T2026104869910817</td><td>2026-06-26</td><td>Guard embedded LTP runner budget</td></tr><tr><td><code>04856bc</code></td><td>XiaoShu Yang</td><td>2026-06-25</td><td>delete ltp timeout</td></tr><tr><td><code>a7670a8</code></td><td>XiaoShu Yang</td><td>2026-06-25</td><td>watchdog delete</td></tr><tr><td><code>d20b95b</code></td><td>XiaoShu Yang</td><td>2026-06-25</td><td>调整runner顺序</td></tr><tr><td><code>7b25768</code></td><td>XiaoShu Yang</td><td>2026-06-25</td><td>修复imbench</td></tr><tr><td><code>9a015b9</code></td><td>XiaoShu Yang</td><td>2026-06-25</td><td>修复ltp</td></tr><tr><td><code>a3d3872</code></td><td>XiaoShu Yang</td><td>2026-06-24</td><td>fix(lmbench): libc-suffixed group name (lmbench-$base) so the judge scores it</td></tr><tr><td><code>3d8c2cd</code></td><td>XiaoShu Yang</td><td>2026-06-24</td><td>fix(ltp): case-count budget (clock unreliable) + RV runs LTP before libcbench</td></tr><tr><td><code>e3f33be</code></td><td>XiaoShu Yang</td><td>2026-06-24</td><td>feat(ltp): per-group 240s budget closure so glibc LTP runs + RUNNER END</td></tr><tr><td><code>a924b17</code></td><td>XiaoShu Yang</td><td>2026-06-24</td><td>fix(lmbench): per-command timeout on LoongArch so glibc-LA doesn't hang at 137</td></tr><tr><td><code>6d8b6fa</code></td><td>XiaoShu Yang</td><td>2026-06-24</td><td>fix(eval-18): lmbench inner group marker + LTP active-path blacklist + RV per-case timeout</td></tr><tr><td><code>1f8d5a5</code></td><td>XiaoShu Yang</td><td>2026-06-24</td><td>fix: lmbench GROUP markers + LTP blacklist expansion</td></tr><tr><td><code>0d57569</code></td><td>XiaoShu Yang</td><td>2026-06-24</td><td>fix(lmbench): remove nested GROUP markers to fix judge scoring</td></tr><tr><td><code>2510963</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Adjust benchmark runner ordering</td></tr><tr><td><code>92c06d1</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Tune runner coverage and rebuild kernels</td></tr><tr><td><code>55f52e9</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Align LTP runner markers</td></tr><tr><td><code>dc5891b</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Stabilize network test runner</td></tr><tr><td><code>8c818b2</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Keep secondary harts out of executor</td></tr><tr><td><code>669b5ec</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Add SysV msg and sem support</td></tr><tr><td><code>ebfa1a3</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Isolate LTP process groups</td></tr><tr><td><code>070567a</code></td><td>XiaoShu Yang</td><td>2026-06-23</td><td>Fix runner env and syscall edge cases</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

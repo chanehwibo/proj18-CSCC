@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026101129911342 vs uCore OS Lab 比较报告</title>
+<title>KunikOS vs uCore OS Lab 比较报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -236,12 +236,12 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T2026101129911342 比较报告</h1>
 <ul>
 <li>对比历史仓库：uCore OS Lab</li>
-<li>生成时间：2026-07-02T04:58:54.904877+00:00</li>
+<li>生成时间：2026-07-02T09:00:50.834400+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
 <ul>
-<li>uCore OS Lab（来源：教学基线）：画像相似度 score=9.28；同属 ucore-variant 风格; 语言构成相似度 0.86; OS 维度重合度 1.00; 代码规模接近度 0.57</li>
+<li>uCore OS Lab（来源：教学基线）：画像相似度 score=9.28；同属 ucore-variant 风格; 语言构成相似度 0.85; OS 维度重合度 1.00; 代码规模接近度 0.57</li>
 </ul>
 <h2>功能重合与疑似重复证据</h2>
 <p>本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。</p>
@@ -326,16 +326,16 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <p>代码片段：<code>pub fn read(fd: usize, buf: usize, len: usize) -&gt; isize {</code></p>
 <li><code>user/src/file.rs:L25-L25</code>：fn read</li>
 <p>代码片段：<code>pub fn read(fd: usize, buf: &amp;mut [u8]) -&gt; isize {</code></p>
-<li>函数/符号名重合：与 uCore OS Lab 在“系统调用”维度发现 4 个同名定义：sys_write, sbi_call, console_putchar, shutdown。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<li>函数/符号名重合：与 uCore OS Lab 在“系统调用”维度发现 4 个同名定义：sbi_call, console_putchar, shutdown, set_timer。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
 <p>证据：</p>
-<li><code>kernel/src/syscall.rs:L581-L581</code>：fn sys_write</li>
-<p>代码片段：<code>fn sys_write(fd: usize, buf: usize, len: usize) -&gt; isize {</code></p>
-<li><code>user/src/syscall.rs:L70-L70</code>：fn sys_write</li>
-<p>代码片段：<code>pub fn sys_write(fd: usize, buffer: &amp;[u8]) -&gt; isize {</code></p>
 <li><code>khal/src/riscv64.rs:L19-L19</code>：fn sbi_call</li>
 <p>代码片段：<code>fn sbi_call(eid: usize, arg0: usize) -&gt; usize {</code></p>
 <li><code>os/src/sbi.rs:L16-L16</code>：fn sbi_call</li>
 <p>代码片段：<code>fn sbi_call(which: usize, arg0: usize, arg1: usize, arg2: usize) -&gt; usize {</code></p>
+<li><code>khal/src/riscv64.rs:L27-L27</code>：fn console_putchar</li>
+<p>代码片段：<code>pub fn console_putchar(c: u8) {</code></p>
+<li><code>os/src/sbi.rs:L35-L35</code>：fn console_putchar</li>
+<p>代码片段：<code>pub fn console_putchar(c: usize) {</code></p>
 <li>函数/符号名重合：与 uCore OS Lab 在“设备驱动”维度发现 1 个同名定义：console_putchar。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
 <p>证据：</p>
 <li><code>khal/src/loongarch64.rs:L20-L20</code>：fn console_putchar</li>
@@ -420,7 +420,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>差异点</h2>
 <ul>
-<li>与 uCore OS Lab 的语言构成不同：待测作品为 {'build': 72, 'markdown': 868, 'rust': 4095, 'toml': 8, 'c': 6}，历史样本为 {'json': 18, 'markdown': 314, 'build': 261, 'toml': 5, 'rust': 9932, 'asm': 150}。（置信度：medium）</li>
+<li>与 uCore OS Lab 的语言构成不同：待测作品为 {'json': 20, 'build': 72, 'markdown': 868, 'toml': 8, 'c': 6, 'rust': 4095}，历史样本为 {'json': 18, 'markdown': 314, 'build': 261, 'toml': 5, 'rust': 9932, 'asm': 150}。（置信度：medium）</li>
 </ul>
 <h2>可能创新点</h2>
 <ul>

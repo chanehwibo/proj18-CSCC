@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100109910165 开发历史报告</title>
+<title>OSKernel2026 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100109910165 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：115</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-05-07 ~ 2026-06-30</li>
-<li>HEAD：<code>c336699</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Echo_Windy：59 次提交</li>
-<li>zyx：54 次提交</li>
-<li>T2026100109910165：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>c336699</code></td><td>zyx</td><td>2026-06-30</td><td>feat(mm) implment lazy mapping</td></tr><tr><td><code>372eccd</code></td><td>zyx</td><td>2026-06-30</td><td>script running order</td></tr><tr><td><code>1407160</code></td><td>Echo_Windy</td><td>2026-06-29</td><td>docs: expand development and architecture guides</td></tr><tr><td><code>e400535</code></td><td>zyx</td><td>2026-06-29</td><td>fix: consider bad fd for file operations</td></tr><tr><td><code>d4d9823</code></td><td>zyx</td><td>2026-06-29</td><td>refactor fs</td></tr><tr><td><code>bfef7cb</code></td><td>zyx</td><td>2026-06-27</td><td>expand memory size</td></tr><tr><td><code>39e46f3</code></td><td>zyx</td><td>2026-06-27</td><td>fix(signal) add signal handing on sys_read and syspselct64</td></tr><tr><td><code>fa6711f</code></td><td>zyx</td><td>2026-06-27</td><td>feat(proc) implement thread recycle attribute learning from linux</td></tr><tr><td><code>2bf0119</code></td><td>zyx</td><td>2026-06-27</td><td>fix(trap) fix context switch virtual address space bug</td></tr><tr><td><code>df392f7</code></td><td>zyx</td><td>2026-06-27</td><td>fix: remove signal handling from scheduler</td></tr><tr><td><code>d6a2c52</code></td><td>zyx</td><td>2026-06-27</td><td>refactor: decouple process initialization from scheduler</td></tr><tr><td><code>9e9a84a</code></td><td>zyx</td><td>2026-06-27</td><td>tmp: save unfinished changes</td></tr><tr><td><code>b410bd0</code></td><td>zyx</td><td>2026-06-26</td><td>feat(syscall) implment syschmod</td></tr><tr><td><code>1ceae1d</code></td><td>zyx</td><td>2026-06-26</td><td>feat(fs) implment getdirent</td></tr><tr><td><code>a6e02af</code></td><td>zyx</td><td>2026-06-26</td><td>feat(fs): implment inode directory type check</td></tr><tr><td><code>e40a869</code></td><td>zyx</td><td>2026-06-25</td><td>feat: implment fake cp path parse and kernel_stack per proc</td></tr><tr><td><code>b42076b</code></td><td>zyx</td><td>2026-06-25</td><td>feat: implment proc signal handling on page fault</td></tr><tr><td><code>d89a547</code></td><td>zyx</td><td>2026-06-25</td><td>feat(syscall) implement sys_umask</td></tr><tr><td><code>b463abf</code></td><td>zyx</td><td>2026-06-25</td><td>feat(syscall) implement sys_pselect6</td></tr><tr><td><code>a4d7694</code></td><td>zyx</td><td>2026-06-24</td><td>fix: sysfstat write size and inode</td></tr><tr><td><code>4d226db</code></td><td>zyx</td><td>2026-06-23</td><td>feat(mm) recycle resources after proc exiting</td></tr><tr><td><code>a20dc43</code></td><td>zyx</td><td>2026-06-23</td><td>refactor elf loading</td></tr><tr><td><code>7e429e5</code></td><td>zyx</td><td>2026-06-23</td><td>fix: sys_clone share address space problem with  flag and multi-thread share trap_frame problem</td></tr><tr><td><code>bb0aea8</code></td><td>Echo_Windy</td><td>2026-06-22</td><td>Improve contest compatibility outputs</td></tr><tr><td><code>701d91f</code></td><td>Echo_Windy</td><td>2026-06-20</td><td>Improve dynamic tests and iozone support</td></tr><tr><td><code>de79f77</code></td><td>Echo_Windy</td><td>2026-06-20</td><td>fix rv dir access and defer slow libcbench</td></tr><tr><td><code>4c4cba9</code></td><td>Echo_Windy</td><td>2026-06-19</td><td>chore: clean build artifacts after all</td></tr><tr><td><code>e43ef3c</code></td><td>Echo_Windy</td><td>2026-06-19</td><td>fix grader output and package hygiene</td></tr><tr><td><code>1b666b6</code></td><td>zyx</td><td>2026-06-19</td><td>fix(sched) seperate kernelvec and uservec</td></tr><tr><td><code>d71e65e</code></td><td>zyx</td><td>2026-06-18</td><td>refactor: move memfile from proc to global</td></tr><tr><td><code>72d8794</code></td><td>zyx</td><td>2026-06-18</td><td>feat(syscall) implment sys_log stub</td></tr><tr><td><code>ef731c9</code></td><td>zyx</td><td>2026-06-18</td><td>feat(syscall) implment sys_faccessat stub</td></tr><tr><td><code>9ca219c</code></td><td>zyx</td><td>2026-06-18</td><td>feat(syscall) implment sysppoll</td></tr><tr><td><code>0cb4ba3</code></td><td>Echo_Windy</td><td>2026-06-18</td><td>fix: fallback to scanned busybox for shell exec</td></tr><tr><td><code>519f650</code></td><td>Echo_Windy</td><td>2026-06-18</td><td>fix: populate file-backed mmap pages</td></tr><tr><td><code>a03d219</code></td><td>zyx</td><td>2026-06-18</td><td>feat(syscall) implement sys_readv</td></tr><tr><td><code>c53f2c5</code></td><td>Echo_Windy</td><td>2026-06-18</td><td>fix: return linux errors for unknown syscall paths</td></tr><tr><td><code>f53fe90</code></td><td>Echo_Windy</td><td>2026-06-18</td><td>fix: link loongarch kernel as static non-pie</td></tr><tr><td><code>077b217</code></td><td>Echo_Windy</td><td>2026-06-18</td><td>fix: preserve stdio fds and localize script shell</td></tr><tr><td><code>1b64341</code></td><td>Echo_Windy</td><td>2026-06-18</td><td>fix: tolerate basic mnt mount and mmap fill</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

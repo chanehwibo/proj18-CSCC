@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026105619910101 开发历史报告</title>
+<title>OSKernel2026-Minux 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,23 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026105619910101 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：137</li>
-<li>参与作者数：6</li>
-<li>时间跨度：2026-04-23 ~ 2026-06-30</li>
-<li>HEAD：<code>4991934</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>KayChung17：74 次提交</li>
-<li>tianaoli：52 次提交</li>
-<li>Minux：6 次提交</li>
-<li>22863：2 次提交</li>
-<li>Tianao Li：2 次提交</li>
-<li>Codex：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>4991934</code></td><td>KayChung17</td><td>2026-06-30</td><td>add</td></tr><tr><td><code>a972fdc</code></td><td>KayChung17</td><td>2026-06-30</td><td>add</td></tr><tr><td><code>034502d</code></td><td>KayChung17</td><td>2026-06-30</td><td>add</td></tr><tr><td><code>47f3db5</code></td><td>KayChung17</td><td>2026-06-30</td><td>add</td></tr><tr><td><code>2bb11da</code></td><td>Minux</td><td>2026-06-30</td><td>Add preliminary report PDF</td></tr><tr><td><code>0378ea1</code></td><td>KayChung17</td><td>2026-06-30</td><td>fix: 约束稳定通过的ltp清单</td></tr><tr><td><code>3918b8f</code></td><td>KayChung17</td><td>2026-06-30</td><td>fix: 修复一些已知问题；约束稳定通过的ltp测例清单</td></tr><tr><td><code>78993f1</code></td><td>KayChung17</td><td>2026-06-30</td><td>fix: 跳过部分ltp case，修复la启动问题</td></tr><tr><td><code>a55ee34</code></td><td>Tianao Li</td><td>2026-06-30</td><td>Revert "Fix LoongArch kernel-la PCI bus build"</td></tr><tr><td><code>a0f0994</code></td><td>Tianao Li</td><td>2026-06-30</td><td>Fix LoongArch kernel-la PCI bus build</td></tr><tr><td><code>4aa46a6</code></td><td>Codex</td><td>2026-06-30</td><td>Fix os contest test hangs and syscall edge cases</td></tr><tr><td><code>51befc4</code></td><td>KayChung17</td><td>2026-06-30</td><td>add: 绕过两个case</td></tr><tr><td><code>604ecb4</code></td><td>KayChung17</td><td>2026-06-30</td><td>add: 绕过cyclictest</td></tr><tr><td><code>8b5656f</code></td><td>KayChung17</td><td>2026-06-30</td><td>add: 修复脚本问题</td></tr><tr><td><code>b45766b</code></td><td>KayChung17</td><td>2026-06-30</td><td>add: 完善本地评测机制</td></tr><tr><td><code>e1abe17</code></td><td>tianaoli</td><td>2026-06-29</td><td>run ltp from runtest scenarios</td></tr><tr><td><code>2054a8d</code></td><td>tianaoli</td><td>2026-06-29</td><td>stream competition suite output</td></tr><tr><td><code>0fc0d5c</code></td><td>tianaoli</td><td>2026-06-29</td><td>preserve default SIGCHLD for sigwait</td></tr><tr><td><code>b20eebb</code></td><td>tianaoli</td><td>2026-06-29</td><td>remove competition suite timeouts</td></tr><tr><td><code>ba54981</code></td><td>tianaoli</td><td>2026-06-29</td><td>bound competition suites with timeouts</td></tr><tr><td><code>d53a3cb</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix sigkill delivery to blocked process threads</td></tr><tr><td><code>070716f</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix cow refcount overflow under fork pressure</td></tr><tr><td><code>94d5828</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix loongarch cloud boot and eval artifacts</td></tr><tr><td><code>cffc775</code></td><td>tianaoli</td><td>2026-06-29</td><td>enforce fs ownership permission checks</td></tr><tr><td><code>abcd25a</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix faccessat path search permissions</td></tr><tr><td><code>c1b6eb5</code></td><td>tianaoli</td><td>2026-06-29</td><td>normalize IPv6 loopback for IPv4-only net tests</td></tr><tr><td><code>ca4657d</code></td><td>tianaoli</td><td>2026-06-29</td><td>honor local suite filter in competition init</td></tr><tr><td><code>9007fda</code></td><td>tianaoli</td><td>2026-06-29</td><td>add clock_settime compatibility syscall</td></tr><tr><td><code>481c9ef</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix close_range unsigned fd bounds</td></tr><tr><td><code>1936022</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix mixed libc runtime setup for musl tests</td></tr><tr><td><code>e9fc80f</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix iperf IPv6 loopback compatibility</td></tr><tr><td><code>d31b1dd</code></td><td>KayChung17</td><td>2026-06-29</td><td>fix: local test</td></tr><tr><td><code>91e249a</code></td><td>tianaoli</td><td>2026-06-29</td><td>support packet sockets and unshare syscall</td></tr><tr><td><code>64977a7</code></td><td>tianaoli</td><td>2026-06-29</td><td>restore latest competition init script</td></tr><tr><td><code>c421ef0</code></td><td>KayChung17</td><td>2026-06-29</td><td>fix: cargo 依赖缺失</td></tr><tr><td><code>91fa01e</code></td><td>tianaoli</td><td>2026-06-29</td><td>restore init competition script</td></tr><tr><td><code>34f9e1b</code></td><td>tianaoli</td><td>2026-06-29</td><td>support raw ipv6 filters and cmsgs</td></tr><tr><td><code>a617b8d</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix raw ipv6 checksum sockopt</td></tr><tr><td><code>5fc39da</code></td><td>tianaoli</td><td>2026-06-29</td><td>wip raw ipv6 asapi support</td></tr><tr><td><code>9dd42ad</code></td><td>tianaoli</td><td>2026-06-29</td><td>fix acct ltp errno semantics</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

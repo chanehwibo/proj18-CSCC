@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610701999762 开发历史报告</title>
+<title>OSKernel2026-NameNotFound 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610701999762 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：215</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-04-05 ~ 2026-05-11</li>
-<li>HEAD：<code>2a933e1</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Sun Haoyu：186 次提交</li>
-<li>md：14 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>2a933e1</code></td><td>md</td><td>2026-05-11</td><td>为poll/epoll_wait 阻塞实现添加schedule调用</td></tr><tr><td><code>487dc6f</code></td><td>Sun Haoyu</td><td>2026-05-10</td><td>human: 一个切实能跑的调度器</td></tr><tr><td><code>14d02c5</code></td><td>Sun Haoyu</td><td>2026-05-09</td><td>调度器重构：统一状态管理 + context_switch</td></tr><tr><td><code>405b283</code></td><td>Sun Haoyu</td><td>2026-05-08</td><td>更新工作流</td></tr><tr><td><code>8e9c93d</code></td><td>Sun Haoyu</td><td>2026-05-06</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T202610701999762/oskernel2026-namenotfound</td></tr><tr><td><code>94c1559</code></td><td>Sun Haoyu</td><td>2026-05-06</td><td>mrpotect实现</td></tr><tr><td><code>179d8d4</code></td><td>md</td><td>2026-05-05</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T202610701999762/oskernel2026-namenotfound</td></tr><tr><td><code>e5774bd</code></td><td>md</td><td>2026-05-05</td><td>补齐 lseek 的 SEEK_CUR/SEEK_END 语义</td></tr><tr><td><code>b00bc3e</code></td><td>Sun Haoyu</td><td>2026-05-05</td><td>文档</td></tr><tr><td><code>da6c1e8</code></td><td>Sun Haoyu</td><td>2026-05-05</td><td>for+pid相关实现</td></tr><tr><td><code>31f120c</code></td><td>Sun Haoyu</td><td>2026-05-05</td><td>signal实现</td></tr><tr><td><code>c6fb042</code></td><td>Sun Haoyu</td><td>2026-05-05</td><td>human:AI声明</td></tr><tr><td><code>efd7077</code></td><td>Sun Haoyu</td><td>2026-05-05</td><td>Merge branch 'feat/rlimit-scaffold'</td></tr><tr><td><code>5fe1440</code></td><td>Sun Haoyu</td><td>2026-05-05</td><td>human:limit系列的一个简单(或许可以说是fake)实现</td></tr><tr><td><code>7a2458e</code></td><td>Sun Haoyu</td><td>2026-05-05</td><td>文档</td></tr><tr><td><code>839fb80</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>默认软链接busybox， 比赛构建</td></tr><tr><td><code>514e4ab</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>task_mm_signal拆分多模块</td></tr><tr><td><code>a51d6c3</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>human: proc/self/exe实现</td></tr><tr><td><code>b6eb9f0</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>skill更新</td></tr><tr><td><code>cfd4b1d</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>更新gitignore</td></tr><tr><td><code>cae585e</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>注释</td></tr><tr><td><code>3627f76</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>拆分vfs模块</td></tr><tr><td><code>5b31f42</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>一些注释</td></tr><tr><td><code>f56a5c0</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>exec现在会带环境变量</td></tr><tr><td><code>5baf4d2</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>注释</td></tr><tr><td><code>0dfca71</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>Agent skills更新</td></tr><tr><td><code>08bb714</code></td><td>Sun Haoyu</td><td>2026-05-04</td><td>文档，devnull</td></tr><tr><td><code>e0de2d5</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>文件系统性能优化</td></tr><tr><td><code>dd87dfc</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>比赛构建</td></tr><tr><td><code>b570fd1</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>注释更改</td></tr><tr><td><code>e076a67</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>readv实现</td></tr><tr><td><code>c03115c</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>修复glibc下的busybox which无效问题</td></tr><tr><td><code>82204c5</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>修复调试时，所有同名文件都被打同样断点的问题</td></tr><tr><td><code>05a18e6</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>合并panic实现；最小实现tty</td></tr><tr><td><code>ea0907d</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>修复shell_enable=1的问题</td></tr><tr><td><code>40a4009</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>堆扩展先释放锁</td></tr><tr><td><code>65e7083</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>增大rv启动栈</td></tr><tr><td><code>005f902</code></td><td>Sun Haoyu</td><td>2026-05-03</td><td>修复死锁问题</td></tr><tr><td><code>6ab0282</code></td><td>Sun Haoyu</td><td>2026-05-02</td><td>加log</td></tr><tr><td><code>4045a5c</code></td><td>Sun Haoyu</td><td>2026-05-02</td><td>让一些锁使用raw_lock的实现(并关中断)</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

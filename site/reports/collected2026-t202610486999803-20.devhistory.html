@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610486999803 开发历史报告</title>
+<title>A20OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,22 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610486999803 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：160</li>
-<li>参与作者数：5</li>
-<li>时间跨度：2026-04-11 ~ 2026-07-01</li>
-<li>HEAD：<code>bbece52</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>fQwQf：72 次提交</li>
-<li>Mulei Zhang：70 次提交</li>
-<li>Guo Yiyan：16 次提交</li>
-<li>AAAAAAAAAAAAAAAAAAAA：1 次提交</li>
-<li>Codex：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>bbece52</code></td><td>fQwQf</td><td>2026-07-01</td><td>docs: Add slides</td></tr><tr><td><code>d3a39ed</code></td><td>fQwQf</td><td>2026-06-29</td><td>docs: Add README</td></tr><tr><td><code>4f51718</code></td><td>fQwQf</td><td>2026-06-29</td><td>debug: Fix a bug in VFS name resolve</td></tr><tr><td><code>ae8e4d7</code></td><td>fQwQf</td><td>2026-06-28</td><td>debug: Fix musl linker</td></tr><tr><td><code>986a8fd</code></td><td>fQwQf</td><td>2026-06-28</td><td>chore: Add eval for ltp la</td></tr><tr><td><code>a1422c7</code></td><td>fQwQf</td><td>2026-06-28</td><td>debug: Fix epoll</td></tr><tr><td><code>c1224f5</code></td><td>Mulei Zhang</td><td>2026-06-26</td><td>mitigate contest timeout regressions</td></tr><tr><td><code>5892ca9</code></td><td>Mulei Zhang</td><td>2026-06-25</td><td>fix ltp result marker and ramfs rename recycle</td></tr><tr><td><code>bdc0019</code></td><td>Mulei Zhang</td><td>2026-06-24</td><td>guard ltp futex cmp requeue timeout</td></tr><tr><td><code>fbf6bf4</code></td><td>Mulei Zhang</td><td>2026-06-24</td><td>fix ltp virtual timing detection</td></tr><tr><td><code>bda7d47</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>guard ltp ftest timeouts</td></tr><tr><td><code>aaad699</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>fix vfs time metadata recycling</td></tr><tr><td><code>3fd8745</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>fix submit zip musl configure</td></tr><tr><td><code>e43d1f9</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>fix basic brk aslr</td></tr><tr><td><code>4b138c9</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>fix basic pipe output</td></tr><tr><td><code>e7d5af8</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>fix basic mount umount</td></tr><tr><td><code>1f19c46</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>fix musl rtc ioctl requests</td></tr><tr><td><code>00f56c9</code></td><td>Mulei Zhang</td><td>2026-06-23</td><td>fix busybox kill10 target</td></tr><tr><td><code>d997f92</code></td><td>Mulei Zhang</td><td>2026-06-22</td><td>expand bounded ltp local fs tail</td></tr><tr><td><code>4f363da</code></td><td>Mulei Zhang</td><td>2026-06-22</td><td>expand bounded ltp local io tail</td></tr><tr><td><code>b679aaa</code></td><td>Mulei Zhang</td><td>2026-06-22</td><td>expand bounded ltp utility tail</td></tr><tr><td><code>17a912e</code></td><td>Mulei Zhang</td><td>2026-06-22</td><td>Add virtio transport header fallback</td></tr><tr><td><code>df1c02d</code></td><td>Mulei Zhang</td><td>2026-06-21</td><td>expand bounded ltp ipc tail</td></tr><tr><td><code>d90693a</code></td><td>Mulei Zhang</td><td>2026-06-21</td><td>expand bounded ltp af_alg tail</td></tr><tr><td><code>2becb6f</code></td><td>Mulei Zhang</td><td>2026-06-19</td><td>expand bounded ltp libm cve tail</td></tr><tr><td><code>a1b0702</code></td><td>Mulei Zhang</td><td>2026-06-19</td><td>expand bounded ltp math stream tail</td></tr><tr><td><code>c8c6fba</code></td><td>Mulei Zhang</td><td>2026-06-19</td><td>expand bounded ltp clone ipc tail</td></tr><tr><td><code>8cc20e6</code></td><td>Mulei Zhang</td><td>2026-06-19</td><td>expand bounded ltp futex ftest tail</td></tr><tr><td><code>50bda9f</code></td><td>Mulei Zhang</td><td>2026-06-19</td><td>expand bounded ltp fcntl xattr tail</td></tr><tr><td><code>c38d566</code></td><td>Mulei Zhang</td><td>2026-06-19</td><td>expand bounded ltp set signal wait tail</td></tr><tr><td><code>f255869</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp sched select setid tail</td></tr><tr><td><code>b6c290b</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp open pipe read tail</td></tr><tr><td><code>b0566ac</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp mkdir mlock mmap tail</td></tr><tr><td><code>427036e</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp kill link lseek tail</td></tr><tr><td><code>560586f</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp fchmod fchown tail</td></tr><tr><td><code>f22e598</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp ioctl inotify tail</td></tr><tr><td><code>5f55c2d</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp getxattr tail</td></tr><tr><td><code>4a9ac1d</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp rlimit usage id tail</td></tr><tr><td><code>653c3f4</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp priority random id tail</td></tr><tr><td><code>617c787</code></td><td>Mulei Zhang</td><td>2026-06-18</td><td>expand bounded ltp ftruncate get tail</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

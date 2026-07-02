@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026101269910207 开发历史报告</title>
+<title>OSKernel2026-X 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026101269910207 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：685</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-05-27 ~ 2026-06-30</li>
-<li>HEAD：<code>153679d</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>jeremy：128 次提交</li>
-<li>歪比巴卜：35 次提交</li>
-<li>xsw：28 次提交</li>
-<li>OSKernel2026-X Team：9 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>153679d</code></td><td>jeremy</td><td>2026-06-30</td><td>docs: add final preliminary materials</td></tr><tr><td><code>49907c7</code></td><td>jeremy</td><td>2026-06-30</td><td>docs: finalize preliminary submission package</td></tr><tr><td><code>df4b9b6</code></td><td>jeremy</td><td>2026-06-30</td><td>docs: complete preliminary process materials</td></tr><tr><td><code>ce0805d</code></td><td>jeremy</td><td>2026-06-30</td><td>fix: keep loongarch glibc basic direct</td></tr><tr><td><code>8aac7e5</code></td><td>jeremy</td><td>2026-06-30</td><td>feat: raise musl libctest coverage</td></tr><tr><td><code>cd41fc1</code></td><td>jeremy</td><td>2026-06-29</td><td>runner: stabilize libctest execution</td></tr><tr><td><code>501da66</code></td><td>jeremy</td><td>2026-06-29</td><td>runner: make libctest bounded and path aware</td></tr><tr><td><code>6c14a06</code></td><td>jeremy</td><td>2026-06-29</td><td>Merge remote-tracking branch 'origin/main' into submission-libctest-script</td></tr><tr><td><code>7de98c0</code></td><td>jeremy</td><td>2026-06-29</td><td>runner: accept plain libctest script cases</td></tr><tr><td><code>3f5ef1c</code></td><td>jeremy</td><td>2026-06-29</td><td>runner: discover libctest cases from scripts</td></tr><tr><td><code>ae97e5f</code></td><td>jeremy</td><td>2026-06-29</td><td>runner: execute musl libctest cases</td></tr><tr><td><code>b61aadc</code></td><td>OSKernel2026-X Team</td><td>2026-06-29</td><td>fix: complete loongarch basic brk and clone</td></tr><tr><td><code>9196bbe</code></td><td>jeremy</td><td>2026-06-29</td><td>Merge remote-tracking branch 'origin/main' into sync-submission-main</td></tr><tr><td><code>34325a2</code></td><td>OSKernel2026-X Team</td><td>2026-06-28</td><td>feat: improve rv busybox and loongarch basic/busybox support</td></tr><tr><td><code>8760506</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: recognize rv busybox abi groups</td></tr><tr><td><code>c3e997c</code></td><td>jeremy</td><td>2026-06-28</td><td>sync: mirror main repository cd94588e</td></tr><tr><td><code>89897cb</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: expand bounded busybox path</td></tr><tr><td><code>cd94588</code></td><td>OSKernel2026-X Team</td><td>2026-06-28</td><td>feat(la): run basic glibc and musl tests</td></tr><tr><td><code>695303a</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: limit scoring probe to musl busybox</td></tr><tr><td><code>9be3e14</code></td><td>OSKernel2026-X Team</td><td>2026-06-28</td><td>feat(rv): support busybox basic command tests</td></tr><tr><td><code>592d73c</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: add bounded scoring probes</td></tr><tr><td><code>df3084f</code></td><td>OSKernel2026-X Team</td><td>2026-06-28</td><td>userexec: allow busybox-sized rv mappings</td></tr><tr><td><code>ff1d2eb</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: run lua only on musl</td></tr><tr><td><code>7a5428b</code></td><td>OSKernel2026-X Team</td><td>2026-06-28</td><td>runner: enable rv busybox command execution</td></tr><tr><td><code>04da409</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: support lua-sized user images</td></tr><tr><td><code>db8cd7e</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: restore stable basic-only target</td></tr><tr><td><code>90a1b3c</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: keep basic first and enable lua only</td></tr><tr><td><code>57e498f</code></td><td>jeremy</td><td>2026-06-28</td><td>runner: enable real lua and busybox scripts</td></tr><tr><td><code>daddc88</code></td><td>jeremy</td><td>2026-06-28</td><td>loongarch: link stub in high direct map</td></tr><tr><td><code>cae04b8</code></td><td>jeremy</td><td>2026-06-28</td><td>loongarch: retry qemu exit without idle</td></tr><tr><td><code>d77a4a9</code></td><td>jeremy</td><td>2026-06-28</td><td>loongarch: make stub exit bounded</td></tr><tr><td><code>e30c9f9</code></td><td>jeremy</td><td>2026-06-28</td><td>riscv: exit qemu via reset request</td></tr><tr><td><code>67ca0e4</code></td><td>jeremy</td><td>2026-06-28</td><td>build: refresh submission snapshot</td></tr><tr><td><code>1f67d10</code></td><td>jeremy</td><td>2026-06-27</td><td>riscv: prefer qemu finisher shutdown</td></tr><tr><td><code>f59e4c9</code></td><td>OSKernel2026-X Team</td><td>2026-06-27</td><td>build: prevent judge timeout from la stub</td></tr><tr><td><code>ea3fb8c</code></td><td>jeremy</td><td>2026-06-27</td><td>runner: use conservative basic-only target</td></tr><tr><td><code>56d662c</code></td><td>jeremy</td><td>2026-06-27</td><td>runner: enable real busybox command list</td></tr><tr><td><code>5fcac0b</code></td><td>jeremy</td><td>2026-06-27</td><td>runner: enable lua smoke suite</td></tr><tr><td><code>b32ac4d</code></td><td>jeremy</td><td>2026-06-27</td><td>runner: run complete rv basic set</td></tr><tr><td><code>4d13bb2</code></td><td>OSKernel2026-X Team</td><td>2026-06-27</td><td>runner: schedule supported pre-2025 groups</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

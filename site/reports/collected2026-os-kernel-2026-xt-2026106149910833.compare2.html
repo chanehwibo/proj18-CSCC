@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026106149910833 vs 2024 NPUcore-重生之我是菜狗 比较报告</title>
+<title>OSKernel2026-X vs 2024 NPUcore-重生之我是菜狗 比较报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T2026106149910833 比较报告</h1>
 <ul>
 <li>对比历史仓库：2024 NPUcore-重生之我是菜狗</li>
-<li>生成时间：2026-07-02T04:57:34.202802+00:00</li>
+<li>生成时间：2026-07-02T09:03:44.807330+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -324,16 +324,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <p>代码片段：<code>// UserFaultAccess 列出内存管理的互斥结果分支，match 时可以显式覆盖每种情况。 #[derive(Clone, Copy, Debug, Eq, PartialEq)] pub enum UserFaultAccess { Execute, Read,</code></p>
 <li><code>os/src/mm/zram.rs:L5-L9</code>：enum ZramError</li>
 <p>代码片段：<code>#[derive(Debug)] pub enum ZramError { InvalidIndex, NoSpace,</code></p>
-<li>函数/符号名重合：与 2024 NPUcore-重生之我是菜狗 在“同步机制”维度发现 2 个同名定义：new, read。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：medium）</li>
-<p>证据：</p>
-<li><code>source/arch/contract/boot.rs:L42-L42</code>：fn new</li>
-<p>代码片段：<code>pub fn new(path: &amp;[u8]) -&gt; Result&lt;Self, BootInitBlocker&gt; {</code></p>
-<li><code>os/src/fs/mod.rs:L94-L94</code>：fn new</li>
-<p>代码片段：<code>pub fn new(cloexec: bool, nonblock: bool, file: Arc&lt;dyn File&gt;) -&gt; Self {</code></p>
-<li><code>source/arch/contract/fdt.rs:L428-L428</code>：fn read</li>
-<p>代码片段：<code>unsafe fn read(fdt: usize) -&gt; Result&lt;Self, BootMemoryBlocker&gt; {</code></p>
-<li><code>os/src/fs/mod.rs:L133-L133</code>：fn read</li>
-<p>代码片段：<code>pub fn read(&amp;self, offset: Option&lt;&amp;mut usize&gt;, buf: &amp;mut [u8]) -&gt; usize {</code></p>
 <li>文件路径重合：与 2024 NPUcore-重生之我是菜狗 在“设备驱动”维度出现同名文件源码路径 <code>source/arch/loongarch64/console.rs</code> / <code>os/src/console.rs</code>。这说明实现位置或文件命名存在可复核相似线索，不等同于代码重复裁定。（置信度：medium）</li>
 <p>证据：</p>
 <li><code>source/arch/loongarch64/console.rs:L4-L8</code>：关键词命中</li>
@@ -402,22 +392,22 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>差异点</h2>
 <ul>
-<li>与 2024 NPUcore-重生之我是菜狗 的语言构成不同：待测作品为 {'build': 169, 'markdown': 1760, 'asm': 295, 'json': 769, 'text': 551, 'yaml': 313, 'rust': 84350}，历史样本为 {'json': 20, 'build': 395, 'markdown': 53, 'rust': 25306, 'asm': 306, 'text': 60, 'c': 383}。（置信度：medium）</li>
+<li>与 2024 NPUcore-重生之我是菜狗 的语言构成不同：待测作品为 {'json': 789, 'build': 169, 'markdown': 1760, 'yaml': 313, 'rust': 84350, 'text': 551, 'asm': 295}，历史样本为 {'json': 20, 'build': 395, 'markdown': 53, 'rust': 25306, 'asm': 306, 'text': 60, 'c': 383}。（置信度：medium）</li>
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>待测作品包含 389 个历史样本 2024 NPUcore-重生之我是菜狗 中未见的独特函数/类型定义（如 <code>resolve_active_user_copy_fault</code>, <code>start_child_after_fork</code>, <code>discover_virtio_capabilities</code>, <code>write_clone_pidfd</code>, <code>write_delivery_frame</code>, <code>active_user_page_mapped</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<li>待测作品包含 448 个历史样本 2024 NPUcore-重生之我是菜狗 中未见的独特函数/类型定义（如 <code>read_user_usize</code>, <code>release_active_record_locks_for_fd</code>, <code>reserve_kernel_task_stack</code>, <code>commit_wake_reschedule_continue</code>, <code>plan_yield_switch</code>, <code>proc_fdinfo_stat_for_path</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
 <p>证据：</p>
-<li><code>source/arch/loongarch64/mmu/user_memory.rs:L307-L307</code>：fn resolve_active_user_copy_fault</li>
-<p>代码片段：<code>unsafe fn resolve_active_user_copy_fault(address: usize, write: bool) -&gt; Result&lt;(), UserCopyError&gt; {</code></p>
-<li><code>source/arch/loongarch64/trap/fork.rs:L52-L52</code>：fn start_child_after_fork</li>
-<p>代码片段：<code>pub(super) fn start_child_after_fork(trap: &amp;mut LoongArchTrapFrame, request: ForkRequest) -&gt; usize {</code></p>
-<li>待测作品代码规模（88,207 LOC）显著大于历史样本 2024 NPUcore-重生之我是菜狗（26,523 LOC），可能包含更多功能模块或更完整的实现，但也可能包含非内核代码，需人工确认。（置信度：low）</li>
+<li><code>source/core/syscall.rs:L1135-L1135</code>：fn read_user_usize</li>
+<p>代码片段：<code>fn read_user_usize&lt;R: UserMemoryReader&gt;(memory: &amp;R, address: usize) -&gt; Result&lt;usize, SyscallError&gt; {</code></p>
+<li><code>source/kernel/syscall_runtime.rs:L511-L511</code>：fn release_active_record_locks_for_fd</li>
+<p>代码片段：<code>fn release_active_record_locks_for_fd(fd: usize) -&gt; Result&lt;Option&lt;FileRecordLockWaitKey&gt;, FdError&gt; {</code></p>
+<li>待测作品代码规模（88,227 LOC）显著大于历史样本 2024 NPUcore-重生之我是菜狗（26,523 LOC），可能包含更多功能模块或更完整的实现，但也可能包含非内核代码，需人工确认。（置信度：low）</li>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：21</li>
-<li>含证据关键结论数：20（95.2%）</li>
+<li>关键结论数：20</li>
+<li>含证据关键结论数：19（95.0%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>

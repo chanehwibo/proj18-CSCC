@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026103369910012 开发历史报告</title>
+<title>oskernel2026-kksc03 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026103369910012 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：231</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-04-27 ~ 2026-06-30</li>
-<li>HEAD：<code>1aa44c91</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>SOLECA794：68 次提交</li>
-<li>James：55 次提交</li>
-<li>root：55 次提交</li>
-<li>yyw-dev：22 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>1aa44c91</code></td><td>yyw-dev</td><td>2026-06-30</td><td>整理文件</td></tr><tr><td><code>5867f4d7</code></td><td>yyw-dev</td><td>2026-06-30</td><td>增加ppt</td></tr><tr><td><code>30e6439d</code></td><td>yyw-dev</td><td>2026-06-30</td><td>文档</td></tr><tr><td><code>a92d8f10</code></td><td>yyw-dev</td><td>2026-06-30</td><td>文档</td></tr><tr><td><code>e7485cb1</code></td><td>yyw-dev</td><td>2026-06-30</td><td>修改readme</td></tr><tr><td><code>e102b273</code></td><td>yyw-dev</td><td>2026-06-30</td><td>删除根目录下的测试输出文件，更新 README</td></tr><tr><td><code>2899ffbc</code></td><td>yyw-dev</td><td>2026-06-30</td><td>合并 high1300 分支的内核代码改动</td></tr><tr><td><code>3be592a5</code></td><td>root</td><td>2026-06-04</td><td>收紧 LTP 清单避免 LA 超时</td></tr><tr><td><code>3146a06f</code></td><td>root</td><td>2026-06-04</td><td>调整 LTP 清单避免超时</td></tr><tr><td><code>dc3d46d7</code></td><td>root</td><td>2026-06-04</td><td>合并 wxz-second，保留 wxz 文件系统改动</td></tr><tr><td><code>f348d8c1</code></td><td>root</td><td>2026-06-04</td><td>调整 LTP 用例避免卡住</td></tr><tr><td><code>cd5da55d</code></td><td>James</td><td>2026-06-03</td><td>撤下 readlinkat01 避免线上运行超时</td></tr><tr><td><code>0eec7846</code></td><td>James</td><td>2026-06-03</td><td>修复评测机 cargo-axplat 安装失败</td></tr><tr><td><code>1ac5fd06</code></td><td>yyw-dev</td><td>2026-06-03</td><td>一些ltp样例</td></tr><tr><td><code>0f2cefa8</code></td><td>root</td><td>2026-06-02</td><td>修 readlinkat01：允许 O_CREAT\</td><td>O_RDONLY，修复绝对路径和空路径语义</td></tr><tr><td><code>b27e55ff</code></td><td>root</td><td>2026-06-02</td><td>更新交接文档，记录本轮修复和候选筛选结果</td></tr><tr><td><code>082a1b0f</code></td><td>root</td><td>2026-06-02</td><td>symlink01 从 glibc 移到 common，musl 也过了</td></tr><tr><td><code>4913f2cf</code></td><td>root</td><td>2026-06-02</td><td>修 getpriority 和 la lstat 失分，双架构 514 全零</td></tr><tr><td><code>d22b427f</code></td><td>yyw-dev</td><td>2026-06-02</td><td>mincore02 mincore03 mincore04 做静态修复</td></tr><tr><td><code>014e9647</code></td><td>yyw-dev</td><td>2026-06-02</td><td>修复ltp</td></tr><tr><td><code>7750e11b</code></td><td>root</td><td>2026-06-01</td><td>合并 sol 并建立文件系统决策体系</td></tr><tr><td><code>b0db17e9</code></td><td>root</td><td>2026-06-01</td><td>补 lstat01 lstat01_64 到稳定 LTP 集合，双架构通过</td></tr><tr><td><code>dd9dc0f4</code></td><td>yyw-dev</td><td>2026-06-01</td><td>修复一下ltp样例</td></tr><tr><td><code>9a158789</code></td><td>root</td><td>2026-06-01</td><td>支持 FAT 符号链接</td></tr><tr><td><code>4f49cd2d</code></td><td>root</td><td>2026-06-01</td><td>隔离 pipe13 线上卡点评测</td></tr><tr><td><code>79146366</code></td><td>yyw-dev</td><td>2026-06-01</td><td>修改目录/pipe 错误码、preadv2/pwritev2 flags 参数位置、以及 offset == -1 使用当前文件偏移的语义</td></tr><tr><td><code>fe5f860a</code></td><td>root</td><td>2026-06-01</td><td>清理一批不稳的 ltp</td></tr><tr><td><code>1f768650</code></td><td>yyw-dev</td><td>2026-06-01</td><td>修复文件系统和时限问题</td></tr><tr><td><code>232f9f06</code></td><td>yyw-dev</td><td>2026-06-01</td><td>修复到160</td></tr><tr><td><code>6e87db47</code></td><td>root</td><td>2026-06-01</td><td>补 realpath01 ltp</td></tr><tr><td><code>9b1b5dd9</code></td><td>SOLECA794</td><td>2026-06-01</td><td>docs: create decision-record, innovation-log, meta-thinking system; update ltp-progress</td></tr><tr><td><code>4136a760</code></td><td>root</td><td>2026-06-01</td><td>补 setregid04 setresgid04 ltp</td></tr><tr><td><code>01bb2f03</code></td><td>SOLECA794</td><td>2026-06-01</td><td>iter1: try 11 fs new cases, all failed; revert to 582 stable; doc updated</td></tr><tr><td><code>891922df</code></td><td>root</td><td>2026-06-01</td><td>补 kill07 kill08 kill09 ltp</td></tr><tr><td><code>6d7b8035</code></td><td>SOLECA794</td><td>2026-06-01</td><td>fix: sys_getpriority default 0 (was 20), SchedState add nice field; drop nice01/02</td></tr><tr><td><code>59bb6f3d</code></td><td>root</td><td>2026-06-01</td><td>补 kill03 kill06 ltp</td></tr><tr><td><code>add614c3</code></td><td>root</td><td>2026-06-01</td><td>补 setreuid06 ltp</td></tr><tr><td><code>f199d763</code></td><td>SOLECA794</td><td>2026-06-01</td><td>docs: update ltp-progress to 582 runs/333 unique, add sol branch progress section</td></tr><tr><td><code>0c3b2970</code></td><td>SOLECA794</td><td>2026-06-01</td><td>Merge remote-tracking branch 'origin/wxz' into sol</td></tr><tr><td><code>b9f18ef2</code></td><td>SOLECA794</td><td>2026-06-01</td><td>remove close_range01 from extra (still returns 2)</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

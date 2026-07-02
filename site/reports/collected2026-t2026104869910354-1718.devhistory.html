@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869910354 开发历史报告</title>
+<title>rCore-Tutorial-v3 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869910354 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：114</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-05-07 ~ 2026-06-16</li>
-<li>HEAD：<code>380ff4f</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>不让内核死机：53 次提交</li>
-<li>fblo2：25 次提交</li>
-<li>吧唧吧唧：20 次提交</li>
-<li>WangHotpnT：16 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>380ff4f</code></td><td>吧唧吧唧</td><td>2026-06-16</td><td>Merge branch 'feature/syscall' into 'main'</td></tr><tr><td><code>ac56549</code></td><td>吧唧吧唧</td><td>2026-06-16</td><td>Feature/syscall</td></tr><tr><td><code>ef44d61</code></td><td>不让内核死机</td><td>2026-06-16</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>00f3fbe</code></td><td>不让内核死机</td><td>2026-06-16</td><td>补busybox</td></tr><tr><td><code>6eff397</code></td><td>不让内核死机</td><td>2026-06-16</td><td>Merge branch 'feature/runner' into 'main'</td></tr><tr><td><code>425b9ed</code></td><td>WangHotpnT</td><td>2026-06-16</td><td>runner: add 6.16 cyclictest ltp network suites</td></tr><tr><td><code>13b847f</code></td><td>WangHotpnT</td><td>2026-06-16</td><td>Merge branch 'feature/runner' into 'main'</td></tr><tr><td><code>45e6c95</code></td><td>WangHotpnT</td><td>2026-06-16</td><td>Merge remote-tracking branch 'origin/main' into feature/runner</td></tr><tr><td><code>079a967</code></td><td>WangHotpnT</td><td>2026-06-16</td><td>fix: skip gpu input init under nographic judge</td></tr><tr><td><code>ae96148</code></td><td>不让内核死机</td><td>2026-06-16</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>06cc2ac</code></td><td>不让内核死机</td><td>2026-06-16</td><td>fs: add minimal fd offset, pipe, truncate, sync and overlay semantics</td></tr><tr><td><code>59a98f8</code></td><td>WangHotpnT</td><td>2026-06-15</td><td>Merge branch 'feature/runner' into 'main'</td></tr><tr><td><code>8483931</code></td><td>WangHotpnT</td><td>2026-06-15</td><td>runner: add clean score markers for basic tests</td></tr><tr><td><code>8f8be8d</code></td><td>WangHotpnT</td><td>2026-06-15</td><td>Merge branch 'feature/runner' into 'main'</td></tr><tr><td><code>1d99cbe</code></td><td>吧唧吧唧</td><td>2026-06-14</td><td>Merge branch 'feature/syscall' into 'main'</td></tr><tr><td><code>e88a50a</code></td><td>吧唧吧唧</td><td>2026-06-14</td><td>Feature/syscall</td></tr><tr><td><code>e028728</code></td><td>WangHotpnT</td><td>2026-06-14</td><td>6.14docs: update status</td></tr><tr><td><code>7608acb</code></td><td>WangHotpnT</td><td>2026-06-14</td><td>runner: add lmbench lua iozone safe matrix logging</td></tr><tr><td><code>aa8f7e0</code></td><td>不让内核死机</td><td>2026-06-14</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>fb67d7c</code></td><td>不让内核死机</td><td>2026-06-14</td><td>6.14</td></tr><tr><td><code>dc0c8bb</code></td><td>不让内核死机</td><td>2026-06-14</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>be79e30</code></td><td>不让内核死机</td><td>2026-06-14</td><td>Makefile</td></tr><tr><td><code>3d84b6d</code></td><td>不让内核死机</td><td>2026-06-14</td><td>Merge branch 'feature/runner' into 'main'</td></tr><tr><td><code>c0f7555</code></td><td>WangHotpnT</td><td>2026-06-14</td><td>6.13晚Feature/runner</td></tr><tr><td><code>6a5fcab</code></td><td>不让内核死机</td><td>2026-06-14</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>274fd55</code></td><td>不让内核死机</td><td>2026-06-14</td><td>已修正并标记冲突解决。</td></tr><tr><td><code>8e2164d</code></td><td>吧唧吧唧</td><td>2026-06-14</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>666ec48</code></td><td>不让内核死机</td><td>2026-06-14</td><td>fix: normalize oskernel Makefile line endings</td></tr><tr><td><code>8c9c9b0</code></td><td>吧唧吧唧</td><td>2026-06-14</td><td>Merge branch 'feature/syscall' into 'main'</td></tr><tr><td><code>52d0122</code></td><td>吧唧吧唧</td><td>2026-06-14</td><td>Feature/syscall</td></tr><tr><td><code>224c87b</code></td><td>吧唧吧唧</td><td>2026-06-14</td><td>Merge branch 'feature/syscall' into 'main'</td></tr><tr><td><code>c5d2603</code></td><td>吧唧吧唧</td><td>2026-06-14</td><td>Feature/syscall</td></tr><tr><td><code>ee2d3f5</code></td><td>不让内核死机</td><td>2026-06-14</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>c4ec0a2</code></td><td>不让内核死机</td><td>2026-06-14</td><td>fix: add root make all entry for grader</td></tr><tr><td><code>427746f</code></td><td>不让内核死机</td><td>2026-06-13</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>b548c45</code></td><td>不让内核死机</td><td>2026-06-13</td><td>fix(oskernel): stabilize ext4 busybox p0 smoke</td></tr><tr><td><code>9e043bd</code></td><td>吧唧吧唧</td><td>2026-06-13</td><td>Merge branch 'feature/syscall' into 'main'</td></tr><tr><td><code>d92ee5b</code></td><td>吧唧吧唧</td><td>2026-06-13</td><td>Feature/syscall</td></tr><tr><td><code>b410ee5</code></td><td>不让内核死机</td><td>2026-06-12</td><td>Merge branch 'feature/ext4' into 'main'</td></tr><tr><td><code>762ed55</code></td><td>不让内核死机</td><td>2026-06-12</td><td>6.12Feature/ext4</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

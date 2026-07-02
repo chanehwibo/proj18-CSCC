@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026105749910208 开发历史报告</title>
+<title>OSKernel2026-X 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026105749910208 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：196</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-05-03 ~ 2026-06-30</li>
-<li>HEAD：<code>26ef085</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>wll_OS：192 次提交</li>
-<li>OCDA：3 次提交</li>
-<li>12345：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>26ef085</code></td><td>wll_OS</td><td>2026-06-30</td><td>Merge feat/ltp into main</td></tr><tr><td><code>f0491f5</code></td><td>wll_OS</td><td>2026-06-30</td><td>ltp: extend socket syscall coverage</td></tr><tr><td><code>a08f866</code></td><td>wll_OS</td><td>2026-06-30</td><td>feat(ltp): expand process group coverage</td></tr><tr><td><code>33670f3</code></td><td>wll_OS</td><td>2026-06-30</td><td>feat(fs): add basic file lease fcntl support</td></tr><tr><td><code>f60513b</code></td><td>wll_OS</td><td>2026-06-30</td><td>perf(fs): optimize volatile MemFS paths</td></tr><tr><td><code>bdf4120</code></td><td>wll_OS</td><td>2026-06-30</td><td>Merge branch 'feat/ltp'</td></tr><tr><td><code>d34967b</code></td><td>wll_OS</td><td>2026-06-30</td><td>Return EINVAL for invalid fcntl commands</td></tr><tr><td><code>1dd570f</code></td><td>wll_OS</td><td>2026-06-30</td><td>docs: update bounded LTP coverage</td></tr><tr><td><code>d0ab961</code></td><td>wll_OS</td><td>2026-06-29</td><td>Expand bounded LTP case list</td></tr><tr><td><code>3a4a4e2</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): normalize POSIX record lock ranges</td></tr><tr><td><code>d491430</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): implement OFD record locks</td></tr><tr><td><code>b7232c1</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): implement POSIX record locks</td></tr><tr><td><code>d3d37d2</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): implement copy_file_range basics</td></tr><tr><td><code>84f6ce3</code></td><td>wll_OS</td><td>2026-06-29</td><td>Remove default test script probes from demo</td></tr><tr><td><code>01c85b0</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): match ftruncate readonly errno</td></tr><tr><td><code>d6aead7</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): reject reserved statx masks</td></tr><tr><td><code>57917f5</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): implement basic xattr semantics</td></tr><tr><td><code>74bc097</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): support openat2 syscall semantics</td></tr><tr><td><code>ef7bedc</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): support tmpfile-backed open</td></tr><tr><td><code>46297c0</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): support renameat2 exchange</td></tr><tr><td><code>c4b005b</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): enforce rename directory permissions</td></tr><tr><td><code>48291f4</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): enforce directory permissions for link and create</td></tr><tr><td><code>bd37d15</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(ext4): free inodes after unlink and rmdir</td></tr><tr><td><code>e25a729</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(fs): share MemFS file backing for hard links</td></tr><tr><td><code>8355684</code></td><td>wll_OS</td><td>2026-06-29</td><td>fix(ext4): rebuild unusable block bitmaps before allocation</td></tr><tr><td><code>10d4c4b</code></td><td>OCDA</td><td>2026-06-28</td><td>docs: move final report PDF to repository root</td></tr><tr><td><code>3ff0e60</code></td><td>OCDA</td><td>2026-06-28</td><td>docs: update wllos LTP technical report PDF</td></tr><tr><td><code>e5dbeb6</code></td><td>OCDA</td><td>2026-06-28</td><td>docs: add wllos LTP technical report PDF</td></tr><tr><td><code>e759ba3</code></td><td>wll_OS</td><td>2026-06-28</td><td>fix(ext4): initialize lazy block bitmaps before allocation</td></tr><tr><td><code>3bd6f48</code></td><td>wll_OS</td><td>2026-06-28</td><td>Merge feat/ltp demo video into main</td></tr><tr><td><code>770d4e0</code></td><td>wll_OS</td><td>2026-06-28</td><td>docs: add preliminary demo video</td></tr><tr><td><code>4f5db62</code></td><td>wll_OS</td><td>2026-06-28</td><td>Merge feat/ltp AI disclosure updates into main</td></tr><tr><td><code>cbf2487</code></td><td>wll_OS</td><td>2026-06-28</td><td>docs: disclose AI usage and document interactive kernel path</td></tr><tr><td><code>a92b110</code></td><td>wll_OS</td><td>2026-06-28</td><td>Merge feat/ltp into main</td></tr><tr><td><code>f3d2a53</code></td><td>wll_OS</td><td>2026-06-28</td><td>docs: update README team name</td></tr><tr><td><code>767eb75</code></td><td>wll_OS</td><td>2026-06-27</td><td>chore: remove unrelated local artifacts</td></tr><tr><td><code>8febbd1</code></td><td>wll_OS</td><td>2026-06-27</td><td>docs: update competition materials</td></tr><tr><td><code>9b4ba5a</code></td><td>wll_OS</td><td>2026-06-27</td><td>fix basic mount loop device</td></tr><tr><td><code>c59e447</code></td><td>wll_OS</td><td>2026-06-27</td><td>fix fs overlay for iozone and speed dev IO</td></tr><tr><td><code>2c86160</code></td><td>wll_OS</td><td>2026-06-27</td><td>ltp: add personality uname support</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

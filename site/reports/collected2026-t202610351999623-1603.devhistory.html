@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610351999623 开发历史报告</title>
+<title>OSKernel — UNIX-like Microkernel 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610351999623 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：69</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-01-30 ~ 2026-06-02</li>
-<li>HEAD：<code>29267c6</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Fwillra：69 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>29267c6</code></td><td>Fwillra</td><td>2026-06-02</td><td>重构：添加hal层介入arch和逻辑层，确保单架构内核开发完毕后接口完全固化</td></tr><tr><td><code>201dffd</code></td><td>Fwillra</td><td>2026-05-28</td><td>fix: 修复了glibc及hackbench的测试错误问题：修改了init-lib挂载机制及部分syscall语义、修复权限问题</td></tr><tr><td><code>9e6fbf8</code></td><td>Fwillra</td><td>2026-05-19</td><td>fix: 修改了子进程结束时发送信号的具体逻辑</td></tr><tr><td><code>15c883a</code></td><td>Fwillra</td><td>2026-05-19</td><td>to: 检查过往syscall设计，定位glibc测试问题</td></tr><tr><td><code>8f49202</code></td><td>Fwillra</td><td>2026-05-19</td><td>fix: 修复一些进程队列管理的问题</td></tr><tr><td><code>3005cde</code></td><td>Fwillra</td><td>2026-05-18</td><td>glibc 测试</td></tr><tr><td><code>6c304e6</code></td><td>Fwillra</td><td>2026-05-07</td><td>fix,perf: 进行了部分syscall修复确保返回合规合理、将定时器tick提高至1000tick</td></tr><tr><td><code>4388eb1</code></td><td>Fwillra</td><td>2026-05-07</td><td>fix: 修复cpu线程检测syscall</td></tr><tr><td><code>bc16742</code></td><td>Fwillra</td><td>2026-05-06</td><td>perf: 优化syscall实现</td></tr><tr><td><code>402454f</code></td><td>Fwillra</td><td>2026-05-06</td><td>to: 测试</td></tr><tr><td><code>e2ac1af</code></td><td>Fwillra</td><td>2026-05-06</td><td>to: 测试新修复</td></tr><tr><td><code>9fd2442</code></td><td>Fwillra</td><td>2026-05-06</td><td>to: 测试</td></tr><tr><td><code>cc7a3f4</code></td><td>Fwillra</td><td>2026-05-05</td><td>to: 测试</td></tr><tr><td><code>a6fdff2</code></td><td>Fwillra</td><td>2026-05-05</td><td>fix: 基于日志的代码实现XD</td></tr><tr><td><code>b1f59a4</code></td><td>Fwillra</td><td>2026-05-05</td><td>fix: 完成cyclictest修复，清理调试日志输出</td></tr><tr><td><code>f56d1c7</code></td><td>Fwillra</td><td>2026-05-05</td><td>to: 不知道错哪了</td></tr><tr><td><code>5476dca</code></td><td>Fwillra</td><td>2026-05-05</td><td>to：测试</td></tr><tr><td><code>331ff8e</code></td><td>Fwillra</td><td>2026-05-05</td><td>to: 继续测试</td></tr><tr><td><code>cd72bd8</code></td><td>Fwillra</td><td>2026-05-05</td><td>to: 测试新的修改</td></tr><tr><td><code>ada2ce7</code></td><td>Fwillra</td><td>2026-05-05</td><td>to: 测试</td></tr><tr><td><code>a52e7b8</code></td><td>Fwillra</td><td>2026-05-05</td><td>to: continue adding logs</td></tr><tr><td><code>806532c</code></td><td>Fwillra</td><td>2026-05-05</td><td>to: adding logs</td></tr><tr><td><code>2700e29</code></td><td>Fwillra</td><td>2026-05-04</td><td>to: fixing</td></tr><tr><td><code>14b9116</code></td><td>Fwillra</td><td>2026-05-04</td><td>to: finding problem</td></tr><tr><td><code>bd232bf</code></td><td>Fwillra</td><td>2026-05-04</td><td>to: fixing busybox test</td></tr><tr><td><code>6472216</code></td><td>Fwillra</td><td>2026-05-04</td><td>to: test</td></tr><tr><td><code>38977ed</code></td><td>Fwillra</td><td>2026-04-27</td><td>to: 修复在修复过程中导致的busybox测试不通过问题</td></tr><tr><td><code>622ecba</code></td><td>Fwillra</td><td>2026-04-27</td><td>to: 测试</td></tr><tr><td><code>cb338d6</code></td><td>Fwillra</td><td>2026-04-27</td><td>to: 继续日志获取hackbench尝试启动时的状态信息</td></tr><tr><td><code>dcbf9de</code></td><td>Fwillra</td><td>2026-04-27</td><td>to: 日志测试</td></tr><tr><td><code>3175edb</code></td><td>Fwillra</td><td>2026-04-27</td><td>to: 尝试修复</td></tr><tr><td><code>b6f9c27</code></td><td>Fwillra</td><td>2026-04-27</td><td>to: 正在尝试修复hackbench在线上测试中多次修复都无法启动的问题</td></tr><tr><td><code>795391e</code></td><td>Fwillra</td><td>2026-04-27</td><td>fix(mm): cow分配导致虚拟地址翻译出现错误</td></tr><tr><td><code>d420bbb</code></td><td>Fwillra</td><td>2026-04-27</td><td>fix(timer): 修复不同bios_timer工作机制有异导致的兼容性问题</td></tr><tr><td><code>d41394d</code></td><td>Fwillra</td><td>2026-04-27</td><td>feat(cyclic-test): 将fork机制修改为cow机制，减小不必要的内存分配</td></tr><tr><td><code>c6cbc8b</code></td><td>Fwillra</td><td>2026-04-23</td><td>to: 尝试寻找cyclictest的错误</td></tr><tr><td><code>74be2e0</code></td><td>Fwillra</td><td>2026-04-23</td><td>feat: cyclictest</td></tr><tr><td><code>862f0ee</code></td><td>Fwillra</td><td>2026-04-15</td><td>to: 检查到底是哪个测试导致线上测试卡死</td></tr><tr><td><code>e3a4dda</code></td><td>Fwillra</td><td>2026-04-14</td><td>feat: 支持了busybox的一些syscall和需要的文件系统</td></tr><tr><td><code>36345f3</code></td><td>Fwillra</td><td>2026-04-13</td><td>to: 正在完善testsuits测试的运行</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610055999826 开发历史报告</title>
+<title>LemonCore 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610055999826 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：35</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-05-20 ~ 2026-06-30</li>
-<li>HEAD：<code>a8a5235</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>lys：35 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>a8a5235</code></td><td>lys</td><td>2026-06-30</td><td>feat: 文档提交</td></tr><tr><td><code>3a39241</code></td><td>lys</td><td>2026-06-30</td><td>feat: 文档提交</td></tr><tr><td><code>d8449ec</code></td><td>lys</td><td>2026-06-30</td><td>fix: 修正LoongArch架构运行时地址污染问题</td></tr><tr><td><code>eb98ced</code></td><td>lys</td><td>2026-06-30</td><td>fix: 调整busybox检查逻辑</td></tr><tr><td><code>b82475d</code></td><td>lys</td><td>2026-06-30</td><td>fix: 倍增静态缓冲大小</td></tr><tr><td><code>25d330d</code></td><td>lys</td><td>2026-06-30</td><td>fix: 路径改为musl/busybox</td></tr><tr><td><code>cbddd2a</code></td><td>lys</td><td>2026-06-30</td><td>fix: 硬编码 busybox 路径</td></tr><tr><td><code>8f21332</code></td><td>lys</td><td>2026-06-30</td><td>fix: 移除内置BusyBox，只进行动态磁盘扫描</td></tr><tr><td><code>e24c4f9</code></td><td>lys</td><td>2026-06-30</td><td>feat: 完善 VFS 页缓存与流式 ELF 加载器</td></tr><tr><td><code>dd892ef</code></td><td>lys</td><td>2026-06-30</td><td>feat: 完善 VFS 页缓存与流式 ELF 加载器，双架构稳定</td></tr><tr><td><code>62d381e</code></td><td>lys</td><td>2026-06-29</td><td>fix: BusyBox 完整适配——copy_to_user 根因修复、ASH 内存分配、信号桩、trap ctx 备份恢复</td></tr><tr><td><code>9b45f52</code></td><td>lys</td><td>2026-06-29</td><td>feat: 支持 BusyBox ASH 内存分配与脚本驱动执行</td></tr><tr><td><code>a4da705</code></td><td>lys</td><td>2026-06-29</td><td>fix: copy_to_user 双重 page_offset 导致栈数据写入错误物理页</td></tr><tr><td><code>996819b</code></td><td>lys</td><td>2026-06-29</td><td>fix: 适配官方 Basic 镜像布局并补全基础测例执行</td></tr><tr><td><code>ad7930a</code></td><td>lys</td><td>2026-06-29</td><td>fix: 调整runner layout，尝试对接basic测例验收标准格式</td></tr><tr><td><code>fc1278e</code></td><td>lys</td><td>2026-06-28</td><td>fix: 适配官方评审机制，双架构 Basic 32/32 真正全部通过</td></tr><tr><td><code>69d56de</code></td><td>lys</td><td>2026-06-28</td><td>feat(loongarch): 完整适配 LoongArch，双架构 Basic 32/32 测例全部通过</td></tr><tr><td><code>5ed3f97</code></td><td>lys</td><td>2026-06-27</td><td>feat: 兼容官方 Basic ELF，补齐 syscall，完成 Basic 测例闭环</td></tr><tr><td><code>19b309c</code></td><td>lys</td><td>2026-06-27</td><td>feat(fs): 解析 Basic 测试程序列表</td></tr><tr><td><code>13801af</code></td><td>lys</td><td>2026-06-27</td><td>feat(fs): 支持读取 EXT4 普通文件内容</td></tr><tr><td><code>11d1ecd</code></td><td>lys</td><td>2026-06-27</td><td>feat: 适配大赛评测构建与运行前置环境</td></tr><tr><td><code>da32a79</code></td><td>lys</td><td>2026-06-27</td><td>feat(exec): 支持内置用户程序与最小 execve</td></tr><tr><td><code>8bc95c4</code></td><td>lys</td><td>2026-06-27</td><td>feat(task): 支持真实 fork 创建用户子进程</td></tr><tr><td><code>f86e718</code></td><td>lys</td><td>2026-06-26</td><td>fix(task): 修复内核栈溢出并支持 waitpid 退出码写回</td></tr><tr><td><code>aa674f7</code></td><td>lys</td><td>2026-06-26</td><td>feat(task): 完成内核线程阻塞唤醒与定时睡眠</td></tr><tr><td><code>0f3411e</code></td><td>lys</td><td>2026-06-26</td><td>feat(task): 支持内核线程进入调度队列</td></tr><tr><td><code>1da9776</code></td><td>lys</td><td>2026-06-26</td><td>fix(mm): 修复内核堆布局与启动栈容量问题</td></tr><tr><td><code>68e5f60</code></td><td>lys</td><td>2026-06-25</td><td>refactor(task): 引入调度器上下文分离退出回收逻辑</td></tr><tr><td><code>7e329f2</code></td><td>lys</td><td>2026-06-25</td><td>feat(task): 实现基于 trap 的协作式多任务调度</td></tr><tr><td><code>ca4d6b0</code></td><td>lys</td><td>2026-06-25</td><td>feat(task): 接入单进程任务模型</td></tr><tr><td><code>e6417f0</code></td><td>lys</td><td>2026-06-24</td><td>feat(mm): 完成内存管理与用户态访问主线</td></tr><tr><td><code>e994440</code></td><td>lys</td><td>2026-06-14</td><td>feat: 使用 ELF loader 启动最小 initproc</td></tr><tr><td><code>bae9a0b</code></td><td>lys</td><td>2026-06-13</td><td>feat: 完成用户态与syscall执行路径闭环</td></tr><tr><td><code>598b43f</code></td><td>lys</td><td>2026-05-20</td><td>feat: 实现 RISC-V 单用户态 trap 闭环</td></tr><tr><td><code>36a42e1</code></td><td>lys</td><td>2026-05-20</td><td>init: 初始化 RISC-V 内核项目基础架构</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

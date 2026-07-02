@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100069910663 开发历史报告</title>
+<title>OSKernel2026 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100069910663 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：330</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-06-12 ~ 2026-06-22</li>
-<li>HEAD：<code>722334e</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>24182104：200 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>722334e</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: accept basic fcntl locks</td></tr><tr><td><code>92a5c68</code></td><td>24182104</td><td>2026-06-22</td><td>docs: clarify focused LTP validation</td></tr><tr><td><code>e1a62fd</code></td><td>24182104</td><td>2026-06-22</td><td>docs: clarify focused LTP validation</td></tr><tr><td><code>985fcf2</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: support unlink immutable flags</td></tr><tr><td><code>f32e443</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: enforce truncate permission and fsize limits</td></tr><tr><td><code>1bb83a6</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: allow owner chown group updates</td></tr><tr><td><code>d6abc55</code></td><td>24182104</td><td>2026-06-22</td><td>docs: clarify focused LTP validation</td></tr><tr><td><code>2383933</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: enforce unlink and rmdir permissions</td></tr><tr><td><code>40f98b3</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: enforce mkdir creation permissions</td></tr><tr><td><code>aea0850</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: enforce noatime open permissions</td></tr><tr><td><code>a096d31</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: support boottime clock reads</td></tr><tr><td><code>5ddbcb8</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: fix scheduler priority query cases</td></tr><tr><td><code>ae3653c</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: fix clock_nanosleep interrupt errno</td></tr><tr><td><code>8420efa</code></td><td>24182104</td><td>2026-06-22</td><td>docs: clarify focused LTP verification</td></tr><tr><td><code>f5b002d</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: fix capset04 masked sigterm cleanup</td></tr><tr><td><code>0305846</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add pause signal cases</td></tr><tr><td><code>9ef2035</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add setgroups priority cases</td></tr><tr><td><code>3f0a976</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add capability ABI cases</td></tr><tr><td><code>c56e8a1</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add clock adjtime errno case</td></tr><tr><td><code>9d8d684</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add clock nanosleep runner cases</td></tr><tr><td><code>9986de1</code></td><td>24182104</td><td>2026-06-22</td><td>docs: keep LTP as active goal</td></tr><tr><td><code>1aa2518</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add nanosleep04 invalid timespec case</td></tr><tr><td><code>4fc7deb</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add adjtimex cases</td></tr><tr><td><code>15b0f45</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add time capability cases</td></tr><tr><td><code>69bce20</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add getcwd02 proc fd realpath</td></tr><tr><td><code>edc6806</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add wallclock realtime cases</td></tr><tr><td><code>6afec15</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add getitimer01 timer state</td></tr><tr><td><code>7710926</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add filesystem id permission cases</td></tr><tr><td><code>e22d1b9</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add identity runner cases</td></tr><tr><td><code>4c37e4e</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: fix chmod readonly errno</td></tr><tr><td><code>4e2d1ec</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add userdb group cases</td></tr><tr><td><code>128a24c</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add supplementary groups cases</td></tr><tr><td><code>64622d1</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add fchdir03 permission case</td></tr><tr><td><code>32bfcd0</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: add alarm fcntl time runner cases</td></tr><tr><td><code>60804db</code></td><td>24182104</td><td>2026-06-22</td><td>docs: focus goal on ltp</td></tr><tr><td><code>b2c5f68</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: expose init proc stat for getpgid01</td></tr><tr><td><code>0846922</code></td><td>24182104</td><td>2026-06-22</td><td>ltp: share file-backed mmap frames for execve01</td></tr><tr><td><code>fadd632</code></td><td>24182104</td><td>2026-06-22</td><td>docs: focus goal on ltp</td></tr><tr><td><code>c82172c</code></td><td>24182104</td><td>2026-06-22</td><td>docs: record iperf scorer normalization</td></tr><tr><td><code>dd7a0fa</code></td><td>24182104</td><td>2026-06-22</td><td>docs: record iperf glibc rv rerun</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

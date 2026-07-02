@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610422999926 开发历史报告</title>
+<title>WaterOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610422999926 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：162</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-03-31 ~ 2026-06-30</li>
-<li>HEAD：<code>ee03bf8</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>OuterSystems：160 次提交</li>
-<li>kasss233：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>ee03bf8</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[docs] 文档勘误</td></tr><tr><td><code>ad3f3a6</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[docs] 技术文档收尾</td></tr><tr><td><code>b8735c7</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 是的，又是我，我又来调整 ltp 的测试用例了</td></tr><tr><td><code>7b63aeb</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 调整 ltp 测试用例</td></tr><tr><td><code>266361f</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 调整 ltp 测试用例</td></tr><tr><td><code>f3ecb3b</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 调整测试顺序以适配在线平台测试</td></tr><tr><td><code>983e937</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 调整日志级别以适配在线平台测试</td></tr><tr><td><code>e4bb3e8</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 修复线上平台执行失败的问题</td></tr><tr><td><code>f002998</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 插入新新追踪日志尝试定位线上平台执行失败的问题</td></tr><tr><td><code>864076e</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 插入新追踪日志尝试定位线上平台执行失败的问题</td></tr><tr><td><code>04e4096</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 插入追踪日志尝试定位线上平台执行失败的问题</td></tr><tr><td><code>accc691</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 插入追踪日志尝试定位线上平台执行失败的问题</td></tr><tr><td><code>72f57b6</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 插入追踪日志尝试定位线上平台执行失败的问题</td></tr><tr><td><code>b7c6bf9</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[fix] 插入追踪日志尝试定位线上平台执行失败的问题</td></tr><tr><td><code>a6557c9</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[modify] 修改日志层级尝试定位问题</td></tr><tr><td><code>fd9cfe8</code></td><td>OuterSystems</td><td>2026-06-30</td><td>[modify] 修改日志层级尝试定位问题</td></tr><tr><td><code>c18daf2</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 修改测试样例执行顺序</td></tr><tr><td><code>2ff729c</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[docs] 初赛文档</td></tr><tr><td><code>d743eeb</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[fix] 尝试修复 riscv panic 问题</td></tr><tr><td><code>b6b7409</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 修改日志层级尝试定位 bug</td></tr><tr><td><code>488c2e9</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 修改测试顺序</td></tr><tr><td><code>4eed2ab</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[docs] 技术文档撰写</td></tr><tr><td><code>e35c25d</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 修改测试 timeout 设置</td></tr><tr><td><code>30a77cb</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[comment] 添加 AI 生成内容标注</td></tr><tr><td><code>f382468</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[add] 添加 LICENSE 文件</td></tr><tr><td><code>a5ea322</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整超时配置</td></tr><tr><td><code>89ace06</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整 ltp 运行列表</td></tr><tr><td><code>ea04645</code></td><td>OuterSystems</td><td>2026-06-29</td><td>Merge branch 'kernel-dev' of github.com:zhitian111/WaterOS</td></tr><tr><td><code>11a8e79</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整 ltp 运行列表</td></tr><tr><td><code>b40fa9f</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整 ltp 运行列表</td></tr><tr><td><code>6b91066</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整 ltp 运行列表</td></tr><tr><td><code>e6eaecc</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整 timeout 参数</td></tr><tr><td><code>60e126d</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整 ltp 运行列表</td></tr><tr><td><code>1abc134</code></td><td>OuterSystems</td><td>2026-06-29</td><td>[modify] 调整日志层级</td></tr><tr><td><code>f2d9a32</code></td><td>OuterSystems</td><td>2026-06-28</td><td>[modify] 调整脚本 timeout 时间</td></tr><tr><td><code>c3cc9a2</code></td><td>OuterSystems</td><td>2026-06-28</td><td>[modify] 调整脚本 timeout 时间</td></tr><tr><td><code>7922ed7</code></td><td>OuterSystems</td><td>2026-06-28</td><td>[modify] 调整脚本 timeout 时间</td></tr><tr><td><code>287fdb2</code></td><td>OuterSystems</td><td>2026-06-28</td><td>[modify] 调整脚本 timeout 时间</td></tr><tr><td><code>62c833c</code></td><td>OuterSystems</td><td>2026-06-28</td><td>[modify] 调整测试脚本顺序</td></tr><tr><td><code>fc66cf1</code></td><td>OuterSystems</td><td>2026-06-28</td><td>[fix] 修复时钟频率错误的问题，修复文件系统解析错误时错误值传播链路错误导致概率出现的 panic 问题</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

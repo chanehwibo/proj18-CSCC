@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026114499910840 开发历史报告</title>
+<title>The Neo Aether Operating System 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026114499910840 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：1204</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-03-16 ~ 2026-06-13</li>
-<li>HEAD：<code>2a57b0af</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>lihanrui2913：175 次提交</li>
-<li>plos-clan社区：18 次提交</li>
-<li>xiaoyi1212：6 次提交</li>
-<li>elysia：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>2a57b0af</code></td><td>plos-clan社区</td><td>2026-06-13</td><td>fix: 修复错误的 initramfs 拉取方式导致远程测试失败的问题.</td></tr><tr><td><code>16e5dbf5</code></td><td>plos-clan社区</td><td>2026-06-13</td><td>fix: 修复因编译问题导致的 loongarch 模块加载异常问题.</td></tr><tr><td><code>2006d750</code></td><td>plos-clan社区</td><td>2026-05-22</td><td>fix: 修复一些问题</td></tr><tr><td><code>f0bcde1b</code></td><td>plos-clan社区</td><td>2026-05-22</td><td>fix: 运行很多没有运行的测试</td></tr><tr><td><code>9f65522b</code></td><td>plos-clan社区</td><td>2026-05-22</td><td>fix: 修复内核fault和评测卡死问题</td></tr><tr><td><code>a0bfd5ce</code></td><td>plos-clan社区</td><td>2026-05-21</td><td>fix: 补充一些没有注册的syscall</td></tr><tr><td><code>eb4207af</code></td><td>plos-clan社区</td><td>2026-05-21</td><td>fix: 补充linux兼容性</td></tr><tr><td><code>d45631b8</code></td><td>plos-clan社区</td><td>2026-05-21</td><td>fix: 修复一些测试时遇到的问题</td></tr><tr><td><code>4aa35c8f</code></td><td>plos-clan社区</td><td>2026-05-21</td><td>docs: 补充多任务与内核模块设计文档说明.</td></tr><tr><td><code>90d501d6</code></td><td>plos-clan社区</td><td>2026-05-21</td><td>feat: 实现简易的loongarch64自动关机</td></tr><tr><td><code>5661639d</code></td><td>plos-clan社区</td><td>2026-05-21</td><td>docs: 补充文件系统设计文档与系统特性说明.</td></tr><tr><td><code>43262738</code></td><td>plos-clan社区</td><td>2026-05-21</td><td>fix: 修复一些测试时的问题</td></tr><tr><td><code>c2cff12e</code></td><td>plos-clan社区</td><td>2026-05-20</td><td>fix: 修复编译问题</td></tr><tr><td><code>7b72e5d3</code></td><td>plos-clan社区</td><td>2026-05-20</td><td>fix: 完全不依赖外部服务器构建</td></tr><tr><td><code>7ec34e6c</code></td><td>plos-clan社区</td><td>2026-05-20</td><td>fix: 修复一些问题</td></tr><tr><td><code>896458c8</code></td><td>plos-clan社区</td><td>2026-05-20</td><td>fix: 修复oscomp构建问题</td></tr><tr><td><code>87a6c940</code></td><td>plos-clan社区</td><td>2026-05-20</td><td>fix: 修改GNUmakefile以适配oscomp</td></tr><tr><td><code>ef9fac2c</code></td><td>plos-clan社区</td><td>2026-05-20</td><td>docs: 修改 readme 信息.</td></tr><tr><td><code>ae4fa4bf</code></td><td>lihanrui2913</td><td>2026-05-20</td><td>fix: 修复ext文件系统目录和inode的问题</td></tr><tr><td><code>6ed82310</code></td><td>lihanrui2913</td><td>2026-05-20</td><td>fix: 修复ext文件系统checksum算错导致的问题</td></tr><tr><td><code>2cbd8baa</code></td><td>lihanrui2913</td><td>2026-05-20</td><td>fix: 修复没有shebang就无法运行shell脚本的问题</td></tr><tr><td><code>15f632d7</code></td><td>lihanrui2913</td><td>2026-05-19</td><td>fix: 修复一些问题</td></tr><tr><td><code>cdbc647b</code></td><td>xiaoyi1212</td><td>2026-05-19</td><td>feat: 增加 ECC 内核模块校验机制。</td></tr><tr><td><code>03841869</code></td><td>lihanrui2913</td><td>2026-05-19</td><td>opt: 优化virtio-blk速度</td></tr><tr><td><code>2c2cb9a0</code></td><td>lihanrui2913</td><td>2026-05-19</td><td>chore:  为内核部分函数添加一些值得注意的点</td></tr><tr><td><code>f9383f10</code></td><td>lihanrui2913</td><td>2026-05-19</td><td>refactor: 去除遗留type字段</td></tr><tr><td><code>36f81e3f</code></td><td>lihanrui2913</td><td>2026-05-18</td><td>feat: 实现preadv/preadv2/pwritev/pwritev2</td></tr><tr><td><code>ce1e150c</code></td><td>lihanrui2913</td><td>2026-05-18</td><td>fix: 修复一些漏洞</td></tr><tr><td><code>7a8b9d39</code></td><td>lihanrui2913</td><td>2026-05-18</td><td>fix: 修复一处问题</td></tr><tr><td><code>377d4426</code></td><td>lihanrui2913</td><td>2026-05-18</td><td>fix: 修复loongarch64无法在limine运行用户程序的问题</td></tr><tr><td><code>a907a119</code></td><td>xiaoyi1212</td><td>2026-05-17</td><td>feat: 修复大量问题并实现 alsr 机制</td></tr><tr><td><code>c4aa7ccf</code></td><td>lihanrui2913</td><td>2026-05-17</td><td>fix: 修复limine无法启动loongarch64的问题</td></tr><tr><td><code>a98d583b</code></td><td>lihanrui2913</td><td>2026-05-17</td><td>refactor: 重构串口架构并接入串口tty</td></tr><tr><td><code>f9c14ef5</code></td><td>xiaoyi1212</td><td>2026-05-17</td><td>fix: 修复 syscall 问题并实现信号</td></tr><tr><td><code>0bc24e4b</code></td><td>lihanrui2913</td><td>2026-05-17</td><td>feat: 实现loongarch64多核心启动</td></tr><tr><td><code>a9c6408a</code></td><td>xiaoyi1212</td><td>2026-05-17</td><td>feat: 开启 loongarch 中断并编写时钟中断与系统调用转发.</td></tr><tr><td><code>35d39f43</code></td><td>lihanrui2913</td><td>2026-05-17</td><td>fix: 修复内核开优化后无法运行的问题</td></tr><tr><td><code>14e71acf</code></td><td>lihanrui2913</td><td>2026-05-16</td><td>refactor: 重构架构相关代码到架构代码中</td></tr><tr><td><code>409fb7b8</code></td><td>lihanrui2913</td><td>2026-05-16</td><td>feat: 使内核通过编译并完成简单初始化</td></tr><tr><td><code>95d7c154</code></td><td>xiaoyi1212</td><td>2026-05-16</td><td>feat: 创建基础的 loongarch64 架构引导</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

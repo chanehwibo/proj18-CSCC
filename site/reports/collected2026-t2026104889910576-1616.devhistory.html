@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104889910576 开发历史报告</title>
+<title>OSKernel2026-AllNull 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104889910576 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：110</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-05-26 ~ 2026-06-30</li>
-<li>HEAD：<code>aff99fe</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>yuKing123-king：74 次提交</li>
-<li>yuking123-king：34 次提交</li>
-<li>AllNull：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>aff99fe</code></td><td>AllNull</td><td>2026-06-30</td><td>Upload Video  File</td></tr><tr><td><code>11c4215</code></td><td>AllNull</td><td>2026-06-30</td><td>Add new directory</td></tr><tr><td><code>b8dfa15</code></td><td>yuking123-king</td><td>2026-06-30</td><td>feat: add docs</td></tr><tr><td><code>2053d0e</code></td><td>yuking123-king</td><td>2026-06-30</td><td>fix: improve libcbench</td></tr><tr><td><code>1dd14c9</code></td><td>yuking123-king</td><td>2026-06-30</td><td>feat( fs): improve fd table duplication and tmpfile flag compatibility</td></tr><tr><td><code>363cb29</code></td><td>yuking123-king</td><td>2026-06-30</td><td>feat(init): add runtime assets and structured test execution</td></tr><tr><td><code>891899f</code></td><td>yuking123-king</td><td>2026-06-30</td><td>feat(syscall): add Linux compatibility syscalls for libc tests</td></tr><tr><td><code>1e0b321</code></td><td>yuking123-king</td><td>2026-06-27</td><td>fix: pagetable</td></tr><tr><td><code>be8019f</code></td><td>yuking123-king</td><td>2026-06-27</td><td>feat: add qemu</td></tr><tr><td><code>0991e36</code></td><td>yuking123-king</td><td>2026-06-27</td><td>trap: kill faulting user process instead of panicking</td></tr><tr><td><code>8eb45e1</code></td><td>yuking123-king</td><td>2026-06-27</td><td>trap: kill faulting user process instead of panicking</td></tr><tr><td><code>6757b61</code></td><td>yuking123-king</td><td>2026-06-27</td><td>mm: handle prot-none mmap lazily for libcbench</td></tr><tr><td><code>b398e53</code></td><td>yuking123-king</td><td>2026-06-27</td><td>task: support pthread clone and futex wakeups</td></tr><tr><td><code>24154b5</code></td><td>yuking123-king</td><td>2026-06-27</td><td>syscall: add linux compatibility helpers for contest workloads</td></tr><tr><td><code>c824628</code></td><td>yuking123-king</td><td>2026-06-27</td><td>user: install busybox command wrappers at boot</td></tr><tr><td><code>41e8ec3</code></td><td>yuking123-king</td><td>2026-06-27</td><td>fs: improve ext4 mutation operations for busybox</td></tr><tr><td><code>24a0a57</code></td><td>yuking123-king</td><td>2026-06-26</td><td>fix: 修复 ext4 目录项创建在目录块写满时误报 ENOSPC 的问题</td></tr><tr><td><code>1987265</code></td><td>yuking123-king</td><td>2026-06-26</td><td>fix: 修复测试运行器逻辑，保证 BusyBox/Lua 运行方式正确，并避免误删基础测试夹具</td></tr><tr><td><code>9205eef</code></td><td>yuking123-king</td><td>2026-06-26</td><td>test: run lua cases directly with per-case start/end banners</td></tr><tr><td><code>7144265</code></td><td>yuking123-king</td><td>2026-06-26</td><td>fix wrapper</td></tr><tr><td><code>a35a6ec</code></td><td>yuking123-king</td><td>2026-06-25</td><td>ix: make busybox pass on official sdcard image</td></tr><tr><td><code>12280b8</code></td><td>yuKing123-king</td><td>2026-06-25</td><td>feat(syscall): add busybox compatibility and fix exec user page allocation</td></tr><tr><td><code>3d4b19a</code></td><td>yuKing123-king</td><td>2026-06-25</td><td>fix(kernel): stabilize file, pipe and proc teardown paths</td></tr><tr><td><code>0344333</code></td><td>yuKing123-king</td><td>2026-06-25</td><td>fs: fix ext4 lookup/unlink/rmdir and dentry delete lifecycle</td></tr><tr><td><code>2fc007c</code></td><td>yuKing123-king</td><td>2026-06-25</td><td>test: rework busybox runner and add per-case start/end markers</td></tr><tr><td><code>e9fbc06</code></td><td>yuKing123-king</td><td>2026-06-21</td><td>chore: 移除全内核调试日志</td></tr><tr><td><code>ea48468</code></td><td>yuKing123-king</td><td>2026-06-21</td><td>feat(user): init.c 集成 busybox 测试，修复 envp 和路径问题</td></tr><tr><td><code>e6102ad</code></td><td>yuKing123-king</td><td>2026-06-21</td><td>feat(syscall): 扩展 syscall 表，新增 busybox 所需 stub 实现</td></tr><tr><td><code>dbdc126</code></td><td>yuKing123-king</td><td>2026-06-21</td><td>fix(ipc): 修复 pipe lost wakeup 竞态条件</td></tr><tr><td><code>03d0aa5</code></td><td>yuKing123-king</td><td>2026-06-21</td><td>feat(task): FPU 上下文切换支持</td></tr><tr><td><code>8cbe089</code></td><td>yuKing123-king</td><td>2026-06-16</td><td>fix: del dump_tree</td></tr><tr><td><code>da66131</code></td><td>yuKing123-king</td><td>2026-06-16</td><td>fix: add file and dir struct</td></tr><tr><td><code>948c531</code></td><td>yuKing123-king</td><td>2026-06-16</td><td>fix: user init</td></tr><tr><td><code>606ed01</code></td><td>yuKing123-king</td><td>2026-06-16</td><td>fix: add table scan</td></tr><tr><td><code>e73ae4d</code></td><td>yuKing123-king</td><td>2026-06-16</td><td>fix add more scan info</td></tr><tr><td><code>b2fb8c5</code></td><td>yuKing123-king</td><td>2026-06-16</td><td>fix: add scan dir info</td></tr><tr><td><code>1ff51c8</code></td><td>yuKing123-king</td><td>2026-06-15</td><td>fix(user): not skip glibc-basic</td></tr><tr><td><code>3364376</code></td><td>yuKing123-king</td><td>2026-06-15</td><td>fix: sys_dup/sys_dup3 未给新 fd 表项增加 file 引用计数导致 double free and fix: slab double free 警告中输出 cache 名称便于调试</td></tr><tr><td><code>6e25435</code></td><td>yuKing123-king</td><td>2026-06-15</td><td>fix(pipe): pipe 测试卡死（file_put 双重 refcnt 递减导致 pipe_release 未触发）</td></tr><tr><td><code>a9f9822</code></td><td>yuKing123-king</td><td>2026-06-15</td><td>fix: remove debug info</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202614325999682 开发历史报告</title>
+<title>cpp 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202614325999682 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：500</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-05-18 ~ 2026-07-01</li>
-<li>HEAD：<code>2a16e08</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>theflysong：182 次提交</li>
-<li>Jerome-Yao：8 次提交</li>
-<li>Linpu Yu：5 次提交</li>
-<li>hyj0824：5 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>2a16e08</code></td><td>Linpu Yu</td><td>2026-07-01</td><td>添加初赛介绍 ppt (#81)</td></tr><tr><td><code>1373f65</code></td><td>Jerome-Yao</td><td>2026-07-01</td><td>add doc (#80)</td></tr><tr><td><code>e1dbe26</code></td><td>theflysong</td><td>2026-07-01</td><td>update README</td></tr><tr><td><code>5d5bf5e</code></td><td>theflysong</td><td>2026-06-30</td><td>update timeout wait</td></tr><tr><td><code>5078d85</code></td><td>theflysong</td><td>2026-06-30</td><td>update</td></tr><tr><td><code>3eb07b2</code></td><td>theflysong</td><td>2026-06-30</td><td>update scheduler</td></tr><tr><td><code>c598dde</code></td><td>theflysong</td><td>2026-06-30</td><td>update virtio driver</td></tr><tr><td><code>5fa733e</code></td><td>theflysong</td><td>2026-06-30</td><td>update READMD</td></tr><tr><td><code>ff7b57e</code></td><td>theflysong</td><td>2026-06-30</td><td>update documents</td></tr><tr><td><code>7be8649</code></td><td>theflysong</td><td>2026-06-30</td><td>update signals to make libctest work</td></tr><tr><td><code>d20f4b3</code></td><td>theflysong</td><td>2026-06-30</td><td>update fork logic, add sigmask</td></tr><tr><td><code>0fc6725</code></td><td>theflysong</td><td>2026-06-30</td><td>allow ltp to run in loongarch64 and avoid running libc test</td></tr><tr><td><code>0f66fca</code></td><td>theflysong</td><td>2026-06-30</td><td>将 wait_event, timeout_wait_event 改为更加接近 linux 风格的版本</td></tr><tr><td><code>63263d6</code></td><td>theflysong</td><td>2026-06-30</td><td>修复了 VMount 指针悬空导致的 loongarch64 测试程序连续执行失败的问题</td></tr><tr><td><code>ee721ef</code></td><td>Linpu Yu</td><td>2026-06-30</td><td>添加 statfs 系统调用 (#79)</td></tr><tr><td><code>b793835</code></td><td>theflysong</td><td>2026-06-30</td><td>give serial write a interrupt guard to ensure atomic output</td></tr><tr><td><code>c7acaa8</code></td><td>theflysong</td><td>2026-06-30</td><td>update shared mmap to support ltp</td></tr><tr><td><code>a0a4f73</code></td><td>theflysong</td><td>2026-06-30</td><td>update document</td></tr><tr><td><code>104a7f8</code></td><td>theflysong</td><td>2026-06-30</td><td>为内核添加信号机制</td></tr><tr><td><code>80bffcc</code></td><td>theflysong</td><td>2026-06-30</td><td>fix cwd for chdir testcase</td></tr><tr><td><code>765a675</code></td><td>theflysong</td><td>2026-06-30</td><td>update basic testcases for loongarch</td></tr><tr><td><code>ed48047</code></td><td>theflysong</td><td>2026-06-30</td><td>暂时先不跑 ltp</td></tr><tr><td><code>66877ec</code></td><td>theflysong</td><td>2026-06-30</td><td>update ltp running</td></tr><tr><td><code>0055540</code></td><td>Jerome-Yao</td><td>2026-06-30</td><td>fallocate (#78)</td></tr><tr><td><code>5978a66</code></td><td>theflysong</td><td>2026-06-30</td><td>add timeout mechanism</td></tr><tr><td><code>7160a22</code></td><td>theflysong</td><td>2026-06-29</td><td>update ltp test suits</td></tr><tr><td><code>0012d7b</code></td><td>theflysong</td><td>2026-06-29</td><td>update</td></tr><tr><td><code>17d6745</code></td><td>theflysong</td><td>2026-06-29</td><td>update</td></tr><tr><td><code>97e3784</code></td><td>theflysong</td><td>2026-06-29</td><td>add test suits for ltp</td></tr><tr><td><code>b8ef0c7</code></td><td>theflysong</td><td>2026-06-29</td><td>add 2 new test suits to ltp</td></tr><tr><td><code>33d4526</code></td><td>theflysong</td><td>2026-06-29</td><td>add lseek testsuit for ltp</td></tr><tr><td><code>ba39391</code></td><td>theflysong</td><td>2026-06-29</td><td>add read/writev testcase for ltp</td></tr><tr><td><code>a800a07</code></td><td>theflysong</td><td>2026-06-29</td><td>add new testcase for ltp</td></tr><tr><td><code>3f1442b</code></td><td>theflysong</td><td>2026-06-29</td><td>add new testcases</td></tr><tr><td><code>dccbb90</code></td><td>theflysong</td><td>2026-06-29</td><td>update ltp testsuits</td></tr><tr><td><code>320956a</code></td><td>theflysong</td><td>2026-06-29</td><td>update ltp runs</td></tr><tr><td><code>cd5d51f</code></td><td>theflysong</td><td>2026-06-29</td><td>update clock_gettime</td></tr><tr><td><code>92a8ab6</code></td><td>theflysong</td><td>2026-06-29</td><td>修复缓存页写入时未更新 size 的问题</td></tr><tr><td><code>dc5a346</code></td><td>theflysong</td><td>2026-06-29</td><td>update linux-subsystem document</td></tr><tr><td><code>eff1c74</code></td><td>theflysong</td><td>2026-06-29</td><td>update fcntl</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

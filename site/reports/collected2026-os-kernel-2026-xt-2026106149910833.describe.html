@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026106149910833 描述报告</title>
+<title>OSKernel2026-X 描述报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -240,12 +240,12 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <li>风格：ucore-variant</li>
 <li>架构：未确认</li>
 <li>样本来源等级：current_contest_case</li>
-<li>文件数：252</li>
-<li>代码/文本行数：88207</li>
-<li>主要语言：rust 84350 LOC, markdown 1760 LOC, json 769 LOC, text 551 LOC, yaml 313 LOC</li>
+<li>文件数：253</li>
+<li>代码/文本行数：88227</li>
+<li>主要语言：rust 84350 LOC, markdown 1760 LOC, json 789 LOC, text 551 LOC, yaml 313 LOC</li>
 </ul>
 <h2>总览</h2>
-<p>2026 T2026106149910833 是一个 ucore-variant 风格的小型操作系统相关仓库，主要语言统计为 rust: 84350 LOC, markdown: 1760 LOC, json: 769 LOC, text: 551 LOC。仓库包含 252 个已扫描文件、约 88207 行可分析文本，当前抽取到 4126 个符号定义。</p>
+<p>2026 T2026106149910833 是一个 ucore-variant 风格的小型操作系统相关仓库，主要语言统计为 rust: 84350 LOC, markdown: 1760 LOC, json: 789 LOC, text: 551 LOC。仓库包含 253 个已扫描文件、约 88227 行可分析文本，当前抽取到 4126 个符号定义。</p>
 <h2>摘要评分</h2>
 <ul>
 <li>综合成熟度：A 级：机制完整、证据充分（100/100）</li>
@@ -257,18 +257,18 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <table><thead><tr><th>OS 维度</th><th>状态</th><th>置信度</th><th>证据数</th></tr></thead><tbody><tr><td>调度与任务管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>内存管理</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>系统调用</td><td>已确认</td><td>high</td><td>11</td></tr><tr><td>文件系统</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>同步机制</td><td>已确认</td><td>high</td><td>4</td></tr><tr><td>中断与异常</td><td>已确认</td><td>high</td><td>6</td></tr><tr><td>设备驱动</td><td>已确认</td><td>high</td><td>4</td></tr></tbody></table>
 <h2>构建系统</h2>
 <ul>
-<li>仓库包含构建入口：Cargo.toml, Makefile, build.rs, source/Cargo.toml, source/build.rs。（置信度：high）</li>
+<li>仓库包含构建入口：build.rs, Cargo.toml, Makefile, source/build.rs, source/Cargo.toml。（置信度：high）</li>
 <p>证据：</p>
+<li><code>build.rs:L1-L3</code>：构建入口</li>
+<p>代码片段：<code>// Auto-repaired by v82j: Cargo build scripts must define fn main(). // 构建脚本入口声明 Cargo 重跑条件和链接参数，确保目标变更能触发重新构建。 fn main() {</code></p>
 <li><code>Cargo.toml:L1-L3</code>：构建入口</li>
 <p>代码片段：<code># workspace 把根仓库和 source crate 绑定成一个 Cargo 构建单元。 [workspace] # members 明确参与构建的 crate，避免 Cargo 扫描到无关目录。</code></p>
 <li><code>Makefile:L1-L3</code>：构建入口</li>
 <p>代码片段：<code># 把默认目标固定为 all，避免直接运行 make 时只执行第一条普通规则。 .DEFAULT_GOAL := all # recipe 依赖 bash 的 source 和严格错误模式，因此显式指定 shell。</code></p>
-<li><code>build.rs:L1-L3</code>：构建入口</li>
-<p>代码片段：<code>// Auto-repaired by v82j: Cargo build scripts must define fn main(). // 构建脚本入口声明 Cargo 重跑条件和链接参数，确保目标变更能触发重新构建。 fn main() {</code></p>
-<li><code>source/Cargo.toml:L1-L3</code>：构建入口</li>
-<p>代码片段：<code># package 区域声明内核 crate 的身份信息和 Rust edition。 [package] name = "uestc-kernel-source"</code></p>
 <li><code>source/build.rs:L1-L3</code>：构建入口</li>
 <p>代码片段：<code>use std::env; use std::io::{self, Write}; use std::path::PathBuf;</code></p>
+<li><code>source/Cargo.toml:L1-L3</code>：构建入口</li>
+<p>代码片段：<code># package 区域声明内核 crate 的身份信息和 Rust edition。 [package] name = "uestc-kernel-source"</code></p>
 </ul>
 <h2>调度与任务管理</h2>
 <ul>

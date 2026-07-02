@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100079910437 开发历史报告</title>
+<title>starryos-async-sched 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100079910437 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：39</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-02-15 ~ 2026-06-30</li>
-<li>HEAD：<code>b9fcb34</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>lou-xia：39 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>b9fcb34</code></td><td>lou-xia</td><td>2026-06-30</td><td>temp</td></tr><tr><td><code>cd3e497</code></td><td>lou-xia</td><td>2026-06-30</td><td>temp</td></tr><tr><td><code>e2c1a43</code></td><td>lou-xia</td><td>2026-06-30</td><td>temp</td></tr><tr><td><code>e076428</code></td><td>lou-xia</td><td>2026-06-30</td><td>修改初赛无法编译两次问题</td></tr><tr><td><code>97adb66</code></td><td>lou-xia</td><td>2026-06-29</td><td>初赛提交</td></tr><tr><td><code>4733b52</code></td><td>lou-xia</td><td>2026-06-29</td><td>增加初赛文档</td></tr><tr><td><code>41f2ec6</code></td><td>lou-xia</td><td>2026-06-28</td><td>temp</td></tr><tr><td><code>295c63d</code></td><td>lou-xia</td><td>2026-06-28</td><td>20260628 temp</td></tr><tr><td><code>2ae96f8</code></td><td>lou-xia</td><td>2026-06-26</td><td>20260626 修复bug：在process_init和user_init应区分开 clone有问题，需要独立的init_sources过程 目前clone的问题：COW页面导致bug，目前输出welcome to starry os后卡死</td></tr><tr><td><code>07c7d33</code></td><td>lou-xia</td><td>2026-06-25</td><td>20260625暂存 目前能输出welcome to starryos 更改bug: 1. trap入口向量寄存器丢失问题 2. 栈接口分配问题：栈向下生长，之前以为是向上生长</td></tr><tr><td><code>4a6cd1b</code></td><td>lou-xia</td><td>2026-06-23</td><td>添加论文pdf格式</td></tr><tr><td><code>c5e6560</code></td><td>lou-xia</td><td>2026-06-22</td><td>修复bug，调整接口实现。目前能输出welcome to StarryOS了 修改页表（satp寄存器）切换时机，符合接口设计 减少不切换地址空间时不必要的刷新页表 修复axtask和vsched2冲突 能进入busybox，输出 Welcome to StarryOS了</td></tr><tr><td><code>350f8c8</code></td><td>lou-xia</td><td>2026-06-22</td><td>修复一些bug： 1. 用户页表初始化不完全 2. trap 入口向量有错，ra和sp寄存器值写反了 3. 内核态trap时覆盖旧trap上下文 4. stdio没有加载成功</td></tr><tr><td><code>4646402</code></td><td>lou-xia</td><td>2026-06-15</td><td>更新接口，移植vsched2 目前情况： 无法进入busybox，但如果把初始化任务设置为helloworld，则能正常输出 目前会死循环。 排查原因是：新的trap接口实现有问题，进入trap后无限循环。</td></tr><tr><td><code>6a2eac0</code></td><td>lou-xia</td><td>2026-06-08</td><td>适配新接口 and 修改Trap入口向量</td></tr><tr><td><code>a727337</code></td><td>lou-xia</td><td>2026-06-01</td><td>答辩版ppt和答辩后修改的论文</td></tr><tr><td><code>5c99453</code></td><td>lou-xia</td><td>2026-05-31</td><td>加入结构图的修改</td></tr><tr><td><code>4cb90f3</code></td><td>lou-xia</td><td>2026-05-23</td><td>答辩ppt</td></tr><tr><td><code>10d0413</code></td><td>lou-xia</td><td>2026-05-18</td><td>temp</td></tr><tr><td><code>f6539f5</code></td><td>lou-xia</td><td>2026-05-15</td><td>写完论文，更新大纲</td></tr><tr><td><code>b9c76dd</code></td><td>lou-xia</td><td>2026-05-13</td><td>12号提交论文：前三章和第四章的前三节</td></tr><tr><td><code>ac10f37</code></td><td>lou-xia</td><td>2026-05-11</td><td>修改论文大纲，把vdso部分放到了调度框架的设计和实现两章内</td></tr><tr><td><code>eec9045</code></td><td>lou-xia</td><td>2026-05-10</td><td>修改大纲时间</td></tr><tr><td><code>707e8ad</code></td><td>lou-xia</td><td>2026-05-07</td><td>增加部分vsched2接口、增加vipc接口（上述两个还没测试），修改毕设论文大纲</td></tr><tr><td><code>769b4d5</code></td><td>lou-xia</td><td>2026-05-06</td><td>增加本科毕设论文大纲（修改前）</td></tr><tr><td><code>200f88d</code></td><td>lou-xia</td><td>2026-05-04</td><td>Temp</td></tr><tr><td><code>9ffbbdb</code></td><td>lou-xia</td><td>2026-05-02</td><td>加入vdso</td></tr><tr><td><code>41cd20d</code></td><td>lou-xia</td><td>2026-04-24</td><td>temp: vdso temp</td></tr><tr><td><code>335e240</code></td><td>lou-xia</td><td>2026-04-03</td><td>修改中期ppt</td></tr><tr><td><code>e4bc2ee</code></td><td>lou-xia</td><td>2026-04-01</td><td>添加中期ppt</td></tr><tr><td><code>230bf1c</code></td><td>lou-xia</td><td>2026-04-01</td><td>feat: add vdso_crate_template 添加了vdso_crate_template，能够在内核态编译运行 还没有在用户态进行验证 潜在的问题： 1. 用户页表真的实现了虚拟地址和物理地址的映射吗？ 2. 权限设置正确吗？ 3. 用户态的接口使用是否正确？</td></tr><tr><td><code>67f7c40</code></td><td>lou-xia</td><td>2026-03-30</td><td>add vdso (vdso_crate_template)</td></tr><tr><td><code>94c1d3e</code></td><td>lou-xia</td><td>2026-03-15</td><td>refactor: 修改系统调用为单独的任务实现 目前还不能运行，原因是在很多系统调用里使用了函数，而运行系统调用任务时得到的值不是发出系统调用的任务 或许可行的解决方法：修改current实现，或修改系统调用的实现</td></tr><tr><td><code>521cbe8</code></td><td>lou-xia</td><td>2026-03-09</td><td>Merge branch 'main' of github.com:lou-xia/starryos-async-sched</td></tr><tr><td><code>aa2f6f0</code></td><td>lou-xia</td><td>2026-03-09</td><td>feat: 基本完成任务定义的移植</td></tr><tr><td><code>15e6010</code></td><td>lou-xia</td><td>2026-03-06</td><td>init for vsched 尝试使用vsched模块进行改造，先将之前的实现隐藏</td></tr><tr><td><code>6d8d99c</code></td><td>lou-xia</td><td>2026-03-03</td><td>更新计划安排</td></tr><tr><td><code>837a102</code></td><td>lou-xia</td><td>2026-02-15</td><td>init version 基于 Starry-OS Commit 878829c，从 AsyncOS 中搬来了 trampoline 和 task（改名asynctask）。后续打算逐步实现： 1. 搬过来 executor，让 trampoline 工作 2. 完善 asynctask，加入 tls、task-ext 等功能 3. 实现异步功能，至少包括 io、mem、fs 4. 实现异步系统调用 这其中，executor 和 trampoline 究竟放在 arceos 内还是拎出去有待考究 计划3月前完成</td></tr><tr><td><code>d51e3cb</code></td><td>lou-xia</td><td>2026-02-15</td><td>init version</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

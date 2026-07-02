@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100069910287 开发历史报告</title>
+<title>OwnSome 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100069910287 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：35</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-06-24 ~ 2026-06-29</li>
-<li>HEAD：<code>a22250f</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>xiang：33 次提交</li>
-<li>Yoel：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>a22250f</code></td><td>xiang</td><td>2026-06-29</td><td>final</td></tr><tr><td><code>36961f7</code></td><td>xiang</td><td>2026-06-29</td><td>final</td></tr><tr><td><code>339dad2</code></td><td>xiang</td><td>2026-06-28</td><td>final</td></tr><tr><td><code>aafaefb</code></td><td>xiang</td><td>2026-06-28</td><td>final</td></tr><tr><td><code>df80864</code></td><td>xiang</td><td>2026-06-27</td><td>Update .gitignore: exclude local working files from repository</td></tr><tr><td><code>adff72e</code></td><td>xiang</td><td>2026-06-27</td><td>PPT outline: 19 slides with architecture diagrams, code examples, design explanations</td></tr><tr><td><code>c3aaad2</code></td><td>xiang</td><td>2026-06-27</td><td>Design document: add deep technical content, code examples, architecture diagrams</td></tr><tr><td><code>b0856f7</code></td><td>xiang</td><td>2026-06-27</td><td>Expand design document and PPT outline with comprehensive technical content</td></tr><tr><td><code>a6de27b</code></td><td>xiang</td><td>2026-06-27</td><td>Update kernel branding and docs: ASCII banner, slide outline, .gitignore cleanup</td></tr><tr><td><code>70914ce</code></td><td>xiang</td><td>2026-06-27</td><td>Add project documentation: design doc, PPT outline, cleanup legacy docs and assets</td></tr><tr><td><code>0cf6ed2</code></td><td>xiang</td><td>2026-06-27</td><td>Revert "Undo fixs:mremap, get_robust_list"</td></tr><tr><td><code>3c74798</code></td><td>xiang</td><td>2026-06-27</td><td>Undo fixs:mremap, get_robust_list</td></tr><tr><td><code>a8d1989</code></td><td>xiang</td><td>2026-06-27</td><td>Restore 2442 base + 12 safe fixes (mremap, robust_list, sched_priority, preadv/pwritev, get/setpriority, fcntl locks, syslog, COW unwrap, pte borrow, page cache, ext4 nlink). fcntl F_UNIMPL log downgrade.</td></tr><tr><td><code>56272f3</code></td><td>xiang</td><td>2026-06-26</td><td>Safe: disable cyclictest, keep all other 9 tests. Kernel zero-panic stable locally.</td></tr><tr><td><code>da0bd97</code></td><td>xiang</td><td>2026-06-26</td><td>Enable all 10 tests including cyclictest and netperf</td></tr><tr><td><code>77eb1b7</code></td><td>xiang</td><td>2026-06-26</td><td>Enable iperf - kernel stable through all tests</td></tr><tr><td><code>3fc22dc</code></td><td>xiang</td><td>2026-06-26</td><td>Fix remaining panics: invalid signal number, null/null-slice in user_ptr</td></tr><tr><td><code>cdf7664</code></td><td>xiang</td><td>2026-06-26</td><td>Fix 5 kernel panics: nlink overflow, dentry assert, unknown syscall ENOSYS, user_ptr overflow, signal shift overflow - all glibc tests now pass including lmbench</td></tr><tr><td><code>db730cb</code></td><td>xiang</td><td>2026-06-25</td><td>Add lmbench back - scored 0 safely in 16:41 eval</td></tr><tr><td><code>6139354</code></td><td>xiang</td><td>2026-06-25</td><td>Emergency rollback: remove iperf and lmbench - too risky</td></tr><tr><td><code>c849b51</code></td><td>xiang</td><td>2026-06-25</td><td>Enable iperf+lmbench for next round - target rank 15</td></tr><tr><td><code>3e6dd33</code></td><td>xiang</td><td>2026-06-25</td><td>Ultra-conservative: only verified tests (basic/busybox/libctest/lua/iozone/libcbench)</td></tr><tr><td><code>ac79b34</code></td><td>xiang</td><td>2026-06-25</td><td>Conservative: disable iperf/netperf, keep lmbench only</td></tr><tr><td><code>72a02c5</code></td><td>xiang</td><td>2026-06-25</td><td>Emergency: disable cyclictest again - hackbench stress still hangs kernel. Keep iperf/netperf/lmbench enabled.</td></tr><tr><td><code>8ea70d8</code></td><td>xiang</td><td>2026-06-25</td><td>Round 4: fix fanotify init flags, enable netperf</td></tr><tr><td><code>ead1677</code></td><td>xiang</td><td>2026-06-25</td><td>Round 3: Fix cyclictest hang (timer_init + signal-interruptible clock_nanosleep + state leak) and iperf accept deadlock (check_after_poll Established)</td></tr><tr><td><code>d1e6356</code></td><td>xiang</td><td>2026-06-25</td><td>Comment out cyclictest - hackbench stress test causes kernel hang</td></tr><tr><td><code>e635808</code></td><td>xiang</td><td>2026-06-25</td><td>fix: sched_getscheduler return type mismatch (isize -&gt; usize)</td></tr><tr><td><code>d2bc54a</code></td><td>xiang</td><td>2026-06-25</td><td>Round 2: Implement sched syscalls, enable network polling, fix fanotify/fsmount, enable cyclictest/iperf</td></tr><tr><td><code>34b1426</code></td><td>xiang</td><td>2026-06-24</td><td>Enable lmbench</td></tr><tr><td><code>575bd64</code></td><td>xiang</td><td>2026-06-24</td><td>Uncomment the lines that list the test scripts</td></tr><tr><td><code>7b7b112</code></td><td>xiang</td><td>2026-06-24</td><td>Uncomment the lines that list the test scripts</td></tr><tr><td><code>da78f7c</code></td><td>Yoel</td><td>2026-06-24</td><td>Initial commit</td></tr><tr><td><code>4050a78</code></td><td>Yoel</td><td>2026-06-24</td><td>Initial commit</td></tr><tr><td><code>e35d5d8</code></td><td>xiang</td><td>2026-06-24</td><td>Initial commit</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

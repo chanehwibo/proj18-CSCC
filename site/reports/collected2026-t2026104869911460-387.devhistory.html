@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869911460 开发历史报告</title>
+<title>AsyncBridge 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869911460 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：1292</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2025-08-12 ~ 2026-06-30</li>
-<li>HEAD：<code>8976fbfc</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>WhiskerSage：63 次提交</li>
-<li>YuXuaann：49 次提交</li>
-<li>crpboy：47 次提交</li>
-<li>NoAxiom：41 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>8976fbfc</code></td><td>WhiskerSage</td><td>2026-06-30</td><td>docs: add AsyncBridge public materials</td></tr><tr><td><code>f6575d78</code></td><td>WhiskerSage</td><td>2026-06-29</td><td>Refresh AsyncBridge public README</td></tr><tr><td><code>3576d635</code></td><td>WhiskerSage</td><td>2026-06-23</td><td>Harden syscall fd edge cases</td></tr><tr><td><code>5d64f95f</code></td><td>WhiskerSage</td><td>2026-06-23</td><td>fix tmpfs mmap cache propagation and rv sendfile stalls</td></tr><tr><td><code>3dd70d98</code></td><td>WhiskerSage</td><td>2026-06-22</td><td>fix user pointer validation for high mapped addresses</td></tr><tr><td><code>6989a5a3</code></td><td>WhiskerSage</td><td>2026-06-22</td><td>harden kernel readiness and user pointer paths</td></tr><tr><td><code>67b6a519</code></td><td>WhiskerSage</td><td>2026-06-21</td><td>fix ext4 path dependency packaging</td></tr><tr><td><code>e58e91a6</code></td><td>WhiskerSage</td><td>2026-06-21</td><td>fix basic tty output and netperf tcp cleanup</td></tr><tr><td><code>ba3e14d5</code></td><td>WhiskerSage</td><td>2026-06-21</td><td>fix basic mount device and ltp runner oom</td></tr><tr><td><code>4e20eee1</code></td><td>WhiskerSage</td><td>2026-06-21</td><td>fix script exec and iperf port reuse</td></tr><tr><td><code>dc9137cb</code></td><td>WhiskerSage</td><td>2026-06-19</td><td>Fix official script entry execution</td></tr><tr><td><code>e909401c</code></td><td>WhiskerSage</td><td>2026-06-19</td><td>Harden AsyncBridge kernel semantics</td></tr><tr><td><code>ba4eb6cf</code></td><td>WhiskerSage</td><td>2026-06-19</td><td>Harden general kernel semantics</td></tr><tr><td><code>d9eb7d96</code></td><td>WhiskerSage</td><td>2026-06-18</td><td>Harden LTP full runner</td></tr><tr><td><code>e874495d</code></td><td>WhiskerSage</td><td>2026-06-18</td><td>Improve LTP full coverage</td></tr><tr><td><code>5468e687</code></td><td>WhiskerSage</td><td>2026-06-17</td><td>Fix offline async-task dependency resolution</td></tr><tr><td><code>64dec29a</code></td><td>WhiskerSage</td><td>2026-06-17</td><td>Avoid pagecache writeback in irq-off context</td></tr><tr><td><code>36969d40</code></td><td>WhiskerSage</td><td>2026-06-17</td><td>Improve LTP coverage with IPC probes</td></tr><tr><td><code>7804721c</code></td><td>WhiskerSage</td><td>2026-06-16</td><td>Improve LTP full coverage and probe gates</td></tr><tr><td><code>9731cea0</code></td><td>WhiskerSage</td><td>2026-06-16</td><td>Improve LTP probe coverage and backfill stable cases</td></tr><tr><td><code>054ec5d3</code></td><td>WhiskerSage</td><td>2026-06-15</td><td>Improve LTP pidfd kcmp and full list</td></tr><tr><td><code>3f4ac25d</code></td><td>WhiskerSage</td><td>2026-06-15</td><td>Fix dnotify and lease probe coverage</td></tr><tr><td><code>c6310f8d</code></td><td>WhiskerSage</td><td>2026-06-14</td><td>net: avoid glibc netlink route hang</td></tr><tr><td><code>c137ace7</code></td><td>WhiskerSage</td><td>2026-06-14</td><td>build: add NoAxiom make wrapper</td></tr><tr><td><code>513c8eba</code></td><td>WhiskerSage</td><td>2026-06-13</td><td>ltp: add mqueue and netlink coverage</td></tr><tr><td><code>a5e1b3b1</code></td><td>WhiskerSage</td><td>2026-06-13</td><td>ltp: support namespace sysinfo and membarrier cases</td></tr><tr><td><code>f56f829a</code></td><td>WhiskerSage</td><td>2026-06-12</td><td>Fix setpriority self nice error path</td></tr><tr><td><code>fa80febe</code></td><td>WhiskerSage</td><td>2026-06-12</td><td>Filter verbose LTP info output</td></tr><tr><td><code>baeb85a9</code></td><td>WhiskerSage</td><td>2026-06-12</td><td>Use release defaults for upload entry</td></tr><tr><td><code>80cb1794</code></td><td>WhiskerSage</td><td>2026-06-12</td><td>Improve LTP compatibility coverage</td></tr><tr><td><code>61e3dcaf</code></td><td>WhiskerSage</td><td>2026-06-11</td><td>Expand full LTP entry with verified cases</td></tr><tr><td><code>14d1a308</code></td><td>WhiskerSage</td><td>2026-06-11</td><td>Expand verified LTP full coverage</td></tr><tr><td><code>8196a5ab</code></td><td>WhiskerSage</td><td>2026-06-10</td><td>Expand LTP full coverage entries</td></tr><tr><td><code>446a069b</code></td><td>WhiskerSage</td><td>2026-06-10</td><td>Fix signal delivery for pthread cancellation</td></tr><tr><td><code>5b5481c1</code></td><td>WhiskerSage</td><td>2026-06-10</td><td>test: expand full public coverage</td></tr><tr><td><code>5033f1bc</code></td><td>WhiskerSage</td><td>2026-06-09</td><td>Fix LTP ramfs open and access regressions</td></tr><tr><td><code>310a1385</code></td><td>WhiskerSage</td><td>2026-06-09</td><td>Fix fallocate sparse growth and enable lmbench full</td></tr><tr><td><code>38b17fa8</code></td><td>WhiskerSage</td><td>2026-06-09</td><td>Optimize public score paths and fs profiling</td></tr><tr><td><code>463edf91</code></td><td>WhiskerSage</td><td>2026-06-07</td><td>fix public test entry and shutdown stability</td></tr><tr><td><code>51b042c5</code></td><td>WhiskerSage</td><td>2026-06-07</td><td>Stabilize public test entry and file writeback</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

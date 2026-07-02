@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026102699911023 开发历史报告</title>
+<title>Starry OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026102699911023 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：31</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-05-23 ~ 2026-06-29</li>
-<li>HEAD：<code>c1b3df60</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Stephen：25 次提交</li>
-<li>zq-zb：5 次提交</li>
-<li>8512：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>c1b3df60</code></td><td>Stephen</td><td>2026-06-29</td><td>docs: 添加依赖版本检查记录到 log.md</td></tr><tr><td><code>124fe369</code></td><td>Stephen</td><td>2026-06-29</td><td>fix: 切换到测评机预装nightly-2025-05-20避免依赖网络下载</td></tr><tr><td><code>2242ee6a</code></td><td>Stephen</td><td>2026-06-29</td><td>fix: 恢复脚本执行权限(NTFS同步丢失x位)</td></tr><tr><td><code>6ebce1b8</code></td><td>Stephen</td><td>2026-06-29</td><td>fix: 完整re-vendor修复所有依赖版本不匹配(linkme 0.3.36, num_enum 0.7.6等)</td></tr><tr><td><code>73222d5f</code></td><td>Stephen</td><td>2026-06-29</td><td>fix: 重新vendor修复linkme 0.3.36版本不匹配</td></tr><tr><td><code>4ffb6e42</code></td><td>Stephen</td><td>2026-06-28</td><td>docs: update log.md with evaluation machine fixes</td></tr><tr><td><code>2d8bfcdf</code></td><td>Stephen</td><td>2026-06-28</td><td>fix: re-vendor dependencies to match Cargo.lock (bitflags 2.13.0)</td></tr><tr><td><code>caa9bd0d</code></td><td>Stephen</td><td>2026-06-28</td><td>feat: pre-built build tools for evaluation machine</td></tr><tr><td><code>ad398fb7</code></td><td>Stephen</td><td>2026-06-27</td><td>docs: update log.md with LoongArch build and test matrix info</td></tr><tr><td><code>5d2c95ad</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: use correct PC field for LoongArch (era vs sepc)</td></tr><tr><td><code>b8447a29</code></td><td>zq-zb</td><td>2026-06-27</td><td>fix: UnixBench sort.src hex data, vendor cleanup, and submission prep</td></tr><tr><td><code>53ad6996</code></td><td>Stephen</td><td>2026-06-27</td><td>feat: run both musl and glibc test suites</td></tr><tr><td><code>6ae038c2</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: restore full test order, revert cargo versions</td></tr><tr><td><code>a014c58f</code></td><td>Stephen</td><td>2026-06-27</td><td>debug: add aux vectors and illegal instruction PC logging</td></tr><tr><td><code>12234b08</code></td><td>Stephen</td><td>2026-06-27</td><td>feat: add aux vectors for glibc dynamic linker (HWCAP, UID, etc)</td></tr><tr><td><code>4cf157db</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: add cargo-config for evaluator</td></tr><tr><td><code>e758fcbb</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: evaluation machine disk order + cargo-config rename - Use second device as rootfs (eval: x0=test, x1=rootfs) - Rename .cargo to cargo-config (evaluator filters hidden dirs) - Makefile: setup-vendor restores .cargo during build</td></tr><tr><td><code>4fb0b820</code></td><td>Stephen</td><td>2026-06-27</td><td>feat: vendor all 345 crate dependencies for offline build</td></tr><tr><td><code>90544d86</code></td><td>Stephen</td><td>2026-06-27</td><td>debug: add verbose output to init.sh for evaluator debugging</td></tr><tr><td><code>08123cf1</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: revert rootfs order, add all target for evaluator</td></tr><tr><td><code>6071eee0</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: add all target for evaluator</td></tr><tr><td><code>4ecc88bc</code></td><td>Stephen</td><td>2026-06-27</td><td>feat: add cargo vendor config, poweroff fix, update gitignore</td></tr><tr><td><code>ff3acfb8</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: poweroff after tests complete so evaluator can score</td></tr><tr><td><code>512e27fb</code></td><td>Stephen</td><td>2026-06-27</td><td>fix: restore full test order, LTP has 2822 cases and cannot complete in QEMU</td></tr><tr><td><code>c7abb54e</code></td><td>Stephen</td><td>2026-06-27</td><td>docs: update log.md with teammate fixes and 2hr test results</td></tr><tr><td><code>9f1b8676</code></td><td>zq-zb</td><td>2026-06-26</td><td>fix: 修复软浮点动态链接器ABI不匹配 + 优化测试执行顺序</td></tr><tr><td><code>026bf01b</code></td><td>zq-zb</td><td>2026-06-26</td><td>fix: 修复块设备初始化LIFO顺序bug，测试盘现在可以正确挂载</td></tr><tr><td><code>708a1966</code></td><td>Stephen</td><td>2026-06-26</td><td>feat: add test runner, ext4 mount support, and fix iozone</td></tr><tr><td><code>976ef444</code></td><td>zq-zb</td><td>2026-05-24</td><td>initial</td></tr><tr><td><code>cf7f40ef</code></td><td>zq-zb</td><td>2026-05-24</td><td>initial starryos</td></tr><tr><td><code>ffed4634</code></td><td>8512</td><td>2026-05-23</td><td>Initial commit</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

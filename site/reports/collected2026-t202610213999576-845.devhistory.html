@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610213999576 开发历史报告</title>
+<title>OSKernel2026-Quasar 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610213999576 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：80</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2025-12-17 ~ 2026-06-30</li>
-<li>HEAD：<code>a25d321</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>qiqi：51 次提交</li>
-<li>qi：17 次提交</li>
-<li>OS Competition Team：12 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>a25d321</code></td><td>qiqi</td><td>2026-06-30</td><td>更新页表和地址转换的参考</td></tr><tr><td><code>dff5ef7</code></td><td>qiqi</td><td>2026-06-30</td><td>添加PPT</td></tr><tr><td><code>f2e1f35</code></td><td>qiqi</td><td>2026-06-30</td><td>准备提交，添加设计文档，更新README</td></tr><tr><td><code>0f04e2c</code></td><td>qiqi</td><td>2026-06-27</td><td>关闭lmbench测试</td></tr><tr><td><code>9f3fb80</code></td><td>qiqi</td><td>2026-06-26</td><td>更新部分文档，add license，riscv 下开启 lmbench 测试</td></tr><tr><td><code>3bbefd0</code></td><td>qiqi</td><td>2026-06-20</td><td>修复误删代码导致的 loongarch 的编译问题</td></tr><tr><td><code>0eb548d</code></td><td>qiqi</td><td>2026-06-20</td><td>perf(test): 稳定性能测试热路径</td></tr><tr><td><code>4f708de</code></td><td>qiqi</td><td>2026-06-17</td><td>fix(fs):修复内核dcache回收将 ramfs中预置的/var/tmp回收掉的问题。</td></tr><tr><td><code>4dac8be</code></td><td>qiqi</td><td>2026-06-17</td><td>fix(test): 稳定资源清理，完善测试</td></tr><tr><td><code>01a3274</code></td><td>qiqi</td><td>2026-06-15</td><td>feat(fs): reorganize VFS stack and syscall support</td></tr><tr><td><code>fc7668e</code></td><td>qiqi</td><td>2026-06-11</td><td>refactor(loader, process):将loader.rs和process/目录下的代码进行整理，按照功能进行拆分，提高模块性</td></tr><tr><td><code>74505b7</code></td><td>qiqi</td><td>2026-06-09</td><td>feat: 引入 VFS core 并推进 ltp 测试</td></tr><tr><td><code>6882a89</code></td><td>qiqi</td><td>2026-05-21</td><td>修复 loongarch 架构下调用 sys_readlinkat() 的自旋死锁问题</td></tr><tr><td><code>1ffe704</code></td><td>qiqi</td><td>2026-05-20</td><td>loongarch 部分测试有问题，暂时移除 make all 时 la 的编译</td></tr><tr><td><code>18351f4</code></td><td>qiqi</td><td>2026-05-20</td><td>perf(mm,fs): reduce LTP full-run runtime</td></tr><tr><td><code>c0b11aa</code></td><td>qiqi</td><td>2026-05-19</td><td>feat(test): add LTP runner and broaden Linux ABI support</td></tr><tr><td><code>239b7d7</code></td><td>qiqi</td><td>2026-04-28</td><td>feat(kernel): 支持双架构以及网络和进程相关的测试</td></tr><tr><td><code>3846380</code></td><td>qiqi</td><td>2026-04-09</td><td>feat(fs mm): 补充更完整的文件系统，修复内存管理链路</td></tr><tr><td><code>5095052</code></td><td>qiqi</td><td>2026-03-31</td><td>feat(process,syscall,net,mm,arch) and docs: 双架构支持、线程组共享、clone3/futex/shm/socket、用户态测试扩展与文档更新</td></tr><tr><td><code>b158721</code></td><td>qiqi</td><td>2026-03-26</td><td>fix(loader,mm,process,syscall): stabilize glibc dynamic startup</td></tr><tr><td><code>0133a77</code></td><td>qiqi</td><td>2026-03-21</td><td>fix(process,syscall): 支持 libc-test 加载器路径和 runner 基础信号流</td></tr><tr><td><code>9742edd</code></td><td>qiqi</td><td>2026-03-15</td><td>refactor(mm,process,syscall,fs):整理代码目录结构，增加页缓存等框架，统一缺页等处理流程，补齐area的权限管理等。</td></tr><tr><td><code>1b20d9a</code></td><td>qiqi</td><td>2026-03-05</td><td>fix(syscall,process,docs): stabilize basic/busybox execution path</td></tr><tr><td><code>3f895b2</code></td><td>qiqi</td><td>2026-03-03</td><td>docx:更新文档和部分注释</td></tr><tr><td><code>df5ff35</code></td><td>qiqi</td><td>2026-02-28</td><td>refactor(test): 将测试框架迁移到用户态，解耦内核与测试流程</td></tr><tr><td><code>0210118</code></td><td>qiqi</td><td>2026-02-20</td><td>feat(kernel): remove stage4 compatibility paths and tighten real-exec semantics 背景: - 阶段4历史实现中，iozone 存在参数重写，libcbench-musl 存在 fallback，导致“跑通”不等于“真实语义”。 - 本次目标是恢复真实二进制执行路径，并补齐相关文件系统/进程/内存语义以支撑后续开发。</td></tr><tr><td><code>50c1d4f</code></td><td>qiqi</td><td>2026-02-16</td><td>Merge branch 'migrate/new-os-import' into 'main'</td></tr><tr><td><code>6c8551a</code></td><td>qiqi</td><td>2026-02-16</td><td>feat , refactor and chore(kernel): 从原项目版本中进行部分代码重构为双架构做准备：重构架构层、模块化进程与 shell、增强内存管理、扩展 syscall 覆盖、收敛 FS 与进程语义，并沉淀阶段测试资产，同时添加了一些杂项</td></tr><tr><td><code>79dc09e</code></td><td>qiqi</td><td>2026-01-11</td><td>完善写入</td></tr><tr><td><code>1d818e1</code></td><td>qiqi</td><td>2026-01-11</td><td>修复mmap和munmap测试</td></tr><tr><td><code>604917f</code></td><td>qiqi</td><td>2026-01-11</td><td>修改动态链接</td></tr><tr><td><code>1991e37</code></td><td>qiqi</td><td>2026-01-11</td><td>修复用户栈地址冲突:用户栈应只基于主程序段,不包括动态链接器段</td></tr><tr><td><code>3f4be8c</code></td><td>qiqi</td><td>2026-01-11</td><td>添加栈布局详细调试输出</td></tr><tr><td><code>955b843</code></td><td>qiqi</td><td>2026-01-11</td><td>修正栈布局:先对齐再写数据,按正序写入argc/argv/envp/auxv</td></tr><tr><td><code>544324a</code></td><td>qiqi</td><td>2026-01-11</td><td>修复栈布局:正确设置argc/argv/envp/auxv顺序</td></tr><tr><td><code>62afd3f</code></td><td>qiqi</td><td>2026-01-11</td><td>添加动态链接器PT_LOAD段调试输出</td></tr><tr><td><code>3cb8137</code></td><td>qiqi</td><td>2026-01-11</td><td>添加调试输出诊断动态链接问题</td></tr><tr><td><code>a82d86f</code></td><td>qiqi</td><td>2026-01-11</td><td>修复：只映射 PT_LOAD 段，不映射 PT_DYNAMIC 等其他段</td></tr><tr><td><code>307fe08</code></td><td>qiqi</td><td>2026-01-11</td><td>添加异常调试信息</td></tr><tr><td><code>eea4bcf</code></td><td>qiqi</td><td>2026-01-11</td><td>添加退出码调试信息</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

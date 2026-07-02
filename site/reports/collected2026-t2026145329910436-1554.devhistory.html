@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026145329910436 开发历史报告</title>
+<title>VegarOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026145329910436 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：48</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-06-08 ~ 2026-06-30</li>
-<li>HEAD：<code>fcdb2b6</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>kkkkikun：48 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>fcdb2b6</code></td><td>kkkkikun</td><td>2026-06-30</td><td>docs: 添加初赛提交材料并更新 README</td></tr><tr><td><code>8f81513</code></td><td>kkkkikun</td><td>2026-06-30</td><td>feat: 修复测试时间过长的问题</td></tr><tr><td><code>82ec70a</code></td><td>kkkkikun</td><td>2026-06-30</td><td>fix: 不生成disk</td></tr><tr><td><code>4bd0032</code></td><td>kkkkikun</td><td>2026-06-30</td><td>fix: mmap错误</td></tr><tr><td><code>7c7d591</code></td><td>kkkkikun</td><td>2026-06-29</td><td>chore: 放宽测试超时限制</td></tr><tr><td><code>793a30e</code></td><td>kkkkikun</td><td>2026-06-27</td><td>fix: CoW refcount overflow u8→u32 + BusyBox timeout 语法修复</td></tr><tr><td><code>a65b675</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: 直接修改 vendor/axfs-ng 修复双磁盘块设备选择 + ls -t 确保选最新二进制</td></tr><tr><td><code>d86c5ce</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: 通过 .cargo/config.toml 注入 [patch] 实现离线 vendor 构建下的模块替换</td></tr><tr><td><code>692a830</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: prepare-hidden 构建时将 axfs-ng 补丁应用到 vendor，解决离线 patch 不生效</td></tr><tr><td><code>f214922</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: 辅助磁盘 RISC-V 命名 disk.img → disk-rv.img 与官方评测一致</td></tr><tr><td><code>6d20e81</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: 用 [patch.crates-io] 修复双磁盘块设备选择，不改 vendor</td></tr><tr><td><code>2da0ec8</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: 双磁盘 init_filesystems 改用 Vec 中转，确保取首个枚举设备为根文件系统</td></tr><tr><td><code>9889eb4</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: 修复双磁盘环境下 take_one() pop 取最后块设备导致挂载空磁盘崩溃</td></tr><tr><td><code>1733408</code></td><td>kkkkikun</td><td>2026-06-11</td><td>feat: init_oscomp.sh 增加逐测例超时控制 + LTP_CASES精确选取 + 进程残留清理</td></tr><tr><td><code>71ce687</code></td><td>kkkkikun</td><td>2026-06-11</td><td>test(ltp): 跳过 msync04 以避免 LoongArch 卡死</td></tr><tr><td><code>c641caf</code></td><td>kkkkikun</td><td>2026-06-11</td><td>fix: make all 生成 512MB 辅助磁盘 (disk.img/disk-la.img) 解决 LTP 块设备空间不足</td></tr><tr><td><code>aa25766</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 自动检测 RUSTUP_HOME 路径，兼容本地/GitHub CI/评测 Docker 所有环境</td></tr><tr><td><code>ede2cd1</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 显式设置 RUSTUP_HOME=/root/.rustup，避免 GitHub Actions HOME 路径差异</td></tr><tr><td><code>8c1aaf6</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 使用 rustup run 解析工具链路径，不受 HOME 环境变量影响</td></tr><tr><td><code>89f234a</code></td><td>kkkkikun</td><td>2026-06-10</td><td>ci: 增加 RISC-V/LoongArch QEMU 启动测试，使用官方评测磁盘镜像</td></tr><tr><td><code>d3f92f2</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 适配 OSComp 2026 离线评测环境，自动降级工具链 + 零 vendor 修改</td></tr><tr><td><code>9f07ee7</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 使用通配符匹配构建产物文件名</td></tr><tr><td><code>bca6fbd</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 修复 tools vendor 为工具专用依赖</td></tr><tr><td><code>582214e</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 在 Makefile 解析阶段构建工具</td></tr><tr><td><code>e07f398</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 修复 Makefile 语法错误</td></tr><tr><td><code>f0008af</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 修复工具构建错误检测</td></tr><tr><td><code>11d89c7</code></td><td>kkkkikun</td><td>2026-06-10</td><td>feat: 完全适配断网评测环境</td></tr><tr><td><code>320065d</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 修复 cargo axplat 在 vendor 模式下无法安装的问题</td></tr><tr><td><code>a5e6a3f</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix: 修复远程环境 cargo 配置问题</td></tr><tr><td><code>63d631f</code></td><td>kkkkikun</td><td>2026-06-10</td><td>fix：修复隐藏文件恢复逻辑</td></tr><tr><td><code>2204cd5</code></td><td>kkkkikun</td><td>2026-06-09</td><td>feat: 使用官方评测 Docker 镜像</td></tr><tr><td><code>5b86c92</code></td><td>kkkkikun</td><td>2026-06-09</td><td>feat: 使用比赛 Docker 环境进行 CI 测试</td></tr><tr><td><code>1c17c83</code></td><td>kkkkikun</td><td>2026-06-09</td><td>feat: 更新 CI 工作流完整模拟官方评测流程</td></tr><tr><td><code>f998f67</code></td><td>kkkkikun</td><td>2026-06-09</td><td>feat: 添加 OSComp 构建测试 CI 工作流</td></tr><tr><td><code>5c8048b</code></td><td>kkkkikun</td><td>2026-06-09</td><td>fix: 重新添加 vendor 目录并保留原始行尾符</td></tr><tr><td><code>3084d5c</code></td><td>kkkkikun</td><td>2026-06-09</td><td>fix: 将 vendor 目录标记为 binary 以保留原始内容</td></tr><tr><td><code>e34be2b</code></td><td>kkkkikun</td><td>2026-06-09</td><td>fix: 创建缺失的 .cargo-checksum.json 文件</td></tr><tr><td><code>0eb0393</code></td><td>kkkkikun</td><td>2026-06-09</td><td>fix: 彻底禁用 Cargo vendor 哈希检查</td></tr><tr><td><code>4abfd1f</code></td><td>kkkkikun</td><td>2026-06-09</td><td>fix: 修复构建路径兼容性问题</td></tr><tr><td><code>115bd3f</code></td><td>kkkkikun</td><td>2026-06-09</td><td>feat: 添加 vendor 目录支持离线构建</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

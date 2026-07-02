@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610359999721 开发历史报告</title>
+<title>RustMicroOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,24 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610359999721 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：115</li>
-<li>参与作者数：7</li>
-<li>时间跨度：2026-01-04 ~ 2026-06-30</li>
-<li>HEAD：<code>bf5021d</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>RustMicroOS Dev：65 次提交</li>
-<li>Taoyouce：24 次提交</li>
-<li>Devin AI：9 次提交</li>
-<li>陶酉册：9 次提交</li>
-<li>Hernandez Avery：6 次提交</li>
-<li>Cascade：1 次提交</li>
-<li>brtbsqm4048：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>bf5021d</code></td><td>RustMicroOS Dev</td><td>2026-06-30</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub d71f961bc003)</td></tr><tr><td><code>0dcef92</code></td><td>RustMicroOS Dev</td><td>2026-06-30</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub a8316e461d0b)</td></tr><tr><td><code>3e1c2ae</code></td><td>RustMicroOS Dev</td><td>2026-06-30</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub a6ce888bc2b5)</td></tr><tr><td><code>ae5a09d</code></td><td>RustMicroOS Dev</td><td>2026-06-30</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 8fbc290dee1c)</td></tr><tr><td><code>36567b3</code></td><td>RustMicroOS Dev</td><td>2026-06-29</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub ed4ee3621296)</td></tr><tr><td><code>1956446</code></td><td>RustMicroOS Dev</td><td>2026-06-28</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub f269ade5c8a7)</td></tr><tr><td><code>84bba08</code></td><td>RustMicroOS Dev</td><td>2026-06-28</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 462313ce85f3)</td></tr><tr><td><code>7fbb6cb</code></td><td>RustMicroOS Dev</td><td>2026-06-27</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub e3dc1038c9de)</td></tr><tr><td><code>20c8c1b</code></td><td>RustMicroOS Dev</td><td>2026-06-27</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 7973a1f21b41)</td></tr><tr><td><code>4929125</code></td><td>RustMicroOS Dev</td><td>2026-06-25</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub a2613c787daf)</td></tr><tr><td><code>260a4b1</code></td><td>Devin AI</td><td>2026-06-23</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub cf3d413016c6)</td></tr><tr><td><code>ca2661b</code></td><td>RustMicroOS Dev</td><td>2026-06-20</td><td>sync: unify kernel heap with frame pool + free user mem at exit (Fix B+C)</td></tr><tr><td><code>3e3f609</code></td><td>RustMicroOS Dev</td><td>2026-06-20</td><td>sync: LA high RAM bank (~922MB) + group-major musl-first test order</td></tr><tr><td><code>54f92f3</code></td><td>RustMicroOS Dev</td><td>2026-06-19</td><td>sync: offline build fix to contest repo (toolchain 02-01 + vendor miniz_oxide 0.8.3)</td></tr><tr><td><code>54abba8</code></td><td>RustMicroOS Dev</td><td>2026-06-19</td><td>sync: mirror GitHub main kernel/ + user/ onto GitLab main (CoW OOM graceful fix)</td></tr><tr><td><code>fc84077</code></td><td>RustMicroOS Dev</td><td>2026-06-19</td><td>sync: mirror GitHub main kernel/ + user/ onto GitLab main (judge fixes + merged work)</td></tr><tr><td><code>5d85ea4</code></td><td>陶酉册</td><td>2026-06-18</td><td>Merge branch 'devin/sync-reorder-watchdog-1781798177' into 'main'</td></tr><tr><td><code>93eb166</code></td><td>brtbsqm4048</td><td>2026-06-18</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 06ca3c0c7168)</td></tr><tr><td><code>87b6177</code></td><td>Devin AI</td><td>2026-06-18</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub cf5d7302bd13)</td></tr><tr><td><code>90305ba</code></td><td>Devin AI</td><td>2026-06-18</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 4a076edbda28)</td></tr><tr><td><code>f43db5f</code></td><td>Devin AI</td><td>2026-06-18</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 5bcf1e782707)</td></tr><tr><td><code>48d33b2</code></td><td>Devin AI</td><td>2026-06-18</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 27a3acb33516)</td></tr><tr><td><code>d8d56a0</code></td><td>Devin AI</td><td>2026-06-18</td><td>sync: align GitLab main with local source tree</td></tr><tr><td><code>8c69c43</code></td><td>Devin AI</td><td>2026-06-18</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub fac1319644b9)</td></tr><tr><td><code>bd02d7a</code></td><td>Devin AI</td><td>2026-06-17</td><td>sync: 从 GitHub 同步内核源码到比赛仓库 (kernel user @ GitHub 69a83e2b8556)</td></tr><tr><td><code>9839567</code></td><td>陶酉册</td><td>2026-06-16</td><td>Merge branch 'fix/bugA-perf-event-user-deref' into 'main'</td></tr><tr><td><code>f0e9124</code></td><td>Hernandez Avery</td><td>2026-06-16</td><td>fix(perf_event): read user attr via copy helper, not raw S-mode deref</td></tr><tr><td><code>6f4e32d</code></td><td>陶酉册</td><td>2026-06-15</td><td>Merge branch 'feat/watchdog-reorder-bugDB' into 'main'</td></tr><tr><td><code>7c7edad</code></td><td>Hernandez Avery</td><td>2026-06-15</td><td>feat(init,net,ipc): per-group watchdog + non-LTP-first reorder; fix Bug D (shmat double-map) and Bug B (raw-socket panic)</td></tr><tr><td><code>102f9ca</code></td><td>陶酉册</td><td>2026-06-15</td><td>Merge branch 'chore/unify-image-20260510' into 'main'</td></tr><tr><td><code>32e5658</code></td><td>Hernandez Avery</td><td>2026-06-15</td><td>chore: 统一官方镜像到 zhouzhouyi/os-contest:20260510 (QEMU 10.0.2)</td></tr><tr><td><code>53fe62b</code></td><td>陶酉册</td><td>2026-06-15</td><td>Merge branch 'fix/trap-reap-procfs-smaps-hang' into 'main'</td></tr><tr><td><code>1832230</code></td><td>Hernandez Avery</td><td>2026-06-15</td><td>kernel: fix O(N^2) trap-path reap + procfs seq_file regeneration hang</td></tr><tr><td><code>6e105f7</code></td><td>陶酉册</td><td>2026-06-15</td><td>Merge branch 'chore/contest-hardening-v2' into 'main'</td></tr><tr><td><code>e410aa6</code></td><td>Hernandez Avery</td><td>2026-06-15</td><td>kernel: remove [SIG-DBG] debug prints; drop stray test binaries</td></tr><tr><td><code>4c4e6a7</code></td><td>陶酉册</td><td>2026-06-15</td><td>Merge branch 'submit-docs-2026os' into 'main'</td></tr><tr><td><code>c8fb891</code></td><td>Hernandez Avery</td><td>2026-06-15</td><td>docs: 更新解说/答辩文档至双架构与最新评测状态</td></tr><tr><td><code>f7d9c6a</code></td><td>陶酉册</td><td>2026-06-15</td><td>Merge branch 'submit-2026os' into 'main'</td></tr><tr><td><code>beb78a3</code></td><td>Devin AI</td><td>2026-06-15</td><td>整理初赛提交：同步至最新内核代码，仅保留必要文件</td></tr><tr><td><code>9a62e1c</code></td><td>Cascade</td><td>2026-05-11</td><td>fix(la64): CLOCK_FREQ + Unknown excp -&gt; libctest 4 PASS to 109 PASS</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

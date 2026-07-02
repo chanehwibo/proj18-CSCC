@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100069910698 开发历史报告</title>
+<title>OSKernel C Base Model 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100069910698 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：29</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-06-01 ~ 2026-06-27</li>
-<li>HEAD：<code>55345d6</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>yanGLiHoa：20 次提交</li>
-<li>FloatingSoul423：7 次提交</li>
-<li>整点薯条：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>55345d6</code></td><td>yanGLiHoa</td><td>2026-06-27</td><td>merge signal and network support</td></tr><tr><td><code>8345112</code></td><td>FloatingSoul423</td><td>2026-06-27</td><td>wangluo2</td></tr><tr><td><code>5c8ec75</code></td><td>yanGLiHoa</td><td>2026-06-27</td><td>Merge branch 'master'</td></tr><tr><td><code>abbaa43</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>broaden benchmark compatibility</td></tr><tr><td><code>833c0fb</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>sync main with dynamic loader and pipe fixes</td></tr><tr><td><code>bc3946c</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>fix dynamic loaders and pipe wakeups</td></tr><tr><td><code>64abd64</code></td><td>FloatingSoul423</td><td>2026-06-26</td><td>xiufueelf</td></tr><tr><td><code>847cbf5</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>sync main with static PIE exec improvements</td></tr><tr><td><code>ddc48ee</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>improve static PIE exec and busybox compatibility</td></tr><tr><td><code>538e865</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>sync main with ABI library mapping</td></tr><tr><td><code>6f94ecb</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>raise uname release and map ABI libraries</td></tr><tr><td><code>676e7a0</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>sync main with busybox compatibility</td></tr><tr><td><code>9f5cf80</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>improve busybox command compatibility</td></tr><tr><td><code>0d0f3be</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>sync main with recursive scanner</td></tr><tr><td><code>3988438</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>scan test scripts recursively</td></tr><tr><td><code>4689372</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>sync main with master for grader</td></tr><tr><td><code>680d6be</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>block pipes for unixbench context</td></tr><tr><td><code>8abb3d4</code></td><td>yanGLiHoa</td><td>2026-06-26</td><td>run unixbench pipelines and timers</td></tr><tr><td><code>e6e60a3</code></td><td>FloatingSoul423</td><td>2026-06-25</td><td>3</td></tr><tr><td><code>1c2f892</code></td><td>yanGLiHoa</td><td>2026-06-25</td><td>scan loongarch test scripts from ext4</td></tr><tr><td><code>5ab9f84</code></td><td>yanGLiHoa</td><td>2026-06-25</td><td>standardize unsupported test skips</td></tr><tr><td><code>4ed8d46</code></td><td>yanGLiHoa</td><td>2026-06-25</td><td>handle lazy user buffers and skip unsupported libc tests</td></tr><tr><td><code>7711bdf</code></td><td>yanGLiHoa</td><td>2026-06-25</td><td>build dual-arch kernels and shutdown cleanly</td></tr><tr><td><code>0ba7a4b</code></td><td>FloatingSoul423</td><td>2026-06-24</td><td>2</td></tr><tr><td><code>4e864b8</code></td><td>整点薯条</td><td>2026-06-13</td><td>Merge branch 'signal-ucontext' into 'master'</td></tr><tr><td><code>d11ffae</code></td><td>FloatingSoul423</td><td>2026-06-13</td><td>Implement RISC-V signal frame and ucontext</td></tr><tr><td><code>6275b56</code></td><td>FloatingSoul423</td><td>2026-06-12</td><td>first</td></tr><tr><td><code>344739b</code></td><td>整点薯条</td><td>2026-06-12</td><td>Initial commit</td></tr><tr><td><code>cba9cab</code></td><td>FloatingSoul423</td><td>2026-06-01</td><td>add riscv64 trap and table-driven syscall skeleton</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

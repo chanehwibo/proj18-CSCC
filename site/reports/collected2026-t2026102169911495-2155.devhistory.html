@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026102169911495 开发历史报告</title>
+<title>Starry OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,37 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026102169911495 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：747</li>
-<li>参与作者数：20</li>
-<li>时间跨度：2025-08-19 ~ 2026-07-01</li>
-<li>HEAD：<code>67bbb8af</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Lyh0082：100 次提交</li>
-<li>朝倉水希：37 次提交</li>
-<li>Asakura Mizu：29 次提交</li>
-<li>sunhaosheng：6 次提交</li>
-<li>chyyuu：4 次提交</li>
-<li>guoweikang：3 次提交</li>
-<li>mivik：3 次提交</li>
-<li>yoinspiration：3 次提交</li>
-<li>Daniel Blanke：2 次提交</li>
-<li>Mivik：2 次提交</li>
-<li>ctrlshiftm129：2 次提交</li>
-<li>727Hsj：1 次提交</li>
-<li>Josen-B：1 次提交</li>
-<li>LHHL7：1 次提交</li>
-<li>WitcherTheWhite：1 次提交</li>
-<li>linfeng：1 次提交</li>
-<li>lxh：1 次提交</li>
-<li>yining wang：1 次提交</li>
-<li>zgyxyd666：1 次提交</li>
-<li>zhangyx827：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>67bbb8af</code></td><td>Lyh0082</td><td>2026-07-01</td><td>cleanup: restructure repo into kernel source + submission materials</td></tr><tr><td><code>061d89a1</code></td><td>Lyh0082</td><td>2026-07-01</td><td>cleanup: remove duplicate files, junk scripts, and temp docs</td></tr><tr><td><code>f81c6f0f</code></td><td>Lyh0082</td><td>2026-07-01</td><td>docs: add pptx to submission directory</td></tr><tr><td><code>d3b999d5</code></td><td>Lyh0082</td><td>2026-07-01</td><td>docs: replace demo video with new version</td></tr><tr><td><code>457afe76</code></td><td>Lyh0082</td><td>2026-07-01</td><td>docs: fix chapter 6 order and content with open-source project comparison</td></tr><tr><td><code>583e32ce</code></td><td>Lyh0082</td><td>2026-07-01</td><td>docs: update design document with tables and charts</td></tr><tr><td><code>01a85b51</code></td><td>Lyh0082</td><td>2026-07-01</td><td>docs: restore PPT</td></tr><tr><td><code>e9be7f8a</code></td><td>Lyh0082</td><td>2026-07-01</td><td>docs: remove old docx and pptx, keep PDF only</td></tr><tr><td><code>f0e852e4</code></td><td>Lyh0082</td><td>2026-06-30</td><td>docs: add demo video</td></tr><tr><td><code>f2663fa6</code></td><td>Lyh0082</td><td>2026-06-30</td><td>docs: add design document PDF</td></tr><tr><td><code>aa6aa80b</code></td><td>Lyh0082</td><td>2026-06-30</td><td>docs: regenerate design doc - professional format, team 三才五蕴</td></tr><tr><td><code>6cdf6ff8</code></td><td>Lyh0082</td><td>2026-06-30</td><td>docs: update design doc with template format (123 LTP pass)</td></tr><tr><td><code>f52a6f30</code></td><td>Lyh0082</td><td>2026-06-30</td><td>docs: add design document and presentation PPT</td></tr><tr><td><code>a5849a12</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: 123 LTP pass! open/read/write/stat/mkdir/rmdir/rename/access pass</td></tr><tr><td><code>cb311fac</code></td><td>Lyh0082</td><td>2026-06-30</td><td>opt: deduplicate init.sh - 87 pass (no duplicates, 136 LTP DONE)</td></tr><tr><td><code>ca8a26db</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: nice syscall + getgid=0 + getgroups=[0]</td></tr><tr><td><code>546ec601</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: 139 LTP pass! reordered tests for maximum coverage</td></tr><tr><td><code>19e9d01d</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: 87 LTP pass! (was 68) - chmod01/creat01/fcntl09/10/16/36/fork01/fstat03/getcwd04/statfs02</td></tr><tr><td><code>aabeed82</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: 68 LTP pass! (was 52) - brk01/dup202-204/dup3_01-02/fsync01/ftruncate01/setsid01</td></tr><tr><td><code>2329a6cf</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: getgid/getegid=1000 + getgroups=1000 + fallocate KEEP_SIZE</td></tr><tr><td><code>2ab5c42d</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: 52 LTP pass! (was 46) - fchmod02/fchown02/getppid01 pass</td></tr><tr><td><code>a9c5fd9b</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: fallocate FALLOC_FL_KEEP_SIZE - 46 LTP pass (was 44)</td></tr><tr><td><code>761ea879</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: 44 LTP pass! (was 22) - added more tests + waitpid fix</td></tr><tr><td><code>bc9ba0c2</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: waitpid EINTR retry - 22 LTP pass (was 13)!</td></tr><tr><td><code>5c03e085</code></td><td>Lyh0082</td><td>2026-06-30</td><td>opt: 13 pass stable + /tmp cleanup + wait between tests</td></tr><tr><td><code>0eb5cd7a</code></td><td>Lyh0082</td><td>2026-06-30</td><td>opt: close01 first gives 13 pass stable (close01 musl passes)</td></tr><tr><td><code>d0c68cc9</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: sdcard mount + /sdcard path = 13 LTP pass (was 7)!</td></tr><tr><td><code>9398d040</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: sdcard mount to /sdcard - SIGSEGV eliminated, fcntl08 PASSES!</td></tr><tr><td><code>a4baa2aa</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: 90 LTP tests running, 7 pass, COW fix, inline execution</td></tr><tr><td><code>63e5291c</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: synchronous LTP execution - 34 tests, 7 pass</td></tr><tr><td><code>d03c192d</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: inline LTP no function - 34 tests running, 7 pass</td></tr><tr><td><code>c33f4aac</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: COW page fault + split LTP for loops + TMPDIR</td></tr><tr><td><code>b4c1f2cc</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: COW page fault + TMPDIR + 3s timeout</td></tr><tr><td><code>17bc60b0</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: COW page fault + 5s timeout + inline LTP execution</td></tr><tr><td><code>6cb3c0e7</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: inline LTP execution - 86 tests running (was 15)</td></tr><tr><td><code>2abdd409</code></td><td>Lyh0082</td><td>2026-06-30</td><td>feat: TCP loopback + signal interruption + runner hardening</td></tr><tr><td><code>37f79b57</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: axnet-ng 3s timeout + fork yield_now + syscall stubs</td></tr><tr><td><code>16eccf13</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: axnet-ng default 3s timeout prevents infinite block_on hang</td></tr><tr><td><code>0613191b</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: SIGALRM timeout + fork yield_now + syscall stubs</td></tr><tr><td><code>5ed94bca</code></td><td>Lyh0082</td><td>2026-06-30</td><td>fix: yield_now after fork for child-first scheduling</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

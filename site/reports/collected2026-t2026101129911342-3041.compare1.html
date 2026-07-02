@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026101129911342 vs 2022 啊队队队 比较报告</title>
+<title>KunikOS vs 2022 啊队队队 比较报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -236,12 +236,12 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T2026101129911342 比较报告</h1>
 <ul>
 <li>对比历史仓库：2022 啊队队队</li>
-<li>生成时间：2026-07-02T04:58:54.926164+00:00</li>
+<li>生成时间：2026-07-02T09:00:50.865568+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
 <ul>
-<li>2022 啊队队队（来源：赛事历史作品）：画像相似度 score=9.24；同属 ucore-variant 风格; 语言构成相似度 0.88; OS 维度重合度 1.00; 代码规模接近度 0.47</li>
+<li>2022 啊队队队（来源：赛事历史作品）：画像相似度 score=9.24；同属 ucore-variant 风格; 语言构成相似度 0.88; OS 维度重合度 1.00; 代码规模接近度 0.48</li>
 </ul>
 <h2>功能重合与疑似重复证据</h2>
 <p>本节只说明功能维度和实现线索的重合，不直接判定代码抄袭。是否构成代码级重复，需要结合完整代码、提交历史和人工复核进一步确认。</p>
@@ -316,16 +316,16 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <h2>代码级相似线索检测</h2>
 <p>本节从文件路径、函数/符号名、结构体/宏名和 evidence 片段 token/结构相似度四个层面输出可复核线索，并优先保留高价值代表项。该结果比功能重合更接近代码级分析，但仍不是抄袭裁定。</p>
 <ul>
-<li>函数/符号名重合：与 2022 啊队队队 在“设备驱动”维度发现 3 个同名定义：read_block, read, console_putchar。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<li>函数/符号名重合：与 2022 啊队队队 在“设备驱动”维度发现 3 个同名定义：console_putchar, read_block, read。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
 <p>证据：</p>
+<li><code>khal/src/loongarch64.rs:L20-L20</code>：fn console_putchar</li>
+<p>代码片段：<code>pub fn console_putchar(c: u8) {</code></p>
+<li><code>kernel/src/sbi.rs:L36-L36</code>：fn console_putchar</li>
+<p>代码片段：<code>pub fn console_putchar(ch: u8) {</code></p>
 <li><code>kernel/src/ext4.rs:L33-L33</code>：fn read_block</li>
 <p>代码片段：<code>fn read_block(blk: u64, buf: &amp;mut [u8]) -&gt; bool {</code></p>
 <li><code>kernel/src/device/block.rs:L8-L8</code>：fn read_block</li>
 <p>代码片段：<code>fn read_block(&amp;mut self, sector_offset: usize, buf: &amp;mut [u8]) {</code></p>
-<li><code>kernel/src/virtio_blk.rs:L95-L95</code>：fn read</li>
-<p>代码片段：<code>pub fn read(sector: u64, buf: &amp;mut [u8]) -&gt; bool {</code></p>
-<li><code>kernel/src/device/mod.rs:L133-L133</code>：fn read</li>
-<p>代码片段：<code>fn read(&amp;mut self, buf: &amp;mut [u8]) -&gt; Result&lt;usize, RuntimeError&gt; {</code></p>
 <li>函数/符号名重合：与 2022 啊队队队 在“文件系统”维度发现 4 个同名定义：read_block, mount, mkdir, read。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
 <p>证据：</p>
 <li><code>kernel/src/ext4.rs:L33-L33</code>：fn read_block</li>
@@ -352,16 +352,16 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <p>代码片段：<code>use core::alloc::{GlobalAlloc, Layout}; use core::cell::UnsafeCell; use core::sync::atomic::{AtomicBool, Ordering}; const HEAP_SIZE: usize = 0x400_0000; // 64 MiB（容纳测试 ftruncate...</code></p>
 <li><code>kernel/src/sync/mutex.rs:L1-L3</code>：关键词命中</li>
 <p>代码片段：<code>use core::sync::atomic::{AtomicBool, Ordering}; use core::cell::UnsafeCell; use core::marker::Sync;</code></p>
-<li>函数/符号名重合：与 2022 啊队队队 在“系统调用”维度发现 4 个同名定义：sys_nanosleep, sys_mmap, sys_fcntl, sys_gettimeofday。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
+<li>函数/符号名重合：与 2022 啊队队队 在“系统调用”维度发现 4 个同名定义：sbi_call, console_putchar, shutdown, set_timer。该结果表示命名和局部结构存在可复核相似线索，不直接表示代码复制。（置信度：high）</li>
 <p>证据：</p>
-<li><code>kernel/src/syscall.rs:L321-L321</code>：fn sys_nanosleep</li>
-<p>代码片段：<code>fn sys_nanosleep(req: usize) -&gt; isize {</code></p>
-<li><code>kernel/src/sys_call/time.rs:L11-L11</code>：fn sys_nanosleep</li>
-<p>代码片段：<code>pub fn sys_nanosleep(&amp;self, req_ptr: UserAddr&lt;TimeSpec&gt;, _rem_ptr: VirtAddr) -&gt; Result&lt;(), RuntimeError&gt; {</code></p>
-<li><code>kernel/src/syscall.rs:L338-L338</code>：fn sys_mmap</li>
-<p>代码片段：<code>fn sys_mmap(len: usize, flags: usize, fd: usize) -&gt; isize {</code></p>
-<li><code>kernel/src/sys_call/mm.rs:L37-L37</code>：fn sys_mmap</li>
-<p>代码片段：<code>pub fn sys_mmap(&amp;self, start: usize, len: usize, _prot: usize,</code></p>
+<li><code>khal/src/riscv64.rs:L19-L19</code>：fn sbi_call</li>
+<p>代码片段：<code>fn sbi_call(eid: usize, arg0: usize) -&gt; usize {</code></p>
+<li><code>kernel/src/sbi.rs:L18-L18</code>：fn sbi_call</li>
+<p>代码片段：<code>fn sbi_call(which: usize, arg0: usize, arg1: usize, arg2: usize) -&gt; i32 {</code></p>
+<li><code>khal/src/riscv64.rs:L27-L27</code>：fn console_putchar</li>
+<p>代码片段：<code>pub fn console_putchar(c: u8) {</code></p>
+<li><code>kernel/src/sbi.rs:L36-L36</code>：fn console_putchar</li>
+<p>代码片段：<code>pub fn console_putchar(ch: u8) {</code></p>
 <li>与 2022 啊队队队 在“系统调用”维度发现片段级代码相似度 0.73 （token=0.65, structure=0.89）。这属于代码级相似线索，不等同于抄袭结论，需要人工结合完整文件和提交历史复核。 共同 token：arg0, asm, in, inlateout, let, ret, unsafe。（置信度：medium）</li>
 <p>证据：</p>
 <li><code>khal/src/riscv64.rs:L20-L24</code>：关键词命中</li>
@@ -446,7 +446,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>差异点</h2>
 <ul>
-<li>与 2022 啊队队队 的语言构成不同：待测作品为 {'build': 72, 'markdown': 868, 'rust': 4095, 'toml': 8, 'c': 6}，历史样本为 {'yaml': 19, 'json': 20, 'build': 91, 'markdown': 995, 'text': 19, 'toml': 2, 'rust': 13878, 'asm': 227}。（置信度：medium）</li>
+<li>与 2022 啊队队队 的语言构成不同：待测作品为 {'json': 20, 'build': 72, 'markdown': 868, 'toml': 8, 'c': 6, 'rust': 4095}，历史样本为 {'yaml': 19, 'json': 20, 'build': 91, 'markdown': 995, 'text': 19, 'toml': 2, 'rust': 13878, 'asm': 227}。（置信度：medium）</li>
 </ul>
 <h2>可能创新点</h2>
 <ul>

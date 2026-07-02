@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610486999873 开发历史报告</title>
+<title>ScintillaOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610486999873 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：371</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-05-23 ~ 2026-06-30</li>
-<li>HEAD：<code>3bd02c7</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Hermit127：151 次提交</li>
-<li>YuhengDu：25 次提交</li>
-<li>“T202610486999873”：24 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>3bd02c7</code></td><td>Hermit127</td><td>2026-06-30</td><td>添加录制好的视频和ppt</td></tr><tr><td><code>79df623</code></td><td>Hermit127</td><td>2026-06-30</td><td>提交设计文档</td></tr><tr><td><code>eafbcb4</code></td><td>Hermit127</td><td>2026-06-29</td><td>优化文档和readme，准备大赛提交</td></tr><tr><td><code>f81fb9c</code></td><td>Hermit127</td><td>2026-06-29</td><td>Merge MachineTest fixes into main</td></tr><tr><td><code>b5fc5cb</code></td><td>Hermit127</td><td>2026-06-28</td><td>Move libcbench to end of scoring chain</td></tr><tr><td><code>e914b54</code></td><td>Hermit127</td><td>2026-06-28</td><td>Fix LTP judge case markers</td></tr><tr><td><code>2a1de88</code></td><td>Hermit127</td><td>2026-06-28</td><td>Stabilize dual-arch LTP scoring path</td></tr><tr><td><code>3b84b1a</code></td><td>Hermit127</td><td>2026-06-28</td><td>Keep official LTP chain from stalling</td></tr><tr><td><code>b5a7e37</code></td><td>Hermit127</td><td>2026-06-28</td><td>Stabilize scoring chain after RV LTP validation</td></tr><tr><td><code>bf353da</code></td><td>Hermit127</td><td>2026-06-27</td><td>WIP backup before two-hour scoring fix</td></tr><tr><td><code>f7e03d0</code></td><td>Hermit127</td><td>2026-06-27</td><td>Stabilize LTP scoring subset</td></tr><tr><td><code>7e1a3d1</code></td><td>Hermit127</td><td>2026-06-27</td><td>fix ltp scoring chain stability</td></tr><tr><td><code>f60c83e</code></td><td>Hermit127</td><td>2026-06-26</td><td>lmbench挂载有bug。我修复了</td></tr><tr><td><code>d02b848</code></td><td>Hermit127</td><td>2026-06-26</td><td>Improve official test baseline and LTP progress</td></tr><tr><td><code>a675b0f</code></td><td>Hermit127</td><td>2026-06-25</td><td>修复ltp-musl不能评测的bug</td></tr><tr><td><code>9d6760a</code></td><td>Hermit127</td><td>2026-06-23</td><td>Merge remote-tracking branch 'origin/MachineTest' into MachineTest</td></tr><tr><td><code>0948d27</code></td><td>Hermit127</td><td>2026-06-23</td><td>修复iperf进去就卡死的bug</td></tr><tr><td><code>73c676a</code></td><td>“T202610486999873”</td><td>2026-06-22</td><td>Merge branch 'MachineTest' of https://gitlab.eduxiji.net/T202610486999873/oskernel2026test into MachineTest</td></tr><tr><td><code>38233ba</code></td><td>“T202610486999873”</td><td>2026-06-22</td><td>添加实验文档</td></tr><tr><td><code>7816766</code></td><td>Hermit127</td><td>2026-06-22</td><td>fix more ltp bugs</td></tr><tr><td><code>d447efa</code></td><td>Hermit127</td><td>2026-06-20</td><td>fix more ltp bugs</td></tr><tr><td><code>ca3be37</code></td><td>YuhengDu</td><td>2026-06-19</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T202610486999873/oskernel2026test</td></tr><tr><td><code>1678c17</code></td><td>YuhengDu</td><td>2026-06-19</td><td>netperf测试五过四</td></tr><tr><td><code>361df78</code></td><td>Hermit127</td><td>2026-06-19</td><td>添加必要注释</td></tr><tr><td><code>8215c27</code></td><td>Hermit127</td><td>2026-06-19</td><td>fix iperf bug</td></tr><tr><td><code>e88b2f4</code></td><td>Hermit127</td><td>2026-06-18</td><td>fix iperf bug</td></tr><tr><td><code>5330ddf</code></td><td>Hermit127</td><td>2026-06-18</td><td>add ltp</td></tr><tr><td><code>1627188</code></td><td>Hermit127</td><td>2026-06-16</td><td>尽可能修复iperf的bug</td></tr><tr><td><code>342a87e</code></td><td>Hermit127</td><td>2026-06-16</td><td>Merge accepted MachineTest baseline</td></tr><tr><td><code>005cb59</code></td><td>Hermit127</td><td>2026-06-15</td><td>Use real block capacity for contest disks</td></tr><tr><td><code>b5527b9</code></td><td>Hermit127</td><td>2026-06-15</td><td>Order contest scripts by test group</td></tr><tr><td><code>b6246bb</code></td><td>Hermit127</td><td>2026-06-15</td><td>Improve contest syscall and filesystem scoring</td></tr><tr><td><code>9db67ac</code></td><td>Hermit127</td><td>2026-06-15</td><td>isolate contest scripts with process groups</td></tr><tr><td><code>31356b7</code></td><td>Hermit127</td><td>2026-06-15</td><td>run embedded basics before mounting test disk</td></tr><tr><td><code>d2c6981</code></td><td>Hermit127</td><td>2026-06-15</td><td>fix embedded basic runners and loong user text loading</td></tr><tr><td><code>b9ee544</code></td><td>Hermit127</td><td>2026-06-15</td><td>avoid scanning glibc test directories</td></tr><tr><td><code>bddd631</code></td><td>Hermit127</td><td>2026-06-15</td><td>run musl tests before glibc scan</td></tr><tr><td><code>f6bb0c0</code></td><td>Hermit127</td><td>2026-06-15</td><td>fix initproc contest directory probing</td></tr><tr><td><code>c726f85</code></td><td>Hermit127</td><td>2026-06-15</td><td>fix contest runtime execution</td></tr><tr><td><code>3dfa3c4</code></td><td>Hermit127</td><td>2026-06-15</td><td>fix contest disk runtime setup</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

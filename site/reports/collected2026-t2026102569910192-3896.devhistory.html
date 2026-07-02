@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026102569910192 开发历史报告</title>
+<title>SWTC 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,22 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026102569910192 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：186</li>
-<li>参与作者数：5</li>
-<li>时间跨度：2026-05-16 ~ 2026-06-30</li>
-<li>HEAD：<code>3534bc89</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>kurohaw：139 次提交</li>
-<li>Pass-Traveller：39 次提交</li>
-<li>Yimin Wang：5 次提交</li>
-<li>yimin Wang：2 次提交</li>
-<li>sudo_win_the_cscc：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>3534bc89</code></td><td>kurohaw</td><td>2026-06-30</td><td>docs: 更新 progress 记录</td></tr><tr><td><code>84039373</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 调整初赛文档字体为黑色</td></tr><tr><td><code>7ecc24c3</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 更新初赛文档中文文件名与语气</td></tr><tr><td><code>97d8c263</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 扩充初赛文档并移至根目录</td></tr><tr><td><code>ea8e8c45</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 删除作品信息当前重点</td></tr><tr><td><code>3b37da92</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 更新1009分结果与架构图</td></tr><tr><td><code>50db45fa</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 添加初赛作品 PDF</td></tr><tr><td><code>d0d82917</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 删除项目人员内部说明</td></tr><tr><td><code>6806299f</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 补充项目人员和学校标识</td></tr><tr><td><code>71466cb6</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: add official evaluation screenshot</td></tr><tr><td><code>23d6eb47</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>docs: 完善项目说明与初赛文档</td></tr><tr><td><code>ee16a874</code></td><td>kurohaw</td><td>2026-06-30</td><td>chore: remove remaining documentation files</td></tr><tr><td><code>0f3532d6</code></td><td>kurohaw</td><td>2026-06-30</td><td>chore: remove unused auxiliary files</td></tr><tr><td><code>64330c4d</code></td><td>kurohaw</td><td>2026-06-30</td><td>chore: remove stale dependencies archive</td></tr><tr><td><code>ca3d634e</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>chore: add grader root makefile diagnostic</td></tr><tr><td><code>6069140d</code></td><td>Pass-Traveller</td><td>2026-06-30</td><td>fix: preserve LoongArch xapi source for grader</td></tr><tr><td><code>bf7d1baf</code></td><td>Pass-Traveller</td><td>2026-06-29</td><td>revert: restore 983-point evaluation baseline</td></tr><tr><td><code>e12f7a1f</code></td><td>Pass-Traveller</td><td>2026-06-29</td><td>fix: relocate heapless outside filtered vendor</td></tr><tr><td><code>88dfc051</code></td><td>Pass-Traveller</td><td>2026-06-29</td><td>chore: retrigger grader source checkout</td></tr><tr><td><code>e258405f</code></td><td>Pass-Traveller</td><td>2026-06-29</td><td>fix: restore allocator vendor checksums</td></tr><tr><td><code>6d2fc7be</code></td><td>kurohaw</td><td>2026-06-29</td><td>fix: harden submit image cleanup and LA vendoring</td></tr><tr><td><code>f603a92f</code></td><td>kurohaw</td><td>2026-06-29</td><td>fix: add fallback GNU make entrypoint</td></tr><tr><td><code>3a7b2e31</code></td><td>kurohaw</td><td>2026-06-29</td><td>feat: add LTP eventfd timerfd coverage</td></tr><tr><td><code>a5e6aefc</code></td><td>kurohaw</td><td>2026-06-29</td><td>feat: expand LTP symlink and time coverage</td></tr><tr><td><code>92c9c0c1</code></td><td>kurohaw</td><td>2026-06-29</td><td>feat: enable LTP statx coverage</td></tr><tr><td><code>7c2e9c6d</code></td><td>kurohaw</td><td>2026-06-29</td><td>feat: add LTP file operation batch</td></tr><tr><td><code>c1025615</code></td><td>kurohaw</td><td>2026-06-29</td><td>fix: align LoongArch libctest output</td></tr><tr><td><code>33e7185d</code></td><td>kurohaw</td><td>2026-06-29</td><td>fix: avoid LoongArch libcbench truncation</td></tr><tr><td><code>fc950984</code></td><td>kurohaw</td><td>2026-06-29</td><td>feat: expand LTP process and signal coverage</td></tr><tr><td><code>32e50849</code></td><td>kurohaw</td><td>2026-06-29</td><td>feat: expand LTP fd and vector IO coverage</td></tr><tr><td><code>7f8325a1</code></td><td>kurohaw</td><td>2026-06-29</td><td>Merge remote-tracking branch 'gitlab/main' into codex/swtc-architecture</td></tr><tr><td><code>bfa9468c</code></td><td>kurohaw</td><td>2026-06-29</td><td>feat: expand LTP and harden LA libctest</td></tr><tr><td><code>97befb68</code></td><td>Pass-Traveller</td><td>2026-06-28</td><td>fix: declare vendored heapless cfgs</td></tr><tr><td><code>b5b2d38c</code></td><td>kurohaw</td><td>2026-06-28</td><td>fix: patch heapless to local vendor</td></tr><tr><td><code>52f221d4</code></td><td>kurohaw</td><td>2026-06-28</td><td>docs: prepare next evaluation triage</td></tr><tr><td><code>ba1151ec</code></td><td>kurohaw</td><td>2026-06-28</td><td>docs: add 2800 score sprint roadmap</td></tr><tr><td><code>442e9ba1</code></td><td>kurohaw</td><td>2026-06-28</td><td>fix: isolate LoongArch BusyBox before lmbench</td></tr><tr><td><code>301e9717</code></td><td>kurohaw</td><td>2026-06-28</td><td>feat: batch LoongArch big test probes</td></tr><tr><td><code>00df58fc</code></td><td>kurohaw</td><td>2026-06-28</td><td>fix: isolate LoongArch functional scoring</td></tr><tr><td><code>692c1b08</code></td><td>Pass-Traveller</td><td>2026-06-27</td><td>fix: complete LoongArch BusyBox runtime path</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

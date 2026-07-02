@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869910402 开发历史报告</title>
+<title>StellaOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869910402 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：477</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-06-07 ~ 2026-06-30</li>
-<li>HEAD：<code>0411675</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>StellaOS：129 次提交</li>
-<li>Hoyou：35 次提交</li>
-<li>jujube：19 次提交</li>
-<li>jujube10：17 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>0411675</code></td><td>StellaOS</td><td>2026-06-30</td><td>初赛作品提 交</td></tr><tr><td><code>d649bfc</code></td><td>StellaOS</td><td>2026-06-30</td><td>测试</td></tr><tr><td><code>e04db25</code></td><td>StellaOS</td><td>2026-06-28</td><td>补充polyhal开源协议</td></tr><tr><td><code>1c14bc6</code></td><td>StellaOS</td><td>2026-06-26</td><td>测试</td></tr><tr><td><code>b6f2052</code></td><td>StellaOS</td><td>2026-06-26</td><td>测试</td></tr><tr><td><code>ca4d805</code></td><td>StellaOS</td><td>2026-06-26</td><td>测试</td></tr><tr><td><code>bb9d17b</code></td><td>StellaOS</td><td>2026-06-26</td><td>fix: 被 block_no_sched() 阻塞后被信号唤醒时检查 has_pending_signals()，如果有就从 wait_queue 中 dequeue 并返回 WouldBlock，让上层 syscall 层可以处理信号</td></tr><tr><td><code>bad8317</code></td><td>StellaOS</td><td>2026-06-25</td><td>去掉musl lmbench再测试</td></tr><tr><td><code>cd60435</code></td><td>StellaOS</td><td>2026-06-25</td><td>测试</td></tr><tr><td><code>d1e2962</code></td><td>StellaOS</td><td>2026-06-25</td><td>测试</td></tr><tr><td><code>68110cf</code></td><td>StellaOS</td><td>2026-06-24</td><td>暂时跳过iozone</td></tr><tr><td><code>eb04802</code></td><td>StellaOS</td><td>2026-06-24</td><td>全量测试</td></tr><tr><td><code>f6b45f2</code></td><td>StellaOS</td><td>2026-06-24</td><td>诊断buddy cllocator：heap_start/heap_end 跟踪、ptr_in_heap() 范围检查、validate_free_list_heads()</td></tr><tr><td><code>4a7d2de</code></td><td>StellaOS</td><td>2026-06-22</td><td>fix：SIGSEGV 检查提前到 match之前。清理残余，然后来尝试跑lmbench,里面有docker绝对路径，只能在评测机上看到结果</td></tr><tr><td><code>3917a87</code></td><td>StellaOS</td><td>2026-06-21</td><td>fix: 把TCP接收队列的限制从32MB降至4MB，修复iperf PARALLEL_TCP OOM。iperf的PARALLEL_TCP同时建立5条连接，每条连接的recvq上限为32MB，超过内核堆 128MB（KERNEL_HEAP_SIZE），导致了OOM。</td></tr><tr><td><code>1db2202</code></td><td>StellaOS</td><td>2026-06-20</td><td>fix:libctest-glibc再带上后缀，看评测机是否能抓到</td></tr><tr><td><code>8b06df0</code></td><td>StellaOS</td><td>2026-06-19</td><td>fix:修改为仅针对libctest不加glibc后缀</td></tr><tr><td><code>b073ea7</code></td><td>StellaOS</td><td>2026-06-19</td><td>fix:修复glibc libctest打印脚本与测试脚本不符合的问题</td></tr><tr><td><code>86cc978</code></td><td>StellaOS</td><td>2026-06-19</td><td>fix:不复制，直接修改glibc查找的路径。本地已验证通过</td></tr><tr><td><code>e9afd67</code></td><td>StellaOS</td><td>2026-06-19</td><td>回退更改，查看是否是这个的问题</td></tr><tr><td><code>8e45c54</code></td><td>StellaOS</td><td>2026-06-19</td><td>回退libgcc_s.so.1挂载的更改，看是否是其导致了panic</td></tr><tr><td><code>ffa5e1b</code></td><td>StellaOS</td><td>2026-06-19</td><td>LoongArch 双盘支持：实现 vdb/x1 第二块 block 设备扫描与中断路由</td></tr><tr><td><code>a2b2b4f</code></td><td>StellaOS</td><td>2026-06-19</td><td>Merge branch 'merge_618' into 'main'</td></tr><tr><td><code>caadf52</code></td><td>StellaOS</td><td>2026-06-19</td><td>修复 wait4 信号编码、sigtimedwait 共享队列唤醒、clocale_mbfuncs 跳过与默认 locale 环境注入</td></tr><tr><td><code>aaf5665</code></td><td>StellaOS</td><td>2026-06-18</td><td>Merge branch 'merge_618' into 'main'</td></tr><tr><td><code>212b47e</code></td><td>StellaOS</td><td>2026-06-18</td><td>Merge branch 'main' into 'merge_618'</td></tr><tr><td><code>1a36a63</code></td><td>StellaOS</td><td>2026-06-18</td><td>fix:修复编译错误</td></tr><tr><td><code>a81952c</code></td><td>StellaOS</td><td>2026-06-18</td><td>合并 fix/iozone-writeback</td></tr><tr><td><code>604ea0e</code></td><td>StellaOS</td><td>2026-06-18</td><td>修复 wait4 虚假唤醒</td></tr><tr><td><code>d2e4aa7</code></td><td>StellaOS</td><td>2026-06-18</td><td>修复定时器热循环与检查遗漏</td></tr><tr><td><code>e15bd68</code></td><td>StellaOS</td><td>2026-06-18</td><td>修复 bounce buffer 分配失败</td></tr><tr><td><code>e402d09</code></td><td>StellaOS</td><td>2026-06-18</td><td>修复定时器挂死</td></tr><tr><td><code>2766e76</code></td><td>StellaOS</td><td>2026-06-18</td><td>构建与杂项小修</td></tr><tr><td><code>092c40b</code></td><td>Hoyou</td><td>2026-06-18</td><td>feat: 4-way parallel iozone test script</td></tr><tr><td><code>33f867b</code></td><td>Hoyou</td><td>2026-06-18</td><td>perf: skip Block::load for new blocks and remove redundant inode writeback</td></tr><tr><td><code>a6dc310</code></td><td>StellaOS</td><td>2026-06-18</td><td>temp:测试libctest</td></tr><tr><td><code>4c71b5f</code></td><td>StellaOS</td><td>2026-06-18</td><td>上一个修复成功，去除打印信息，完整重试</td></tr><tr><td><code>af3a16d</code></td><td>StellaOS</td><td>2026-06-18</td><td>fix:在 File::open() 的非 O_CREAT 路径中，对以写模式打开目录的情况返回 EISDIR，使 glibc回退到创建常规临时文件的路径。在评测机上测试</td></tr><tr><td><code>eb2ba6e</code></td><td>StellaOS</td><td>2026-06-18</td><td>temp:加打印信息以进一步在评测机上定位问题</td></tr><tr><td><code>f7186fb</code></td><td>Hoyou</td><td>2026-06-17</td><td>feat: ensure_pid_range for busybox judge + iozone test config</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -214,7 +214,7 @@ class WebConsoleBuilder:
         return {
             "repo_id": repo_id,
             "entry_no": eno,
-            "name": meta.name,
+            "name": item.get("name") or meta.name,
             "year": str(resolved_year),
             "school": item.get("school") or meta.school or "未提供",
             "team_name": item.get("team") or meta.team or meta.name,

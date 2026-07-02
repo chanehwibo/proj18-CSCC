@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610112999587 开发历史报告</title>
+<title>MyGO!!!!! OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610112999587 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：495</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-06-10 ~ 2026-06-30</li>
-<li>HEAD：<code>38eb49f6</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>redstone6835：135 次提交</li>
-<li>QcN3ep：64 次提交</li>
-<li>pe3NcQ：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>38eb49f6</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'dev'</td></tr><tr><td><code>576e8bd5</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'doc' into dev</td></tr><tr><td><code>5c2c4d2a</code></td><td>QcN3ep</td><td>2026-06-30</td><td>docs: 微调 README.md</td></tr><tr><td><code>32d2b8aa</code></td><td>QcN3ep</td><td>2026-06-30</td><td>docs: 扩充 userland/README.md</td></tr><tr><td><code>c7cc75b9</code></td><td>QcN3ep</td><td>2026-06-30</td><td>docs: 修正 CONTRIBUTING.md 中错误的 STYLES.md 的引用</td></tr><tr><td><code>9610cdbb</code></td><td>QcN3ep</td><td>2026-06-30</td><td>docs: 添加 PPT</td></tr><tr><td><code>0ab41019</code></td><td>QcN3ep</td><td>2026-06-30</td><td>docs: 编译内核技术手册</td></tr><tr><td><code>38286621</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'dev'</td></tr><tr><td><code>a03e53a5</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'doc' into dev</td></tr><tr><td><code>e68dd8cb</code></td><td>QcN3ep</td><td>2026-06-30</td><td>docs: 更新 README.md</td></tr><tr><td><code>b200c632</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'dev' into doc</td></tr><tr><td><code>2981882c</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'dev'</td></tr><tr><td><code>76d7d4b3</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'fix/trap' into dev</td></tr><tr><td><code>481426c6</code></td><td>QcN3ep</td><td>2026-06-30</td><td>fix: 修复 LTP fs 场景拼接错误</td></tr><tr><td><code>0709b086</code></td><td>QcN3ep</td><td>2026-06-30</td><td>fix: 降低 pie 加载地址防止 brk 截断导致的行为不一致</td></tr><tr><td><code>40bc6bac</code></td><td>QcN3ep</td><td>2026-06-30</td><td>Merge branch 'dev' into fix/trap</td></tr><tr><td><code>4195bb03</code></td><td>QcN3ep</td><td>2026-06-30</td><td>fix: 去除不必要的调试日志</td></tr><tr><td><code>51814c4e</code></td><td>QcN3ep</td><td>2026-06-29</td><td>Merge branch 'dev'</td></tr><tr><td><code>adbf7def</code></td><td>QcN3ep</td><td>2026-06-29</td><td>Merge branch 'fix/trap' into dev</td></tr><tr><td><code>76dd0919</code></td><td>QcN3ep</td><td>2026-06-29</td><td>fix: 修复由于错误的 qemu 配置导致的 lazy FPU 问题</td></tr><tr><td><code>fbe59c3a</code></td><td>QcN3ep</td><td>2026-06-29</td><td>Merge branch 'dev' into fix/trap</td></tr><tr><td><code>53c5bcca</code></td><td>QcN3ep</td><td>2026-06-29</td><td>Merge branch 'dev'</td></tr><tr><td><code>2989d6ee</code></td><td>QcN3ep</td><td>2026-06-29</td><td>Merge branch 'feat/syscall' into dev</td></tr><tr><td><code>dd8eff6c</code></td><td>QcN3ep</td><td>2026-06-28</td><td>Merge branch 'dev'</td></tr><tr><td><code>13dde720</code></td><td>QcN3ep</td><td>2026-06-28</td><td>Merge branch 'fix/trap' into dev</td></tr><tr><td><code>d5603c13</code></td><td>QcN3ep</td><td>2026-06-28</td><td>fix: 修复 heap_base 对齐数据段末尾导致的行为不一致</td></tr><tr><td><code>5cd979ea</code></td><td>QcN3ep</td><td>2026-06-28</td><td>Merge branch 'dev'</td></tr><tr><td><code>21b25a9a</code></td><td>QcN3ep</td><td>2026-06-28</td><td>Merge branch 'fix/trap' into dev</td></tr><tr><td><code>1f669c2e</code></td><td>QcN3ep</td><td>2026-06-28</td><td>fix: 修复 brk 未初始化的问题</td></tr><tr><td><code>edabdbb3</code></td><td>QcN3ep</td><td>2026-06-27</td><td>fix(riscv64): 修复用户态异常处理和lazy FPU启用</td></tr><tr><td><code>ea7868be</code></td><td>QcN3ep</td><td>2026-06-27</td><td>docs: 撰写安全报告</td></tr><tr><td><code>0ccd9c42</code></td><td>redstone6835</td><td>2026-06-27</td><td>fix: 修复了 write_slice 只返回单页窗口时 read/write 外层把 4KB 页边界误判成底层短写的问题</td></tr><tr><td><code>ca63378d</code></td><td>QcN3ep</td><td>2026-06-27</td><td>docs: 撰写变更文档</td></tr><tr><td><code>60da2990</code></td><td>redstone6835</td><td>2026-06-26</td><td>fix: 修复了 sched 中 current_task 的锁抢占问题</td></tr><tr><td><code>43003815</code></td><td>redstone6835</td><td>2026-06-26</td><td>fix: 为 copy_from_user 添加了安全快速路径</td></tr><tr><td><code>474ca98c</code></td><td>redstone6835</td><td>2026-06-26</td><td>fix: 补全了 README 中的一些细节</td></tr><tr><td><code>2a72c307</code></td><td>redstone6835</td><td>2026-06-26</td><td>Merge branch 'doc' into feat/syscall</td></tr><tr><td><code>b21ed620</code></td><td>redstone6835</td><td>2026-06-26</td><td>feat: 修复了部分 libctest 测试用例并更新了 README</td></tr><tr><td><code>a264b58b</code></td><td>redstone6835</td><td>2026-06-25</td><td>fix: 修复了编译残留</td></tr><tr><td><code>5c186ac3</code></td><td>pe3NcQ</td><td>2026-06-25</td><td>docs: 修正文档中多处表述</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

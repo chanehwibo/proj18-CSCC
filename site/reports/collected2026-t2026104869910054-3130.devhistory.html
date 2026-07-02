@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869910054 开发历史报告</title>
+<title>GoodOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869910054 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：247</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-05-29 ~ 2026-06-30</li>
-<li>HEAD：<code>a9bf773</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>guo-yao-whu：136 次提交</li>
-<li>Huzao292：24 次提交</li>
-<li>猛火烧烤队：21 次提交</li>
-<li>weidoudou7：19 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>a9bf773</code></td><td>weidoudou7</td><td>2026-06-30</td><td>docs：修正图片</td></tr><tr><td><code>7d8e384</code></td><td>weidoudou7</td><td>2026-06-30</td><td>docs：初赛设计文档完工</td></tr><tr><td><code>8adc040</code></td><td>weidoudou7</td><td>2026-06-30</td><td>docs：README加入网盘链接</td></tr><tr><td><code>25322d6</code></td><td>weidoudou7</td><td>2026-06-30</td><td>docs：README优化</td></tr><tr><td><code>2e013d8</code></td><td>weidoudou7</td><td>2026-06-30</td><td>docs: 初赛设计文档完整初稿 + 注释优化</td></tr><tr><td><code>8a05794</code></td><td>guo-yao-whu</td><td>2026-06-30</td><td>修改ltp</td></tr><tr><td><code>50f3a53</code></td><td>guo-yao-whu</td><td>2026-06-30</td><td>修改la的ltp</td></tr><tr><td><code>6c47925</code></td><td>guo-yao-whu</td><td>2026-06-30</td><td>修改rv</td></tr><tr><td><code>aec49e1</code></td><td>guo-yao-whu</td><td>2026-06-30</td><td>添加ltp测例</td></tr><tr><td><code>e6681d2</code></td><td>guo-yao-whu</td><td>2026-06-30</td><td>修改测试点</td></tr><tr><td><code>59107d1</code></td><td>guo-yao-whu</td><td>2026-06-30</td><td>修改ltp测例</td></tr><tr><td><code>b4bcea8</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>补充ltp</td></tr><tr><td><code>6c385bd</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>回退</td></tr><tr><td><code>1d7f478</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>修改测试顺序</td></tr><tr><td><code>f869381</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>优化lmbench测试速度</td></tr><tr><td><code>dbee48b</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T2026104869910054/oskernel2026-goodos</td></tr><tr><td><code>0f0bff5</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>修改测试顺序</td></tr><tr><td><code>14badb1</code></td><td>Huzao292</td><td>2026-06-29</td><td>main.rs去注释，提交测评</td></tr><tr><td><code>ce81bd0</code></td><td>Huzao292</td><td>2026-06-29</td><td>更新ltp进度 chmod chown</td></tr><tr><td><code>4388f5c</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T2026104869910054/oskernel2026-goodos</td></tr><tr><td><code>f35c86b</code></td><td>guo-yao-whu</td><td>2026-06-29</td><td>解决lmbench无法测试问题</td></tr><tr><td><code>7fe70ca</code></td><td>weidoudou7</td><td>2026-06-29</td><td>优化LoongArch架构下的文件写入操作，合并脏页以减少磁盘写入次数；重构write_file_with_inode函数以支持批量写入。</td></tr><tr><td><code>fd450ed</code></td><td>weidoudou7</td><td>2026-06-29</td><td>ltp测试分离la和rv，loongarch：iozone测试加快</td></tr><tr><td><code>5c3f327</code></td><td>Huzao292</td><td>2026-06-29</td><td>解决ltp测试bug，更新ltp进度，main.rs打开测试</td></tr><tr><td><code>b92720b</code></td><td>weidoudou7</td><td>2026-06-29</td><td>loongarch：main注释后两个测试</td></tr><tr><td><code>d7f8d6c</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T2026104869910054/oskernel2026-goodos</td></tr><tr><td><code>6fcbcc8</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>修复loongarch到ltp</td></tr><tr><td><code>f689658</code></td><td>Huzao292</td><td>2026-06-28</td><td>更新ltp进度，解开main.rs的riscv测试</td></tr><tr><td><code>dc01246</code></td><td>Huzao292</td><td>2026-06-28</td><td>合并</td></tr><tr><td><code>a58a304</code></td><td>Huzao292</td><td>2026-06-28</td><td>更新ltp进度 umask splice</td></tr><tr><td><code>e8d76ec</code></td><td>weidoudou7</td><td>2026-06-28</td><td>loongarch：no file or directory问题解决</td></tr><tr><td><code>5d855f7</code></td><td>weidoudou7</td><td>2026-06-28</td><td>loongarch：free优化</td></tr><tr><td><code>f1d50a2</code></td><td>weidoudou7</td><td>2026-06-28</td><td>loongarch：修改可能得栈溢出</td></tr><tr><td><code>a86d43c</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>跑通版本</td></tr><tr><td><code>763cf6b</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>测试loong</td></tr><tr><td><code>d698108</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>补充动态链接路径</td></tr><tr><td><code>fc8d29b</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>检查问题</td></tr><tr><td><code>0c6c175</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>测试全部测试</td></tr><tr><td><code>ba900c8</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>补充ltp测试</td></tr><tr><td><code>7533d32</code></td><td>guo-yao-whu</td><td>2026-06-28</td><td>测试ltp</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

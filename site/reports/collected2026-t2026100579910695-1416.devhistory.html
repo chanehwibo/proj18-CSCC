@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100579910695 开发历史报告</title>
+<title>Chronix-Fork 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,22 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100579910695 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：521</li>
-<li>参与作者数：5</li>
-<li>时间跨度：2025-05-26 ~ 2026-06-30</li>
-<li>HEAD：<code>fecedfe</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>lullabyeoytl：58 次提交</li>
-<li>xjy：53 次提交</li>
-<li>Mike Solar：31 次提交</li>
-<li>zlc-dev：31 次提交</li>
-<li>PACTHEMAN123：27 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>fecedfe</code></td><td>Mike Solar</td><td>2026-06-30</td><td>docs：修改文档</td></tr><tr><td><code>08b2a3b</code></td><td>Mike Solar</td><td>2026-06-30</td><td>docs: 优化文档统一按'问题/改动/效果'组织，README 补充测试命令与文档链接</td></tr><tr><td><code>2f09503</code></td><td>Mike Solar</td><td>2026-06-30</td><td>docs：修改文档</td></tr><tr><td><code>29cf7c9</code></td><td>Mike Solar</td><td>2026-06-30</td><td>docs: 按 chronix-changes 详细程度重写全量优化文档，保留 AI 声明</td></tr><tr><td><code>4a567e3</code></td><td>Mike Solar</td><td>2026-06-30</td><td>docs: 新增全量性能与评分优化汇总文档</td></tr><tr><td><code>2fcdfdd</code></td><td>Mike Solar</td><td>2026-06-30</td><td>docs: 更新 5daf222 以来改动文档，补充本轮 basic/mount/网络大缓冲修复</td></tr><tr><td><code>865e089</code></td><td>Mike Solar</td><td>2026-06-30</td><td>fix(1g-platform): 修复 basic/mount/网络大数据分配导致的 1G 跑分崩溃</td></tr><tr><td><code>dd7bd99</code></td><td>Mike Solar</td><td>2026-06-30</td><td>docs: 按评测项/功能点整理 5daf222 以来的改动</td></tr><tr><td><code>0833253</code></td><td>Mike Solar</td><td>2026-06-30</td><td>chore: 移除历史测试日志文件</td></tr><tr><td><code>521bc50</code></td><td>Mike Solar</td><td>2026-06-30</td><td>fix(scripts): 1G 安全跑分脚本，加入 netperf/iperf/cyclictest，跳过 iozone/ltp/libcbench-rv</td></tr><tr><td><code>e66da90</code></td><td>Mike Solar</td><td>2026-06-30</td><td>fix(scripts): 给 run-oj 和测试脚本添加 shebang 与可执行权限</td></tr><tr><td><code>aa23541</code></td><td>Mike Solar</td><td>2026-06-30</td><td>revert: 回退测试脚本/测试包改动</td></tr><tr><td><code>8e24ab9</code></td><td>Mike Solar</td><td>2026-06-30</td><td>fix(testcase): 更新测试包，1G 安全 busybox 脚本与精简 run-oj</td></tr><tr><td><code>7d84998</code></td><td>Mike Solar</td><td>2026-06-30</td><td>Merge remote-tracking branch 'origin/main'</td></tr><tr><td><code>7392764</code></td><td>Mike Solar</td><td>2026-06-30</td><td>fix(run-oj): 1G 内存平台安全运行脚本</td></tr><tr><td><code>1688c38</code></td><td>Mike Solar</td><td>2026-06-26</td><td>docs: 解释 ext4fs 938ce6df 之后每个改动的原由</td></tr><tr><td><code>9d7bfc0</code></td><td>Mike Solar</td><td>2026-06-26</td><td>docs: 汇总 ext4fs 938ce6df 之后主仓库所有改动</td></tr><tr><td><code>5524a39</code></td><td>Mike Solar</td><td>2026-06-26</td><td>fix(basic): 短路径 + fat32 load_child_dentry 修复 basic 满分；更新 busybox/libcbench 测试脚本</td></tr><tr><td><code>e57b0d0</code></td><td>Mike Solar</td><td>2026-06-26</td><td>fix(1g-platform): 修复 RISC-V/LoongArch 1G 平台评分测试关键问题并补充调优文档</td></tr><tr><td><code>2bc35cf</code></td><td>Mike Solar</td><td>2026-06-25</td><td>fix: 修复零分问题</td></tr><tr><td><code>20d67d8</code></td><td>Mike Solar</td><td>2026-06-24</td><td>fix: 两边跑分均正常</td></tr><tr><td><code>ba17b2a</code></td><td>Mike Solar</td><td>2026-06-23</td><td>fix: 修复LoongArch侧</td></tr><tr><td><code>a78f415</code></td><td>Mike Solar</td><td>2026-06-20</td><td>fix: 修复LoongArch侧</td></tr><tr><td><code>4125786</code></td><td>Mike Solar</td><td>2026-06-18</td><td>fix: 跑通测试</td></tr><tr><td><code>c90798e</code></td><td>Mike Solar</td><td>2026-06-15</td><td>fix: 修复编译失败</td></tr><tr><td><code>71b1781</code></td><td>Mike Solar</td><td>2026-06-15</td><td>feat:优化libc-bench</td></tr><tr><td><code>b999f29</code></td><td>Mike Solar</td><td>2026-06-15</td><td>feat:优化Cyclelist</td></tr><tr><td><code>7b7a7f8</code></td><td>Mike Solar</td><td>2026-06-15</td><td>feat:用户空间读取fstab</td></tr><tr><td><code>40739ef</code></td><td>Mike Solar</td><td>2026-06-15</td><td>feat:添加设备探测逻辑</td></tr><tr><td><code>5daf222</code></td><td>Mike Solar</td><td>2026-06-11</td><td>无SD卡能跑通</td></tr><tr><td><code>ba9ba37</code></td><td>Mike Solar</td><td>2026-06-08</td><td>build: move kernel to stable toolchain</td></tr><tr><td><code>a8b85a1</code></td><td>PACTHEMAN123</td><td>2025-08-20</td><td>docs: update info for onsite docs</td></tr><tr><td><code>17a8c2b</code></td><td>PACTHEMAN123</td><td>2025-08-18</td><td>docs: update readme concerning board</td></tr><tr><td><code>f79780d</code></td><td>PACTHEMAN123</td><td>2025-08-17</td><td>docs: update for finals</td></tr><tr><td><code>4e70b74</code></td><td>PACTHEMAN123</td><td>2025-08-16</td><td>try to submit</td></tr><tr><td><code>544c33b</code></td><td>PACTHEMAN123</td><td>2025-08-16</td><td>chore: get ready for submit</td></tr><tr><td><code>b870879</code></td><td>PACTHEMAN123</td><td>2025-08-16</td><td>Merge remote-tracking branch 'origin'</td></tr><tr><td><code>82d4e67</code></td><td>PACTHEMAN123</td><td>2025-08-16</td><td>test: ensure la autotest ok</td></tr><tr><td><code>cf46274</code></td><td>lullabyeoytl</td><td>2025-08-16</td><td>feat(timer): add timerfd concernign struct</td></tr><tr><td><code>54560af</code></td><td>lullabyeoytl</td><td>2025-08-16</td><td>feat(timer): add posix timer, pass concerning syscall</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

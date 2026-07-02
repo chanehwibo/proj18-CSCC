@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610614999585 开发历史报告</title>
+<title>UESTC Starry OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610614999585 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：149</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2025-06-24 ~ 2026-06-30</li>
-<li>HEAD：<code>930e47e</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Lzih7：78 次提交</li>
-<li>StarryMix：71 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>930e47e</code></td><td>Lzih7</td><td>2026-06-30</td><td>update README.md</td></tr><tr><td><code>4b2876d</code></td><td>Lzih7</td><td>2026-06-30</td><td>更新项目文档</td></tr><tr><td><code>c1d3951</code></td><td>Lzih7</td><td>2026-06-30</td><td>更新文档内容</td></tr><tr><td><code>47b3c36</code></td><td>Lzih7</td><td>2026-06-28</td><td>只在la下跳过glibc</td></tr><tr><td><code>e844970</code></td><td>Lzih7</td><td>2026-06-27</td><td>测试(init.sh): 设置lmbench测试的ENOUGH环境变量为50000</td></tr><tr><td><code>67c6eed</code></td><td>Lzih7</td><td>2026-06-27</td><td>test(ltp): 新增fs_bind_rbind系列测试用例并在glibc下跳过fs_bind测试</td></tr><tr><td><code>1b292f0</code></td><td>Lzih7</td><td>2026-06-26</td><td>test(la_case, rv_case): 删除 rbind 测试用例条目</td></tr><tr><td><code>8f189e7</code></td><td>Lzih7</td><td>2026-06-26</td><td>remove some cases</td></tr><tr><td><code>d045101</code></td><td>Lzih7</td><td>2026-06-26</td><td>feat: 新增系统调用并优化文件系统、任务调度、内存管理与测试流程</td></tr><tr><td><code>a80e25a</code></td><td>Lzih7</td><td>2026-06-21</td><td>perf: 优化系统性能并修复潜在问题</td></tr><tr><td><code>917d6c3</code></td><td>Lzih7</td><td>2026-06-20</td><td>feat: 实现完整bind mount与挂载传播支持</td></tr><tr><td><code>7ca59e3</code></td><td>Lzih7</td><td>2026-06-18</td><td>feat(net): 完善网络子系统实现，新增accept4系统调用与各类socket逻辑</td></tr><tr><td><code>a4a7f67</code></td><td>Lzih7</td><td>2026-06-17</td><td>feat: 实现copy_file_range系统调用，完善网络与测试支持</td></tr><tr><td><code>746926a</code></td><td>Lzih7</td><td>2026-06-16</td><td>放开glibc libcbench</td></tr><tr><td><code>dcee0b0</code></td><td>Lzih7</td><td>2026-06-16</td><td>feat(io_mpx): 添加epoll系列系统调用实现与测试用例</td></tr><tr><td><code>9d52066</code></td><td>Lzih7</td><td>2026-06-16</td><td>feat(lmbench): 支持直接选择lmbench并重构测试逻辑</td></tr><tr><td><code>2b3da09</code></td><td>Lzih7</td><td>2026-06-15</td><td>fix:撤回上一笔导致的lmbench问题，并尝试修复内存问题</td></tr><tr><td><code>057ee92</code></td><td>Lzih7</td><td>2026-06-15</td><td>fix(mm, test): 修复msync卡死问题并优化测试脚本</td></tr><tr><td><code>37db3c2</code></td><td>Lzih7</td><td>2026-06-14</td><td>fix: 放弃之前init.sh的修复，修复多架构内存泄漏并完善系统调用与调试支持</td></tr><tr><td><code>ca4f91d</code></td><td>Lzih7</td><td>2026-06-14</td><td>fix(init.sh)：只测fs_bind, tst_test</td></tr><tr><td><code>652644d</code></td><td>Lzih7</td><td>2026-06-13</td><td>fix(init.sh):修改测试范围</td></tr><tr><td><code>996a7e4</code></td><td>Lzih7</td><td>2026-06-11</td><td>refactor(auto-test, src): 优化LTP额外shell测例处理逻辑并更新测试仓库地址</td></tr><tr><td><code>dde913e</code></td><td>Lzih7</td><td>2026-06-10</td><td>fix(init.sh): 之前的理解有偏差，改为执行平铺的.sh脚本</td></tr><tr><td><code>f030be8</code></td><td>Lzih7</td><td>2026-06-10</td><td>fix(init.sh): 添加更多LTP测试用例过滤规则</td></tr><tr><td><code>bcaf11e</code></td><td>Lzih7</td><td>2026-06-10</td><td>feat(ltp): 新增递归执行LTP子目录测例的功能</td></tr><tr><td><code>b572749</code></td><td>Lzih7</td><td>2026-06-07</td><td>add splice02 on risc</td></tr><tr><td><code>2e4dc63</code></td><td>Lzih7</td><td>2026-06-07</td><td>fix: 修复误触修改的init.sh</td></tr><tr><td><code>f5d2a04</code></td><td>Lzih7</td><td>2026-06-07</td><td>feat(syscall): 实现sched_getattr和sched_setattr系统调用</td></tr><tr><td><code>88f38ba</code></td><td>Lzih7</td><td>2026-06-07</td><td>取消splice02的测试</td></tr><tr><td><code>72501df</code></td><td>Lzih7</td><td>2026-06-07</td><td>fix(sys_clone): 定期回收tmpfs内存以避免fork风暴导致的OOM</td></tr><tr><td><code>4d4dd58</code></td><td>Lzih7</td><td>2026-06-07</td><td>fix: 修正cannot borrow <code>guard</code> as mutable的编译错误</td></tr><tr><td><code>553d4cb</code></td><td>Lzih7</td><td>2026-06-07</td><td>feat(vfs, config, task): 添加tmpfs内存回收, 调整内核栈大小并优化克隆处理</td></tr><tr><td><code>162efe3</code></td><td>Lzih7</td><td>2026-06-07</td><td>perf(test scripts): 添加测试前的内存清理步骤</td></tr><tr><td><code>aac6554</code></td><td>Lzih7</td><td>2026-06-07</td><td>恢复只原来的64KB</td></tr><tr><td><code>ffb9b9a</code></td><td>Lzih7</td><td>2026-06-07</td><td>修复(管道): 调整环形缓冲区大小以避免拼接死锁</td></tr><tr><td><code>dd5e68a</code></td><td>Lzih7</td><td>2026-06-07</td><td>fix: fix stack overflow. add splice04</td></tr><tr><td><code>edd2413</code></td><td>Lzih7</td><td>2026-06-07</td><td>fix: 修复vec导致的编译报错</td></tr><tr><td><code>5648bbe</code></td><td>Lzih7</td><td>2026-06-07</td><td>fix: 修复getsockopt未初始化内存泄漏</td></tr><tr><td><code>987268e</code></td><td>Lzih7</td><td>2026-06-07</td><td>perf(config): 下调内核栈大小以节省内存</td></tr><tr><td><code>70cb362</code></td><td>Lzih7</td><td>2026-06-07</td><td>try splice02</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

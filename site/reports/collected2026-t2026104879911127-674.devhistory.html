@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104879911127 开发历史报告</title>
+<title>MoonOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104879911127 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：248</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-06-01 ~ 2026-06-30</li>
-<li>HEAD：<code>537f18c</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Le0n3rd：158 次提交</li>
-<li>huanghaoran921：32 次提交</li>
-<li>cnb.cQJ5NxZEgFA：5 次提交</li>
-<li>cnb.cUpM9ba0gFA：5 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>537f18c</code></td><td>Le0n3rd</td><td>2026-06-30</td><td>合并来自 docs 的合并请求 #30</td></tr><tr><td><code>3074395</code></td><td>Le0n3rd</td><td>2026-06-30</td><td>docs: rewrite README.md with comprehensive project overview, architecture, features, and team info</td></tr><tr><td><code>c2e7fd7</code></td><td>Le0n3rd</td><td>2026-06-30</td><td>docs: add MoonOS技术文档.pdf, move some logs to .logs</td></tr><tr><td><code>46e00d4</code></td><td>Le0n3rd</td><td>2026-06-30</td><td>合并来自 revert-pr-28 的合并请求 #29</td></tr><tr><td><code>949d1fb</code></td><td>Le0n3rd</td><td>2026-06-30</td><td>Revert #28</td></tr><tr><td><code>95c13f8</code></td><td>Le0n3rd</td><td>2026-06-30</td><td>合并来自 cjy-test 的合并请求 #28</td></tr><tr><td><code>8530297</code></td><td>Le0n3rd</td><td>2026-06-29</td><td>合并来自 feat-mm-rebuild 的合并请求 #27</td></tr><tr><td><code>57a957e</code></td><td>Le0n3rd</td><td>2026-06-29</td><td>Merge remote-tracking branch 'origin/main' into feat-mm-rebuild</td></tr><tr><td><code>4582fa6</code></td><td>cnb.cUpM9ba0gFA</td><td>2026-06-29</td><td>Merge branch 'cjy-test'</td></tr><tr><td><code>ba3f411</code></td><td>cnb.cUpM9ba0gFA</td><td>2026-06-29</td><td>robust list</td></tr><tr><td><code>b342cd9</code></td><td>Le0n3rd</td><td>2026-06-29</td><td>chore: modify ltp scripts</td></tr><tr><td><code>cadb66e</code></td><td>Le0n3rd</td><td>2026-06-29</td><td>fix: dual-disk rootfs mount misalignment and assist-disk routing bridge</td></tr><tr><td><code>af9da3d</code></td><td>Le0n3rd</td><td>2026-06-29</td><td>chore: modify testsuits</td></tr><tr><td><code>20dc530</code></td><td>Le0n3rd</td><td>2026-06-29</td><td>chore: update Cargo.lock</td></tr><tr><td><code>adb09e7</code></td><td>Le0n3rd</td><td>2026-06-29</td><td>fix(loongarch64): resolve PCI/VirtIO IRQ deadlock chain on QEMU virt</td></tr><tr><td><code>bf5a0f7</code></td><td>cnb.cQJ5NxZEgFA</td><td>2026-06-28</td><td>合并来自 test-main-port-fix 的合并请求 #25</td></tr><tr><td><code>31ff0c1</code></td><td>huanghaoran921</td><td>2026-06-28</td><td>fix(axmm): use is_err() instead of pattern match for PagingError type compat</td></tr><tr><td><code>79d37ab</code></td><td>huanghaoran921</td><td>2026-06-28</td><td>fix(axmm): restore COW frame refcount on alloc failure in handle_cow_fault</td></tr><tr><td><code>c0a983e</code></td><td>huanghaoran921</td><td>2026-06-28</td><td>debug: comment out all DIAG warn! logs to rule out scheduler interference on LA</td></tr><tr><td><code>17354ad</code></td><td>huanghaoran921</td><td>2026-06-28</td><td>debug(la): comment out BLOCK-DIAG to rule out scheduler interference</td></tr><tr><td><code>4b855ff</code></td><td>huanghaoran921</td><td>2026-06-28</td><td>fix(la): remove unused axlog import, fix use-after-move in CLONE-DIAG</td></tr><tr><td><code>a147d50</code></td><td>huanghaoran921</td><td>2026-06-28</td><td>doc: update IO_REFACTOR_UPDATE_LOG.md for epoll_pwait01 diag</td></tr><tr><td><code>a031ba0</code></td><td>huanghaoran921</td><td>2026-06-28</td><td>debug(la): fix with_replacen_blocked mask leak + add diag logs for epoll_pwait01 hang</td></tr><tr><td><code>3e91fee</code></td><td>Le0n3rd</td><td>2026-06-28</td><td>chore: modify test scripts</td></tr><tr><td><code>0cca3b1</code></td><td>cnb.cQJ5NxZEgFA</td><td>2026-06-28</td><td>合并来自 main 的合并请求 #24</td></tr><tr><td><code>b360dc7</code></td><td>Le0n3rd</td><td>2026-06-28</td><td>chore: modify testsuits</td></tr><tr><td><code>b3af934</code></td><td>Le0n3rd</td><td>2026-06-28</td><td>chore: split test.sh for la and rv</td></tr><tr><td><code>1361a39</code></td><td>cnb.cUpM9ba0gFA</td><td>2026-06-27</td><td>fix: LTP clone05 exit code double-decoding bug (LoongArch64)</td></tr><tr><td><code>0dc61f7</code></td><td>Le0n3rd</td><td>2026-06-27</td><td>合并来自 feat-mm-rebuild 的合并请求 #23</td></tr><tr><td><code>bfbddb6</code></td><td>Le0n3rd</td><td>2026-06-27</td><td>chore: add more ltp cases</td></tr><tr><td><code>edbb634</code></td><td>Le0n3rd</td><td>2026-06-27</td><td>fix(axfs): demote SpinNoPreempt to axsync::Mutex for multi-process I/O concurrency</td></tr><tr><td><code>4d61c77</code></td><td>Le0n3rd</td><td>2026-06-26</td><td>chore: add lib name</td></tr><tr><td><code>ddf781e</code></td><td>cnb.cUpM9ba0gFA</td><td>2026-06-26</td><td>docs</td></tr><tr><td><code>038ce9a</code></td><td>cnb.cUpM9ba0gFA</td><td>2026-06-26</td><td>clone302</td></tr><tr><td><code>f1d9f02</code></td><td>Le0n3rd</td><td>2026-06-26</td><td>chore: add ltp_parse, modify ltp-run shell, modify cases list</td></tr><tr><td><code>6723fea</code></td><td>Le0n3rd</td><td>2026-06-26</td><td>chore: add more cases to unworkable</td></tr><tr><td><code>09a4134</code></td><td>Le0n3rd</td><td>2026-06-26</td><td>fix(loongarch): eliminate TCG clock-freeze deadlock chain causing sleep hang</td></tr><tr><td><code>375e9fb</code></td><td>Le0n3rd</td><td>2026-06-26</td><td>fix(virtio-drivers): decouple axtask by replacing yield_now with arch-native ultra_rescue</td></tr><tr><td><code>dcff484</code></td><td>Le0n3rd</td><td>2026-06-26</td><td>fix(virtio): add yield after 100000 spin</td></tr><tr><td><code>df5273d</code></td><td>Le0n3rd</td><td>2026-06-26</td><td>合并来自 feat-mm-rebuild 的合并请求 #22</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

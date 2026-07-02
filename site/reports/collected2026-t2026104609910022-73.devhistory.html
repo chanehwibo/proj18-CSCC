@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104609910022 开发历史报告</title>
+<title>HPU OS — 2026 全国大学生计算机系统能力大赛操作系统赛参赛内核 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104609910022 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：71</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-05-27 ~ 2026-06-30</li>
-<li>HEAD：<code>e6b2012</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>root：38 次提交</li>
-<li>小羊肖恩：32 次提交</li>
-<li>jiujuchunsong：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>e6b2012</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update test_runner.rs</td></tr><tr><td><code>ed9de67</code></td><td>root</td><td>2026-06-30</td><td>修复编译错误：sigaction stub、write_sockaddr_to_user 括号</td></tr><tr><td><code>8da8959</code></td><td>root</td><td>2026-06-30</td><td>修改bug</td></tr><tr><td><code>77a65c8</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update rust-toolchain.toml</td></tr><tr><td><code>6ba84e3</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update rust-toolchain.toml</td></tr><tr><td><code>4e20052</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update rust-toolchain.toml</td></tr><tr><td><code>1a68f76</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>musl/busybox 调用 sigaction 时能真正保存处理器</td></tr><tr><td><code>0b61ffa</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>保存每个信号对应的处理器地址（SIG_DFL=0、SIG_IGN=1、或函数指针）</td></tr><tr><td><code>93976c0</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>每次系统调用/中断返回用户态时，都检查有没有信号要处理</td></tr><tr><td><code>bf7c984</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>让 sigaction 系统调用不再空跑</td></tr><tr><td><code>f4cf7c5</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update test_runner.rs</td></tr><tr><td><code>996521f</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update test_runner.rs</td></tr><tr><td><code>ac48765</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update test_runner.rs</td></tr><tr><td><code>e4d13a9</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update test_runner.rs</td></tr><tr><td><code>7e86672</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>更新readme</td></tr><tr><td><code>19cf228</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update rust-toolchain.toml</td></tr><tr><td><code>5806042</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update Makefile</td></tr><tr><td><code>4dddb41</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update mod.rs</td></tr><tr><td><code>b7f6153</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update mod.rs</td></tr><tr><td><code>07a346d</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update mod.rs</td></tr><tr><td><code>961b32e</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update mod.rs</td></tr><tr><td><code>c3582c5</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update test_runner.rs</td></tr><tr><td><code>367ec58</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update test_runner.rs</td></tr><tr><td><code>bcf623b</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update timer.rs</td></tr><tr><td><code>fcce860</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update timer.rs</td></tr><tr><td><code>a5d84af</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update block.rs</td></tr><tr><td><code>6674433</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update block.rs</td></tr><tr><td><code>e14be87</code></td><td>小羊肖恩</td><td>2026-06-30</td><td>Update Makefile</td></tr><tr><td><code>4dea6ed</code></td><td>root</td><td>2026-06-30</td><td>修复LA</td></tr><tr><td><code>b6e8732</code></td><td>root</td><td>2026-06-30</td><td>移除 src-la/target 编译产物，更新 gitignore</td></tr><tr><td><code>4dcf30f</code></td><td>root</td><td>2026-06-30</td><td>修复 LoongArch trap：SAVE0 改用虚拟地址，__alltraps 切页表前加载</td></tr><tr><td><code>873f849</code></td><td>root</td><td>2026-06-30</td><td>修复laSAVE0 和 __alltraps 切页表时序</td></tr><tr><td><code>7cffb8b</code></td><td>root</td><td>2026-06-30</td><td>仅保留基础功能，防止运行超时</td></tr><tr><td><code>cbbd4b2</code></td><td>root</td><td>2026-06-29</td><td>移除多余文件，添加.gitignore规则</td></tr><tr><td><code>d37d790</code></td><td>root</td><td>2026-06-29</td><td>完整龙芯内阁移植，修复提交包结构</td></tr><tr><td><code>49c11af</code></td><td>root</td><td>2026-06-28</td><td>移植龙芯</td></tr><tr><td><code>634d41a</code></td><td>root</td><td>2026-06-27</td><td>完成功能实现</td></tr><tr><td><code>129e6fa</code></td><td>root</td><td>2026-06-26</td><td>适配评测环境——从磁盘读取测试程序</td></tr><tr><td><code>1bb6053</code></td><td>root</td><td>2026-06-26</td><td>修复Trap中内存管理的bug</td></tr><tr><td><code>149e130</code></td><td>root</td><td>2026-06-25</td><td>移除不应提交的二进制文件</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026103369910066 开发历史报告</title>
+<title>OsKernelECC 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026103369910066 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：43</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-04-21 ~ 2026-06-30</li>
-<li>HEAD：<code>e014df6</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>cherry：39 次提交</li>
-<li>ECC：4 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>e014df6</code></td><td>cherry</td><td>2026-06-30</td><td>ppt readme</td></tr><tr><td><code>8d106a7</code></td><td>ECC</td><td>2026-06-28</td><td>Merge branch 'CHERRY' into 'main'</td></tr><tr><td><code>70fa1cc</code></td><td>ECC</td><td>2026-06-28</td><td>Merge branch 'main' into 'CHERRY'</td></tr><tr><td><code>6641271</code></td><td>cherry</td><td>2026-06-26</td><td>test</td></tr><tr><td><code>1bd2420</code></td><td>cherry</td><td>2026-06-26</td><td>test</td></tr><tr><td><code>c0de5f3</code></td><td>ECC</td><td>2026-06-26</td><td>Merge branch 'CHERRY' into 'main'</td></tr><tr><td><code>6262db2</code></td><td>cherry</td><td>2026-06-25</td><td>fix ltp output2</td></tr><tr><td><code>1382171</code></td><td>cherry</td><td>2026-06-25</td><td>fix ltp output</td></tr><tr><td><code>36a98f7</code></td><td>cherry</td><td>2026-06-24</td><td>fixltp</td></tr><tr><td><code>a74ca76</code></td><td>cherry</td><td>2026-06-24</td><td>ltp</td></tr><tr><td><code>d00d9a1</code></td><td>cherry</td><td>2026-06-24</td><td>test</td></tr><tr><td><code>9afd210</code></td><td>cherry</td><td>2026-06-24</td><td>test basic busybox libc lua</td></tr><tr><td><code>c94364c</code></td><td>cherry</td><td>2026-06-24</td><td>test basic busybox lua</td></tr><tr><td><code>d2ab06e</code></td><td>cherry</td><td>2026-06-24</td><td>fix output</td></tr><tr><td><code>558aed0</code></td><td>cherry</td><td>2026-06-23</td><td>test only musl ltp</td></tr><tr><td><code>63f1bcd</code></td><td>cherry</td><td>2026-06-23</td><td>test ltp</td></tr><tr><td><code>a1ab046</code></td><td>cherry</td><td>2026-06-23</td><td>Improve syscall compatibility and judge test selection</td></tr><tr><td><code>40c30e1</code></td><td>cherry</td><td>2026-06-17</td><td>docs:libctest</td></tr><tr><td><code>52b1a38</code></td><td>cherry</td><td>2026-06-17</td><td>docs:libctest</td></tr><tr><td><code>83fc59d</code></td><td>cherry</td><td>2026-06-16</td><td>docs:lua</td></tr><tr><td><code>6a02c09</code></td><td>cherry</td><td>2026-06-14</td><td>docs:syscall for busybox</td></tr><tr><td><code>e0ff659</code></td><td>cherry</td><td>2026-06-14</td><td>fix file</td></tr><tr><td><code>7f5e61e</code></td><td>cherry</td><td>2026-06-09</td><td>fix virtio block dma bounce buffer</td></tr><tr><td><code>2d89c70</code></td><td>cherry</td><td>2026-06-09</td><td>fix:fstat</td></tr><tr><td><code>33f6388</code></td><td>cherry</td><td>2026-06-08</td><td>fix:compile</td></tr><tr><td><code>b2ab16c</code></td><td>cherry</td><td>2026-06-08</td><td>fix:fstatread</td></tr><tr><td><code>c1928bd</code></td><td>cherry</td><td>2026-06-07</td><td>fix:syscall</td></tr><tr><td><code>bd87dea</code></td><td>cherry</td><td>2026-06-03</td><td>fix:judge</td></tr><tr><td><code>5009b4d</code></td><td>cherry</td><td>2026-06-03</td><td>fix:toolchain</td></tr><tr><td><code>fe9bc8f</code></td><td>cherry</td><td>2026-06-03</td><td>fix:makefile</td></tr><tr><td><code>0efca8d</code></td><td>cherry</td><td>2026-06-03</td><td>fix:makefile</td></tr><tr><td><code>d6eeb51</code></td><td>cherry</td><td>2026-06-03</td><td>add:third_party2</td></tr><tr><td><code>f3a42ee</code></td><td>cherry</td><td>2026-06-03</td><td>add:third_party</td></tr><tr><td><code>784eaef</code></td><td>cherry</td><td>2026-06-03</td><td>add:rustsysroot</td></tr><tr><td><code>5d7b928</code></td><td>cherry</td><td>2026-06-03</td><td>fix:makefile</td></tr><tr><td><code>2c031db</code></td><td>cherry</td><td>2026-06-02</td><td>fix:build</td></tr><tr><td><code>729366c</code></td><td>cherry</td><td>2026-06-02</td><td>remove:rustup</td></tr><tr><td><code>59bc6db</code></td><td>cherry</td><td>2026-06-02</td><td>remove:rustsrc</td></tr><tr><td><code>7ad0542</code></td><td>cherry</td><td>2026-06-02</td><td>remove:</td></tr><tr><td><code>cdd6595</code></td><td>cherry</td><td>2026-06-02</td><td>fix:makefile</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

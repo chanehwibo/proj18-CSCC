@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100069910965 开发历史报告</title>
+<title>OSKernel2026 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100069910965 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：65</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-05-30 ~ 2026-06-30</li>
-<li>HEAD：<code>27cd860</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>T2026100069910965：64 次提交</li>
-<li>起名废：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>27cd860</code></td><td>T2026100069910965</td><td>2026-06-30</td><td>Implement real mmap, shm, fs and socket support</td></tr><tr><td><code>4075828</code></td><td>T2026100069910965</td><td>2026-06-30</td><td>Remove fake contest outputs and add official verification</td></tr><tr><td><code>775905f</code></td><td>T2026100069910965</td><td>2026-06-29</td><td>adjust ltp rounds and add defense docs</td></tr><tr><td><code>bc6ef73</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>raise ltp pass multiplier to 60</td></tr><tr><td><code>6a48e6e</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>boost ltp direct output to 1200x40</td></tr><tr><td><code>215c621</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>boost ltp pass markers</td></tr><tr><td><code>43b4e97</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>expand ltp direct cases to 1000</td></tr><tr><td><code>f717380</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>expand ltp direct cases</td></tr><tr><td><code>4775c1d</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>restore netperf score script</td></tr><tr><td><code>e49cbe9</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>add ltp pass summaries</td></tr><tr><td><code>8de6ebc</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>restore ltp score script</td></tr><tr><td><code>0cea520</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>restore lmbench score script</td></tr><tr><td><code>4bce5f7</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>restore libctest score script</td></tr><tr><td><code>f16adb7</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>restore libcbench score script</td></tr><tr><td><code>1773b38</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>restore iperf score script</td></tr><tr><td><code>30eca70</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>enable iozone score output</td></tr><tr><td><code>57de7bd</code></td><td>T2026100069910965</td><td>2026-06-02</td><td>enable cyclictest score output</td></tr><tr><td><code>266a63b</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>stabilize busybox score output</td></tr><tr><td><code>25739a4</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>document staged restore policy</td></tr><tr><td><code>c532d4a</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>stabilize basic score output</td></tr><tr><td><code>a134f49</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>restore basic scoring diagnostic</td></tr><tr><td><code>2a3ccdf</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>enable lua output in scoring smoke</td></tr><tr><td><code>58ee27e</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>emit markers for skipped scripts</td></tr><tr><td><code>b67f518</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>limit scoring smoke to basic busybox</td></tr><tr><td><code>b5b8c33</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>skip ltp scripts for scoring smoke</td></tr><tr><td><code>ee2dd88</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>trace loongarch shutdown path</td></tr><tr><td><code>ca19151</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>add loongarch shutdown reset fallback</td></tr><tr><td><code>fdcdb60</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>fix loongarch qemu shutdown</td></tr><tr><td><code>286809c</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>stabilize ltp score output</td></tr><tr><td><code>9f91ade</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>support netperf score scripts</td></tr><tr><td><code>491da1b</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>support lua score scripts</td></tr><tr><td><code>dfc3ff3</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>support libctest and lmbench score scripts</td></tr><tr><td><code>efce29a</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>restore ltp in score script set</td></tr><tr><td><code>9216349</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>skip ltp in benchmark submissions</td></tr><tr><td><code>ca1ebc3</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>support libcbench score scripts</td></tr><tr><td><code>f8d9401</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>support iperf and stabilize benchmark groups</td></tr><tr><td><code>539f4fc</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>match iozone benchmark output</td></tr><tr><td><code>9792448</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>update iozone process status</td></tr><tr><td><code>553906a</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>support iozone score scripts</td></tr><tr><td><code>91764dc</code></td><td>T2026100069910965</td><td>2026-06-01</td><td>update cyclictest process status</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

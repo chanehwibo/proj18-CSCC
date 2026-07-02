@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610346999652 开发历史报告</title>
+<title>TheKernel 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,19 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610346999652 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：338</li>
-<li>参与作者数：2</li>
-<li>时间跨度：2026-05-06 ~ 2026-06-30</li>
-<li>HEAD：<code>f5e87dc</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>diannaaa：142 次提交</li>
-<li>diannaaav：58 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>f5e87dc</code></td><td>diannaaav</td><td>2026-06-30</td><td>docs: update OSComp report PDF</td></tr><tr><td><code>58800ce</code></td><td>diannaaav</td><td>2026-06-30</td><td>tune: raise LTP group budget</td></tr><tr><td><code>451f7d8</code></td><td>diannaaav</td><td>2026-06-30</td><td>docs: document history rewrite</td></tr><tr><td><code>369f760</code></td><td>diannaaav</td><td>2026-06-30</td><td>docs: fix OSComp report filename</td></tr><tr><td><code>6a0b61b</code></td><td>diannaaav</td><td>2026-06-30</td><td>Stabilize LTP replay tail</td></tr><tr><td><code>b060556</code></td><td>diannaaav</td><td>2026-06-30</td><td>Document dev-shell command workflow</td></tr><tr><td><code>9b2c597</code></td><td>diannaaav</td><td>2026-06-30</td><td>Clarify source and document licenses</td></tr><tr><td><code>13f08bc</code></td><td>diannaaav</td><td>2026-06-30</td><td>Add interactive boot targets</td></tr><tr><td><code>4cc59ef</code></td><td>diannaaav</td><td>2026-06-30</td><td>Document license and build contract</td></tr><tr><td><code>d494505</code></td><td>diannaaav</td><td>2026-06-30</td><td>Move OSComp slides into docs</td></tr><tr><td><code>a81d965</code></td><td>diannaaav</td><td>2026-06-30</td><td>Ignore local agent and editor state</td></tr><tr><td><code>48ffb4e</code></td><td>diannaaav</td><td>2026-06-30</td><td>Add OSComp 2026 documents</td></tr><tr><td><code>925a2b2</code></td><td>diannaaav</td><td>2026-06-30</td><td>Bound cyclictest group execution</td></tr><tr><td><code>4fe198e</code></td><td>diannaaav</td><td>2026-06-30</td><td>Tune LTP ordering and benchmark budgets</td></tr><tr><td><code>492c836</code></td><td>diannaaav</td><td>2026-06-30</td><td>Tune LTP default time budgets</td></tr><tr><td><code>a2c0137</code></td><td>diannaaav</td><td>2026-06-30</td><td>Prioritize iozone tasks with round-robin scheduling</td></tr><tr><td><code>c63a5ab</code></td><td>diannaaav</td><td>2026-06-30</td><td>Revert "Cache tmpfs pages and run iozone on tmpfs"</td></tr><tr><td><code>5548184</code></td><td>diannaaav</td><td>2026-06-30</td><td>Revert "Raise tmpfs page pool with memory guard"</td></tr><tr><td><code>7eedca3</code></td><td>diannaaav</td><td>2026-06-30</td><td>Raise tmpfs page pool with memory guard</td></tr><tr><td><code>ade4882</code></td><td>diannaaav</td><td>2026-06-30</td><td>Cache tmpfs pages and run iozone on tmpfs</td></tr><tr><td><code>2a74536</code></td><td>diannaaav</td><td>2026-06-29</td><td>Bound lmbench calibration before LTP</td></tr><tr><td><code>7b3a45f</code></td><td>diannaaav</td><td>2026-06-29</td><td>Prioritize benchmark groups before LTP</td></tr><tr><td><code>e82fbaf</code></td><td>diannaaav</td><td>2026-06-29</td><td>Raise default LTP group budget</td></tr><tr><td><code>99dd17c</code></td><td>diannaaav</td><td>2026-06-29</td><td>Reorder LTP cases by timing density</td></tr><tr><td><code>d9577e7</code></td><td>diannaaav</td><td>2026-06-29</td><td>Restore balanced LTP budgets</td></tr><tr><td><code>83f75a4</code></td><td>diannaaav</td><td>2026-06-29</td><td>Increase LTP group budgets</td></tr><tr><td><code>3fbfd0e</code></td><td>diannaaav</td><td>2026-06-29</td><td>Tune evaluator test budgets</td></tr><tr><td><code>3f4b44b</code></td><td>diannaaav</td><td>2026-06-29</td><td>Harden evaluator runner group handling</td></tr><tr><td><code>6a11fdb</code></td><td>diannaaav</td><td>2026-06-28</td><td>Qualify evaluator group markers by libc</td></tr><tr><td><code>e57b967</code></td><td>diannaaav</td><td>2026-06-28</td><td>Use uptime for LTP deadline timing</td></tr><tr><td><code>d383b85</code></td><td>diannaaav</td><td>2026-06-28</td><td>Align LTP lab timeout env names</td></tr><tr><td><code>e1b0efa</code></td><td>diannaaav</td><td>2026-06-28</td><td>Avoid recursive cleanup after LTP cases</td></tr><tr><td><code>c2db061</code></td><td>diannaaav</td><td>2026-06-28</td><td>Bound exited task reclaim in syscall paths</td></tr><tr><td><code>f933fba</code></td><td>diannaaav</td><td>2026-06-28</td><td>Bound LTP case runtime and cleanup temp state</td></tr><tr><td><code>667169b</code></td><td>diannaaav</td><td>2026-06-28</td><td>Fix smoltcp TCP window and timestamp handling</td></tr><tr><td><code>5641ef3</code></td><td>diannaaav</td><td>2026-06-28</td><td>Kernel perf: improve loopback, scheduler, fs, and pipe paths</td></tr><tr><td><code>32a1e43</code></td><td>diannaaav</td><td>2026-06-27</td><td>OSComp: restore LA and prioritize score coverage</td></tr><tr><td><code>f6e9ff8</code></td><td>diannaaav</td><td>2026-06-27</td><td>Kernel perf: revert TCP socket buffer to 256 KiB (fix smoltcp seq underflow panic)</td></tr><tr><td><code>7ac6884</code></td><td>diannaaav</td><td>2026-06-27</td><td>Kernel perf: bigger readahead, deeper net queues, smaller fault_around, clock_gettime fast-path</td></tr><tr><td><code>9de9909</code></td><td>diannaaav</td><td>2026-06-27</td><td>Kernel perf: skip RLIMIT_CPU check on every fault/syscall when no CPU limit set</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

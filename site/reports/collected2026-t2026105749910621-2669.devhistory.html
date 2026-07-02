@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026105749910621 开发历史报告</title>
+<title>OSKernel2026-F423 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026105749910621 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：63</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-06-01 ~ 2026-07-01</li>
-<li>HEAD：<code>975458b</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Kathy：48 次提交</li>
-<li>xiaoman：14 次提交</li>
-<li>F423：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>975458b</code></td><td>Kathy</td><td>2026-07-01</td><td>docs: clean up redundant documentation</td></tr><tr><td><code>3b7a777</code></td><td>Kathy</td><td>2026-06-29</td><td>docs: add final submission materials</td></tr><tr><td><code>04e3773</code></td><td>Kathy</td><td>2026-06-21</td><td>docs: finalize preliminary submission materials</td></tr><tr><td><code>5d70d46</code></td><td>Kathy</td><td>2026-06-21</td><td>feat(a5): enable glibc busybox by default</td></tr><tr><td><code>988c491</code></td><td>Kathy</td><td>2026-06-21</td><td>feat(a5): probe glibc busybox static runner</td></tr><tr><td><code>9fcc19e</code></td><td>Kathy</td><td>2026-06-20</td><td>feat(a4): raise libctest static default to 95</td></tr><tr><td><code>caecbe9</code></td><td>Kathy</td><td>2026-06-20</td><td>docs(a4): record utime branch finalization</td></tr><tr><td><code>01de5bc</code></td><td>Kathy</td><td>2026-06-20</td><td>feat(a4): pass libctest static utime</td></tr><tr><td><code>b575149</code></td><td>Kathy</td><td>2026-06-20</td><td>feat(a4): extend libctest static temp stdio coverage</td></tr><tr><td><code>db392f3</code></td><td>Kathy</td><td>2026-06-20</td><td>a4: expand rv musl libctest static coverage</td></tr><tr><td><code>2738c8b</code></td><td>Kathy</td><td>2026-06-20</td><td>feat(a4): extend libctest static coverage</td></tr><tr><td><code>3c09fb2</code></td><td>Kathy</td><td>2026-06-20</td><td>docs(a4): record post-merge autotest</td></tr><tr><td><code>6f501ea</code></td><td>Kathy</td><td>2026-06-20</td><td>docs(a4): complete submission status docs</td></tr><tr><td><code>673a2f3</code></td><td>Kathy</td><td>2026-06-20</td><td>docs(a4): record rv musl a4 status</td></tr><tr><td><code>6dc3a76</code></td><td>Kathy</td><td>2026-06-20</td><td>feat(a4): enable verified rv musl a4 items</td></tr><tr><td><code>8aaf6ad</code></td><td>Kathy</td><td>2026-06-20</td><td>docs(a4): record lua musl smoke</td></tr><tr><td><code>81f5b1a</code></td><td>Kathy</td><td>2026-06-20</td><td>feat(a4): pass first libctest static case</td></tr><tr><td><code>52f7f3b</code></td><td>Kathy</td><td>2026-06-20</td><td>feat(a4): add rv musl runner gates</td></tr><tr><td><code>ec32d43</code></td><td>Kathy</td><td>2026-06-20</td><td>test(a4): add rv musl red probes</td></tr><tr><td><code>5617818</code></td><td>Kathy</td><td>2026-06-20</td><td>docs(plan): sync a3 status and a4 entry</td></tr><tr><td><code>7575c88</code></td><td>Kathy</td><td>2026-06-19</td><td>docs(a3): split busybox remaining followup plan</td></tr><tr><td><code>b51f127</code></td><td>Kathy</td><td>2026-06-19</td><td>docs(a3): map busybox remaining plan to commits</td></tr><tr><td><code>3b1047b</code></td><td>Kathy</td><td>2026-06-19</td><td>merge: a3 busybox remaining</td></tr><tr><td><code>4fb9105</code></td><td>Kathy</td><td>2026-06-19</td><td>docs(a3): record busybox remaining results</td></tr><tr><td><code>6f0b1ce</code></td><td>Kathy</td><td>2026-06-19</td><td>feat(a3): add minimal procfs for busybox ps</td></tr><tr><td><code>b0e3222</code></td><td>Kathy</td><td>2026-06-19</td><td>feat(a3): bound busybox du traversal</td></tr><tr><td><code>339e7de</code></td><td>Kathy</td><td>2026-06-19</td><td>feat(a3): pass busybox find testcase</td></tr><tr><td><code>d8240b7</code></td><td>Kathy</td><td>2026-06-19</td><td>docs(a3): plan busybox remaining work</td></tr><tr><td><code>9645943</code></td><td>Kathy</td><td>2026-06-19</td><td>docs(a3): record 2026-06-19 autotest result</td></tr><tr><td><code>6463c9a</code></td><td>Kathy</td><td>2026-06-19</td><td>docs(a3): trim autotest record trailing blank</td></tr><tr><td><code>a5b9c81</code></td><td>xiaoman</td><td>2026-06-14</td><td>docs(a3): record busybox fullscore result</td></tr><tr><td><code>22ddd26</code></td><td>xiaoman</td><td>2026-06-14</td><td>feat(a3): improve busybox rv fullscore coverage</td></tr><tr><td><code>ee8b3b0</code></td><td>xiaoman</td><td>2026-06-14</td><td>test(a1): add probe timeout diagnostics</td></tr><tr><td><code>a26caaf</code></td><td>xiaoman</td><td>2026-06-14</td><td>docs(a3): record busybox write and pipe result</td></tr><tr><td><code>e53383b</code></td><td>xiaoman</td><td>2026-06-14</td><td>feat(a3): add busybox write and pipe support</td></tr><tr><td><code>a542a1a</code></td><td>xiaoman</td><td>2026-06-14</td><td>docs(a3): record readonly and tmpfs completion result</td></tr><tr><td><code>ec67b68</code></td><td>xiaoman</td><td>2026-06-14</td><td>feat(a3): complete busybox readonly and tmpfs support</td></tr><tr><td><code>1b79720</code></td><td>xiaoman</td><td>2026-06-13</td><td>docs(a3): record readonly busybox and tmpfs result</td></tr><tr><td><code>f7ffa26</code></td><td>xiaoman</td><td>2026-06-13</td><td>feat(a3): add busybox readonly commands and tmpfs base</td></tr><tr><td><code>032511a</code></td><td>xiaoman</td><td>2026-06-13</td><td>docs(a3): record busybox echo runner result</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

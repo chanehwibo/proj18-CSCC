@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610006999602 开发历史报告</title>
+<title>MyKernalingOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610006999602 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：324</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-05-26 ~ 2026-06-29</li>
-<li>HEAD：<code>25d72605</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>24182107：173 次提交</li>
-<li>啊对对队：18 次提交</li>
-<li>FanSparrow：7 次提交</li>
-<li>Silent7263：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>25d72605</code></td><td>24182107</td><td>2026-06-29</td><td>初赛文档与PPT提交</td></tr><tr><td><code>0b1e611a</code></td><td>啊对对队</td><td>2026-06-28</td><td>Merge branch 'bench_impl' into 'main'</td></tr><tr><td><code>c02a07a3</code></td><td>24182107</td><td>2026-06-28</td><td>slab管理范围扩增</td></tr><tr><td><code>6f005c93</code></td><td>24182107</td><td>2026-06-28</td><td>文档同步</td></tr><tr><td><code>8b35b9d1</code></td><td>24182107</td><td>2026-06-28</td><td>vDSO与VVAR设计优化</td></tr><tr><td><code>e2031486</code></td><td>24182107</td><td>2026-06-28</td><td>文档优化</td></tr><tr><td><code>3bc70acf</code></td><td>24182107</td><td>2026-06-28</td><td>文档优化</td></tr><tr><td><code>7eb62ccf</code></td><td>24182107</td><td>2026-06-27</td><td>slab重构收尾</td></tr><tr><td><code>9b15d82a</code></td><td>24182107</td><td>2026-06-27</td><td>allocator_api重构</td></tr><tr><td><code>649161ba</code></td><td>24182107</td><td>2026-06-27</td><td>锁与队列适配slab分配器</td></tr><tr><td><code>31c24e7d</code></td><td>24182107</td><td>2026-06-27</td><td>MemoryArea适配slab分配源</td></tr><tr><td><code>c0b58aed</code></td><td>24182107</td><td>2026-06-27</td><td>slab分配器与TCB+Inode适配</td></tr><tr><td><code>e23f1c71</code></td><td>24182107</td><td>2026-06-26</td><td>线程的内存模型优化</td></tr><tr><td><code>ea0d41d5</code></td><td>24182107</td><td>2026-06-26</td><td>文档维护</td></tr><tr><td><code>fe891358</code></td><td>24182107</td><td>2026-06-26</td><td>task结构性拆分</td></tr><tr><td><code>5bdbfdb2</code></td><td>24182107</td><td>2026-06-26</td><td>task注释</td></tr><tr><td><code>d6bb82e0</code></td><td>24182107</td><td>2026-06-25</td><td>改进 loop 设备测试支持</td></tr><tr><td><code>931cb0fb</code></td><td>24182107</td><td>2026-06-25</td><td>标记已通过和跳过的 LTP 测试点</td></tr><tr><td><code>96fd63b3</code></td><td>24182107</td><td>2026-06-25</td><td>实现 chown 权限检查和 setuid/setgid 位清除逻辑</td></tr><tr><td><code>b692c45c</code></td><td>24182107</td><td>2026-06-25</td><td>memory_set.rs职能拆解</td></tr><tr><td><code>03bc17f2</code></td><td>24182107</td><td>2026-06-24</td><td>LA io驱动优化</td></tr><tr><td><code>9add392a</code></td><td>24182107</td><td>2026-06-24</td><td>LA架构优化，启用asid的tlb刷新</td></tr><tr><td><code>2d064608</code></td><td>24182107</td><td>2026-06-24</td><td>缓存软优化</td></tr><tr><td><code>32465376</code></td><td>24182107</td><td>2026-06-24</td><td>VirtIO 多描述符链与请求队列相邻合并</td></tr><tr><td><code>5f257b92</code></td><td>24182107</td><td>2026-06-24</td><td>写回请求合并，设备批量请求。读并发、预读与真实多块读优化</td></tr><tr><td><code>9a7e4230</code></td><td>24182107</td><td>2026-06-23</td><td>vfs缓存重构</td></tr><tr><td><code>714883a5</code></td><td>24182107</td><td>2026-06-22</td><td>设备发现逻辑，磁盘挂载逻辑优化</td></tr><tr><td><code>2951e3b5</code></td><td>24182107</td><td>2026-06-22</td><td>初赛文档创建与设备管理层注释</td></tr><tr><td><code>16ec9012</code></td><td>24182107</td><td>2026-06-20</td><td>筛选可运行ltp测试点</td></tr><tr><td><code>12c13688</code></td><td>啊对对队</td><td>2026-06-19</td><td>Merge branch 'bench_impl' into 'main'</td></tr><tr><td><code>b4ccf342</code></td><td>24182107</td><td>2026-06-19</td><td>修复ltp在la的共享库问题</td></tr><tr><td><code>e0bcfa35</code></td><td>啊对对队</td><td>2026-06-19</td><td>Merge branch 'bench_impl' into 'main'</td></tr><tr><td><code>c70282e1</code></td><td>24182107</td><td>2026-06-19</td><td>修复一系列la错误</td></tr><tr><td><code>29141fb6</code></td><td>24182107</td><td>2026-06-18</td><td>la适配于用户测试验证</td></tr><tr><td><code>828d26d2</code></td><td>24182107</td><td>2026-06-18</td><td>Merge branch 'loongarch64' into integration/loongarch64</td></tr><tr><td><code>21f90b01</code></td><td>24182107</td><td>2026-06-18</td><td>ready for merge loongarch64</td></tr><tr><td><code>f59a7f9e</code></td><td>24182107</td><td>2026-06-18</td><td>ltp open</td></tr><tr><td><code>ac546ae2</code></td><td>Silent7263</td><td>2026-06-18</td><td>Align syscalls with reference: real LSEEK/FCHDIR/PRCTL/PRLIMIT64/SENDFILE</td></tr><tr><td><code>f5788760</code></td><td>Silent7263</td><td>2026-06-18</td><td>LoongArch64 (LA64) kernel port: full fork+execve support</td></tr><tr><td><code>0aa052ba</code></td><td>啊对对队</td><td>2026-06-17</td><td>Merge branch 'bench_impl' into 'main'</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

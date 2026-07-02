@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026100079910008 开发历史报告</title>
+<title>Ax 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026100079910008 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：58</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-04-19 ~ 2026-06-30</li>
-<li>HEAD：<code>cf1f39d</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>btw：58 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>cf1f39d</code></td><td>btw</td><td>2026-06-30</td><td>文档</td></tr><tr><td><code>c09f39f</code></td><td>btw</td><td>2026-06-30</td><td>execve 支持 shebang，支持 lua</td></tr><tr><td><code>9bea1c8</code></td><td>btw</td><td>2026-06-30</td><td>最后的 reward hacking 和代码清理，解决版权问题并添加许可证</td></tr><tr><td><code>889c4f7</code></td><td>btw</td><td>2026-06-29</td><td>一系列优化和修复</td></tr><tr><td><code>d841104</code></td><td>btw</td><td>2026-06-27</td><td>为 LoongArch 64 添加浮点寄存器的保存和恢复</td></tr><tr><td><code>2ff82bb</code></td><td>btw</td><td>2026-06-27</td><td>pread、pwrite、preadv、pwritev</td></tr><tr><td><code>347e99d</code></td><td>btw</td><td>2026-06-27</td><td>fadvise、fchown 以及其它 ltp 优化</td></tr><tr><td><code>665440f</code></td><td>btw</td><td>2026-06-26</td><td>一些修复、清理和添加</td></tr><tr><td><code>9e3840c</code></td><td>btw</td><td>2026-06-25</td><td>一系列 ltp 修复</td></tr><tr><td><code>d2bf95e</code></td><td>btw</td><td>2026-06-19</td><td>丐版 ltp</td></tr><tr><td><code>a852f11</code></td><td>btw</td><td>2026-06-17</td><td>一系列清理和修复</td></tr><tr><td><code>0768fb9</code></td><td>btw</td><td>2026-06-17</td><td>添加 /bin 并将 busybox 安装到 /bin 中，以及 bug 修复</td></tr><tr><td><code>705f705</code></td><td>btw</td><td>2026-06-17</td><td>/dev/null &amp; /dev/zero</td></tr><tr><td><code>d8dab38</code></td><td>btw</td><td>2026-06-16</td><td>一些 libctest-la 的优化和修复</td></tr><tr><td><code>ceab950</code></td><td>btw</td><td>2026-06-16</td><td>代码清理、bug 修复、性能优化、离线编译</td></tr><tr><td><code>a2afbcd</code></td><td>btw</td><td>2026-06-14</td><td>支持动态链接，相应适配 libctest</td></tr><tr><td><code>0fe2261</code></td><td>btw</td><td>2026-06-12</td><td>非常初步的符号链接支持，并添加 /libs/ 下的符号链接</td></tr><tr><td><code>afe89d1</code></td><td>btw</td><td>2026-06-12</td><td>丐版 clone3</td></tr><tr><td><code>247df42</code></td><td>btw</td><td>2026-06-12</td><td>另一些代码清理，以及 clock</td></tr><tr><td><code>83026e1</code></td><td>btw</td><td>2026-06-11</td><td>代码清理、些微重构以及 bug 修复</td></tr><tr><td><code>7a7137c</code></td><td>btw</td><td>2026-06-08</td><td>部分 libctest，以及丐版 libcbench</td></tr><tr><td><code>e81e6f8</code></td><td>btw</td><td>2026-06-05</td><td>实现随机数生成器、/dev/urandom 以及 getrandom() 系统调用</td></tr><tr><td><code>5eb2a35</code></td><td>btw</td><td>2026-06-05</td><td>为 Debug 构建添加未知系统调用统计</td></tr><tr><td><code>a370a9a</code></td><td>btw</td><td>2026-06-05</td><td>重构管道部分，以及其它代码清理和 QoL 更新</td></tr><tr><td><code>8ebf170</code></td><td>btw</td><td>2026-06-04</td><td>支持 glibc busybox</td></tr><tr><td><code>d138086</code></td><td>btw</td><td>2026-06-04</td><td>初步的信号机制</td></tr><tr><td><code>d50fa03</code></td><td>btw</td><td>2026-06-02</td><td>通过一部分 busybox-musl 测例</td></tr><tr><td><code>cea72e9</code></td><td>btw</td><td>2026-06-01</td><td>basic 测试满分通过</td></tr><tr><td><code>499ba2b</code></td><td>btw</td><td>2026-05-26</td><td>bugfix: 修复 execve 在 loadelf 失败时不能恢复现场的 bug</td></tr><tr><td><code>d2715da</code></td><td>btw</td><td>2026-05-25</td><td>添加/完善各种系统调用，非常初步地支持 shell</td></tr><tr><td><code>2408bb9</code></td><td>btw</td><td>2026-05-24</td><td>完善 execve，并将 init 改为运行 busybox</td></tr><tr><td><code>0c9daec</code></td><td>btw</td><td>2026-05-24</td><td>支持多块设备</td></tr><tr><td><code>ca41baa</code></td><td>btw</td><td>2026-05-23</td><td>降级工具链版本</td></tr><tr><td><code>efccd2b</code></td><td>btw</td><td>2026-05-23</td><td>大重构+清理，无功能改变</td></tr><tr><td><code>3af7c6b</code></td><td>btw</td><td>2026-05-22</td><td>不那么丐版的 clone、wait4 以及其它几个凑数 syscall</td></tr><tr><td><code>1c2b3c4</code></td><td>btw</td><td>2026-05-21</td><td>添加 devfs、tty 和终端输入输出，添加 init 进程</td></tr><tr><td><code>9e08da1</code></td><td>btw</td><td>2026-05-20</td><td>简单的代码清理</td></tr><tr><td><code>eb0ad9d</code></td><td>btw</td><td>2026-05-20</td><td>丐版 execve</td></tr><tr><td><code>ed96840</code></td><td>btw</td><td>2026-05-20</td><td>丐版 fork</td></tr><tr><td><code>6472a51</code></td><td>btw</td><td>2026-05-19</td><td>简单代码清理 + 栈空间优化</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

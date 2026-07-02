@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104229910571 开发历史报告</title>
+<title>OSKernel2026-X 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104229910571 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：174</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2026-05-28 ~ 2026-06-30</li>
-<li>HEAD：<code>abe21a9</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>Virgo：138 次提交</li>
-<li>你的名字：34 次提交</li>
-<li>LEBRONDIDDY：1 次提交</li>
-<li>zhk：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>abe21a9</code></td><td>zhk</td><td>2026-06-30</td><td>docs: update README</td></tr><tr><td><code>b891436</code></td><td>Virgo</td><td>2026-06-30</td><td>docs: update final score status</td></tr><tr><td><code>4ec7a07</code></td><td>Virgo</td><td>2026-06-30</td><td>docs: clarify judged kernel commit</td></tr><tr><td><code>3e46efa</code></td><td>Virgo</td><td>2026-06-30</td><td>docs: add final contest compliance materials</td></tr><tr><td><code>31db380</code></td><td>Virgo</td><td>2026-06-28</td><td>ltp: quarantine 75 structural 0-yield burners (both arches) on top of clone-abi fix</td></tr><tr><td><code>08acf0e</code></td><td>Virgo</td><td>2026-06-28</td><td>syscall: decode LoongArch clone tls argument correctly</td></tr><tr><td><code>540242d</code></td><td>Virgo</td><td>2026-06-25</td><td>watchdog: make timer-IRQ deadline path allocation-free (fix LA-LTP single-core wedge)</td></tr><tr><td><code>ec85005</code></td><td>Virgo</td><td>2026-06-21</td><td>revert net-frontdoor: restore main kernel to OJ-1508 (e206a19)</td></tr><tr><td><code>ac7bf88</code></td><td>Virgo</td><td>2026-06-21</td><td>docs: freeze final main candidate</td></tr><tr><td><code>5e9b7fb</code></td><td>Virgo</td><td>2026-06-21</td><td>Merge branch 'wip/net-frontdoor-score-20260620'</td></tr><tr><td><code>41a86ad</code></td><td>Virgo</td><td>2026-06-21</td><td>net: fix dev null front-door semantics</td></tr><tr><td><code>0984936</code></td><td>Virgo</td><td>2026-06-20</td><td>docs: record OJ1508 main restoration</td></tr><tr><td><code>71bcf85</code></td><td>Virgo</td><td>2026-06-20</td><td>Revert "Merge LA LTP direct unlinkat fix"</td></tr><tr><td><code>ea02955</code></td><td>Virgo</td><td>2026-06-19</td><td>docs: record OJ1508 busybox bank</td></tr><tr><td><code>1577efa</code></td><td>Virgo</td><td>2026-06-19</td><td>Merge LA LTP direct unlinkat fix</td></tr><tr><td><code>0fd5eae</code></td><td>Virgo</td><td>2026-06-19</td><td>fix unlinkat empty path for direct LTP</td></tr><tr><td><code>42ddcdd</code></td><td>Virgo</td><td>2026-06-19</td><td>docs: record memcg stall diagnostics</td></tr><tr><td><code>5314a6e</code></td><td>Virgo</td><td>2026-06-19</td><td>docs: record LA direct full calibration</td></tr><tr><td><code>cfcd958</code></td><td>Virgo</td><td>2026-06-19</td><td>docs: record LA direct validation gates</td></tr><tr><td><code>5ce28e0</code></td><td>Virgo</td><td>2026-06-19</td><td>docs: record LA LTP direct watchdog rejection</td></tr><tr><td><code>49486ad</code></td><td>Virgo</td><td>2026-06-19</td><td>docs: gate ae5a826 LTP manifest patch</td></tr><tr><td><code>e206a19</code></td><td>Virgo</td><td>2026-06-19</td><td>docs: record remote LA LTP eval baseline</td></tr><tr><td><code>c7e130f</code></td><td>Virgo</td><td>2026-06-18</td><td>docs: record LA binfmt blocker evidence</td></tr><tr><td><code>1bf990c</code></td><td>Virgo</td><td>2026-06-19</td><td>Fix busybox full-image watchdog budget</td></tr><tr><td><code>a0fff71</code></td><td>Virgo</td><td>2026-06-18</td><td>Fix LTP longtail mmap and metadata issues</td></tr><tr><td><code>0ccab2d</code></td><td>Virgo</td><td>2026-06-18</td><td>docs: migrate remote refs WSL-&gt;school server; mark WSL retired</td></tr><tr><td><code>cb5fdcb</code></td><td>Virgo</td><td>2026-06-17</td><td>Merge wip/ltp-reach-20260616: LTP reach-depth milestone (+180 honest returned0)</td></tr><tr><td><code>f14f262</code></td><td>Virgo</td><td>2026-06-17</td><td>Handle empty exec files without panic</td></tr><tr><td><code>59b4810</code></td><td>Virgo</td><td>2026-06-17</td><td>docs: add ltp merge readiness report</td></tr><tr><td><code>f50dc45</code></td><td>Virgo</td><td>2026-06-17</td><td>docs: record ltp milestone housekeeping</td></tr><tr><td><code>6939a3e</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: fix fcntl07 exec cloexec</td></tr><tr><td><code>baa82a9</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: fix truncate03 errno paths</td></tr><tr><td><code>5117f91</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: enforce fchdir search permission</td></tr><tr><td><code>1829a48</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: validate lchown errno paths</td></tr><tr><td><code>2d295d8</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: persist ramfs chown metadata</td></tr><tr><td><code>48d596b</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: handle getpgid pid cases</td></tr><tr><td><code>be690a3</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: reject non-empty ramfs rmdir</td></tr><tr><td><code>09edb77</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: summarize overnight progress</td></tr><tr><td><code>d955936</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: add getsid syscall</td></tr><tr><td><code>a51995c</code></td><td>Virgo</td><td>2026-06-17</td><td>LTP batch: add getpriority syscall</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

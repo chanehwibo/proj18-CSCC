@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026103369910037 开发历史报告</title>
+<title>MeteorOS-X 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026103369910037 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：32</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-01-19 ~ 2026-05-31</li>
-<li>HEAD：<code>bc4fdbc</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>zaihangzhizhou：22 次提交</li>
-<li>matr1xjt：8 次提交</li>
-<li>下一队：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>bc4fdbc</code></td><td>zaihangzhizhou</td><td>2026-05-31</td><td>feat(init): add busybox install support and implement recursive mkdir</td></tr><tr><td><code>71fac72</code></td><td>matr1xjt</td><td>2026-05-30</td><td>fix: rust version error</td></tr><tr><td><code>9762f12</code></td><td>matr1xjt</td><td>2026-05-30</td><td>fix: merge bug</td></tr><tr><td><code>16263cb</code></td><td>matr1xjt</td><td>2026-05-30</td><td>Merge branch 'main' of https://gitlab.eduxiji.net/T2026103369910037/meteoros</td></tr><tr><td><code>0ddc558</code></td><td>matr1xjt</td><td>2026-05-30</td><td>feat(test): add the logic for running busybox and lua &amp;&amp; improve the process sched</td></tr><tr><td><code>e2d3290</code></td><td>zaihangzhizhou</td><td>2026-05-29</td><td>feat: enable busybox support and shell execution</td></tr><tr><td><code>3a29b5d</code></td><td>zaihangzhizhou</td><td>2026-05-29</td><td>refactor(axfs): introduce vfs module and migrate existing components</td></tr><tr><td><code>e4e2b22</code></td><td>zaihangzhizhou</td><td>2026-05-29</td><td>refactor(axfs): move filesystem crates into axfs internal modules</td></tr><tr><td><code>8742fe0</code></td><td>下一队</td><td>2026-05-28</td><td>build: add sdcard download and run targets</td></tr><tr><td><code>2ccef0a</code></td><td>下一队</td><td>2026-05-28</td><td>feat(axfs): implement filesystem page cache with LRU eviction and dirty page writeback</td></tr><tr><td><code>6a61f8f</code></td><td>matr1xjt</td><td>2026-05-27</td><td>feat(loongarch): add loongarch support &amp;&amp; fix brk/clone bug</td></tr><tr><td><code>69a34db</code></td><td>matr1xjt</td><td>2026-05-22</td><td>add: glibtest</td></tr><tr><td><code>c22b173</code></td><td>matr1xjt</td><td>2026-05-22</td><td>refactor(os_test): improve scan scripts</td></tr><tr><td><code>8146e1a</code></td><td>matr1xjt</td><td>2026-05-20</td><td>init ostest process &amp;&amp; test basic</td></tr><tr><td><code>cc48957</code></td><td>zaihangzhizhou</td><td>2026-05-17</td><td>docs: update README for axfilelike and axfs</td></tr><tr><td><code>d299bec</code></td><td>zaihangzhizhou</td><td>2026-05-17</td><td>refactor(axfilelike): split StdinRaw/StdoutRaw and console I/O into raw_io</td></tr><tr><td><code>88d72e5</code></td><td>zaihangzhizhou</td><td>2026-05-17</td><td>refactor(axfilelike): split Pipe and RingBuffer</td></tr><tr><td><code>181a23f</code></td><td>zaihangzhizhou</td><td>2026-05-17</td><td>refactor(axfilelike): unify TCP/UDP fields into enum backend</td></tr><tr><td><code>9c3a8ee</code></td><td>zaihangzhizhou</td><td>2026-05-17</td><td>refactor(axfilelike): reorganize crate into ops, impls, and file layers</td></tr><tr><td><code>4363b13</code></td><td>zaihangzhizhou</td><td>2026-05-16</td><td>style(user): apply rustfmt formatting to user module</td></tr><tr><td><code>8be9889</code></td><td>zaihangzhizhou</td><td>2026-05-16</td><td>refactor(axfilelike): replace FileLike with FileBackend capability traits and fully migrate syscall layer, removing downcast-based design</td></tr><tr><td><code>f4f2dee</code></td><td>zaihangzhizhou</td><td>2026-05-13</td><td>refactor(axfs): simplify file handle model and consolidate syscall VFS adapter layer</td></tr><tr><td><code>fcd86f2</code></td><td>zaihangzhizhou</td><td>2026-05-12</td><td>refactor(axfs): simplify namespace operations</td></tr><tr><td><code>e9da988</code></td><td>zaihangzhizhou</td><td>2026-05-12</td><td>refactor(axfs): split namespace subsystem into dedicated modules</td></tr><tr><td><code>dc4703a</code></td><td>zaihangzhizhou</td><td>2026-05-11</td><td>refactor(axfs): separate mount subsystem from root filesystem logic and improve layering</td></tr><tr><td><code>dae9b9e</code></td><td>zaihangzhizhou</td><td>2026-05-10</td><td>fest(axfs): refactor Path to mount-aware model, introduce mount crossing semantics, and update VFS APIs to use Path-based namespace and resolution</td></tr><tr><td><code>395f00b</code></td><td>zaihangzhizhou</td><td>2026-05-09</td><td>style: format code with rustfmt configuration</td></tr><tr><td><code>f428eae</code></td><td>zaihangzhizhou</td><td>2026-05-09</td><td>feat(axfs): add dentry cache layer for path resolution</td></tr><tr><td><code>b78f431</code></td><td>zaihangzhizhou</td><td>2026-05-08</td><td>feat(axfs): refactor namespace path resolution with Path/PathWalker and ResolveFlags, unify VfsNamespace ops</td></tr><tr><td><code>e0687bd</code></td><td>zaihangzhizhou</td><td>2026-05-07</td><td>style: format project with rustfmt</td></tr><tr><td><code>04dbdde</code></td><td>zaihangzhizhou</td><td>2026-05-07</td><td>feat(axfs): add VFS namespace and unify File/Dir handling</td></tr><tr><td><code>60a62d8</code></td><td>zaihangzhizhou</td><td>2026-01-19</td><td>chore: initial commit of personal MeteorOS-X repository</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

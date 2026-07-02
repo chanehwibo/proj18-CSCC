@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026101459910481 开发历史报告</title>
+<title>Comix（OS 大赛提交版说明 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026101459910481 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：1170</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-06-21 ~ 2026-07-01</li>
-<li>HEAD：<code>c57d0fc</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>LittleSand：192 次提交</li>
-<li>github-actions[bot]：6 次提交</li>
-<li>ZIYAN137：2 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>c57d0fc</code></td><td>github-actions[bot]</td><td>2026-06-30</td><td>Mirror to GitLab (vendored) for d86544d2f1939c6012d90400661e20a4d07b5477</td></tr><tr><td><code>d86544d</code></td><td>LittleSand</td><td>2026-07-01</td><td>chore: remove unused ext4 vendor copy</td></tr><tr><td><code>b177f64</code></td><td>LittleSand</td><td>2026-06-30</td><td>fix</td></tr><tr><td><code>397e03c</code></td><td>LittleSand</td><td>2026-06-30</td><td>fix：加入ltp测试</td></tr><tr><td><code>3b2807c</code></td><td>LittleSand</td><td>2026-06-30</td><td>Merge branch 'feat/glibc-basic-rv'</td></tr><tr><td><code>e127232</code></td><td>LittleSand</td><td>2026-06-30</td><td>fix(mm): reuse freed contiguous frames</td></tr><tr><td><code>64d814c</code></td><td>LittleSand</td><td>2026-06-30</td><td>test(riscv): run glibc suite from default boot</td></tr><tr><td><code>09a8df6</code></td><td>LittleSand</td><td>2026-06-30</td><td>feat：添加pdf文档网盘链接</td></tr><tr><td><code>bede99c</code></td><td>LittleSand</td><td>2026-06-30</td><td>Merge pull request #269 from comix-kernel/docs/refresh-design-docs</td></tr><tr><td><code>fabb479</code></td><td>LittleSand</td><td>2026-06-30</td><td>feat(sched): use adaptive fair time slices</td></tr><tr><td><code>e266103</code></td><td>LittleSand</td><td>2026-06-30</td><td>feat(sched): add fair vruntime accounting</td></tr><tr><td><code>dacdf5a</code></td><td>LittleSand</td><td>2026-06-30</td><td>fix(sched): honor realtime preemption and RR slices</td></tr><tr><td><code>0a2c6f6</code></td><td>LittleSand</td><td>2026-06-30</td><td>refactor(sched): split runnable queues by class</td></tr><tr><td><code>88c6a98</code></td><td>LittleSand</td><td>2026-06-30</td><td>feat：扩大自动检测范围</td></tr><tr><td><code>c1d1cd7</code></td><td>LittleSand</td><td>2026-06-30</td><td>fix(time): use monotonic ticks for relative sleep</td></tr><tr><td><code>26de0ee</code></td><td>LittleSand</td><td>2026-06-30</td><td>fix(tty): correct termios ioctl ABI layout</td></tr><tr><td><code>3942851</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(riscv): align glibc exec and signal ABI</td></tr><tr><td><code>dcb1d63</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(syscall): implement get_mempolicy stub</td></tr><tr><td><code>5ee3a49</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(syscall): implement madvise stub</td></tr><tr><td><code>d7cabf6</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(syscall): implement getrusage</td></tr><tr><td><code>4fcd48d</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(vfs): avoid spinning across regfile io</td></tr><tr><td><code>6e7f232</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(sync): release raw spin while holding mutex</td></tr><tr><td><code>5a1d7a1</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(riscv): initialize TLS for glibc tasks</td></tr><tr><td><code>8ecf32c</code></td><td>LittleSand</td><td>2026-06-29</td><td>Merge remote-tracking branch 'origin/main' into feat/glibc-basic-rv</td></tr><tr><td><code>5ffb187</code></td><td>ZIYAN137</td><td>2026-06-29</td><td>feat: support riscv glibc basic tests</td></tr><tr><td><code>73277ee</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix</td></tr><tr><td><code>d4a146f</code></td><td>ZIYAN137</td><td>2026-06-29</td><td>docs: refresh design documentation</td></tr><tr><td><code>0f2b71e</code></td><td>LittleSand</td><td>2026-06-29</td><td>Merge pull request #268 from comix-kernel/ccy-dev02</td></tr><tr><td><code>6694f27</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(procfs): align oom score accounting</td></tr><tr><td><code>06ce0ed</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(vfs): invalidate clean page cache on writes</td></tr><tr><td><code>91cae25</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(vfs): honor dup_from minimum fd</td></tr><tr><td><code>84850e7</code></td><td>LittleSand</td><td>2026-06-29</td><td>fix(net): drop task lock before bind address parsing</td></tr><tr><td><code>a2e1b9d</code></td><td>LittleSand</td><td>2026-06-28</td><td>fix：确定不卡死的脚本范围</td></tr><tr><td><code>fb7c405</code></td><td>LittleSand</td><td>2026-06-28</td><td>procfs: implement per-process oom_score</td></tr><tr><td><code>6e7bfd4</code></td><td>LittleSand</td><td>2026-06-28</td><td>procfs: implement per-process oom_score_adj</td></tr><tr><td><code>f96f58f</code></td><td>LittleSand</td><td>2026-06-28</td><td>procfs: add writable dynamic proc inode support</td></tr><tr><td><code>596741b</code></td><td>LittleSand</td><td>2026-06-28</td><td>net: return EOPNOTSUPP for accept on UDP sockets</td></tr><tr><td><code>11ea465</code></td><td>LittleSand</td><td>2026-06-28</td><td>net: drop task lock before Unix socket bind</td></tr><tr><td><code>40969bf</code></td><td>LittleSand</td><td>2026-06-28</td><td>merge(libc): merge fix-libc-test-scripts into ccy-dev02</td></tr><tr><td><code>6ab12f6</code></td><td>LittleSand</td><td>2026-06-28</td><td>fix(libc): improve syscall compatibility</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

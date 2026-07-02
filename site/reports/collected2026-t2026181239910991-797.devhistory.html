@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026181239910991 开发历史报告</title>
+<title>txKernel 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026181239910991 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：1798</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-06-04 ~ 2026-06-30</li>
-<li>HEAD：<code>10b4391d</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>sp：171 次提交</li>
-<li>Your Name：28 次提交</li>
-<li>LLLPPPS：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>10b4391d</code></td><td>Your Name</td><td>2026-06-30</td><td>修改文档</td></tr><tr><td><code>ac03ed9f</code></td><td>Your Name</td><td>2026-06-30</td><td>更新readme</td></tr><tr><td><code>82d66f17</code></td><td>Your Name</td><td>2026-06-30</td><td>处理网络相关内存泄漏问题</td></tr><tr><td><code>3c66bd54</code></td><td>Your Name</td><td>2026-06-29</td><td>处理readme细节</td></tr><tr><td><code>1e3702d9</code></td><td>Your Name</td><td>2026-06-29</td><td>处理readme细节</td></tr><tr><td><code>e2dfdf2f</code></td><td>Your Name</td><td>2026-06-29</td><td>处理readme细节</td></tr><tr><td><code>078de4b8</code></td><td>Your Name</td><td>2026-06-29</td><td>处理readme细节</td></tr><tr><td><code>0e32f947</code></td><td>Your Name</td><td>2026-06-29</td><td>处理readme细节问题</td></tr><tr><td><code>c554e86b</code></td><td>Your Name</td><td>2026-06-29</td><td>处理readme细节问题</td></tr><tr><td><code>23562c9b</code></td><td>Your Name</td><td>2026-06-29</td><td>处理初赛报告无法打开的情况</td></tr><tr><td><code>6b16a33d</code></td><td>Your Name</td><td>2026-06-29</td><td>删除无关信息</td></tr><tr><td><code>fafc4065</code></td><td>Your Name</td><td>2026-06-29</td><td>初赛文档，PPT,演示视频</td></tr><tr><td><code>fd64ba24</code></td><td>Your Name</td><td>2026-06-24</td><td>补充初赛文档内容，修改readme</td></tr><tr><td><code>ff529159</code></td><td>Your Name</td><td>2026-06-18</td><td>添加设计文档模板</td></tr><tr><td><code>eb801c25</code></td><td>LLLPPPS</td><td>2026-06-18</td><td>Merge pull request #51 from THRAI/feature-network-next</td></tr><tr><td><code>f5d60e33</code></td><td>sp</td><td>2026-06-18</td><td>Merge origin/main into feature-network-next</td></tr><tr><td><code>4ffde9a7</code></td><td>sp</td><td>2026-06-18</td><td>fix la.glibc statx rdev for device nodes (iperf daemon ENODEV)</td></tr><tr><td><code>fb006edf</code></td><td>Your Name</td><td>2026-06-18</td><td>fix(procfs): 修复大 pid 的 pid_dir_id 与固定节点 ID 冲突(致 /proc/&lt;pid&gt;/stat 误报 ENOTDIR 卡死 LTP)</td></tr><tr><td><code>b666c2ef</code></td><td>Your Name</td><td>2026-06-18</td><td>[200~net: 修复 iperf 双栈 UDP/TCP 回环(附 harness/健壮性)</td></tr><tr><td><code>71988bac</code></td><td>Your Name</td><td>2026-06-15</td><td>111</td></tr><tr><td><code>3663e972</code></td><td>Your Name</td><td>2026-06-15</td><td>删除connect02和accept02这两个测试</td></tr><tr><td><code>145d2fa7</code></td><td>Your Name</td><td>2026-06-15</td><td>rv,la均实现fs_bind系列测试</td></tr><tr><td><code>09bbbad7</code></td><td>sp</td><td>2026-06-14</td><td>progress: la.glibc 0 regressions (360+ cases); rv blocked on main's own witness boot</td></tr><tr><td><code>ff447aa4</code></td><td>sp</td><td>2026-06-14</td><td>progress: net command-family re-test — systemic clone/setns regression fixed, residual scoped</td></tr><tr><td><code>ffb5ade7</code></td><td>sp</td><td>2026-06-14</td><td>fix systemic shell-net regression: restore clone/setns namespace support</td></tr><tr><td><code>608c72d4</code></td><td>sp</td><td>2026-06-13</td><td>progress: main→feature merge redone via git — 0 la.musl LTP regressions, net preserved</td></tr><tr><td><code>4fc49eb6</code></td><td>sp</td><td>2026-06-13</td><td>fix la.musl LTP regressions from procfs gaps + open_tree accept</td></tr><tr><td><code>62158ead</code></td><td>sp</td><td>2026-06-13</td><td>merge main into feature-network-next: net=feature, non-net=main + session fixes</td></tr><tr><td><code>271e62ed</code></td><td>sp</td><td>2026-06-12</td><td>progress: fork campaign ceiling — structural analysis shows no fork opt clears the 2.8s wall</td></tr><tr><td><code>c836c209</code></td><td>sp</td><td>2026-06-12</td><td>perf(fork): cpu_id_from_kernel_tls reads the area field directly, dropping the divmod</td></tr><tr><td><code>c6bf83b2</code></td><td>sp</td><td>2026-06-12</td><td>progress: fork lifecycle PC profile — diffuse zone/cap cost, no low-risk win for mtu/route</td></tr><tr><td><code>84bf55f1</code></td><td>sp</td><td>2026-06-12</td><td>bench: decompose tst_rhost_run ns-exec chain — setns is cheap, chain is fork-bound</td></tr><tr><td><code>af42440b</code></td><td>sp</td><td>2026-06-12</td><td>progress: net_stress RX-wake fix refuted by measurement — boot delegate dormant, ICMP synchronous</td></tr><tr><td><code>ae8fffd9</code></td><td>sp</td><td>2026-06-12</td><td>progress: net_stress TCG campaign session ledger — measurements, RX-wake root cause, handoff</td></tr><tr><td><code>12e1d62b</code></td><td>sp</td><td>2026-06-12</td><td>perf: zone O(1) slot cache + lock-free registry reads + direct-lane queries — getpid 576→204µs</td></tr><tr><td><code>95059dd9</code></td><td>sp</td><td>2026-06-12</td><td>net_stress: tx-netfast multicall fast-path — route 15-20s→4.2s/round, mtu →7.5s/iter</td></tr><tr><td><code>58d520c3</code></td><td>sp</td><td>2026-06-11</td><td>progress: net_stress count-knob +42 also verified on rv.glibc (+84 total rv)</td></tr><tr><td><code>6df6a287</code></td><td>sp</td><td>2026-06-11</td><td>net_stress: score-neutral stress-count knobs bank if-{addr,route}-addlarge (+42)</td></tr><tr><td><code>9c22dc3e</code></td><td>sp</td><td>2026-06-11</td><td>net_stress: inject score-neutral PING_MAX=50 into the LTP walk env</td></tr><tr><td><code>fe539572</code></td><td>sp</td><td>2026-06-11</td><td>broken_ip: correct root cause — image musl float-ABI mismatch, not a kernel VM bug</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

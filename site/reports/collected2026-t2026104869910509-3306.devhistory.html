@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869910509 开发历史报告</title>
+<title>LetsgOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869910509 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：87</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-06-18 ~ 2026-06-30</li>
-<li>HEAD：<code>23288b05</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>senchow：87 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>23288b05</code></td><td>senchow</td><td>2026-06-30</td><td>Clarify submission material backup link</td></tr><tr><td><code>a6f5d71c</code></td><td>senchow</td><td>2026-06-30</td><td>Add submission documents</td></tr><tr><td><code>912926ef</code></td><td>senchow</td><td>2026-06-30</td><td>Polish README project overview</td></tr><tr><td><code>f14038da</code></td><td>senchow</td><td>2026-06-30</td><td>Make README introduce LetsgOS</td></tr><tr><td><code>d988a524</code></td><td>senchow</td><td>2026-06-30</td><td>Add submission materials link</td></tr><tr><td><code>4ae0d3fc</code></td><td>senchow</td><td>2026-06-29</td><td>Document official review requirements</td></tr><tr><td><code>27fbe72d</code></td><td>senchow</td><td>2026-06-29</td><td>Add source and document license notes</td></tr><tr><td><code>9917cd8b</code></td><td>senchow</td><td>2026-06-29</td><td>Translate docs markdown to Chinese</td></tr><tr><td><code>d0a2a138</code></td><td>senchow</td><td>2026-06-29</td><td>Update rustflyer baseline documentation</td></tr><tr><td><code>bdf30ebc</code></td><td>senchow</td><td>2026-06-29</td><td>Update docs for 2603 freeze branch</td></tr><tr><td><code>b2710891</code></td><td>senchow</td><td>2026-06-28</td><td>Tune iozone workload for stable scoring</td></tr><tr><td><code>783661a9</code></td><td>senchow</td><td>2026-06-28</td><td>Freeze stable 2601 local candidate</td></tr><tr><td><code>679e05a7</code></td><td>senchow</td><td>2026-06-27</td><td>Freeze stable 2590 local candidate</td></tr><tr><td><code>b4ad9ab5</code></td><td>senchow</td><td>2026-06-24</td><td>Update rustflyer validation branch and design docs</td></tr><tr><td><code>d5c1aa64</code></td><td>senchow</td><td>2026-06-22</td><td>Improve rustflyer submit baseline</td></tr><tr><td><code>07ae728b</code></td><td>senchow</td><td>2026-06-21</td><td>Score 2512 lmbench candidate</td></tr><tr><td><code>fc3069ee</code></td><td>senchow</td><td>2026-06-21</td><td>Promote high-yield LTP cases</td></tr><tr><td><code>ed1f08fd</code></td><td>senchow</td><td>2026-06-21</td><td>Emit LTP summaries for glibc judge compatibility</td></tr><tr><td><code>abf630c0</code></td><td>senchow</td><td>2026-06-21</td><td>Compact LTP runner output</td></tr><tr><td><code>c2ff185c</code></td><td>senchow</td><td>2026-06-21</td><td>Raise local autotest score above 2400</td></tr><tr><td><code>1829ef0e</code></td><td>senchow</td><td>2026-06-20</td><td>Fix ppoll zero-fd signal waits</td></tr><tr><td><code>dcd1ecab</code></td><td>senchow</td><td>2026-06-20</td><td>Implement fork-aware futex ppoll madvise fixes</td></tr><tr><td><code>4f7f584a</code></td><td>senchow</td><td>2026-06-20</td><td>Tighten mount fd path and link permission checks</td></tr><tr><td><code>8190fc19</code></td><td>senchow</td><td>2026-06-20</td><td>Honor ppoll sigmask size and interrupts</td></tr><tr><td><code>cf5bc454</code></td><td>senchow</td><td>2026-06-20</td><td>Fix statfs namelen and epoll regular file errors</td></tr><tr><td><code>9024d883</code></td><td>senchow</td><td>2026-06-20</td><td>Return success for zero-length splice</td></tr><tr><td><code>03dd33b8</code></td><td>senchow</td><td>2026-06-20</td><td>Handle O_PATH descriptors in accept paths</td></tr><tr><td><code>f0756ca6</code></td><td>senchow</td><td>2026-06-20</td><td>Use conventional default inode permissions</td></tr><tr><td><code>b2eab9d8</code></td><td>senchow</td><td>2026-06-20</td><td>Preserve ext4 root directory mode</td></tr><tr><td><code>12f0575a</code></td><td>senchow</td><td>2026-06-20</td><td>Tighten sched syscall LTP compatibility</td></tr><tr><td><code>cfe7dfbe</code></td><td>senchow</td><td>2026-06-20</td><td>Emit judge tags for legacy LTP verdicts</td></tr><tr><td><code>89464006</code></td><td>senchow</td><td>2026-06-20</td><td>Fix statx rdev and readlinkat errno</td></tr><tr><td><code>440af362</code></td><td>senchow</td><td>2026-06-20</td><td>Swap zero futex LTP case for pipe2 coverage</td></tr><tr><td><code>bbd06788</code></td><td>senchow</td><td>2026-06-20</td><td>Fix pipe2 status flags</td></tr><tr><td><code>956edd97</code></td><td>senchow</td><td>2026-06-20</td><td>Revert "Prioritize productive LTP cases"</td></tr><tr><td><code>986a43cd</code></td><td>senchow</td><td>2026-06-20</td><td>Prioritize productive LTP cases</td></tr><tr><td><code>398c8d13</code></td><td>senchow</td><td>2026-06-20</td><td>Tune bounded LTP case selection</td></tr><tr><td><code>57cc66db</code></td><td>senchow</td><td>2026-06-20</td><td>Expand sched ppoll and futex LTP coverage</td></tr><tr><td><code>7a884d8c</code></td><td>senchow</td><td>2026-06-20</td><td>Skip unstable ppoll LTP case</td></tr><tr><td><code>97393cee</code></td><td>senchow</td><td>2026-06-20</td><td>Expand bounded LTP coverage</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026102139911088 开发历史报告</title>
+<title>HITOS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026102139911088 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：52</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-06-16 ~ 2026-06-30</li>
-<li>HEAD：<code>cc967cb</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>HITOS：52 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>cc967cb</code></td><td>HITOS</td><td>2026-06-30</td><td>发现readme还是用的初赛的名字</td></tr><tr><td><code>c72b401</code></td><td>HITOS</td><td>2026-06-30</td><td>提交文档</td></tr><tr><td><code>789a7b4</code></td><td>HITOS</td><td>2026-06-30</td><td>lmbench的测试需要删除文件</td></tr><tr><td><code>8605466</code></td><td>HITOS</td><td>2026-06-30</td><td>使用这些测试用例</td></tr><tr><td><code>2b0c44a</code></td><td>HITOS</td><td>2026-06-30</td><td>编译脚本</td></tr><tr><td><code>f4a541a</code></td><td>HITOS</td><td>2026-06-30</td><td>这样提交</td></tr><tr><td><code>144c07e</code></td><td>HITOS</td><td>2026-06-30</td><td>新的调度器</td></tr><tr><td><code>1acedf2</code></td><td>HITOS</td><td>2026-06-29</td><td>现在iperf打不开</td></tr><tr><td><code>c82b2b0</code></td><td>HITOS</td><td>2026-06-28</td><td>内存不够的时候主动清理</td></tr><tr><td><code>bddab45</code></td><td>HITOS</td><td>2026-06-27</td><td>正式上线main分支的调度器</td></tr><tr><td><code>bd7ff8d</code></td><td>HITOS</td><td>2026-06-27</td><td>优化清理的逻辑，但是这个版本的调度器还是需要调整，需要和主分支合并</td></tr><tr><td><code>8454daf</code></td><td>HITOS</td><td>2026-06-26</td><td>再删一些测不完的</td></tr><tr><td><code>cdefbd8</code></td><td>HITOS</td><td>2026-06-26</td><td>提交的脚本忘记更新了，测试一轮看loongarch是不是还会测试不完</td></tr><tr><td><code>0839a3e</code></td><td>HITOS</td><td>2026-06-26</td><td>给loongarch添加了asid技术，还有优化了他的fork</td></tr><tr><td><code>5a5d031</code></td><td>HITOS</td><td>2026-06-26</td><td>loongarch现在还是测试不完</td></tr><tr><td><code>2ada702</code></td><td>HITOS</td><td>2026-06-26</td><td>删除dio,如果还超时就删除一些LTP</td></tr><tr><td><code>2e3a67e</code></td><td>HITOS</td><td>2026-06-26</td><td>修正编译脚本还有,LTP只有跑一个的bug</td></tr><tr><td><code>cd4e3a8</code></td><td>HITOS</td><td>2026-06-26</td><td>测试下这次,修复了网络栈,增加了文件系统缓存,然后执行脚本的时候有清理机制,防止LTP运行的时候内存溢出</td></tr><tr><td><code>9089e77</code></td><td>HITOS</td><td>2026-06-23</td><td>调换顺序</td></tr><tr><td><code>97b9697</code></td><td>HITOS</td><td>2026-06-23</td><td>减少测试使用的LTP用例</td></tr><tr><td><code>da241cf</code></td><td>HITOS</td><td>2026-06-22</td><td>不小心把测试的misc放上来了</td></tr><tr><td><code>a12ba7e</code></td><td>HITOS</td><td>2026-06-22</td><td>提交错误版本的文件了，这个LTP不会打印彩色符号</td></tr><tr><td><code>2bd2229</code></td><td>HITOS</td><td>2026-06-22</td><td>提交测试</td></tr><tr><td><code>a0f34b0</code></td><td>HITOS</td><td>2026-06-22</td><td>LTP应该是还要输出一个FAIL的东西，之前搞错了</td></tr><tr><td><code>c3cbae2</code></td><td>HITOS</td><td>2026-06-22</td><td>少一点LTP</td></tr><tr><td><code>a617636</code></td><td>HITOS</td><td>2026-06-21</td><td>loongarch不知道为什么卡死cyclist,我认为和文件系统的read调用有关系</td></tr><tr><td><code>70adeeb</code></td><td>HITOS</td><td>2026-06-21</td><td>神了LTP需要打印颜色</td></tr><tr><td><code>5759f03</code></td><td>HITOS</td><td>2026-06-21</td><td>信号也先不开放，晚点统一一个测试脚本</td></tr><tr><td><code>e479fed</code></td><td>HITOS</td><td>2026-06-21</td><td>刚刚上传 的本地测试LTP的版本，差点只测LTP了</td></tr><tr><td><code>2ea5120</code></td><td>HITOS</td><td>2026-06-21</td><td>回退到上一个版本，但是本地测试LTP没啥问题啊，神了</td></tr><tr><td><code>fe29d8b</code></td><td>HITOS</td><td>2026-06-21</td><td>加快调度的时间周期，然后减少LTP测试用例</td></tr><tr><td><code>9956e3c</code></td><td>HITOS</td><td>2026-06-21</td><td>fork有问题</td></tr><tr><td><code>2edbf0e</code></td><td>HITOS</td><td>2026-06-21</td><td>是不是漏了什么</td></tr><tr><td><code>40a6a82</code></td><td>HITOS</td><td>2026-06-21</td><td>测试不少LTP,明天再看还能过多少</td></tr><tr><td><code>a0fa1da</code></td><td>HITOS</td><td>2026-06-21</td><td>新版本测试,看会不会卡LTP</td></tr><tr><td><code>206d56c</code></td><td>HITOS</td><td>2026-06-20</td><td>在本地能跑这么多</td></tr><tr><td><code>1f509a7</code></td><td>HITOS</td><td>2026-06-20</td><td>测试一下LTP按照现在这个样子开有多少分</td></tr><tr><td><code>c18d913</code></td><td>HITOS</td><td>2026-06-20</td><td>更新loongarch创建的时候的内存初始化问题,现在loongarch能完整利用1GB</td></tr><tr><td><code>9921f53</code></td><td>HITOS</td><td>2026-06-19</td><td>对调度系统语义的一个完善,加上throttling,对一些长时间的syscall也做了一些修复</td></tr><tr><td><code>9e77467</code></td><td>HITOS</td><td>2026-06-18</td><td>调整cyclictest顺序</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

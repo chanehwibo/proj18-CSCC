@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T202610699999765 开发历史报告</title>
+<title>OSKernel2026-NPUcore-Ovo 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,21 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T202610699999765 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：167</li>
-<li>参与作者数：4</li>
-<li>时间跨度：2025-11-29 ~ 2026-06-30</li>
-<li>HEAD：<code>99a17f21</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>BzhH7：151 次提交</li>
-<li>abczyxabczyxa：11 次提交</li>
-<li>BzhH：4 次提交</li>
-<li>Ovo：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>99a17f21</code></td><td>BzhH7</td><td>2026-06-30</td><td>docs: update README with latest results</td></tr><tr><td><code>f50aa672</code></td><td>BzhH7</td><td>2026-06-28</td><td>perf: reduce KERNEL_STACK_SIZE from 128KB/64KB to 32KB</td></tr><tr><td><code>dacc7055</code></td><td>BzhH7</td><td>2026-06-28</td><td>perf: skip work-stealing check in has_ready_task() when idle_wfi enabled</td></tr><tr><td><code>8103b159</code></td><td>BzhH7</td><td>2026-06-28</td><td>perf: BlockCacheManager HashMap+free-list, timer unconditional preemption, main.c board_2k1000 fix</td></tr><tr><td><code>59a442e1</code></td><td>BzhH7</td><td>2026-06-28</td><td>perf: add per-CPU PID/UID/GID/user_token cache to reduce syscall overhead</td></tr><tr><td><code>acf3da58</code></td><td>BzhH7</td><td>2026-06-27</td><td>fix: disable BOOT_DBG debug logs, increase performance benchmark script timeouts</td></tr><tr><td><code>92e88500</code></td><td>BzhH7</td><td>2026-06-27</td><td>perf: VMA get_area_by_vpn_range binary lookup, ext4 write_user per-slice</td></tr><tr><td><code>04a64c8a</code></td><td>BzhH7</td><td>2026-06-27</td><td>perf: fix TCP/recvfrom cross-page UserBuffer and UDP readiness</td></tr><tr><td><code>ca4d2916</code></td><td>BzhH7</td><td>2026-06-27</td><td>perf: optimize poll/select timeout, timer conditional preemption, futex wake no yield, syscall atomic guard</td></tr><tr><td><code>e2027d7b</code></td><td>BzhH7</td><td>2026-06-27</td><td>Merge mzy1 fixes: LA serial/laflex page table, main mem_clear, translated_str batch read, ext4fs log</td></tr><tr><td><code>cc7a930e</code></td><td>BzhH7</td><td>2026-06-12</td><td>Merge remote-tracking branch 'OSkernel/main'</td></tr><tr><td><code>30b6b396</code></td><td>BzhH7</td><td>2026-06-12</td><td>kernel: fix performance runner stalls</td></tr><tr><td><code>198d9018</code></td><td>abczyxabczyxa</td><td>2026-06-12</td><td>optimize the design of dma pool</td></tr><tr><td><code>268b48b1</code></td><td>BzhH7</td><td>2026-06-12</td><td>kernel: quiet hot path logs and handle mm map races</td></tr><tr><td><code>7665af43</code></td><td>BzhH7</td><td>2026-06-12</td><td>kernel: speed up vma lookup and harden mmap faults</td></tr><tr><td><code>8066fe4a</code></td><td>BzhH7</td><td>2026-06-12</td><td>kernel: tighten futex wait and proc task state</td></tr><tr><td><code>b119401c</code></td><td>BzhH7</td><td>2026-06-12</td><td>kernel: harden user copy and exec paths</td></tr><tr><td><code>8bd354a3</code></td><td>abczyxabczyxa</td><td>2026-06-12</td><td>fix complier error</td></tr><tr><td><code>edafd209</code></td><td>abczyxabczyxa</td><td>2026-06-12</td><td>add other cases except ltp</td></tr><tr><td><code>ecea2302</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: quiet debug boot logs</td></tr><tr><td><code>4e7cde6b</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: quiet filesystem boot logs</td></tr><tr><td><code>72159c0e</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: notify epoll on fd close</td></tr><tr><td><code>636b98c7</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: keep memory areas sorted</td></tr><tr><td><code>00d75be1</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: enable riscv idle wfi</td></tr><tr><td><code>0ff9bd87</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: avoid page cache truncate panic</td></tr><tr><td><code>2d943547</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: avoid ext4 cache offset panic</td></tr><tr><td><code>aeff5e54</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: keep recycled fds sorted</td></tr><tr><td><code>6d090a61</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: recycle fds taken from table</td></tr><tr><td><code>b34b6088</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: handle timerfd readiness in readv</td></tr><tr><td><code>7ab1221a</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: use timerfd clock id for deadlines</td></tr><tr><td><code>c68b4598</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: isolate vfork parent wait loop</td></tr><tr><td><code>3cfe3928</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: centralize link runtime metadata</td></tr><tr><td><code>52638e83</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: centralize runtime xattr metadata</td></tr><tr><td><code>34fa5622</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: wrap runtime path metadata maps</td></tr><tr><td><code>e38cc62b</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: guard epoll watches against fd reuse</td></tr><tr><td><code>57ebeee7</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: notify epoll on pipe activity</td></tr><tr><td><code>5e556ac9</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: notify epoll on anon fd events</td></tr><tr><td><code>e2e605fd</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: add epoll ready queue skeleton</td></tr><tr><td><code>bf6a1aaf</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: merge adjacent anonymous VMAs</td></tr><tr><td><code>c61a640a</code></td><td>BzhH7</td><td>2026-06-11</td><td>kernel: cache last VMA lookup</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

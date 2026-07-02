@@ -234,18 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026142789911260 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：32</li>
-<li>参与作者数：1</li>
-<li>时间跨度：2026-05-27 ~ 2026-06-28</li>
-<li>HEAD：<code>1885dea</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>WeiJun Huang：32 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>1885dea</code></td><td>WeiJun Huang</td><td>2026-06-28</td><td>chore: 跑测试用的文件</td></tr><tr><td><code>917940f</code></td><td>WeiJun Huang</td><td>2026-06-28</td><td>准备再跑一次评测</td></tr><tr><td><code>3879b71</code></td><td>WeiJun Huang</td><td>2026-06-27</td><td>feat: uname 实现</td></tr><tr><td><code>c0df978</code></td><td>WeiJun Huang</td><td>2026-06-27</td><td>feat: Brk 长度 4K 对齐</td></tr><tr><td><code>b839556</code></td><td>WeiJun Huang</td><td>2026-06-27</td><td>feat: NewFstatAt 支持指定 fd</td></tr><tr><td><code>6fa4959</code></td><td>WeiJun Huang</td><td>2026-06-27</td><td>fix: tls</td></tr><tr><td><code>c7e42b5</code></td><td>WeiJun Huang</td><td>2026-06-27</td><td>fix: GetDents64 按需读取</td></tr><tr><td><code>7bb1932</code></td><td>WeiJun Huang</td><td>2026-06-25</td><td>fix: 进程退出清理 mmaps 后清空 mmaps 表</td></tr><tr><td><code>0385a90</code></td><td>WeiJun Huang</td><td>2026-06-25</td><td>feat: Dup</td></tr><tr><td><code>acf8c59</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>fix: GetDents64 返回 null 项</td></tr><tr><td><code>44b2c44</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>fix: Dup3 新复制 fd 标志以 Dup3 参数为准</td></tr><tr><td><code>535b5b4</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>feat: 未知 syscalls 把参数也打出来</td></tr><tr><td><code>ee25ec7</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>feat: ReadV</td></tr><tr><td><code>c4942cd</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>feat: 允许 fd() 返回 None 表示空闲 fd</td></tr><tr><td><code>3582f1f</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>refactor(utils): log、trace 宏丢 utils</td></tr><tr><td><code>53ced2c</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>feat: 回收进程程序、数据段</td></tr><tr><td><code>a6779a4</code></td><td>WeiJun Huang</td><td>2026-06-23</td><td>feat: 用 map_pages 处理 ELF Load 段</td></tr><tr><td><code>e897d4d</code></td><td>WeiJun Huang</td><td>2026-06-21</td><td>feat(syscalls): 实现 GetDents64 以支持列出目录项</td></tr><tr><td><code>ddb3efa</code></td><td>WeiJun Huang</td><td>2026-06-18</td><td>feat(mem): 进程退出时释放部分内存</td></tr><tr><td><code>445d8fa</code></td><td>WeiJun Huang</td><td>2026-06-17</td><td>fix(syscalls): Stdin 读取、Fstat</td></tr><tr><td><code>126ca8a</code></td><td>WeiJun Huang</td><td>2026-06-17</td><td>chore: .gitignore 忽略日志等临时文件</td></tr><tr><td><code>048fe0c</code></td><td>WeiJun Huang</td><td>2026-06-17</td><td>refactor: 拆出 FS 部分到单独文件</td></tr><tr><td><code>c1c9b30</code></td><td>WeiJun Huang</td><td>2026-06-17</td><td>doc: 构建应用说明</td></tr><tr><td><code>b1842b2</code></td><td>WeiJun Huang</td><td>2026-06-17</td><td>feat: basic 不报错</td></tr><tr><td><code>a2a2fe7</code></td><td>WeiJun Huang</td><td>2026-06-15</td><td>fixing execve</td></tr><tr><td><code>1743cad</code></td><td>WeiJun Huang</td><td>2026-06-14</td><td>feat: fork</td></tr><tr><td><code>d6aeff2</code></td><td>WeiJun Huang</td><td>2026-06-14</td><td>feat: 调整栈结构</td></tr><tr><td><code>e235ec5</code></td><td>WeiJun Huang</td><td>2026-06-17</td><td>feat: 系统调用</td></tr><tr><td><code>cdb45dd</code></td><td>WeiJun Huang</td><td>2026-05-30</td><td>feat: 读 ext4 文件系统</td></tr><tr><td><code>cd82ea9</code></td><td>WeiJun Huang</td><td>2026-05-29</td><td>feat: 读磁盘（RAW）</td></tr><tr><td><code>1633517</code></td><td>WeiJun Huang</td><td>2026-05-29</td><td>feat: OpenSBI S Mode Hello World!</td></tr><tr><td><code>7babdbc</code></td><td>WeiJun Huang</td><td>2026-05-27</td><td>feat: rv hello world</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>

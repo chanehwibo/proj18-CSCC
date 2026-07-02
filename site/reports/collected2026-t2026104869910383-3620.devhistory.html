@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2026 T2026104869910383 开发历史报告</title>
+<title>XJC-OS 开发历史报告</title>
 <style>
 :root{
   --ink:#1a2230; --muted:#64748b; --line:#e2e8f0; --panel:#f8fafc; --card:#ffffff;
@@ -234,20 +234,6 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </style>
 </head><body style="background:#fff">
 <div class="doc"><h1>2026 T2026104869910383 开发历史报告</h1>
-<h2>提交概览</h2>
-<ul>
-<li>总提交数：274</li>
-<li>参与作者数：3</li>
-<li>时间跨度：2026-06-20 ~ 2026-06-30</li>
-<li>HEAD：<code>5e2a8b5a</code></li>
-</ul>
-<h2>贡献者</h2>
-<ul>
-<li>A3435331841：198 次提交</li>
-<li>J：1 次提交</li>
-<li>chantouRichard：1 次提交</li>
-</ul>
-<h2>最近提交记录</h2>
-<table><thead><tr><th>提交</th><th>作者</th><th>日期</th><th>说明</th></tr></thead><tbody><tr><td><code>5e2a8b5a</code></td><td>J</td><td>2026-06-30</td><td>Update README.md</td></tr><tr><td><code>f18c5466</code></td><td>A3435331841</td><td>2026-06-30</td><td>docs: 更新 README.md，补充队伍信息、核心功能、测试进展等内容</td></tr><tr><td><code>41b00748</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 吸收jj分支调度与信号稳定性改动</td></tr><tr><td><code>a8929d20</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 恢复Docker阿里云镜像源配置</td></tr><tr><td><code>092fee7c</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 为LTP监督器补充controller超时续跑</td></tr><tr><td><code>273bd42b</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 统一LTP汇总为官方格式</td></tr><tr><td><code>20ea7035</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 恢复LTP断点续跑并统一测试边界</td></tr><tr><td><code>92e02aa3</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 恢复basic、cyclictest和iozone测试运行器</td></tr><tr><td><code>8d74454c</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 避免tmpfs目录析构死锁</td></tr><tr><td><code>5587d14c</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 移除LTP外层重跑机制</td></tr><tr><td><code>00cb183a</code></td><td>A3435331841</td><td>2026-06-30</td><td>docs: 清理多余文档</td></tr><tr><td><code>22e4a241</code></td><td>A3435331841</td><td>2026-06-30</td><td>fix: 补充内核测试相关注释</td></tr><tr><td><code>013c5de5</code></td><td>A3435331841</td><td>2026-06-29</td><td>fix: 移除测试脚本改写和跨libc执行</td></tr><tr><td><code>bfb8765a</code></td><td>A3435331841</td><td>2026-06-29</td><td>fix: 移除Docker全局cargo config避免阿里云镜像403覆盖vendor源</td></tr><tr><td><code>be358c68</code></td><td>A3435331841</td><td>2026-06-29</td><td>fix: 避免重复输出LTP用例Summary</td></tr><tr><td><code>7034f22b</code></td><td>A3435331841</td><td>2026-06-29</td><td>fix: 补齐LTP用例Summary输出</td></tr><tr><td><code>98916ae6</code></td><td>A3435331841</td><td>2026-06-29</td><td>fix: 扩充可计分的LTP测试白名单</td></tr><tr><td><code>a3b18c37</code></td><td>A3435331841</td><td>2026-06-29</td><td>fix: 对齐测试顺序并规范旧版LTP结果格式</td></tr><tr><td><code>5a4fc5ea</code></td><td>A3435331841</td><td>2026-06-28</td><td>fix: align test execution order with reference</td></tr><tr><td><code>e0432362</code></td><td>A3435331841</td><td>2026-06-28</td><td>refactor: 测试组执行顺序改为参考仓库一致（netperf 移到最后）</td></tr><tr><td><code>b6be1437</code></td><td>A3435331841</td><td>2026-06-28</td><td>fix: lmbench lat_ctx $ctx_n 变量逃逸（heredoc 展开为空串）</td></tr><tr><td><code>591d4ac3</code></td><td>A3435331841</td><td>2026-06-28</td><td>fix: lmbench context switch 跑齐 2/4/8/16/24/32/64/96 全部 size</td></tr><tr><td><code>017f7db0</code></td><td>A3435331841</td><td>2026-06-28</td><td>fix: 去掉 ANSI 颜色码和 LTP runner 多余 stderr 输出</td></tr><tr><td><code>e527b362</code></td><td>A3435331841</td><td>2026-06-28</td><td>feat: 实现 sethostname/setdomainname + 完善 posix_fadvise 校验</td></tr><tr><td><code>6d817e5d</code></td><td>A3435331841</td><td>2026-06-28</td><td>feat: 实现进程凭据系统 + access() 权限检查</td></tr><tr><td><code>03fffdf8</code></td><td>A3435331841</td><td>2026-06-28</td><td>fix: 修复 waitpid ptrace 死锁 + 实现 PTRACE_CONT/KILL</td></tr><tr><td><code>7ff90584</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: LTP runner 补回 FAIL LTP CASE 用例分隔符</td></tr><tr><td><code>89e154bb</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: 支持 ptrace 自跟踪停止</td></tr><tr><td><code>5c7d663b</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: 实现 fcntl 记录锁</td></tr><tr><td><code>256af39a</code></td><td>A3435331841</td><td>2026-06-27</td><td>docs: 记录 LTP 修复验证计划</td></tr><tr><td><code>cea48f70</code></td><td>A3435331841</td><td>2026-06-27</td><td>merge: 保留远端文档并接入稳定基线</td></tr><tr><td><code>55178d25</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: 修复 init 脚本语法错误</td></tr><tr><td><code>3106c90d</code></td><td>chantouRichard</td><td>2026-06-27</td><td>docs: 更新 Overleaf 初赛设计文档</td></tr><tr><td><code>c2384ecc</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: 修复 LA ASID 复用导致 LTP runner 重启</td></tr><tr><td><code>6d4d3694</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: 修复 LA LTP runner 状态与清理</td></tr><tr><td><code>32fa1eb1</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: 剔除阻断 LTP 的用例</td></tr><tr><td><code>6cf5850a</code></td><td>A3435331841</td><td>2026-06-27</td><td>fix: 简化 LTP 白名单</td></tr><tr><td><code>0d29e851</code></td><td>A3435331841</td><td>2026-06-27</td><td>feat: 实现 POSIX timer 和 timerfd 系统调用</td></tr><tr><td><code>188fcf73</code></td><td>A3435331841</td><td>2026-06-26</td><td>feat: LTP batch 2 - add all kernelx PASS cases + config fix</td></tr><tr><td><code>619821c2</code></td><td>A3435331841</td><td>2026-06-26</td><td>fix: LTP runner stack overflow and busybox scoring</td></tr></tbody></table>
-<blockquote>说明：开发历史来自仓库本地 Git 记录，仅作研发过程参考，不代表作品功能结论。</blockquote></div>
+<blockquote>当前样本目录不是有效 Git 仓库，或采集时未保留提交历史，无法生成研发历程。</blockquote>
+<p>建议：使用 <code>python scripts/fetch_repos.py --depth 0</code> 完整克隆后重新生成本报告。</p></div>
 </body></html>
