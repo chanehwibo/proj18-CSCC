@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T202610486999929 比较报告</h1>
 <ul>
 <li>对比历史仓库：2024 NPUcore-IMPACT!!!</li>
-<li>生成时间：2026-07-01T21:09:07.613691+00:00</li>
+<li>生成时间：2026-07-02T05:02:11.665242+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -432,12 +432,17 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>未确认。</li>
+<li>待测作品包含 252 个历史样本 2024 NPUcore-IMPACT!!! 中未见的独特函数/类型定义（如 <code>sys_mount</code>, <code>sys_renameat2</code>, <code>skip_node</code>, <code>read_string</code>, <code>get_block_group_checksum</code>, <code>set_block_group_balloc_bitmap_csum</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<p>证据：</p>
+<li><code>crates/sakuya/tests/fs-mount/main.c:L17-L17</code>：fn sys_mount</li>
+<p>代码片段：<code>static long sys_mount(const char *source, const char *target, const char *fstype, long flags, const void *data) {</code></p>
+<li><code>crates/sakuya/tests/fs-rename/main.c:L18-L18</code>：fn sys_renameat2</li>
+<p>代码片段：<code>static long sys_renameat2(long odir, const char *opath, long ndir, const char *npath, long flags) {</code></p>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：23</li>
-<li>含证据关键结论数：23（100.0%）</li>
+<li>关键结论数：24</li>
+<li>含证据关键结论数：24（100.0%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>

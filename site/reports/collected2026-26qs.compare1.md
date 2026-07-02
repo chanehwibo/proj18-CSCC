@@ -1,7 +1,7 @@
 # 2026 T2026105749910169 比较报告
 
 - 对比历史仓库：2022 啊队队队
-- 生成时间：2026-07-01T20:55:18.548119+00:00
+- 生成时间：2026-07-02T04:57:31.982563+00:00
 - 参考库边界：只有带官方来源的 `verified_award` 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。
 
 ## 历史样本选择
@@ -225,12 +225,18 @@
 
 ## 可能创新点
 
-- 未确认。
+- 待测作品包含 329 个历史样本 2022 啊队队队 中未见的独特函数/类型定义（如 `render_busybox_script`, `read_regular_file`, `enter_user`, `render_scenario`, `debug_inode_mode_size`, `render_command_result`），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）
+  证据：
+  - `src/busybox.rs:L184-L184`：fn render_busybox_script
+    代码片段：`pub fn render_busybox_script(script: &ScriptInfo<'_>, commands: &str, sink: &mut impl OutputSink) {`
+  - `src/fs/ext4.rs:L563-L563`：fn read_regular_file
+    代码片段：`pub fn read_regular_file(&mut self, inode_no: u32, out: &mut [u8]) -> Result<usize, Ext4Error> {`
+- 待测作品代码规模（45,957 LOC）显著大于历史样本 2022 啊队队队（15,251 LOC），可能包含更多功能模块或更完整的实现，但也可能包含非内核代码，需人工确认。（置信度：low）
 
 ## 附录：核验摘要
 
-- 关键结论数：26
-- 含证据关键结论数：26（100.0%）
+- 关键结论数：28
+- 含证据关键结论数：27（96.4%）
 - 无效证据引用数：0
 - 未确认关键结论数：0
 - 统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。

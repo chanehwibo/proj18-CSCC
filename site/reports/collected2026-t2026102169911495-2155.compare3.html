@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T2026102169911495 比较报告</h1>
 <ul>
 <li>对比历史仓库：2025 九莲宝灯一向听</li>
-<li>生成时间：2026-07-01T20:57:16.293407+00:00</li>
+<li>生成时间：2026-07-02T04:59:44.066123+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -516,12 +516,17 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>未确认。</li>
+<li>待测作品包含 14 个历史样本 2025 九莲宝灯一向听 中未见的独特函数/类型定义（如 <code>probe</code>, <code>modify_macro</code>, <code>convert_custom_linux_target</code>, <code>rustc_version</code>, <code>commit_date</code>, <code>test_rust_to_clang_target_simulator</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<p>证据：</p>
+<li><code>vendor/portable-atomic-util/version.rs:L45-L45</code>：fn probe</li>
+<p>代码片段：<code>pub(crate) fn probe(&amp;self, minor: u32, year: u16, month: u8, day: u8) -&gt; bool {</code></p>
+<li><code>vendor/bindgen/callbacks.rs:L55-L55</code>：fn modify_macro</li>
+<p>代码片段：<code>fn modify_macro(&amp;self, _name: &amp;str, _tokens: &amp;mut Vec&lt;Token&gt;) {}</code></p>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：33</li>
-<li>含证据关键结论数：33（100.0%）</li>
+<li>关键结论数：34</li>
+<li>含证据关键结论数：34（100.0%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>

@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T202610699999765 比较报告</h1>
 <ul>
 <li>对比历史仓库：2023 BiteTheDisk</li>
-<li>生成时间：2026-07-01T21:19:17.091703+00:00</li>
+<li>生成时间：2026-07-02T05:03:20.663042+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -408,12 +408,17 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>未确认。</li>
+<li>待测作品包含 208 个历史样本 2023 BiteTheDisk 中未见的独特函数/类型定义（如 <code>write32</code>, <code>Address</code>, <code>write16</code>, <code>Rv32PageTableWith</code>, <code>Rv39PageTableWith</code>, <code>write8</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<p>证据：</p>
+<li><code>dependency/dep_pci/pci/src/lib.rs:L113-L113</code>：fn write32</li>
+<p>代码片段：<code>pub unsafe fn write32&lt;T: PortOps&gt;(self, _ops: &amp;T, loc: Location, offset: u16, val: u32) {</code></p>
+<li><code>dependency/riscv/src/addr/mod.rs:L1-L1</code>：trait Address</li>
+<p>代码片段：<code>pub trait Address: core::fmt::Debug + Copy + Clone + PartialEq + Eq + PartialOrd + Ord {</code></p>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：19</li>
-<li>含证据关键结论数：19（100.0%）</li>
+<li>关键结论数：20</li>
+<li>含证据关键结论数：20（100.0%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>

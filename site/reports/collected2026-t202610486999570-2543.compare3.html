@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T202610486999570 比较报告</h1>
 <ul>
 <li>对比历史仓库：2023 BiteTheDisk</li>
-<li>生成时间：2026-07-01T21:05:43.514796+00:00</li>
+<li>生成时间：2026-07-02T05:01:41.614761+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -442,12 +442,18 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>未确认。</li>
+<li>待测作品包含 239 个历史样本 2023 BiteTheDisk 中未见的独特函数/类型定义（如 <code>switch_to_idle</code>, <code>translated_byte_buffer</code>, <code>enter_user_and_trap</code>, <code>__switch</code>, <code>devices_by_kind</code>, <code>find_pte_create</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<p>证据：</p>
+<li><code>arch/src/riscv64/mod.rs:L82-L82</code>：fn switch_to_idle</li>
+<p>代码片段：<code>pub unsafe fn switch_to_idle(switched_task_cx_ptr: *mut TaskContext, idle_task_cx_ptr: *mut TaskContext) {</code></p>
+<li><code>arch/src/riscv64/mm/page_table.rs:L302-L302</code>：fn translated_byte_buffer</li>
+<p>代码片段：<code>pub fn translated_byte_buffer(token: usize, ptr: *const u8, len: usize) -&gt; Vec&lt;&amp;'static mut [u8]&gt; {</code></p>
+<li>待测作品代码规模（2,344,218 LOC）显著大于历史样本 2023 BiteTheDisk（456,810 LOC），可能包含更多功能模块或更完整的实现，但也可能包含非内核代码，需人工确认。（置信度：low）</li>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：24</li>
-<li>含证据关键结论数：24（100.0%）</li>
+<li>关键结论数：26</li>
+<li>含证据关键结论数：25（96.2%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>

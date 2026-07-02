@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T202610006999664 比较报告</h1>
 <ul>
 <li>对比历史仓库：2021 TeamNameNotFound</li>
-<li>生成时间：2026-07-01T20:55:45.468435+00:00</li>
+<li>生成时间：2026-07-02T04:58:12.159355+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -428,12 +428,23 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>未确认。</li>
+<li>待测作品在“设备驱动”维度的实现深度显著高于历史样本 2021 TeamNameNotFound（6 条证据 vs 3 条），可能存在更完整或更精细的实现。（置信度：low）</li>
+<p>证据：</p>
+<li><code>kernel/console.c:L1-L3</code>：关键词命中</li>
+<p>代码片段：<code>#include &lt;kern/console.h&gt; #include &lt;riscv/sbi.h&gt;</code></p>
+<li><code>include/kern/vmm.h:L9-L13</code>：关键词命中</li>
+<p>代码片段：<code>#define UART_MMIO_BASE 0x10000000UL #define UART_MMIO_END 0x10000100UL #define VIRTIO_MMIO_BASE 0x10001000UL #define VIRTIO_MMIO_END 0x10009000UL #define DEVICE_MMIO_BASE UART_M...</code></p>
+<li>待测作品包含 92 个历史样本 2021 TeamNameNotFound 中未见的独特函数/类型定义（如 <code>load_segment</code>, <code>process_load</code>, <code>range_overlaps</code>, <code>sys_mem_map</code>, <code>map_range_checked</code>, <code>print_unsigned</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<p>证据：</p>
+<li><code>kernel/process.c:L58-L58</code>：fn load_segment</li>
+<p>代码片段：<code>static int load_segment(struct Process *proc, const u8 *image, usize image_size, const struct Elf64_Phdr *ph) {</code></p>
+<li><code>kernel/process.c:L147-L147</code>：fn process_load</li>
+<p>代码片段：<code>static void process_load(struct Process *proc, u64 pid, const char *name, const u8 *image, usize image_size) {</code></p>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：23</li>
-<li>含证据关键结论数：23（100.0%）</li>
+<li>关键结论数：25</li>
+<li>含证据关键结论数：25（100.0%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>

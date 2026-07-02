@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T2026105749910760 比较报告</h1>
 <ul>
 <li>对比历史仓库：2025 智核速启队</li>
-<li>生成时间：2026-07-01T21:15:29.112785+00:00</li>
+<li>生成时间：2026-07-02T05:02:48.045828+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -460,12 +460,23 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>未确认。</li>
+<li>待测作品在“同步机制”维度的实现深度显著高于历史样本 2025 智核速启队（6 条证据 vs 3 条），可能存在更完整或更精细的实现。（置信度：low）</li>
+<p>证据：</p>
+<li><code>kernel/atomic/semaphore.c:L1-L4</code>：关键词命中</li>
+<p>代码片段：<code>#include "cond.h" #include "semaphore.h" /// @brief init a semaphore</code></p>
+<li><code>kernel/include/semaphore.h:L3-L7</code>：关键词命中</li>
+<p>代码片段：<code>#include "types.h" #include "spinlock.h" #include "cond.h"</code></p>
+<li>待测作品包含 184 个历史样本 2025 智核速启队 中未见的独特函数/类型定义（如 <code>do_copy_file_range</code>, <code>rw_sharp_2off</code>, <code>procfs_write</code>, <code>rw_sharp_outoff</code>, <code>generic_utimensat</code>, <code>procfs_read</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<p>证据：</p>
+<li><code>kernel/fs/sysfile.c:L2063-L2063</code>：fn do_copy_file_range</li>
+<p>代码片段：<code>uint64 do_copy_file_range(struct file *in_f, struct file *out_f, __nullable off_t *offin_addr, __nullable off_t *offout_addr, size_t len) {</code></p>
+<li><code>kernel/fs/sysfile.c:L1628-L1628</code>：fn rw_sharp_2off</li>
+<p>代码片段：<code>static int rw_sharp_2off(struct file *out_f, struct file *in_f, void *kbuf, off_t in_off, off_t out_off, uint64 count) {</code></p>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：25</li>
-<li>含证据关键结论数：25（100.0%）</li>
+<li>关键结论数：27</li>
+<li>含证据关键结论数：27（100.0%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>

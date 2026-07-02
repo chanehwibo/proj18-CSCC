@@ -236,7 +236,7 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 <div class="doc"><h1>2026 T2026100079910008 比较报告</h1>
 <ul>
 <li>对比历史仓库：2023 PLNTRY</li>
-<li>生成时间：2026-07-01T20:55:51.688921+00:00</li>
+<li>生成时间：2026-07-02T04:58:18.950829+00:00</li>
 <li>参考库边界：只有带官方来源的 <code>verified_award</code> 样本才会被视为获奖案例；未核验比赛样本不作为特奖/一等奖背书。</li>
 </ul>
 <h2>历史样本选择</h2>
@@ -426,12 +426,17 @@ html[data-theme="dark"] .doc blockquote{background:#1f2937;color:#fcd34d;}
 </ul>
 <h2>可能创新点</h2>
 <ul>
-<li>未确认。</li>
+<li>待测作品包含 228 个历史样本 2023 PLNTRY 中未见的独特函数/类型定义（如 <code>const_block</code>, <code>padding_check</code>, <code>self_type_trait_bounds</code>, <code>from_attrs_inner</code>, <code>generate_tag_enum</code>, <code>outer_extras</code>），可能体现独立设计或扩展实现。这是命名级线索，需结合源码语义确认是否构成创新。（置信度：low）</li>
+<p>证据：</p>
+<li><code>os/vendor/zerocopy-derive/src/util.rs:L713-L713</code>：fn const_block</li>
+<p>代码片段：<code>pub(crate) fn const_block(items: impl IntoIterator&lt;Item = Option&lt;TokenStream&gt;&gt;) -&gt; TokenStream {</code></p>
+<li><code>os/vendor/zerocopy-derive/src/util.rs:L460-L460</code>：fn padding_check</li>
+<p>代码片段：<code>pub(crate) fn padding_check&lt;P: Into&lt;Option&lt;PaddingCheck&gt;&gt;&gt;(mut self, padding_check: P) -&gt; Self {</code></p>
 </ul>
 <h2>附录：核验摘要</h2>
 <ul>
-<li>关键结论数：22</li>
-<li>含证据关键结论数：22（100.0%）</li>
+<li>关键结论数：23</li>
+<li>含证据关键结论数：23（100.0%）</li>
 <li>无效证据引用数：0</li>
 <li>未确认关键结论数：0</li>
 <li>统计口径：关键结论指需要源码证据支撑的设计判断；语言构成、风格标签和汇总性描述不计入证据率。</li>
